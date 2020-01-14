@@ -1,0 +1,124 @@
+---
+# PostgreSQL
+postgresql_objects_users:
+  - name: galaxy
+postgresql_objects_databases:
+  - name: galaxy
+    owner: galaxy
+
+# Galaxy
+galaxy_create_user: true
+galaxy_separate_privileges: true
+galaxy_manage_paths: true
+galaxy_layout: root-dir
+galaxy_root: /opt/galaxy_dist
+galaxy_file_path: /opt/galaxy_data
+galaxy_user: {name: galaxy, shell: /bin/bash}
+galaxy_commit_id: release_19.05
+galaxy_config_style: yaml
+galaxy_force_checkout: true
+miniconda_prefix: "{{ galaxy_tool_dependency_dir }}/_conda"
+supervisor_socket_user: galaxy
+supervisor_socket_chown: galaxy
+galaxy_restart_handler_name: Restart Galaxy
+
+galaxy_config:
+  galaxy:
+    brand: "NELS Galaxy"
+    admin_users: kim.brugger@uib.no
+    database_connection: "postgresql:///galaxy?host=/var/run/postgresql"
+    file_path: "{{ galaxy_file_path }}"
+    check_migrate_tools: false
+
+  uwsgi:
+    # Default values
+    #http: 0.0.0.0:8080
+    socket: 127.0.0.1:4001
+    buffer-size: 16384
+    processes: 1
+    threads: 4
+    offload-threads: 2
+    static-map:
+      - /static/style={{ galaxy_server_dir }}/static/style/blue
+      - /static={{ galaxy_server_dir }}/static
+    master: true
+    virtualenv: "{{ galaxy_venv_dir }}"
+    pythonpath: "{{ galaxy_server_dir }}/lib"
+    module: galaxy.webapps.galaxy.buildapp:uwsgi_app()
+    thunder-lock: true
+    die-on-term: true
+    hook-master-start:
+      - unix_signal:2 gracefully_kill_them_all
+      - unix_signal:15 gracefully_kill_them_all
+    py-call-osafterfork: true
+    enable-threads: true
+    # Our additions
+    mule:
+      - lib/galaxy/main.py
+      - lib/galaxy/main.py
+    farm: job-handlers:1,2
+
+supervisor_programs:
+  - name: galaxy
+    state: present
+    command: uwsgi --yaml {{ galaxy_config_dir }}/galaxy.yml
+    configuration: |
+      autostart=true
+      autorestart=true
+      startretries=1
+      startsecs=10
+      user=galaxy
+      umask=022
+      directory={{ galaxy_server_dir }}
+      environment=HOME={{ galaxy_mutable_data_dir }},VIRTUAL_ENV={{ galaxy_venv_dir }},PATH={{ galaxy_venv_dir }}/bin:%(ENV_PATH)s
+
+
+nginx_package_name: nginx-full # nginx-galaxy on RHEL/CentOS
+nginx_remove_default_vhost: true
+nginx_server_names_hash_bucket_size: "128"
+nginx_vhosts:
+  - listen: "80"
+    server_name: "{{ hostname }}"
+    root: "/var/www/{{ hostname }}"
+    index: "index.html"
+    access_log: "/var/log/nginx/access.log"
+    error_log: "/var/log/nginx/error.log"
+    state: "present"
+    filename: "{{ hostname }}.conf"
+    extra_parameters: |
+      client_max_body_size 10G; # aka max upload size, defaults to 1M
+      uwsgi_read_timeout 2400;
+
+      location / {
+          uwsgi_pass      127.0.0.1:8080;
+          uwsgi_param UWSGI_SCHEME $scheme;
+          include         uwsgi_params;
+      }
+
+
+      location /static {
+              alias {{ galaxy_server_dir }}/static;
+              expires 24h;
+      }
+
+      location /static/style {
+              alias {{ galaxy_server_dir }}/static/style/blue;
+              expires 24h;
+      }
+
+      location /static/scripts {
+              alias {{ galaxy_server_dir }}/static/scripts;
+              expires 24h;
+      }
+
+      location /robots.txt {
+              alias {{ galaxy_server_dir }}/static/robots.txt;
+      }
+
+      location /favicon.ico {
+              alias {{ galaxy_server_dir }}/static/favicon.ico;
+      }
+
+      location /static/welcome.html {
+              alias {{ galaxy_server_dir }}/static/welcome.html.sample;
+      }
