@@ -17,7 +17,11 @@ ansible-galaxy install -p roles -r requirements.yml
 
 ansible-playbook -i hosts playbook.yml
 
+
+
 ```
+
+Seem to be a access permission to /opt/galaxy_dist/server/, check with a new install an see if the problem persists!
 
 
 Needs ansible version >=  2.7

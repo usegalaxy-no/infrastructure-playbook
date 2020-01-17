@@ -33,7 +33,7 @@ galaxy_config:
   uwsgi:
     # Default values
     #http: 0.0.0.0:8080
-    socket: 127.0.0.1:4001
+    socket: 127.0.0.1:8080
     buffer-size: 16384
     processes: 1
     threads: 4
@@ -73,7 +73,7 @@ supervisor_programs:
       environment=HOME={{ galaxy_mutable_data_dir }},VIRTUAL_ENV={{ galaxy_venv_dir }},PATH={{ galaxy_venv_dir }}/bin:%(ENV_PATH)s
 
 
-nginx_package_name: nginx-full # nginx-galaxy on RHEL/CentOS
+nginx_package_name: nginx # nginx-galaxy on RHEL/CentOS
 nginx_remove_default_vhost: true
 nginx_server_names_hash_bucket_size: "128"
 nginx_vhosts:

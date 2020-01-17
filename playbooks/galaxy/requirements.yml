@@ -1,5 +1,3 @@
-- galaxyproject.repos
-- geerlingguy.nginx
 - src: galaxyproject.galaxy
   version: 0.8.4
 - src: galaxyproject.nginx
@@ -16,5 +14,3 @@
   name: usegalaxy-eu.supervisor
 - src: https://github.com/usegalaxy-eu/ansible-certbot
   name: usegalaxy-eu.certbot
-
-

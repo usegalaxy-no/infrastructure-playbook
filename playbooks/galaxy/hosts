@@ -1,2 +1,5 @@
 [galaxyservers]
-localhost ansible_connection=local
+#localhost ansible_connection=local
+test-server ansible_host=158.39.74.224 ansible_user=centos
+
+
