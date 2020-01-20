@@ -1,0 +1,17 @@
+- hosts: galaxyservers
+  become: true
+  tasks:
+    - name: ensure RabbitMQ is at the latest version
+      yum:
+        name: rabbitmq-server
+        state: latest
+    - name: ensure rabbitmq is running
+      service:
+        name: rabbitmq-server
+        state: started
+  handlers:
+    - name: restart rabbitmq
+      service:
+        name: rabbitmq-server
+        state: restarted
+
