@@ -76,6 +76,7 @@ supervisor_programs:
 nginx_package_name: nginx # nginx-galaxy on RHEL/CentOS
 nginx_remove_default_vhost: true
 nginx_server_names_hash_bucket_size: "128"
+hostname: "test"
 nginx_vhosts:
   - listen: "80"
     server_name: "{{ hostname }}"
@@ -120,5 +121,5 @@ nginx_vhosts:
       }
 
       location /static/welcome.html {
-              alias {{ galaxy_server_dir }}/static/welcome.html.sample;
+              alias {{ galaxy_server_dir }}/static/welcome.html;
       }

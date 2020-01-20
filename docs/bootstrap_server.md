@@ -1,8 +1,7 @@
+Note: Needs ansible version >=  2.7
+
 
 ```
-sudo yum install -y epel-release 
-
-sudo yum install -y  git python3 bzip2
 
 git clone git@github.com:elixir-no-nels/usegalaxy.git
 
@@ -12,19 +11,19 @@ source venv/bin/activate
 pip install ansible
 
 cd playbooks
-# Install roles
+# Install requirement roles
 ansible-galaxy install -p roles -r requirements.yml
 
+# edit hosts file to point to the correct hosts.
+# run playbook
 ansible-playbook -i hosts playbook.yml
 
 
 
 ```
 
-Seem to be a access permission to /opt/galaxy_dist/server/, check with a new install an see if the problem persists!
 
 
-Needs ansible version >=  2.7
 
 
 

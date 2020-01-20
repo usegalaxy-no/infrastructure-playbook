@@ -3,7 +3,7 @@
   pre_tasks:
     - name: Install Dependencies
       package:
-        name: ['python-psycopg2', 'git', 'python-virtualenv', 'make']
+        name: ['epel-release','python3', 'python-psycopg2', 'git', 'python-virtualenv', 'make', 'bzip2']
   handlers:
     - name: Restart Galaxy
       supervisorctl:
@@ -19,4 +19,9 @@
     - geerlingguy.pip
     - geerlingguy.nginx
     - usegalaxy-eu.supervisor
+  tasks:
+    yum:
+      name: httpd
+      state: latest
+
 

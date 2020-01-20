@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<job_conf>
+    <plugins>
+        <plugin id="local" type="runner" load="galaxy.jobs.runners.local:LocalJobRunner" workers="4"/>
+        <plugin id="docker_local" type="runner" load="galaxy.jobs.runners.local:LocalJobRunner" workers="4"/>
+        <plugin id="pulsar_runner" type="runner" load="galaxy.jobs.runners.pulsar:PulsarRESTJobRunner" />
+        <plugin id="pulsar_mq" type="runner" load="galaxy.jobs.runners.pulsar:PulsarMQJobRunner" />
+        <plugin id="drmaa" type="runner" load="galaxy.jobs.runners.drmaa:DRMAAJobRunner"/>
+
+
+    </plugins>
+    <destinations default='dynamic'>
+        <destination id="local" runner="local"/>
+
+        <destination id="dynamic" runner="dynamic">
+            <param id="type">python</param>
+            <param id="function">dynamic_routing</param>
+        </destination>
+
+        <destination id="docker_local" runner="pulsar_mq">
+            <param id="url">amqp://guest:guest@{{host_IP}}:5672//</param>
+<!--            <param id="private_token">tyt</param> -->
+        </destination>
+
+        <destination id="local_cluster" runner="drmaa">
+            <param id="native_specification">-P littlenodes -R y -pe threads 4</param>
+        </destination>
+
+        <destination id="docker_local" runner="docker_local">
+            <param id="docker_enabled">true</param>
+            <param id="docker_sudo">false</param>
+            <param id="docker_auto_rm">true</param>
+        </destination>
+
+        <destination id="pulsar_fi" runner="pulsar_runner" >
+            <param id="url_2">http://158.37.63.101:8913/</param>
+            <param id="url">http://195.148.31.246/pulsar/</param>
+            <param id="private_token">tyt</param>
+        </destination>
+
+        <destination id="pulsar_fi_8gb" runner="pulsar_runner" >
+            <param id="url">http://195.148.31.246/pulsar/managers/8gb_mem</param>
+            <param id="private_token">tyt</param>
+        </destination>
+        <destination id="pulsar_fi_16gb" runner="pulsar_runner" >
+            <param id="url">http://195.148.31.246/pulsar/managers/16gb_mem</param>
+            <param id="private_token">tyt</param>
+        </destination>
+        <destination id="pulsar_fi_32gb" runner="pulsar_runner" >
+            <param id="url">http://195.148.31.246/pulsar/managers/32gb_mem</param>
+            <param id="private_token">tyt</param>
+        </destination>
+
+
+
+    </destinations>
+</job_conf>

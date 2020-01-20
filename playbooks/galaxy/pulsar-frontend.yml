@@ -1,5 +1,8 @@
 - hosts: galaxyservers
   become: true
+  pre_tasks:
+    - name: Load a variables
+      include_vars: "group_vars/galaxyservers.yml"
   tasks:
     - name: ensure RabbitMQ is at the latest version
       yum:
@@ -9,6 +12,14 @@
       service:
         name: rabbitmq-server
         state: started
+
+    - name: Copy welcome page
+      copy:
+        src: templates/welcome.html
+        dest: "{{ galaxy_root }}/server/static/welcome.html"
+        owner: galaxy
+        group: galaxy
+        mode: '0644'
   handlers:
     - name: restart rabbitmq
       service:
