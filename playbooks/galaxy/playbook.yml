@@ -19,9 +19,9 @@
     - geerlingguy.pip
     - geerlingguy.nginx
     - usegalaxy-eu.supervisor
-  tasks:
-    yum:
-      name: httpd
-      state: latest
+#  tasks:
+#    yum:
+#      name: httpd
+#      state: latest
 
 

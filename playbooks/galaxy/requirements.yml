@@ -14,3 +14,5 @@
   name: usegalaxy-eu.supervisor
 - src: https://github.com/usegalaxy-eu/ansible-certbot
   name: usegalaxy-eu.certbot
+- src: https://github.com/galaxyproject/ansible-galaxy-tools.git
+  name: usegalaxy.galaxy-tools

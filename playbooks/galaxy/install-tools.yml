@@ -1,0 +1,10 @@
+- hosts: galaxyservers
+  gather_facts: False
+  connection: local
+  vars:
+    galaxy_tools_tool_list_files: [ "files/tools_list.yml" ]
+    # dont connect directly to galaxy, but go through the proxy!
+    galaxy_tools_galaxy_instance_url: http://158.39.74.224/
+    galaxy_tools_api_key: 7600af6bc5114949d94f73b915c93445aa
+  roles:
+    - usegalaxy.galaxy-tools
