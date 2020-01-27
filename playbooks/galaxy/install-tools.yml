@@ -1,10 +1,20 @@
 - hosts: galaxyservers
   gather_facts: False
-  connection: local
+#  connection: local
+  become: true
+  pre_tasks:
+    - name: Load a variables
+      include_vars: "group_vars/galaxyservers.yml"
   vars:
     galaxy_tools_tool_list_files: [ "files/tools_list.yml" ]
     # dont connect directly to galaxy, but go through the proxy!
     galaxy_tools_galaxy_instance_url: http://158.39.74.224/
     galaxy_tools_api_key: 7600af6bc5114949d94f73b915c93445aa
+    use_pbkdf2: false
   roles:
-    - usegalaxy.galaxy-tools
+#    - usegalaxy.galaxy-tools
+  tasks:
+    - name: "Install galaxy user creation script."
+      template: src=roles/usegalaxy.galaxy-extras/templates/create_galaxy_user.py.j2 dest=/usr/local/bin/create_galaxy_user.py mode=a+x
+
+

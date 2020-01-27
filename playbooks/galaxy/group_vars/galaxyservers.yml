@@ -12,6 +12,7 @@ galaxy_separate_privileges: true
 galaxy_manage_paths: true
 galaxy_layout: root-dir
 galaxy_root: /opt/galaxy_dist
+galaxy_server_dir: "{{ galaxy_root }}/server"
 galaxy_file_path: /opt/galaxy_data
 galaxy_user: {name: galaxy, shell: /bin/bash}
 galaxy_commit_id: release_19.05
