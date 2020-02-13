@@ -2,19 +2,49 @@
   gather_facts: False
 #  connection: local
   become: true
+  become_user: galaxy
   pre_tasks:
-    - name: Load a variables
+    - name: "Load variables"
       include_vars: "group_vars/galaxyservers.yml"
+#      include_vars: "group_vars/global.yml"
+    - name: "Get API key"
+      uri:
+        url: http://158.39.74.224/api/authenticate/baseauth
+        force_basic_auth: yes
+        url_password: "{{ admin_password }}"
+        url_username: "{{ admin_user }}"
+        return_content: yes
+        status_code: 200
+      register: result
+    - set_fact:
+        galaxy_tools_api_key: "{{result.json.api_key}}"
   vars:
     galaxy_tools_tool_list_files: [ "files/tools_list.yml" ]
     # dont connect directly to galaxy, but go through the proxy!
-    galaxy_tools_galaxy_instance_url: http://158.39.74.224/
-    galaxy_tools_api_key: 7600af6bc5114949d94f73b915c93445aa
+    galaxy_tools_galaxy_instance_url: http://test.usegalaxy.no/
+#    galaxy_tools_api_key: 7600af6bc5114949d94f73b915c93445aa
+#    galaxy_tools_api_key: "{{result.json.api_keys }}"
     use_pbkdf2: false
+    admin_email: "admin_email@uib.org"
   roles:
-#    - usegalaxy.galaxy-tools
+    - usegalaxy.galaxy-tools
   tasks:
-    - name: "Install galaxy user creation script."
-      template: src=roles/usegalaxy.galaxy-extras/templates/create_galaxy_user.py.j2 dest=/usr/local/bin/create_galaxy_user.py mode=a+x
-
-
+#    - name: "Install galaxy user creation script."
+#      template: src=roles/usegalaxy.galaxy-extras/templates/create_galaxy_user.py.j2 dest="{{ galaxy_root}}/server/create_galaxy_user.py" mode=a+x
+#    - name: "add galaxy admin user"
+#      command: "./venv/bin/python  server/create_galaxy_user.py --user  {{ admin_email }}  --password sdfsdfsdf"
+#      args:
+#        chdir: "{{ galaxy_root }}"
+    - name: "Get API key"
+      uri:
+        url: http://158.39.74.224/api/authenticate/baseauth
+#        method: GET
+        force_basic_auth: yes
+        url_password: drengen04
+        url_username: kim.brugger@uib.no
+        return_content: yes
+        status_code: 200
+ #       body_format: json
+      register: result
+    - debug:
+        var: galaxy_tools_api_key

@@ -1,5 +1,5 @@
 [galaxyservers]
 #localhost ansible_connection=local
-test-server ansible_host=test.usegalaxy.no ansible_user=centos
+test.usegalaxy.no ansible_host=test.usegalaxy.no ansible_user=centos
 
 
