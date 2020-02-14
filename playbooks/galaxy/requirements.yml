@@ -18,3 +18,5 @@
   name: usegalaxy.galaxy-tools
 - src: https://github.com/galaxyproject/ansible-galaxy-extras.git
   name: usegalaxy.galaxy-extras
+- src: https://github.com/rossmcdonald/telegraf
+  name: rossmcdonald.telegraf
