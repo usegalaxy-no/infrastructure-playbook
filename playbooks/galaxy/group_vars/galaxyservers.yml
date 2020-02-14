@@ -75,20 +75,14 @@ supervisor_programs:
 
 
 # Certbot
-# seems to be needed for certbot to be installed.
-#certbot_install_from_source: no
-#certbot_repo: https://github.com/certbot/certbot.git
-#certbot_version: master
-#certbot_keep_updated: yes
-
 certbot_auto_renew_hour: "{{ 23 |random(seed=inventory_hostname)  }}"
 certbot_auto_renew_minute: "{{ 59 |random(seed=inventory_hostname)  }}"
-certbot_auth_method: --webroot
+certbot_auth_method: --standalone # --webroot
 certbot_install_method: virtualenv
 certbot_auto_renew: yes
 certbot_auto_renew_user: root
-certbot_environment: staging
-certbot_well_known_root: /var/www/test.usegalaxy.no/
+#certbot_environment: staging
+certbot_well_known_root: /opt/galaxy_dist/server/static/.well
 certbot_share_key_users:
   - nginx
 certbot_post_renewal: |
@@ -97,7 +91,7 @@ certbot_domains:
   - "{{ inventory_hostname }}"
 certbot_agree_tos: --agree-tos
 
-nginx_package_name: nginx # nginx-galaxy on RHEL/CentOS
+# NGINX
 nginx_selinux_allow_local_connections: true
 nginx_servers:
   - redirect-ssl
@@ -108,55 +102,5 @@ nginx_conf_http:
   client_max_body_size: 1g
 nginx_remove_default_vhost: true
 nginx_ssl_role: usegalaxy-eu.certbot
-nginx_conf_ssl_certificate: /etc/ssl/certs/fullchain.pem
-nginx_conf_ssl_certificate_key: /etc/ssl/user/privkey-nginx.pem
-
-nginx_remove_default_vhost: true
-nginx_server_names_hash_bucket_size: "128"
-hostname: "test.usegalaxy.no"
-nginx_vhosts:
-  - listen: "80"
-    server_name: "{{ hostname }}"
-    root: "/var/www/{{ hostname }}"
-    index: "index.html"
-    access_log: "/var/log/nginx/access.log"
-    error_log: "/var/log/nginx/error.log"
-    state: "present"
-    filename: "{{ hostname }}.conf"
-    extra_parameters: |
-      client_max_body_size 10G; # aka max upload size, defaults to 1M
-      uwsgi_read_timeout 2400;
-
-      location / {
-          uwsgi_pass      127.0.0.1:8080;
-          uwsgi_param UWSGI_SCHEME $scheme;
-          include         uwsgi_params;
-      }
-
-
-      location /static {
-              alias {{ galaxy_server_dir }}/static;
-              expires 24h;
-      }
-
-      location /static/style {
-              alias {{ galaxy_server_dir }}/static/style/blue;
-              expires 24h;
-      }
-
-      location /static/scripts {
-              alias {{ galaxy_server_dir }}/static/scripts;
-              expires 24h;
-      }
-
-      location /robots.txt {
-              alias {{ galaxy_server_dir }}/static/robots.txt;
-      }
-
-      location /favicon.ico {
-              alias {{ galaxy_server_dir }}/static/favicon.ico;
-      }
-
-      location /static/welcome.html {
-              alias {{ galaxy_server_dir }}/static/welcome.html;
-      }
+nginx_conf_ssl_certificate: /etc/letsencrypt/live/test.usegalaxy.no/fullchain.pem
+nginx_conf_ssl_certificate_key: /etc/letsencrypt/live/test.usegalaxy.no/privkey.pem
