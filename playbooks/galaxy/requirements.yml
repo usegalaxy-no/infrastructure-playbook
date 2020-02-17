@@ -20,3 +20,4 @@
   name: usegalaxy.galaxy-extras
 - src: https://github.com/rossmcdonald/telegraf
   name: rossmcdonald.telegraf
+- dj-wasabi.telegraf

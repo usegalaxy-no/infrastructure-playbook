@@ -5,11 +5,11 @@
 
 This will install the base system required for the main usegalaxy server. Several of the components are optional but include:
 
-0. base requirements eg bzip2
-1. git
+0. base requirements eg bzip2, git, etc
+1. postgresql (done)
+3. certbot (done)
 2. apache
-3. certbot 
-2. rabbitmq
+2. rabbitmq (later)
 
 Make a copy of group_vars/global.yml.sample
 

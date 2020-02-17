@@ -1,0 +1,33 @@
+- hosts: galaxyservers
+  become: true
+  pre_tasks:
+    - name: Install Dependencies
+      package:
+        name: ['epel-release','python3', 'python-psycopg2', 'git', 'python-virtualenv', 'make', 'bzip2']
+    - name: "Load variables"
+      include_vars: "group_vars/global.yml"
+  roles:
+    - role: geerlingguy.apache
+      become: yes
+
+
+- hosts: databases,galaxyservers
+  tags:
+    - certs
+  vars_files:
+    - group_vars/global.yml
+    - group_vars/certs.yml
+  roles:
+    - role: geerlingguy.certbot
+      become: yes
+
+
+- hosts: databases
+  tags:
+    - database
+  vars_files:
+    - group_vars/global.yml
+    - group_vars/databases.yml
+  roles:
+    - role: geerlingguy.postgresql
+      become: yes

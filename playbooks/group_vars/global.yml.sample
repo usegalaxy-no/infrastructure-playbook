@@ -1,0 +1,17 @@
+galaxy_host: "galaxy-server.here"
+# Not be needed with revDNS working for the server, but just in case for now
+galaxy_host_ip: 127.0.0.1
+
+galaxy_admin: admin@usegalaxy.no
+
+db_host: "dbserver.here"
+galaxy_host_ip: 127.0.0.1
+galaxy_db_user: "galaxy"
+galaxy_db_passwd: "galaxy-secret" # should be encrypted with ansible-vault!
+galaxy_database: "galaxy"
+
+
+# variables generated based on the information above, should only need to edit in extreme cases
+db_connector: "postgresql://{{galaxy_db_user}}:{{galaxy_db_passwd}}@{{db_host}}/{{galaxy-database}}"
+db_ssl_cert: "/etc/letsencrypt/live/{{db_host}}/fullchain.pem"
+db_ssl_key: "/etc/letsencrypt/live/{{db_host}}/privkey.pem"
