@@ -13,5 +13,7 @@ galaxy_database: "galaxy"
 
 # variables generated based on the information above, should only need to edit in extreme cases
 db_connector: "postgresql://{{galaxy_db_user}}:{{galaxy_db_passwd}}@{{db_host}}/{{galaxy-database}}"
-db_ssl_cert: "/etc/letsencrypt/live/{{db_host}}/fullchain.pem"
-db_ssl_key: "/etc/letsencrypt/live/{{db_host}}/privkey.pem"
+ssl_cert: "/etc/letsencrypt/live/{{db_host}}/fullchain.pem"
+ssl_key: "/etc/letsencrypt/live/{{db_host}}/privkey.pem"
+ssl_chain: "/etc/letsencrypt/live/{{galaxy_host}}/chain.pem"
+
