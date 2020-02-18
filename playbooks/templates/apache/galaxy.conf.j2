@@ -4,14 +4,14 @@
 
 #Listen 443
 <VirtualHost {{galaxy_ip}}:443>
-    ServerName {{galaxy_hostname}}
+    ServerName {{galaxy_host}}
 
     SSLEngine On
 
     SSLCertificateFile {{ssl_cert}}
     SSLCertificateKeyFile {{ssl_key}}
 
-    Define galaxy_root {{galaxy_server}}
+    Define galaxy_root {{galaxy_root}}/server/
 
 
     # Enable HSTS

@@ -11,7 +11,7 @@
       become: yes
 
 
-- hosts: databases,galaxyservers
+- hosts: galaxyservers
   tags:
     - certs
   vars_files:
@@ -19,6 +19,17 @@
     - group_vars/certs.yml
   roles:
     - role: geerlingguy.certbot
+      become: yes
+
+
+- hosts: galaxyservers
+  tags:
+    - apache
+  vars_files:
+    - group_vars/global.yml
+    - group_vars/apache.yml
+  roles:
+    - role: geerlingguy.apache
       become: yes
 
 
