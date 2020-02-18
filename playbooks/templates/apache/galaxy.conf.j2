@@ -1,9 +1,9 @@
-<VirtualHost {{galaxy_ip}}:80>
-    Redirect permanent / https://{{galaxy_ip}}
+<VirtualHost {{galaxy_host}}:80>
+    Redirect permanent / https://{{galaxy_host}}
 </VirtualHost>
 
 #Listen 443
-<VirtualHost {{galaxy_ip}}:443>
+<VirtualHost {{galaxy_host}}:443>
     ServerName {{galaxy_host}}
 
     SSLEngine On
