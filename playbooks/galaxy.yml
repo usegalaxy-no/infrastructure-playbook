@@ -41,3 +41,13 @@
         group: galaxy
         mode: '0644'
         force: yes
+
+- hosts: galaxyservers
+  become: true
+  tags:
+    - cvmfs
+  vars_files:
+    - group_vars/global.yml
+    - group_vars/galaxy.yml
+  roles:
+    - galaxyproject.cvmfs

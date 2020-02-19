@@ -27,5 +27,6 @@
   version: 1.0.0
 - src: https://github.com/galaxyproject/ansible-galaxy-tools.git
   name: usegalaxy.galaxy-tools
+- galaxyproject.cvmfs
 
 

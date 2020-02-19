@@ -20,7 +20,7 @@ galaxy_restart_handler_name: Restart Galaxy
 galaxy_config:
   galaxy:
     brand: "NELS Galaxy"
-    admin_users: {{galaxy_admin}}
+    admin_users: "{{galaxy_admin}}"
     database_connection: "{{db_connection}}"
 #    database_connection: "postgresql:///galaxy?host=/var/run/postgresql"
     file_path: "{{ galaxy_file_path }}"
@@ -67,3 +67,8 @@ supervisor_programs:
       umask=022
       directory={{ galaxy_server_dir }}
       environment=HOME={{ galaxy_mutable_data_dir }},VIRTUAL_ENV={{ galaxy_venv_dir }},PATH={{ galaxy_venv_dir }}/bin:%(ENV_PATH)s
+
+
+cvmfs_role: client
+galaxy_cvmfs_repos_enabled: true
+cvmfs_quota_limit: 6000
