@@ -46,3 +46,14 @@
   roles:
     - role: geerlingguy.postgresql
       become: yes
+
+# This will be used for tweaking the specifics for the galaxy monitoring
+- hosts: all
+  tags:
+    - telegraf
+  become: true
+  vars_files:
+    - group_vars/global.yml
+    - group_vars/telegraf.yml
+  roles:
+    - dj-wasabi.telegraf
