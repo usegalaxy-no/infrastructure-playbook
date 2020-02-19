@@ -24,7 +24,7 @@ telegraf_plugins_default:
       - diskmetrics = "true"
     tagpass:
       - fstype = [ "ext4", "xfs" ]
-        - path = [ "/", "/home" ]
+      - path = [ "/", "/home" ]
 
 # for the galaxy
   - plugin: exec
