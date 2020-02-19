@@ -57,3 +57,34 @@
     - group_vars/telegraf.yml
   roles:
     - dj-wasabi.telegraf
+
+
+# This will be used for tweaking the specifics for the galaxy monitoring
+- hosts: galaxyservers
+  tags:
+    - galaxytelegraf
+  become: true
+  vars_files:
+    - group_vars/global.yml
+    - group_vars/galaxy_telegraf.yml
+  tasks:
+    - name: install galaxy-admin
+      git:
+        repo: 'https://github.com/elixir-no-nels/galaxy-admin.git'
+        dest: /usr/local/galaxy-admin/
+        force: yes
+    - name: setup virtual env
+      command: "/bin/python3 -m venv venv"
+      args:
+        chdir: /usr/local/galaxy-admin/
+    - name: install requirements
+      command: "/usr/local/galaxy-admin/venv/bin/pip3 install -r /usr/local/galaxy-admin/requirements.txt"
+      args:
+        chdir: /usr/local/galaxy-admin/
+    - name: Copy config file
+      template:
+        src: templates/galaxy-admin/galaxy.json.j2
+        dest: "/usr/local/galaxy-admin/galaxy.json"
+        force: yes
+  roles:
+    - dj-wasabi.telegraf

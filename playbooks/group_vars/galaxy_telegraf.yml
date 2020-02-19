@@ -31,5 +31,5 @@ telegraf_plugins_default:
     interval: 60
     config: ['timeout="10s"',
              'name_prefix="galaxy_"',
-             'commands= ["/home/centos/galaxy-admin/venv/bin/python /home/centos/galaxy-admin/bin/galaxy_stats.py -c /home/centos/galaxy-admin/galaxy.json stats"]']
+             'commands= ["/usr/local/galaxy-admin/venv/bin/python /usr/local/galaxy-admin/bin/galaxy_stats.py -c /usr/local/galaxy-admin/galaxy.json stats"]']
 
