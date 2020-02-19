@@ -25,6 +25,10 @@
 - hosts: galaxyservers
   tags:
     - apache
+  pre_tasks:
+    - name: Install apache dependencies
+      package:
+        name: ['libproxy', 'mod_proxy_uwsgi']
   vars_files:
     - group_vars/global.yml
     - group_vars/apache.yml

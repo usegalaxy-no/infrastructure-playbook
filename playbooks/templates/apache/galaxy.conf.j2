@@ -2,6 +2,9 @@
     Redirect permanent / https://{{galaxy_host}}
 </VirtualHost>
 
+LoadModule proxy_uwsgi_module modules/mod_proxy_uwsgi.so
+
+
 #Listen 443
 <VirtualHost {{galaxy_host}}:443>
     ServerName {{galaxy_host}}
@@ -40,7 +43,7 @@
     # allow up to 3 minutes for Galaxy to respond to slow requests before timing out
     ProxyTimeout 180
 
-    ProxyPass / uwsgi://127.0.0.1:4001/
+    ProxyPass / uwsgi://127.0.0.1:8080/
 
     # serve framework static content
     RewriteEngine On

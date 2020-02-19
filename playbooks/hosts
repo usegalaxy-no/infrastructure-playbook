@@ -1,5 +1,5 @@
 [galaxyservers]
-test.usegalaxy.no ansible_host=test.usegalaxy.no ansible_user=centos
+test.usegalaxy.no ansible_user=centos
 
 
 [databases]

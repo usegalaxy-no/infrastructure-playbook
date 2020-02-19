@@ -19,6 +19,8 @@ postgresql_hba_entries:
 # Makes it possible for the galaxy-db use to connect both from localhost and the galaxy-host (ip based
   - {type: local, database: "{{galaxy_database}}", user: "{{galaxy_db_user}}", auth_method: md5}
   - {type: host, database: "{{galaxy_database}}", user: "{{galaxy_db_user}}", address: "{{galaxy_ip}}/0", auth_method: md5}
+# This is needed to ensure that the database exists and comes from sqlalchemy not the galaxy code!
+  - {type: host, database: "postgres", user: "{{galaxy_db_user}}", address: "{{galaxy_ip}}/0", auth_method: md5}
 # If encryptions between galaxy and post is needed
 #  - {type: hostssl, database: "{{galaxy_database}}", user: "{{galaxy_db_user}}", address: "{{galaxy_ip}}/0", auth_method: md5}
 

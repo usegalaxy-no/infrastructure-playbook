@@ -8,8 +8,9 @@ This will install the base system required for the main usegalaxy server. Severa
 0. base requirements eg bzip2, git, etc
 1. postgresql (done)
 3. certbot (done)
-2. apache
-2. rabbitmq (later)
+2. apache (done)
+2. rabbitmq (later, depends on elastic compute solution)
+3. slurm single node (Later)
 
 Make a copy of group_vars/global.yml.sample
 
@@ -59,13 +60,18 @@ ansible-playbook base_applications.yml --tags 'database'
 ##Galaxy
 This will install and configure galaxy along with conda and special configurations eg: authentication 
 
-1. galaxy
-2. conda
-3. supervisor
+1. galaxy (done)
+2. conda (done)
+3. supervisor (done)
 3. branding eg: frontpage and colours
 4. 
 
+For branding of the galaxy all files in templates/galaxy/static/ are copied to the galaxy-server/static/
+
+
 ##Pulsar backend
+
+This will be done in uh-iaas initially until we know where this will be used in production.
 
 
 ##Tools

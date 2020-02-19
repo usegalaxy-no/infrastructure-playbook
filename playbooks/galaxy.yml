@@ -1,0 +1,43 @@
+- hosts: galaxyservers
+  become: true
+  tags:
+    - galaxyserver
+  vars_files:
+    - group_vars/global.yml
+    - group_vars/galaxy.yml
+  pre_tasks:
+    - name: Install Dependencies
+      package:
+        name: ['epel-release','python3', 'python-psycopg2', 'git', 'python-virtualenv', 'make', 'bzip2']
+  handlers:
+    - name: Restart Galaxy
+      supervisorctl:
+        name: galaxy
+        state: restarted
+  tasks:
+    - name: Disable SELinux
+      selinux:
+        state: disabled
+  roles:
+    - geerlingguy.pip
+    - galaxyproject.galaxy
+    - uchida.miniconda
+    - usegalaxy-eu.supervisor
+
+
+
+- hosts: galaxyservers
+  become: true
+  tags:
+    - branding
+  vars_files:
+    - group_vars/global.yml
+  tasks:
+    - name: Add branding
+      copy:
+        src: templates/galaxy/static/
+        dest: "{{ galaxy_root }}/server/static/"
+        owner: galaxy
+        group: galaxy
+        mode: '0644'
+        force: yes

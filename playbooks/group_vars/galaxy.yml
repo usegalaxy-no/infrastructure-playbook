@@ -1,0 +1,69 @@
+# Galaxy
+galaxy_create_user: true
+galaxy_separate_privileges: true
+galaxy_user: {name: galaxy, shell: /bin/bash}
+
+galaxy_manage_paths: true
+galaxy_layout: root-dir
+galaxy_file_path: /opt/galaxy_data
+
+galaxy_commit_id: release_19.05
+galaxy_config_style: yaml
+galaxy_force_checkout: true
+miniconda_prefix: "{{ galaxy_tool_dependency_dir }}/_conda"
+
+supervisor_socket_user: galaxy
+supervisor_socket_chown: galaxy
+galaxy_restart_handler_name: Restart Galaxy
+
+
+galaxy_config:
+  galaxy:
+    brand: "NELS Galaxy"
+    admin_users: {{galaxy_admin}}
+    database_connection: "{{db_connection}}"
+#    database_connection: "postgresql:///galaxy?host=/var/run/postgresql"
+    file_path: "{{ galaxy_file_path }}"
+    check_migrate_tools: false
+    shed_tool_data_dir: "{{ galaxy_mutable_data_dir }}/tool-data"
+  uwsgi:
+    # Default values
+    #http: 0.0.0.0:8080
+    socket: 127.0.0.1:8080
+    buffer-size: 16384
+    processes: 1
+    threads: 4
+    offload-threads: 2
+    static-map:
+      - /static/style={{ galaxy_server_dir }}/static/style/blue
+      - /static={{ galaxy_server_dir }}/static
+    master: true
+    virtualenv: "{{ galaxy_venv_dir }}"
+    pythonpath: "{{ galaxy_server_dir }}/lib"
+    module: galaxy.webapps.galaxy.buildapp:uwsgi_app()
+    thunder-lock: true
+    die-on-term: true
+    hook-master-start:
+      - unix_signal:2 gracefully_kill_them_all
+      - unix_signal:15 gracefully_kill_them_all
+    py-call-osafterfork: true
+    enable-threads: true
+    # Our additions
+    mule:
+      - lib/galaxy/main.py
+      - lib/galaxy/main.py
+    farm: job-handlers:1,2
+
+supervisor_programs:
+  - name: galaxy
+    state: present
+    command: uwsgi --yaml {{ galaxy_config_dir }}/galaxy.yml
+    configuration: |
+      autostart=true
+      autorestart=true
+      startretries=1
+      startsecs=10
+      user=galaxy
+      umask=022
+      directory={{ galaxy_server_dir }}
+      environment=HOME={{ galaxy_mutable_data_dir }},VIRTUAL_ENV={{ galaxy_venv_dir }},PATH={{ galaxy_venv_dir }}/bin:%(ENV_PATH)s

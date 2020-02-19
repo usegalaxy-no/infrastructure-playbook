@@ -10,18 +10,22 @@
 #  version: 1.0.0
 #- src: uchida.miniconda
 #  version: 0.3.0
-#- src: https://github.com/usegalaxy-eu/ansible-role-supervisor
-#  name: usegalaxy-eu.supervisor
-#- src: https://github.com/usegalaxy-eu/ansible-certbot
-#  name: usegalaxy-eu.certbot
-#- src: https://github.com/galaxyproject/ansible-galaxy-tools.git
-#  name: usegalaxy.galaxy-tools
 #- src: https://github.com/galaxyproject/ansible-galaxy-extras.git
 #  name: usegalaxy.galaxy-extras
-#- src: https://github.com/rossmcdonald/telegraf
-#  name: rossmcdonald.telegraf
-#- dj-wasabi.telegraf
+# base system
 - geerlingguy.postgresql
 - geerlingguy.certbot
 - geerlingguy.apache
+#- dj-wasabi.telegraf
+
+# Galaxy specefic stuff.
+- galaxyproject.galaxy
+- uchida.miniconda
+- src: https://github.com/usegalaxy-eu/ansible-role-supervisor
+  name: usegalaxy-eu.supervisor
+- src: geerlingguy.pip
+  version: 1.0.0
+- src: https://github.com/galaxyproject/ansible-galaxy-tools.git
+  name: usegalaxy.galaxy-tools
+
 
