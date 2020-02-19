@@ -88,3 +88,17 @@
         force: yes
   roles:
     - dj-wasabi.telegraf
+
+
+# https://github.com/CSCfi/ansible-role-slurm
+- hosts: galaxyservers
+  strategy: free
+  tags:
+    - slurm
+  roles:
+    - { role: ansible-role-pam }
+    - { role: ansible-role-nhc }
+    - { role: ansible-role-slurm }
+- hosts: install
+  roles:
+    - { role: ansible-role-slurm }
