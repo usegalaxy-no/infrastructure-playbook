@@ -1,0 +1,39 @@
+- hosts: galaxyservers
+  gather_facts: False
+#  connection: local
+  become: true
+  become_user: galaxy
+  vars_files:
+    - group_vars/global.yml
+  tags:
+    - tools
+  vars:
+    galaxy_tools_tool_list_files: [ "files/tools_list.yml" ]
+    galaxy_tools_galaxy_instance_url: "https://{{galaxy_host}}/"
+    use_pbkdf2: false
+    galaxy_tools_api_key: "{{galaxy_api_key}}"
+    admin_email: "{{galaxy_admin}}"
+  roles:
+    - usegalaxy.galaxy-tools
+
+
+- hosts: galaxyservers
+  gather_facts: False
+  #  connection: local
+  become: true
+  become_user: galaxy
+  vars_files:
+    - group_vars/global.yml
+  tags:
+    - workflows
+  vars:
+    galaxy_tools_workflows: [ "files/workflow-test.ga" ]
+    # the tools defined in the workflows above
+    galaxy_tools_tool_list_files: [ "files/tools_list.yml" ]
+    galaxy_tools_install_workflows: yes
+    galaxy_tools_galaxy_instance_url: "https://{{galaxy_host}}/"
+    use_pbkdf2: false
+    galaxy_tools_api_key: "{{galaxy_api_key}}"
+    admin_email: "{{galaxy_admin}}"
+  roles:
+    - usegalaxy.galaxy-tools
