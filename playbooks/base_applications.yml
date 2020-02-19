@@ -67,7 +67,7 @@
   vars_files:
     - group_vars/global.yml
     - group_vars/galaxy_telegraf.yml
-  tasks:
+  pre_tasks:
     - name: install galaxy-admin
       git:
         repo: 'https://github.com/elixir-no-nels/galaxy-admin.git'
