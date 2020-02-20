@@ -67,6 +67,8 @@
   vars_files:
     - group_vars/global.yml
     - group_vars/galaxy_telegraf.yml
+  vars:
+    galaxy_admin_dir: /usr/local/galaxy_admin
   pre_tasks:
     - name: install galaxy-admin
       git:
@@ -78,13 +80,13 @@
       args:
         chdir: /usr/local/galaxy-admin/
     - name: install requirements
-      command: "/usr/local/galaxy-admin/venv/bin/pip3 install -r /usr/local/galaxy-admin/requirements.txt"
+      command: "{{galaxy_admin_dir}}/venv/bin/pip3 install -r {{galaxy_admin_dir}}/requirements.txt"
       args:
         chdir: /usr/local/galaxy-admin/
     - name: Copy config file
       template:
         src: templates/galaxy-admin/galaxy.json.j2
-        dest: "/usr/local/galaxy-admin/galaxy.json"
+        dest: "{{galaxy_admin_dir}}/galaxy.json"
         force: yes
   roles:
     - dj-wasabi.telegraf

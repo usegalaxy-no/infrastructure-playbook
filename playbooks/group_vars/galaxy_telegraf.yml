@@ -30,6 +30,6 @@ telegraf_plugins_default:
     interval: 60
     config: ['timeout="10s"',
              'name_prefix="galaxy_"',
-             'commands= ["/usr/local/galaxy-admin/venv/bin/python /usr/local/galaxy-admin/bin/galaxy_stats.py -c /usr/local/galaxy-admin/galaxy.json stats"]',
+             'commands= ["{{galaxy_admin_dir}}/venv/bin/python {{galaxy_admin_dir}}/bin/galaxy_stats.py -c {{galaxy_admin_dir}}/galaxy.json stats"]',
              "data_format = 'influx'"]
 

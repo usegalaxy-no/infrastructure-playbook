@@ -9,9 +9,19 @@ The playbooks are distributed as:
 3. backend.yml: pulsar and friends for the backend compute
 4. galaxy-content.yml: install tools and workflows
 
+To ease configuration of the playbooks, key information shared between multiple playbooks are stored in **group_vars/global.yml**. 
+
+
 As some of the var files include passwords and api-keys they are encrypted using ansible-vault. These will be decrypted at runtime, either by providing the password when asked or using a password file. See the [security section]{#Security) below for more information or [ansible-vault](https://docs.ansible.com/ansible/latest/user_guide/vault.html).
 
- 
+Each of the playbooks contain multiple plays that can be executed independenty using the tag for the playbook. 
+
+```
+# this will only run the apache sub-play of this playbook
+ansible-playbook --tags apache base.yml 
+``` 
+
+
 
 
 
@@ -74,11 +84,12 @@ ansible-playbook base_applications.yml --tags 'database'
 ##Galaxy
 This will install and configure galaxy along with conda and special configurations eg: authentication 
 
-1. galaxy (done)
-2. conda (done)
-3. supervisor (done)
+1. galaxy
+2. conda
+3. supervisor 
 3. branding eg: frontpage and colours
-4. 
+4. configurations
+5. cvmfs
 
 For branding of the galaxy all files in templates/galaxy/static/ are copied to the galaxy-server/static/
 
