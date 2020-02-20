@@ -1,5 +1,19 @@
 #Playbooks
 
+These are the playbooks for installing and maintaining the usegalaxy.no setup.
+
+The playbooks are distributed as:
+
+1. base.yml: base system (apache, postgresql, etc)
+2. galaxy.yml: galaxy server, branding and configuration
+3. backend.yml: pulsar and friends for the backend compute
+4. galaxy-content.yml: install tools and workflows
+
+As some of the var files include passwords and api-keys they are encrypted using ansible-vault. These will be decrypted at runtime, either by providing the password when asked or using a password file. See the [security section]{#Security) below for more information or [ansible-vault](https://docs.ansible.com/ansible/latest/user_guide/vault.html).
+
+ 
+
+
 
 ##Base system
 
@@ -82,3 +96,10 @@ Install tools in galaxy
 ##Workflows
 
 Install tools in galaxy
+
+
+
+
+## Security
+
+
