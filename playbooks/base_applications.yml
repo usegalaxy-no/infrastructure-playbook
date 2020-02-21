@@ -12,17 +12,29 @@
 
 
 - hosts: galaxyservers
+  become: true
   tags:
     - certs
   vars_files:
     - group_vars/global.yml
     - group_vars/certs.yml
+  pre_tasks:
+    - name: Stop service httpd, if started
+      service:
+        name: httpd
+        state: stopped
   roles:
     - role: geerlingguy.certbot
       become: yes
+  pre_tasks:
+    - name: Stop service httpd, if started
+      service:
+        name: httpd
+        state: started
 
 
 - hosts: galaxyservers
+  become: true
   tags:
     - apache
   pre_tasks:
@@ -38,6 +50,7 @@
 
 
 - hosts: databases
+  become: true
   tags:
     - database
   vars_files:
@@ -48,7 +61,8 @@
       become: yes
 
 # This will be used for tweaking the specifics for the galaxy monitoring
-- hosts: all
+- hosts: databases
+  become: true
   tags:
     - telegraf
   become: true
@@ -61,6 +75,7 @@
 
 # This will be used for tweaking the specifics for the galaxy monitoring
 - hosts: galaxyservers
+  become: true
   tags:
     - galaxytelegraf
   become: true
@@ -73,12 +88,12 @@
     - name: install galaxy-admin
       git:
         repo: 'https://github.com/elixir-no-nels/galaxy-admin.git'
-        dest: /usr/local/galaxy-admin/
+        dest: "{{galaxy_admin_dir}}"
         force: yes
     - name: setup virtual env
       command: "/bin/python3 -m venv venv"
       args:
-        chdir: /usr/local/galaxy-admin/
+        chdir: "{{galaxy_admin_dir}}"
     - name: install requirements
       command: "{{galaxy_admin_dir}}/venv/bin/pip3 install -r {{galaxy_admin_dir}}/requirements.txt"
       args:
@@ -93,14 +108,14 @@
 
 
 # https://github.com/CSCfi/ansible-role-slurm
-- hosts: galaxyservers
-  strategy: free
-  tags:
-    - slurm
-  roles:
-    - { role: ansible-role-pam }
-    - { role: ansible-role-nhc }
-    - { role: ansible-role-slurm }
-- hosts: install
-  roles:
-    - { role: ansible-role-slurm }
+#- hosts: galaxyservers
+#  strategy: free
+#  tags:
+#    - slurm
+#  roles:
+#    - { role: ansible-role-pam }
+#    - { role: ansible-role-nhc }
+#    - { role: ansible-role-slurm }
+#- hosts: install
+#  roles:
+#    - { role: ansible-role-slurm }
