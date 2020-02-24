@@ -1,0 +1,18 @@
+- hosts: galaxyservers
+  become: true
+  vars:
+    slurm_roles: ['controller', 'exec']
+    slurm_nodes:
+    - name: test
+      CPUs: 2                              # Here you would need to figure out how many cores your machine has. (Hint, `htop`)
+    slurm_config:
+      FastSchedule: 2                      # Ignore errors if the host actually has cores != 2
+      SelectType: select/cons_res
+      SelectTypeParameters: CR_CPU_Memory  # Allocate individual cores/memory instead of entire node
+  roles:
+    - galaxyproject.repos
+    - galaxyproject.slurm
+  post_tasks:
+    - name: Install slurm-drmaa
+      package:
+        name: slurm-drmaa1
