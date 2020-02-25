@@ -6,6 +6,7 @@ galaxy_user: {name: galaxy, shell: /bin/bash}
 galaxy_manage_paths: true
 galaxy_layout: root-dir
 galaxy_file_path: /opt/galaxy_data
+galaxy_root: /opt/galaxy_dist
 
 galaxy_commit_id: release_19.05
 galaxy_config_style: yaml
@@ -27,6 +28,7 @@ galaxy_config:
     check_migrate_tools: false
     shed_tool_data_dir: "{{ galaxy_mutable_data_dir }}/tool-data"
     tool_data_table_config_path: /cvmfs/data.galaxyproject.org/byhand/location/tool_data_table_conf.xml,/cvmfs/data.galaxyproject.org/managed/location/tool_data_table_conf.xml
+    job_config_file: "{{ galaxy_config_dir }}/job_conf.xml"
   uwsgi:
     # Default values
     #http: 0.0.0.0:8080
@@ -50,10 +52,15 @@ galaxy_config:
     py-call-osafterfork: true
     enable-threads: true
     # Our additions
-    mule:
-      - lib/galaxy/main.py
-      - lib/galaxy/main.py
-    farm: job-handlers:1,2
+    #mule:
+    #  - lib/galaxy/main.py
+    #  - lib/galaxy/main.py
+    #farm: job-handlers:1,2
+
+
+galaxy_config_files:
+  - src: files/galaxy/config/job_conf.xml
+    dest: "{{ galaxy_config['galaxy']['job_config_file'] }}"
 
 supervisor_programs:
   - name: galaxy
