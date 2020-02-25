@@ -4,7 +4,8 @@
     slurm_roles: ['controller', 'exec']
     slurm_nodes:
     - name: test
-      CPUs: 2                              # Here you would need to figure out how many cores your machine has. (Hint, `htop`)
+      CPUs: 2
+      MemSpecLimit: 8000 # amount of memory to be reserved (in MB)
     slurm_config:
       FastSchedule: 2                      # Ignore errors if the host actually has cores != 2
       SelectType: select/cons_res
@@ -15,4 +16,4 @@
   post_tasks:
     - name: Install slurm-drmaa
       package:
-        name: slurm-drmaa1
+        name: slurm-drmaa
