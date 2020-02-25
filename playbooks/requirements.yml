@@ -28,5 +28,7 @@
 - src: https://github.com/galaxyproject/ansible-galaxy-tools.git
   name: usegalaxy.galaxy-tools
 - galaxyproject.cvmfs
+- galaxyproject.repos
+- galaxyproject.slurm
 
 
