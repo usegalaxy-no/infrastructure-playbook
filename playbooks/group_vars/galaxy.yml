@@ -74,7 +74,7 @@ supervisor_programs:
       user=galaxy
       umask=022
       directory={{ galaxy_server_dir }}
-      environment=HOME={{ galaxy_mutable_data_dir }},VIRTUAL_ENV={{ galaxy_venv_dir }},PATH={{ galaxy_venv_dir }}/bin:%(ENV_PATH)s
+      environment=HOME={{ galaxy_mutable_data_dir }},VIRTUAL_ENV={{ galaxy_venv_dir }},PATH={{ galaxy_venv_dir }}/bin:%(ENV_PATH)s,DRMAA_LIBRARY_PATH=/usr/lib64/libdrmaa.so
 
 
 cvmfs_role: client
