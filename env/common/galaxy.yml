@@ -8,8 +8,8 @@
   pre_tasks:
     - name: Install Dependencies
       package:
-        use_backend: dnf
-        name: ['epel-release','python3', 'python-psycopg2', 'git', 'python-virtualenv', 'make', 'bzip2','dnf']
+#        use_backend: dnf
+        name: ['epel-release','python3', 'python-psycopg2', 'git', 'python-virtualenv', 'make', 'bzip2','postgresql']
   handlers:
     - name: Restart Galaxy
       systemd:
@@ -33,7 +33,6 @@
     - geerlingguy.pip
     - galaxyproject.galaxy
     - uchida.miniconda
-    - usegalaxy-eu.supervisor
     - galaxyproject.cvmfs
     - usegalaxy_eu.galaxy_systemd
     - galaxyproject.nginx
