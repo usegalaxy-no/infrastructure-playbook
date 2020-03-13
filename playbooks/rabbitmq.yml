@@ -1,0 +1,30 @@
+- hosts: rabbitmq
+  become: true
+
+  tasks:
+  - name: create vhosts
+    rabbitmq_vhost: name=/{{item}} state=present
+    with_items:
+      - galaxy-prod
+      - galaxy-test
+
+
+  - name: add users
+    rabbitmq_user: user={{ item.name }} password={{ item.passwd }} tags=administrator,{{ item.name }} vhost=/{{ item.vhost }} configure_priv={{ item.name }} write_priv={{ item.name }} read_priv={{ item.name }} state=present
+    with_items:
+      - { name: galaxy, vhost: galaxy-prod, passwd: changeme} 
+      - { name: galaxy, vhost: galaxy-test, passwd: changeme} 
+
+  - name: remove default guest user
+    rabbitmq_user: user=guest state=absent
+
+  - name: Enables the rabbitmq_management plugin
+    rabbitmq_plugin:
+      names: rabbitmq_management
+      state: enabled
+
+  handlers:
+  - name: restart rabbitmq
+    service: name=rabbitmq-server state=restarted
+  roles:
+  - geerlingguy.rabbitmq
