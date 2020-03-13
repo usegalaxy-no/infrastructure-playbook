@@ -1,0 +1,11 @@
+- hosts: database
+  become: true
+  tags:
+    - database
+  vars_files:
+    - group_vars/global.yml
+    - group_vars/database.yml
+  roles:
+    - role: geerlingguy.postgresql
+      become: yes
+
