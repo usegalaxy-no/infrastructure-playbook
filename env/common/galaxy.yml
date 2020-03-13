@@ -32,10 +32,14 @@
   roles:
     - geerlingguy.pip
     - galaxyproject.galaxy
-    - uchida.miniconda
-    - galaxyproject.cvmfs
+    - role: uchida.miniconda
+      become: true
+      become_user: galaxy
     - usegalaxy_eu.galaxy_systemd
     - galaxyproject.nginx
+    - galaxyproject.cvmfs
+
+
 
 
 
