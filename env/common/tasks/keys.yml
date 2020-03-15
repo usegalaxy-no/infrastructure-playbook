@@ -1,0 +1,11 @@
+---
+# copy public keys to the server.
+- name: set access for admin users
+  block:
+
+    - name: Copy ssh keys to host
+      copy:
+        src: files/ssh/authorized_keys
+        dest: ~/.ssh/authorized_keys
+        mode: 0600
+

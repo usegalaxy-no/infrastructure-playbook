@@ -32,6 +32,7 @@ galaxy_config:
     tool_data_table_config_path: /cvmfs/data.galaxyproject.org/byhand/location/tool_data_table_conf.xml,/cvmfs/data.galaxyproject.org/managed/location/tool_data_table_conf.xml
     job_config_file: "{{ galaxy_config_dir }}/job_conf.xml"
     log_level: INFO
+    welcome_url: static/welcome.html
   uwsgi:
     # Default values
     socket: 127.0.0.1:8080

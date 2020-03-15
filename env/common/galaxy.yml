@@ -29,15 +29,19 @@
         mode: '0644'
         force: yes
 
-  roles:
-    - geerlingguy.pip
-    - galaxyproject.galaxy
-    - role: uchida.miniconda
-      become: true
-      become_user: galaxy
-    - usegalaxy_eu.galaxy_systemd
-    - galaxyproject.nginx
-    - galaxyproject.cvmfs
+    - name: Setup ssh access
+      become: false
+      include: tasks/keys.yml
+
+#  roles:
+#    - geerlingguy.pip
+#    - galaxyproject.galaxy
+#    - role: uchida.miniconda
+#      become: true
+#      become_user: galaxy
+#    - usegalaxy_eu.galaxy_systemd
+#    - galaxyproject.nginx
+#    - galaxyproject.cvmfs
 
 
 
