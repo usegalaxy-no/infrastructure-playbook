@@ -5,6 +5,10 @@
   vars_files:
     - group_vars/global.yml
     - group_vars/database.yml
+  tasks:
+    - name: Setup ssh access
+      become: false
+      include: tasks/keys.yml
   roles:
     - role: geerlingguy.postgresql
       become: yes
