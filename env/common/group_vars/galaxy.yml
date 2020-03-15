@@ -32,7 +32,24 @@ galaxy_config:
     tool_data_table_config_path: /cvmfs/data.galaxyproject.org/byhand/location/tool_data_table_conf.xml,/cvmfs/data.galaxyproject.org/managed/location/tool_data_table_conf.xml
     job_config_file: "{{ galaxy_config_dir }}/job_conf.xml"
     log_level: INFO
+    allow_path_paste: true
+    #    require_login: true
+    allow_user_impersonation: true
+
     welcome_url: static/welcome.html
+    support_url: https://elixir.no/helpdesk
+    terms_url: https://theonion.com
+    id_secret: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          62306463646165326238323064633339333430363634356635613661613830653231323731666333
+          3932366531646532326339636233376430353432616339370a613334663534383630383363353037
+          31323962613436333463346634396164363030633238386562373831393064323533356637373336
+          6463383138366132650a383632636465363439383832383538666665386265386236626461333464
+          65336137396531366632396137316237376566366161386162356563643762643436
+
+    message_box_visible: true
+    message_box_class: warning
+    message_box_content: This is the development version of the new usegalaxy.no website. Not for production use!
   uwsgi:
     # Default values
     socket: 127.0.0.1:8080

@@ -33,15 +33,16 @@
       become: false
       include: tasks/keys.yml
 
-#  roles:
-#    - geerlingguy.pip
-#    - galaxyproject.galaxy
-#    - role: uchida.miniconda
-#      become: true
-#      become_user: galaxy
-#    - usegalaxy_eu.galaxy_systemd
-#    - galaxyproject.nginx
-#    - galaxyproject.cvmfs
+  roles:
+    - geerlingguy.pip
+    - galaxyproject.repos
+    - galaxyproject.galaxy
+    - role: uchida.miniconda
+      become: true
+      become_user: galaxy
+    - usegalaxy_eu.galaxy_systemd
+    - galaxyproject.nginx
+    - galaxyproject.cvmfs
 
 
 
