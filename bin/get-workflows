@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import argparse
-
+import pprint as pp
+import re
 
 from bioblend import galaxy
 
@@ -11,18 +12,24 @@ def main():
 
     parser.add_argument('-a', '--api_key', required=True, help="Galaxy admin user API key (required if not defined in the tools list file)")
     parser.add_argument('-g', '--galaxy',  required=True, help="Target Galaxy instance URL/IP address")
+    parser.add_argument('-o', '--outdir',  default='.', help="Directory to write workflow files to")
 
 
     args = parser.parse_args()
     url = args.galaxy
     api_key = args.api_key
+    outdir  = args.outdir
 
     gi = galaxy.GalaxyInstance(url=url, key=api_key)
 
     wfs = gi.workflows.get_workflows()
     for wf in wfs:
-        print( wf )
-        print(gi.workflows.export_workflow_dict(wf['id']))
+#        print( wf )
+        wf_name = re.sub(r'\W', '-', wf['name'])
+        print("Writing workflow {}".format( wf_name ))
+        fh = open("{}/{}.ga".format(outdir, wf_name),'w')
+        fh.write(str(gi.workflows.export_workflow_dict(wf['id'])))
+        fh.close()
 
 
 
