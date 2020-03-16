@@ -25,6 +25,7 @@ galaxy_config:
   galaxy:
     brand: "NELS Galaxy"
     admin_users: "{{galaxy_admin}}"
+    master_api: gAlAxy
     database_connection: "{{db_connection}}"
     file_path: "{{ galaxy_file_path }}"
     check_migrate_tools: false

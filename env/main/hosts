@@ -1,0 +1,9 @@
+[galaxyserver]
+main.usegalaxy.no ansible_user=centos
+
+[database]
+db.usegalaxy.no ansible_user=centos
+
+[slurm]
+slurm.usegalaxy.no ansible_user=centos
+
