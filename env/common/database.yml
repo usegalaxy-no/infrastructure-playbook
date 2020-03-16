@@ -5,6 +5,7 @@
   vars_files:
     - group_vars/global.yml
     - group_vars/database.yml
+#    - group_vars/certbot.yml
     - group_vars/rabbitmq.yml
   handlers:
     - name: restart rabbitmq
@@ -23,5 +24,7 @@
   roles:
     - role: geerlingguy.postgresql
       become: yes
+#    - role: geerlingguy.certbot
     - role: geerlingguy.rabbitmq
+
 
