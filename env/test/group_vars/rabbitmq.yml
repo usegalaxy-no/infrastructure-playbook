@@ -4,5 +4,7 @@ rabbitmq_vhosts:
 rabbitmq_users:
   - {name: admin,  vhost: '', passwd: admin!, tags: administrator}
   - {name: nrec_galaxy, vhost: nrec_pulsar_test, passwd: ChangeMePlease1!}
-  - {name: csc_galaxy, vhost: csc_pulsar_test,  passwd: ChangeMePlease2!}
+  - {name: csc_galaxy, vhost: csc_pulsar_test,  
+     passwd: test
+    }
 

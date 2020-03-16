@@ -11,4 +11,4 @@ certbot_create_method: standalone
 
 certbot_certs:
     - domains:
-      - "{{ansible_host}}"
+      - "{{inventory_hostname}}"
