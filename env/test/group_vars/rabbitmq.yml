@@ -1,7 +1,8 @@
-rabbitmq_vhosts: 
-  - nrec_pulsar_test 
+rabbitmq_vhosts:
+  - nrec_pulsar_test
   - csc_pulsar_test
-rabbitmq_users: 
-  - {name: galaxy, vhost: nrec_pulsar_test, passwd: ChangeMePlease1!}
-  - {name: galaxy, vhost: csc_pulsar_test,  passwd: ChangeMePlease2!}
+rabbitmq_users:
+  - {name: admin,  vhost: '', passwd: admin!, tags: administrator}
+  - {name: nrec_galaxy, vhost: nrec_pulsar_test, passwd: ChangeMePlease1!}
+  - {name: csc_galaxy, vhost: csc_pulsar_test,  passwd: ChangeMePlease2!}
 
