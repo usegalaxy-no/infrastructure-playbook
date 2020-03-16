@@ -1,0 +1,24 @@
+---
+#setup for rabbit mq
+- name: Setup rabbitmq
+  block:
+
+  - name: Remove default guest user
+    rabbitmq_user: user=guest state=absent
+
+  - name: Enables the rabbitmq_management plugin
+    rabbitmq_plugin:
+      names: rabbitmq_management
+      state: enabled
+
+  - name: Create vhosts
+    rabbitmq_vhost: name=/{{item}} state=present
+    with_items:
+      - "{{rabbitmq_vhosts}}"
+
+  - name: Add users
+    rabbitmq_user: user={{ item.name }} password={{ item.passwd }} tags=administrator,{{ item.name }} vhost=/{{ item.vhost }} configure_priv={{ item.name }} write_priv={{ item.name }} read_priv={{ item.name }} state=present
+    with_items:
+      - "{{rabbitmq_users}}"
+#      - { name: galaxy, vhost: galaxy-test, passwd: changeme}
+

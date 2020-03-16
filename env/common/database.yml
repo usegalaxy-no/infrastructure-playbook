@@ -5,11 +5,23 @@
   vars_files:
     - group_vars/global.yml
     - group_vars/database.yml
+    - group_vars/rabbitmq.yml
+  handlers:
+    - name: restart rabbitmq
+      service: name=rabbitmq-server state=restarted
+  pre_tasks:
+    - name: Install Dependencies
+      package:
+        name: ['epel-release', 'python3']
+
   tasks:
     - name: Setup ssh access
       become: false
       include: tasks/keys.yml
+    - name: setup rabbitmq vhosts and users
+      include: tasks/rabbitmq.yml
   roles:
     - role: geerlingguy.postgresql
       become: yes
+    - role: geerlingguy.rabbitmq
 
