@@ -17,7 +17,7 @@
       - "{{rabbitmq_vhosts}}"
 
   - name: Add users
-    rabbitmq_user: user={{ item.name }} password={{ item.passwd }} tags={{ item.tags | default(item.name)}} vhost=/{{ item.vhost }} configure_priv={{ item.name }} write_priv={{ item.name }} read_priv={{ item.name }} state=present
+    rabbitmq_user: user={{ item.name }} password={{ item.passwd }} tags={{ item.tags | default(item.name)}} vhost=/{{ item.vhost }} configure_priv=".*" write_priv=".*" read_priv=".*" state=present
     with_items:
       - "{{rabbitmq_users}}"
 #      - { name: galaxy, vhost: galaxy-test, passwd: changeme}
