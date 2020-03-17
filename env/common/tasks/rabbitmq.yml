@@ -1,6 +1,8 @@
 ---
 #setup for rabbit mq
 - name: Setup rabbitmq
+
+
   block:
 
   - name: Remove default guest user
@@ -20,5 +22,16 @@
     rabbitmq_user: user={{ item.name }} password={{ item.passwd }} tags={{ item.tags | default(item.name)}} vhost=/{{ item.vhost }} configure_priv=".*" write_priv=".*" read_priv=".*" state=present
     with_items:
       - "{{rabbitmq_users}}"
-#      - { name: galaxy, vhost: galaxy-test, passwd: changeme}
 
+#  - name: rabbitmq config stats
+#    stat:
+#      path: templates/rabbitmq/rabbitmq.j2
+#    register: rabbitmq_config
+
+  - name: Copy rabbitmq file
+    template:
+      src: templates/rabbitmq/rabbitmq.j2
+      dest: /etc/rabbitmq/rabbitmq.conf
+    notify:
+      - restart rabbitmq
+#    when: rabbitmq_config.stat.exists == True
