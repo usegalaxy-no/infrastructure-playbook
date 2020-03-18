@@ -24,4 +24,5 @@
 - usegalaxy_eu.galaxy_systemd
 - galaxyproject.nginx
 - usegalaxy_eu.certbot
-
+- src: galaxyproject.pulsar
+  version: 1.0.2

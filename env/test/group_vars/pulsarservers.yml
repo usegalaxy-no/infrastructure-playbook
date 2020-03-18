@@ -1,0 +1,44 @@
+pulsar_server_dir: /mnt/pulsar/server
+pulsar_venv_dir: /mnt/pulsar/venv
+pulsar_config_dir: /mnt/pulsar/config
+pulsar_staging_dir: /mnt/pulsar/staging
+pulsar_systemd: true
+
+pulsar_host: 0.0.0.0
+pulsar_port: 8913
+
+private_token: my_very_very_private_token_here
+
+pulsar_create_user: true
+pulsar_user: {name: pulsar, shell: /bin/bash}
+
+pulsar_optional_dependencies:
+  - pyOpenSSL
+  # For remote transfers initiated on the Pulsar end rather than the Galaxy end
+  - pycurl
+  # uwsgi used for more robust deployment than paste
+  - uwsgi
+  # drmaa required if connecting to an external DRM using it.
+  - drmaa
+  # kombu needed if using a message queue
+  - kombu
+  # requests and poster using Pulsar remote staging and pycurl is unavailable
+  - requests
+  # psutil and pylockfile are optional dependencies but can make Pulsar
+  # more robust in small ways.
+  - psutil
+
+pulsar_yaml_config:
+  dependency_resolvers_config_file: dependency_resolvers_conf.xml
+  conda_auto_init: True
+  conda_auto_install: True
+  staging_directory: "{{ pulsar_staging_dir }}"
+  private_token: "{{ private_token }}"
+
+# NGINX
+nginx_selinux_allow_local_connections: true
+nginx_servers:
+  - pulsar-proxy
+nginx_enable_default_server: false
+nginx_conf_http:
+  client_max_body_size: 5g
