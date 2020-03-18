@@ -1,0 +1,19 @@
+- hosts: ehos_head
+  become: true
+  tags:
+    - ehos
+
+  vars_files:
+    - group_vars/global.yml
+
+  vars:
+
+
+  tasks:
+    - name: Create image for EHOS
+      cmd: ehos_cloud_setup.py --ssh-key ~/.ssh/id_rsa.pub --create-images etc/ehos/ehos.yaml
+
+    - name: Deploy EHOS
+      cmd: ./bin/ehos_deployment.py etc/ehos/ehos.yaml
+
+
