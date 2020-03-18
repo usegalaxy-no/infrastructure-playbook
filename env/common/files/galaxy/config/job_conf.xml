@@ -1,8 +1,13 @@
 <job_conf>
-     <plugins workers="4">
-         <plugin id="local" type="runner" load="galaxy.jobs.runners.local:LocalJobRunner"/>
-     </plugins>
-     <destinations default="local">
-         <destination id="local" runner="local"/>
-     </destinations>
+    <plugins workers="4">
+        <plugin id="local" type="runner" load="galaxy.jobs.runners.local:LocalJobRunner"/>
+        <plugin id="slurm" type="runner" load="galaxy.jobs.runners.slurm:SlurmJobRunner"/>
+    </plugins>
+    <destinations default="local">
+        <destination id="local" runner="local"/>
+        <destination id="slurm" runner="slurm"/>
+    </destinations>
+    <tools>
+        <tool id="upload1" destination="local" />
+    </tools>
 </job_conf>
