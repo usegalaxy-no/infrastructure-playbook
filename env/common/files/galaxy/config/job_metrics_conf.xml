@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<job_metrics>
+    <core />
+    <cpuinfo />
+    <meminfo />
+    <uname />
+    <!-- <env /> -->
+    <cgroup />
+    <hostname />
+</job_metrics>
