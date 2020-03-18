@@ -5,7 +5,7 @@ server {
     server_name "{{ inventory_hostname }}";
 
     location /.well-known/ {
-        root {{ certbot_well_known_root }};
+        root {{ certbot_well_known_root | default( '/tmp/nginx_well_known')}};
     }
 
     location / {

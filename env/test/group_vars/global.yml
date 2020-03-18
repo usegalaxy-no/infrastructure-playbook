@@ -30,8 +30,8 @@ galaxy_db_passwd: !vault |
 # variables generated based on the information above, should only need to edit in extreme cases
 db_connection: "postgresql://{{galaxy_db_user}}:{{galaxy_db_passwd}}@{{db_host}}/{{galaxy_database}}"
 # certs for the frontend
-ssl_cert: "/etc/letsencrypt/live/{{galaxy_host}}/fullchain.pem"
-ssl_key: "/etc/letsencrypt/live/{{galaxy_host}}/privkey.pem"
-ssl_chain: "/etc/letsencrypt/live/{{galaxy_host}}/chain.pem"
+#ssl_cert: "/etc/letsencrypt/live/{{galaxy_host}}/fullchain.pem"
+#ssl_key: "/etc/letsencrypt/live/{{galaxy_host}}/privkey.pem"
+#ssl_chain: "/etc/letsencrypt/live/{{galaxy_host}}/chain.pem"
 
 

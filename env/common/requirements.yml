@@ -2,7 +2,9 @@
 - geerlingguy.postgresql
 - geerlingguy.certbot
 - geerlingguy.apache
+  #- geerlingguy.nginx
 - dj-wasabi.telegraf
+- nginxinc.nginx
 
 # Galaxy specefic stuff.
 - galaxyproject.galaxy
