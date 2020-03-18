@@ -30,5 +30,7 @@
 - galaxyproject.cvmfs
 - galaxyproject.repos
 - galaxyproject.slurm
+- src: usegalaxy_eu.gxadmin
+  version: 0.0.2
 - geerlingguy.rabbitmq
 
