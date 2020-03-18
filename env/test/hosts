@@ -10,3 +10,6 @@ test-db.usegalaxy.no ansible_user=centos
 
 [pulsar_nmbu_orion]
 10.219.0.111 ansible_user=rundeck
+
+[jenkins]
+test.usegalaxy.no ansible_user=centos

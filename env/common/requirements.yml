@@ -26,3 +26,8 @@
 - usegalaxy_eu.certbot
 - src: galaxyproject.pulsar
   version: 1.0.2
+- src: geerlingguy.java
+  version: 1.9.5
+- src: geerlingguy.jenkins
+  version: 3.7.0
+  
