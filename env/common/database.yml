@@ -31,16 +31,14 @@
       become: false
       include: tasks/keys.yml
 
-#    - name: setup rabbitmq vhosts and users
-#      include: tasks/rabbitmq.yml
+    - name: setup rabbitmq vhosts and users
+      include: tasks/rabbitmq.yml
 
   roles:
-#    - role: geerlingguy.postgresql
-#      become: yes
-#    - role: geerlingguy.certbot
-#    - role: geerlingguy.rabbitmq
-#    - role: geerlingguy.nginx
-#    - galaxyproject.nginx
+    - role: geerlingguy.postgresql
+      become: yes
+    - role: geerlingguy.certbot
+    - role: geerlingguy.rabbitmq
     - geerlingguy.apache
 
 
