@@ -4,7 +4,7 @@
 - geerlingguy.apache
   #- geerlingguy.nginx
 - dj-wasabi.telegraf
-- nginxinc.nginx
+  #- nginxinc.nginx
 
 # Galaxy specefic stuff.
 - galaxyproject.galaxy
