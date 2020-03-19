@@ -1,26 +1,13 @@
 - hosts: pulsar_nmbu_orion
-#  pre_tasks:
-##  Not needed on Orion. Packages are for Ubuntu baed s
-#    - name: Install some packages
-#      package:
-#        name:
-#          - build-essential
-#          - git
-#          - python3-dev
-#          - libcurl4-openssl-dev
-#          - libssl-dev
-#          - virtualenv
-#        state: present
-#        update_cache: yes
-#      become: yes
-#    - name: chown the /mnt/users/pulsar dir to usegalaxy
-#      file:
-#        path: /mnt/users/pulsar
-#        owner: usegalaxy
-#        group: usegalaxy
-#        mode: 0750
-#      become: yes
-  roles:
-    - role: galaxyproject.nginx
+  pre_tasks:
+    - name: Install some packages
+      package:
+        name:
+          - git
+          - python36-virtualenv
+          - python3
+        state: present
+        update_cache: yes
       become: yes
+  roles:
     - galaxyproject.pulsar
