@@ -43,8 +43,9 @@
     - usegalaxy_eu.galaxy_systemd
     - galaxyproject.nginx
     - galaxyproject.cvmfs
-
-
-
-
-
+    - galaxyproject.repos
+    - galaxyproject.slurm
+  post_tasks:
+    - name: Install slurm-drmaa
+      package:
+        name: slurm-drmaa1
