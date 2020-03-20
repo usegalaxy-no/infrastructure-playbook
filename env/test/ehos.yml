@@ -11,9 +11,14 @@
 
   tasks:
     - name: Create image for EHOS
-      cmd: ehos_cloud_setup.py --ssh-key ~/.ssh/id_rsa.pub --create-images etc/ehos/ehos.yaml
+      cmd: ehos_cloud_setup.py --ssh-key ~/.ssh/id_rsa.pub --create-images group_vars/ehos.yaml
 
     - name: Deploy EHOS
-      cmd: ./bin/ehos_deployment.py etc/ehos/ehos.yaml
+      cmd: ./bin/ehos_deployment.py group_vars/ehos.yaml
+
+
+  roles:
+    - nfs-server
+    - cvmfs-local-cache
 
 
