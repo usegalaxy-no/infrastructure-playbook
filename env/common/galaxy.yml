@@ -48,4 +48,4 @@
   post_tasks:
     - name: Install slurm-drmaa
       package:
-        name: slurm-drmaa1
+        name: slurm-drmaa
