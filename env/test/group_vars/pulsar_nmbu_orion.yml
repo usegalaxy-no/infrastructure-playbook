@@ -1,0 +1,42 @@
+pulsar_server_dir: /mnt/users/usegalaxy_no/server
+pulsar_venv_dir: /mnt/users/usegalaxy_no/venv
+pulsar_config_dir: /mnt/users/usegalaxy_no/config
+pulsar_staging_dir: /mnt/users/usegalaxy_no/staging
+pulsar_systemd: true
+
+pulsar_host: 0.0.0.0
+pulsar_port: 8913
+
+private_token: " {{ pulsar_private_token }}"
+
+pulsar_create_user: false
+
+pulsar_optional_dependencies:
+  - pyOpenSSL
+  # For remote transfers initiated on the Pulsar end rather than the Galaxy end
+  - pycurl
+  # uwsgi used for more robust deployment than paste
+  - uwsgi
+  # drmaa required if connecting to an external DRM using it.
+  - drmaa
+  # kombu needed if using a message queue
+  - kombu
+  # requests and poster using Pulsar remote staging and pycurl is unavailable
+  - requests
+  # psutil and pylockfile are optional dependencies but can make Pulsar
+  # more robust in small ways.
+  - psutil
+
+pulsar_yaml_config:
+  dependency_resolvers_config_file: dependency_resolvers_conf.xml
+  conda_auto_init: True
+  conda_auto_install: True
+  staging_directory: "{{ pulsar_staging_dir }}"
+  private_token: "{{ pulsar_private_token }}"
+  message_queue_url: "{{ pulsar_message_queue }}"
+  #pyamqp://username:password@proxy.usegalaxy.eu:5671//pulsar/galaxy_test?ssl=1
+  # Add the following at some point, to use Slurm:
+  #managers:
+  #_default_:
+  #  type: queued_drmaa
+  #  native_specification: "--partition=hugemem"

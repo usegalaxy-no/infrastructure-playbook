@@ -1,0 +1,13 @@
+- hosts: pulsar_nmbu_orion
+  pre_tasks:
+    - name: Install some packages
+      package:
+        name:
+          - git
+          - python36-virtualenv
+          - python3
+        state: present
+        update_cache: yes
+      become: yes
+  roles:
+    - galaxyproject.pulsar

@@ -1,0 +1,7 @@
+jenkins_http_port: 4000
+jenkins_admin_username: "{{ jenkins_admin }}"
+# Please change at least the password to something more suitable
+jenkins_admin_password: "{{ galaxy_admin_password }}"
+jenkins_url_prefix: /jenkins
+jenkins_plugins:
+- matrix-auth

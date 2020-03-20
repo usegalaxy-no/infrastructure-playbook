@@ -1,7 +1,7 @@
 galaxy_host: "test.usegalaxy.no"
 galaxy_ip: 158.39.74.224
 
-galaxy_admin: "admin@usegalaxy.no"
+galaxy_admin: "admin@usegalaxy.no, torfinn.nome@nmbu.no"
 galaxy_master_api_key: !vault |
   $ANSIBLE_VAULT;1.1;AES256
   66623436623533333830653136366637303830376365396365343438386130386338636564323231

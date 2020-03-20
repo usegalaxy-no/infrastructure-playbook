@@ -45,6 +45,12 @@ server {
                   $vis_d/static/$static_file =404;
     }
 
+    location /reports/ {
+        uwsgi_pass           127.0.0.1:9001;
+        uwsgi_param          UWSGI_SCHEME $scheme;
+        include              uwsgi_params;
+    }
+    
     location /robots.txt {
         alias {{ galaxy_server_dir }}/static/robots.txt;
     }
