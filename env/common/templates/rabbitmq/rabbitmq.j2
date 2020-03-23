@@ -1,9 +1,9 @@
 [
   {rabbit, [{ssl_listeners, [5671]},
-            {ssl_options, [{cacertfile,           "/etc/letsencrypt/live/{{inventory_hostname}}/cert.pem"},
-                           {certfile,             "/etc/letsencrypt/live/{{inventory_hostname}}/fullchain.pem"},
-                           {keyfile,              "/etc/letsencrypt/live/{{inventory_hostname}}/privkey.pem"},
-                           {verify,               verify_peer},
-                           {fail_if_no_peer_cert, true}]}
+            {ssl_options, [{cacertfile,           "/etc/rabbitmq/fullchain.pem"},
+                           {certfile,             "/etc/rabbitmq/cert.pem"}, 
+                           {keyfile,              "/etc/rabbitmq/privkey.pem"}, 
+                           {verify,               verify_none},
+                           {fail_if_no_peer_cert, false}]}
            ]}
 ].

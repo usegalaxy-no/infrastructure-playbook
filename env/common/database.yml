@@ -31,7 +31,7 @@
       become: false
       include: tasks/keys.yml
 
-    - name: setup rabbitmq vhosts and users
+    - name: setup rabbitmq certs, vhosts and users
       include: tasks/rabbitmq.yml
 
   roles:

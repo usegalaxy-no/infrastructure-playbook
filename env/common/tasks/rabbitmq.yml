@@ -35,3 +35,12 @@
     notify:
       - restart rabbitmq
 #    when: rabbitmq_config.stat.exists == True
+#
+  - name: Copy cert files 
+    copy:
+      src: /etc/letsencrypt/live/{{ inventory_hostname }}/
+      dest: /etc/rabbitmq/
+      remote_src: yes
+      owner: rabbitmq
+      group: rabbitmq
+      mode: 600
