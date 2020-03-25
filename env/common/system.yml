@@ -1,0 +1,6 @@
+- hosts: slurm, galaxyserver, jenkins
+  become: true
+  vars_files:
+  - group_vars/global.yml
+  roles:
+    - reallyenglish.dhclient

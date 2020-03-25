@@ -11,3 +11,9 @@ galaxy_db_passwd: !vault |
 # variables generated based on the information above, should only need to edit in extreme cases
 db_connection: "postgresql://{{galaxy_db_user}}:{{galaxy_db_passwd}}@{{ansible_hostname}}/{{galaxy_database}}"
 
+# system.yml
+dhclient_interface: "{{ ansible_default_ipv4.interface }}"
+dhclient_config:
+  - "timeout 300;"
+  - "retry 60;"
+  - "supersede domain-search \"usegalaxy.no\";"
