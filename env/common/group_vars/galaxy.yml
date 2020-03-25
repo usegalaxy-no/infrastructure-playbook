@@ -79,7 +79,7 @@ galaxy_config:
       - lib/galaxy/main.py
     farm: job-handlers:1,2
 
-galaxy_systemd_zergling_env: DRMAA_LIBRARY_PATH="/usr/lib64/libdrmaa.so.1"
+galaxy_systemd_zergling_env: DRMAA_LIBRARY_PATH=/usr/lib64/libdrmaa.so.1
 
 galaxy_config_files:
   - src: files/galaxy/config/job_conf.xml
