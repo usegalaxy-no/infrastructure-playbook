@@ -78,7 +78,7 @@
       service: name=condor state=restarted
       when: condor_config.changed
 
-    - name: Make sure a service is running
+    - name: Make sure condor is running
       systemd:
         state: started
         name: condor
@@ -89,9 +89,16 @@
         - /usr/sbin/condor_store_cred -p {{condor_password}} -f /var/lock/condor/pool_password
         - /usr/sbin/condor_reconfig
 
+    - name: ehos config file status
+      stat:
+        path: /usr/local/etc/ehos.yaml
+      register: ehos_config
 
     - name: create cloud image and configure cloud settings
       command: /usr/local/bin/ehos_cloud_setup.py --ssh-key ~{{ehos_user}}/.ssh/id_rsa.pub --create-images -B /usr/local/share/ehos/execute.yaml /usr/local/etc/ehos.yaml
+      when: ehos_config.changed
 
-#    - name: enable and start ehosd with systemd
-
+    - name: Make sure ehos is running
+      systemd:
+        state: started
+        name: ehos
