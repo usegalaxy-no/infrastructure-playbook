@@ -1,24 +1,43 @@
 - hosts: ehos_head
   become: true
+
   tags:
     - ehos
 
   vars_files:
     - group_vars/global.yml
+    - group_vars/ehos.vault
 
   vars:
 
+  pre_tasks:
+    - name: Install Dependencies
+      package:
+        #        use_backend: dnf
+        name: ['python3', 'git', 'bzip2']
 
   tasks:
-    - name: Create image for EHOS
-      cmd: ehos_cloud_setup.py --ssh-key ~/.ssh/id_rsa.pub --create-images group_vars/ehos.yaml
 
-    - name: Deploy EHOS
-      cmd: ./bin/ehos_deployment.py group_vars/ehos.yaml
+    - name: install and configure ehos.
+      include: tasks/ehos.yml
 
+#    - name: Create image for EHOS
+#      cmd: ehos_cloud_setup.py --ssh-key ~/.ssh/id_rsa.pub --create-images group_vars/ehos.yaml
+#
+#    - name: Deploy EHOS
+#      cmd: ./bin/ehos_deployment.py group_vars/ehos.yaml
+#
+#    - name: install cvmfs-local-cache
+#
+#    - name: setup NFS mount for shared data and cvmfs
+#
+#    - name: install pulsar
+#    - name: configure pulsar
 
   roles:
-    - nfs-server
-    - cvmfs-local-cache
+    - geerlingguy.repo-epel
+    - geerlingguy.pip
+#    - nfs-server
+#    - cvmfs-local-cache
 
 
