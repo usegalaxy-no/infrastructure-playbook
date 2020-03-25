@@ -1,15 +1,31 @@
-- hosts: slurm
+- hosts: galaxyserver
   become: true
-  tasks:
-    - name: Setup ssh access
-      become: false
-      include: tasks/keys.yml
   vars:
-    slurm_roles: ['exec']
+    slurm_roles: ['controller', 'exec']
+  tasks:
+  - name: Setup ssh access
+    become: false
+    include: tasks/keys.yml
   roles:
     - galaxyproject.repos
     - galaxyproject.slurm
-#  post_tasks:
-#    - name: Install slurm-drmaa
-#      package:
-#        name: slurm-drmaa
+  post_tasks:
+    - name: Install slurm-drmaa
+      package:
+        name: slurm-drmaa
+
+- hosts: slurm
+  become: true
+  vars:
+    slurm_roles: ['exec']
+  tasks:
+  - name: Setup ssh access
+    become: false
+    include: tasks/keys.yml
+  roles:
+    - galaxyproject.repos
+    - galaxyproject.slurm
+  post_tasks:
+    - name: Install slurm-drmaa
+      package:
+        name: slurm-drmaa
