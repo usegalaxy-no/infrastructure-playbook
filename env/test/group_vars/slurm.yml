@@ -4,7 +4,7 @@ slurm_cgroup_config:
   CgroupReleaseAgentDir: "/etc/slurm/cgroup"
   ConstrainCores: yes
   TaskAffinity: no
-  ConstrainRAMSpace: yes
+  ConstrainRAMSpace: no
   ConstrainSwapSpace: no
   ConstrainDevices: no
   AllowedRamSpace: 100

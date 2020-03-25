@@ -3,7 +3,7 @@
         <plugin id="local" type="runner" load="galaxy.jobs.runners.local:LocalJobRunner"/>
         <plugin id="slurm" type="runner" load="galaxy.jobs.runners.slurm:SlurmJobRunner"/>
     </plugins>
-    <destinations default="local">
+    <destinations default="slurm">
         <destination id="local" runner="local"/>
         <destination id="slurm" runner="slurm"/>
     </destinations>
