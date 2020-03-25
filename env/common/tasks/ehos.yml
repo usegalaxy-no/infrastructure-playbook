@@ -1,0 +1,77 @@
+---
+- name: Install and cofigure ehos-head node
+
+  block:
+
+    - name: check if ssh-key exists
+      stat:
+        path: $HOME/.ssh/id_rsa
+      register: result
+
+    - name: create ssh key for connecting to nodes
+      command: ssh-keygen -t rsa -f $HOME/.ssh/id_rsa -q -P ""
+      when: result.stat.exists == false
+
+    - name: install EHOS
+      command: pip3 install --prefix=/usr/local/ https://github.com/elixir-no-nels/ehos-python/archive/v1.0.0.tar.gz
+
+    - name: Deploy ehosd config file
+      template:
+        src: templates/ehos/ehos.yaml
+        dest: /usr/local/etc/ehos.yaml
+        owner: root
+        group: root
+
+    - name: Deploy ehos execute image config file
+      template:
+        src: templates/ehos/execute.yaml
+        dest: /usr/local/etc/execute.yaml
+        owner: root
+        group: root
+
+    - name: htcondor gpg-key
+      rpm_key:
+        key: "https://research.cs.wisc.edu/htcondor/yum/RPM-GPG-KEY-HTCondor"
+        state: present
+
+    - name: Add htcondor repo
+      yum_repository:
+        name: "htcondor"
+        description: "HTCondor RPM Repository"
+        file: "htcondor"
+        baseurl: "https://research.cs.wisc.edu/htcondor/yum/stable/8.8/rhel{{ansible_distribution_major_version}}"
+        enabled: yes
+        priority: "1"
+
+    - name: install condor
+      yum: name=condor
+
+    - name: Copy htcondor personal-config
+      template:
+        src: templates/ehos/condor_master.j2
+        dest: /etc/condor/config.d/99ehos.config
+      register: condor_config
+
+
+    - name: restart htcondor
+      service: name=condor state=restarted
+      when: condor_config.changed
+
+    - name: Make sure a service is running
+      systemd:
+        state: started
+        name: condor
+
+
+
+    - name: set condor password
+      command: "{{item}}"
+      with_items:
+        - /usr/sbin/condor_store_cred -p {{condor_password}} -f /var/lock/condor/pool_password
+        - /usr/sbin/condor_reconfig
+
+
+#    - name: create cloud image and configure cloud settings
+
+#    - name: enable and start ehosd with systemd
+

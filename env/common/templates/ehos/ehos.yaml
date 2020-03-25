@@ -1,0 +1,34 @@
+clouds:
+    default:
+        auth_url: {{openstack_auth_url}}
+        image: None
+        password: {{openstack_password}}
+        project_domain_name: {{openstack_domain_name}}
+        project_name: {{openstack_project_name}}
+        region_name: {{openstack_region_name}}
+        user_domain_name: {{openstack_user_domain_name}}
+        username: {{openstack_username}}
+
+condor:
+    password: {{condor_password}}
+
+daemon:
+    master_cloud: default
+    min_cores: {{ehos_min_cores|default('1') }}
+    min_instances: {{ehos_min_instances | default('0') }}
+    min_ram: {{ehos_min_cores | default('4') }}
+    node_allocation: round-robin
+    nodes_max: {{ehos_nodes_max | default('3') }}
+    nodes_min: {{ehos_nodes_mim | default('1') }}
+    nodes_spare: {{ehos_nodes_spare | default('0') }}
+    sleep: {{ehos_sleep | default('30') }}
+    use_db_settings: false
+
+ehos:
+    flavor: {{openstack_flavor}}
+    image: {{openstack_image | default('GOLD CentOS 7') }}
+    key: ehos_key
+    network: {{openstack_network}}
+    project_prefix: {{ehos_project_prefix | default('ehos_v1') }}
+    security_groups: ehos_firewall
+    userdata_file: {{ehos_execute_config_file}}
