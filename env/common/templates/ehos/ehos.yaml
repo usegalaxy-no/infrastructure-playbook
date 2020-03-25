@@ -31,4 +31,4 @@ ehos:
     network: {{openstack_network}}
     project_prefix: {{ehos_project_prefix | default('ehos_v1') }}
     security_groups: ehos_firewall
-    userdata_file: {{ehos_execute_config_file}}
+#    userdata_file: {{ehos_execute_config_file}}

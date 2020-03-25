@@ -3,31 +3,52 @@
 
   block:
 
+    - name: Create ehos group
+      user:
+        name: "{{ehos_user}}"
+
+    - name: Create ehos user
+      user:
+        name: "{{ehos_user}}"
+        group: "{{ehos_user}}"
+        groups: adm
+
     - name: check if ssh-key exists
+      become: true
+      become_user: "{{ehos_user}}"
       stat:
         path: $HOME/.ssh/id_rsa
       register: result
 
     - name: create ssh key for connecting to nodes
+      become: true
+      become_user: "{{ehos_user}}"
       command: ssh-keygen -t rsa -f $HOME/.ssh/id_rsa -q -P ""
       when: result.stat.exists == false
 
+    - name: change group owner of /usr/local
+      file:
+        dest: /usr/local/
+        group: adm
+        recurse: yes
+
     - name: install EHOS
-      command: pip3 install --prefix=/usr/local/ https://github.com/elixir-no-nels/ehos-python/archive/v1.0.0.tar.gz
+#      command: pip3 install --prefix=/usr/local/ https://github.com/elixir-no-nels/ehos-python/archive/v1.0.0.tar.gz
+      command: pip3 install --prefix=/usr/local/ git+https://github.com/elixir-no-nels/ehos-python.git@cpouta
 
     - name: Deploy ehosd config file
       template:
         src: templates/ehos/ehos.yaml
         dest: /usr/local/etc/ehos.yaml
-        owner: root
-        group: root
+        owner: "{{ehos_user}}"
+        group: "{{ehos_user}}"
 
     - name: Deploy ehos execute image config file
       template:
-        src: templates/ehos/execute.yaml
-        dest: /usr/local/etc/execute.yaml
-        owner: root
-        group: root
+        src: templates/ehos/execute.yaml.j2
+        dest: /usr/local/share/ehos/execute.yaml
+        owner: "{{ehos_user}}"
+        group: "{{ehos_user}}"
 
     - name: htcondor gpg-key
       rpm_key:
@@ -62,8 +83,6 @@
         state: started
         name: condor
 
-
-
     - name: set condor password
       command: "{{item}}"
       with_items:
@@ -71,7 +90,8 @@
         - /usr/sbin/condor_reconfig
 
 
-#    - name: create cloud image and configure cloud settings
+    - name: create cloud image and configure cloud settings
+      command: /usr/local/bin/ehos_cloud_setup.py --ssh-key ~{{ehos_user}}/.ssh/id_rsa.pub --create-images -B /usr/local/share/ehos/execute.yaml /usr/local/etc/ehos.yaml
 
 #    - name: enable and start ehosd with systemd
 
