@@ -7,7 +7,7 @@
     - group_vars/global.yml
     - group_vars/database.yml
     - group_vars/certbot.yml
-    - group_vars/rabbitmq.yml
+    - group_vars/rabbitmq.vault
     - group_vars/rabbitmq_proxy.yml
 
   vars:
