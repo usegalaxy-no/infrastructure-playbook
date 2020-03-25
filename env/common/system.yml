@@ -2,5 +2,9 @@
   become: true
   vars_files:
   - group_vars/global.yml
+  tasks:
+  - name: Set timezone to Europe/Oslo
+    timezone:
+      name: Europe/Oslo
   roles:
     - reallyenglish.dhclient
