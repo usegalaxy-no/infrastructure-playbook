@@ -4,10 +4,9 @@ uwsgi:
   processes: 1
   threads: 4
   offload-threads: 2
-  static-map: 
-    - "/static/style={{ galaxy_server_dir }}/static/style/blue"
-    - "/static={{ galaxy_server_dir }}/static"
-    - "/favicon.ico=static/favicon.ico"
+  static-map: "/static/style={{ galaxy_server_dir }}/static/style/blue"
+  static-map: "/static={{ galaxy_server_dir }}/static"
+  static-map: "/favicon.ico=static/favicon.ico"
   master: true
   virtualenv: "{{ galaxy_venv_dir }}"
   pythonpath: "{{ galaxy_server_dir }}/lib"
