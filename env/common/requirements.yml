@@ -2,6 +2,7 @@
 - geerlingguy.postgresql
 - geerlingguy.certbot
 - geerlingguy.apache
+- geerlingguy.repo-epel
   #- geerlingguy.nginx
 - dj-wasabi.telegraf
   #- nginxinc.nginx
@@ -30,4 +31,3 @@
   version: 1.9.5
 - src: geerlingguy.jenkins
   version: 3.7.0
-  
