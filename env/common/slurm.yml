@@ -1,11 +1,21 @@
 - hosts: galaxyserver
   become: true
+  vars_files:
+    - group_vars/global.yml
+    - group_vars/slurm.yml
   vars:
     slurm_roles: ['controller', 'exec']
   tasks:
   - name: Setup ssh access
     become: false
     include: tasks/keys.yml
+  - name: Copy munge key
+    copy:
+      src: files/munge/munge.key
+      dest: /etc/munge/munge.key
+      owner: munge
+      group: munge
+      mode: '0400'
   roles:
     - galaxyproject.repos
     - galaxyproject.slurm
@@ -16,12 +26,22 @@
 
 - hosts: slurm
   become: true
+  vars_files:
+    - group_vars/global.yml
+    - group_vars/slurm.yml
   vars:
     slurm_roles: ['exec']
   tasks:
   - name: Setup ssh access
     become: false
     include: tasks/keys.yml
+  - name: Copy munge key
+    copy:
+      src: files/munge/munge.key
+      dest: /etc/munge/munge.key
+      owner: munge
+      group: munge
+      mode: '0400'
   roles:
     - galaxyproject.repos
     - galaxyproject.slurm

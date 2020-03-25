@@ -13,12 +13,14 @@ slurm_cgroup_config:
   MaxSwapPercent: 100
   MinRAMSpace: 30
 slurm_config:
+  ClusterName: usegalaxy_test_nrec
   TaskPlugin: "task/affinity,task/cgroup"
   TaskPluginParam: Sched
   SelectType: select/cons_res
   ProctrackType: proctrack/cgroup
   JobAcctGatherType: jobacct_gather/cgroup
   SelectTypeParameters: CR_Core_Memory
+  ControlMachine: test
 slurm_nodes:
   - name: "test"
     CoresPerSocket: 1
@@ -32,4 +34,4 @@ slurm_partitions:
   - name: usegalaxy
     Default: YES
     MaxTime: UNLIMITED
-    Nodes: "test"
+    Nodes: "test,test-slurm"
