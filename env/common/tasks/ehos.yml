@@ -33,12 +33,20 @@
         recurse: yes
 
     - name: install EHOS
-#      command: pip3 install --prefix=/usr/local/ https://github.com/elixir-no-nels/ehos-python/archive/v1.0.0.tar.gz
-      command: pip3 install --prefix=/usr/local/ git+https://github.com/elixir-no-nels/ehos-python.git@cpouta
+#      command: pip3 install --prefix=/usr/local/ https://github.com/elixir-no-nels/ehos-python/archive/v1.1.0.tar.gz
+      command: pip3 install --prefix=/usr/local/ git+https://github.com/elixir-no-nels/ehos-python.git
+
+    - name: setup log dir for EHOS
+      file:
+        path: /var/log/ehos
+        state: directory
+        owner: "{{ehos_user}}"
+        group: "{{ehos_user}}"
+        mode: 0775
 
     - name: Deploy ehosd config file
       template:
-        src: templates/ehos/ehos.yaml
+        src: templates/ehos/ehos.yaml.j2
         dest: /usr/local/etc/ehos.yaml
         owner: "{{ehos_user}}"
         group: "{{ehos_user}}"
@@ -46,9 +54,15 @@
     - name: Deploy ehos execute image config file
       template:
         src: templates/ehos/execute.yaml.j2
-        dest: /usr/local/share/ehos/execute.yaml
+        dest: /usr/local/etc/ehos_execute.yaml
         owner: "{{ehos_user}}"
         group: "{{ehos_user}}"
+
+    - name: Deploy ehos systemd file
+      template:
+        src: templates/ehos/ehos.service.j2
+        dest: /etc/systemd/system/ehos.service
+#        daemon_reload: yes
 
     - name: htcondor gpg-key
       rpm_key:
@@ -73,7 +87,6 @@
         dest: /etc/condor/config.d/99ehos.config
       register: condor_config
 
-
     - name: restart htcondor
       service: name=condor state=restarted
       when: condor_config.changed
@@ -86,6 +99,7 @@
     - name: set condor password
       command: "{{item}}"
       with_items:
+        - sleep 5
         - /usr/sbin/condor_store_cred -p {{condor_password}} -f /var/lock/condor/pool_password
         - /usr/sbin/condor_reconfig
 
@@ -95,10 +109,11 @@
       register: ehos_config
 
     - name: create cloud image and configure cloud settings
-      command: /usr/local/bin/ehos_cloud_setup.py --ssh-key ~{{ehos_user}}/.ssh/id_rsa.pub --create-images -B /usr/local/share/ehos/execute.yaml /usr/local/etc/ehos.yaml
+      command: /usr/local/bin/ehos_cloud_setup.py --ssh-key ~{{ehos_user}}/.ssh/id_rsa.pub --create-images -B /usr/local/etc/ehos_execute.yaml /usr/local/etc/ehos.yaml
       when: ehos_config.changed
 
     - name: Make sure ehos is running
       systemd:
         state: started
+        enabled: yes
         name: ehos
