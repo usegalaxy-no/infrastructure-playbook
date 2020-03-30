@@ -1,4 +1,5 @@
 - hosts: pulsar_nmbu_orion
+  become: true
   pre_tasks:
     - name: Install some packages
       package:
@@ -8,6 +9,5 @@
           - python3
         state: present
         update_cache: yes
-      become: yes
   roles:
     - galaxyproject.pulsar
