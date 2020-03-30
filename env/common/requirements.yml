@@ -31,3 +31,5 @@
   version: 1.9.5
 - src: geerlingguy.jenkins
   version: 3.7.0
+- src: https://github.com/elixir-no-nels/ansible-role-ehos.git
+  name: ehos
