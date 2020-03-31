@@ -5,7 +5,7 @@
 
     - name: Copy ssh keys to host
       copy:
-        src: files/ssh/authorized_keys
+        src: files/ssh/authorized_keys.vault
         dest: ~/.ssh/authorized_keys
         mode: 0600
 
