@@ -7,11 +7,9 @@
   vars_files:
     - group_vars/global.yml
     - group_vars/ehos.vault
+    - group_vars/ehos_nfs.yml
 
   vars:
-    - nfs_exports:
-        - "/pulsar *(rw,sync,root_squash)"
-        - "/cvmfs *(ro,root_squash)"
 
   pre_tasks:
     - name: Install Dependencies
