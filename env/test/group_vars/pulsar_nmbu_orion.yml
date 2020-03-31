@@ -30,7 +30,7 @@ pulsar_rabbitmq_password: !vault |
 pulsar_rabbitmq_proxy: "{{ groups['database'][0] }}"
 pulsar_rabbitmq_vhost: pulsar_nmbu_orion
 
-pulsar_message_queue: "pyamqp://{{ pulsar_rabbitmq_username}}:{{ pulsar_rabbitmq_password}}@{{ pulsar_rabbitmq_proxy }}:5671/pulsar/{{ pulsar_rabbitmq_vhost }}?ssl=1"
+pulsar_message_queue: "pyamqp://{{ pulsar_rabbitmq_username}}:{{ pulsar_rabbitmq_password}}@{{ pulsar_rabbitmq_proxy }}:443/rabbitmq/{{ pulsar_rabbitmq_vhost }}"
 
 pulsar_create_user: false
 
