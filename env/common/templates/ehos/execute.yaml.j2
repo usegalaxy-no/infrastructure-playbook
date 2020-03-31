@@ -46,10 +46,10 @@ write_files:
         TRUST_UID_DOMAIN = TRUE
         SOFT_UID_DOMAIN=true
 
-        SEC_PASSWORD_FILE = "{{condor_passwd_file}}"
+        SEC_PASSWORD_FILE = {{condor_passwd_file}}
         SEC_DEFAULT_AUTHENTICATION = REQUIRED
         SEC_DEFAULT_AUTHENTICATION_METHODS = FS, PASSWORD
-#        ALLOW_ADVERTISE_STARTD = condor_pool@$(UID_DOMAIN)
+        #ALLOW_ADVERTISE_STARTD = condor_pool@$(UID_DOMAIN)
 
         NUM_SLOTS = 1
         NUM_SLOTS_TYPE_1 = 1
