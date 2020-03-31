@@ -46,10 +46,10 @@ write_files:
         TRUST_UID_DOMAIN = TRUE
         SOFT_UID_DOMAIN=true
 
-        SEC_PASSWORD_FILE = $(LOCK)/pool_password
+        SEC_PASSWORD_FILE = "{{condor_passwd_file}}"
         SEC_DEFAULT_AUTHENTICATION = REQUIRED
         SEC_DEFAULT_AUTHENTICATION_METHODS = FS, PASSWORD
-        ALLOW_ADVERTISE_STARTD = condor_pool@$(UID_DOMAIN)
+#        ALLOW_ADVERTISE_STARTD = condor_pool@$(UID_DOMAIN)
 
         NUM_SLOTS = 1
         NUM_SLOTS_TYPE_1 = 1
@@ -100,5 +100,5 @@ runcmd:
   - systemctl enable condor
   - systemctl start condor
   - sleep 15
-  - /sbin/condor_store_cred -p {{condor_password}} -f /var/lock/condor/pool_password
+  - /sbin/condor_store_cred -p {{condor_password}} -f {{condor_passwd_file}}
   - /sbin/condor_reconfig
