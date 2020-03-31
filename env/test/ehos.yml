@@ -9,6 +9,9 @@
     - group_vars/ehos.vault
 
   vars:
+    - nfs_exports:
+        - "/pulsar *(rw,sync,root_squash)"
+        - "/cvmfs *(ro,root_squash)"
 
   pre_tasks:
     - name: Install Dependencies
@@ -26,8 +29,8 @@
 #    - name: configure pulsar
 
   roles:
-    #    - nfs-server
+    - geerlingguy.nfs
     #    - cvmfs-local-cache
-    - ehos
+    #- ehos
 
 

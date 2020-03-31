@@ -3,9 +3,9 @@
 - geerlingguy.certbot
 - geerlingguy.apache
 - geerlingguy.repo-epel
+- geerlingguy.nfs
   #- geerlingguy.nginx
 - dj-wasabi.telegraf
-  #- nginxinc.nginx
 
 # Galaxy specefic stuff.
 - galaxyproject.galaxy

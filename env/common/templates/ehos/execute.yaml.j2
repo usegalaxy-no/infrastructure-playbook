@@ -59,22 +59,17 @@ write_files:
     path: /etc/condor/config.d/00personal_condor.config
     permissions: '0644'
 -   content: |
-        /pulsar  /etc/auto.pulsar  --timeout=180
-        /cvmfs   /etc/auto.cvmfs  --timeout=180
+        /-  /etc/auto.direct
     owner: root:root
     path: /etc/auto.master
     permissions: '0644'
 -   content: |
+        /pulsar  -fstype=nfs  {{inventory_hostname}}:/pulsar
+        /cvmfs   -fstype=nfs  {{inventory_hostname}}:/cvmfs
         pulsar  -fstype=nfs,rw,soft,intr  {{inventory_hostname}}:/pulsar
     owner: root:root
-    path: /etc/auto.pulsar
+    path: /etc/auto.direct
     permissions: '0644'
--   content: |
-        cvmfs  -fstype=nfs,rw,soft,intr  {{inventory_hostname}}:/cvmfs
-    owner: root:root
-    path: /etc/auto.cvmfs
-    permissions: '0644'
-
 
 
 runcmd:
