@@ -15,7 +15,7 @@
     - name: Install Dependencies
       package:
         #        use_backend: dnf
-        name: ['python3', 'git', 'bzip2']
+        name: ['python3', 'git', 'bzip2', 'vim']
 
   tasks:
 #
@@ -26,9 +26,17 @@
 #    - name: install pulsar
 #    - name: configure pulsar
 
+  post_tasks:
+    - name: restart nfs
+      systemd:
+        state: restarted
+        name: nfs
+
   roles:
+    - geerlingguy.repo-epel
+    - galaxyproject.cvmfs
     - geerlingguy.nfs
-    #    - cvmfs-local-cache
     #- ehos
+
 
 

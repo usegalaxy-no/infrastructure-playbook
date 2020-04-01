@@ -65,8 +65,7 @@ write_files:
     permissions: '0644'
 -   content: |
         /pulsar  -fstype=nfs  {{inventory_hostname}}:/pulsar
-        /cvmfs   -fstype=nfs  {{inventory_hostname}}:/cvmfs
-        pulsar  -fstype=nfs,rw,soft,intr  {{inventory_hostname}}:/pulsar
+        /cvmfs/data.galaxyproject.org/   -fstype=nfs  158.39.48.135:/cvmfs/data.galaxyproject.org/
     owner: root:root
     path: /etc/auto.direct
     permissions: '0644'
