@@ -34,4 +34,4 @@ slurm_partitions:
   - name: usegalaxy
     Default: YES
     MaxTime: UNLIMITED
-    Nodes: "test,test-slurm"
+    Nodes: "test-slurm"
