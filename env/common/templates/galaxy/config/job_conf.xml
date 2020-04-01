@@ -1,0 +1,22 @@
+<job_conf>
+    <plugins workers="4">
+        <plugin id="local" type="runner" load="galaxy.jobs.runners.local:LocalJobRunner"/>
+        <plugin id="slurm" type="runner" load="galaxy.jobs.runners.slurm:SlurmJobRunner"/>
+ <!--       <plugin id="pulsar" type="runner" load="galaxy.jobs.runners.pulsar:PulsarMQJobRunner">
+            <param id="galaxy_url">https://{{ galaxy_host }}</param>
+            <param id="url">amqp://{{ pulsar_rabbitmq_username}}:{{ pulsar_rabbitmq_password}}@{{ pulsar_rabbitmq_proxy }}:443/rabbitmq/{{ pulsar_rabbitmq_vhost }}/</param>
+        </plugin> -->
+    </plugins>
+    <destinations default="slurm">
+        <destination id="local" runner="local"/>
+        <destination id="slurm" runner="slurm"/>
+<!--        <destination id="pulsar_nmbu_orion" runner="pulsar">
+            <param id="jobs_directory">{{ pulsar_staging_dir }}</param>
+            <param id="submit_native_specification">-p hugemem -n 16 -N 1</param>
+        </destination> -->
+     </destinations>
+    <tools>
+        <tool id="upload1" destination="local" />
+ <!--       <tool id="cat1" destination="pulsar_nmbu_orion" /> -->
+    </tools>
+</job_conf>
