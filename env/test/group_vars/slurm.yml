@@ -21,6 +21,9 @@ slurm_config:
   JobAcctGatherType: jobacct_gather/cgroup
   SelectTypeParameters: CR_Core_Memory
   ControlMachine: test
+  SlurmctldLogFile: /var/log/slurmctld.log
+  SlurmdLogFile: /var/log/slurmd.log
+  SlurmdDebug: 3
 slurm_nodes:
   - name: "test"
     CoresPerSocket: 1
