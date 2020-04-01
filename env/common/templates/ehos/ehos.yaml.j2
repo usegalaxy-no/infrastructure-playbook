@@ -1,0 +1,22 @@
+clouds:
+    default:
+        auth_url: {{openstack_auth_url}}
+        image: None
+        password: {{openstack_password}}
+        project_domain_name: {{openstack_domain_name}}
+        project_name: {{openstack_project_name}}
+        region_name: {{openstack_region_name}}
+        user_domain_name: {{openstack_user_domain_name}}
+        username: {{openstack_username}}
+
+condor:
+    password: {{condor_password}}
+
+ehos:
+    flavor: {{openstack_flavor}}
+    image: {{openstack_image | default('GOLD CentOS 7') }}
+    key: ehos_key
+    network: {{openstack_network}}
+    project_prefix: {{ehos_project_prefix | default('ehos_v1') }}
+    security_groups: ehos_firewall
+

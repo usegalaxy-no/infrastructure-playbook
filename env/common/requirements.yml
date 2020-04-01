@@ -2,9 +2,10 @@
 - geerlingguy.postgresql
 - geerlingguy.certbot
 - geerlingguy.apache
+- geerlingguy.repo-epel
+- geerlingguy.nfs
   #- geerlingguy.nginx
 - dj-wasabi.telegraf
-  #- nginxinc.nginx
 
 # Galaxy specefic stuff.
 - galaxyproject.galaxy
@@ -33,3 +34,5 @@
 - reallyenglish.dhclient
 - src: usegalaxy_eu.gxadmin
   version: 0.0.5
+- src: https://github.com/elixir-no-nels/ansible-role-ehos.git
+  name: ehos

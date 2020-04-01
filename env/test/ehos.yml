@@ -1,24 +1,35 @@
-- hosts: ehos_head
+- hosts: ehos_servers
   become: true
+
   tags:
     - ehos
 
   vars_files:
     - group_vars/global.yml
+    - group_vars/ehos.vault
+    - group_vars/ehos.yml
 
   vars:
 
+  pre_tasks:
+    - name: Install Dependencies
+      package:
+        #        use_backend: dnf
+        name: ['python3', 'git', 'bzip2', 'vim']
 
   tasks:
-    - name: Create image for EHOS
-      cmd: ehos_cloud_setup.py --ssh-key ~/.ssh/id_rsa.pub --create-images group_vars/ehos.yaml
 
-    - name: Deploy EHOS
-      cmd: ./bin/ehos_deployment.py group_vars/ehos.yaml
-
+  post_tasks:
+    - name: restart nfs
+      systemd:
+        state: restarted
+        name: nfs
 
   roles:
-    - nfs-server
-    - cvmfs-local-cache
+    - geerlingguy.repo-epel
+    - galaxyproject.cvmfs
+    - geerlingguy.nfs
+    - ehos
+
 
 

@@ -1,0 +1,12 @@
+daemon:
+    master_cloud: default
+    min_cores: {{ehos_min_cores|default('1') }}
+    min_instances: {{ehos_min_instances | default('0') }}
+    min_ram: {{ehos_min_cores | default('4') }}
+    node_allocation: round-robin
+    nodes_max: {{ehos_nodes_max | default('3') }}
+    nodes_min: {{ehos_nodes_mim | default('1') }}
+    nodes_spare: {{ehos_nodes_spare | default('0') }}
+    sleep: {{ehos_sleep | default('30') }}
+    use_db_settings: false
+

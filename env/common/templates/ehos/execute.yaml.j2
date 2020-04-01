@@ -16,34 +16,24 @@ final_message: "The EHOS vm is up after $UPTIME seconds"
 write_files:
 -   content: |
         ##  What machine is your central manager?
-        
-        CONDOR_HOST = {master_ip}
+        CONDOR_HOST = {{inventory_hostname}}
         
         ## Pool's short description
-        
         COLLECTOR_NAME = $(CONDOR_HOST)
         
         ##  When is this machine willing to start a job?
-        
         START = TRUE
         
-        
         ##  When to suspend a job?
-        
         SUSPEND = FALSE
-        
         
         ##  When to nicely stop a job?
         ##  (as opposed to killing it instantaneously)
-        
         PREEMPT = FALSE
-        
-        
+
         ##  When to instantaneously kill a preempting job
         ##  (e.g. if a job is in the pre-empting stage for too long)
-        
         KILL = FALSE
-        
         
         ##  This macro determines what daemons the condor_master will start and keep its watchful eyes on.
         ##  The list is a comma or space separated list of subsystem names
@@ -51,13 +41,12 @@ write_files:
         DAEMON_LIST = MASTER, STARTD
         DISCARD_SESSION_KEYRING_ON_STARTUP = False
         
-        UID_DOMAIN = {uid_domain}
+        UID_DOMAIN = {{condor_uid_domain}}
         DEFAULT_DOMAIN_NAME = $(UID_DOMAIN)
         TRUST_UID_DOMAIN = TRUE
         SOFT_UID_DOMAIN=true
 
-
-        SEC_PASSWORD_FILE = $(LOCK)/pool_password
+        SEC_PASSWORD_FILE = {{condor_passwd_file}}
         SEC_DEFAULT_AUTHENTICATION = REQUIRED
         SEC_DEFAULT_AUTHENTICATION_METHODS = FS, PASSWORD
         #ALLOW_ADVERTISE_STARTD = condor_pool@$(UID_DOMAIN)
@@ -69,10 +58,41 @@ write_files:
     owner: root:root
     path: /etc/condor/config.d/00personal_condor.config
     permissions: '0644'
+-   content: |
+        /-  /etc/auto.direct
+    owner: root:root
+    path: /etc/auto.master
+    permissions: '0644'
+-   content: |
+        /pulsar  -fstype=nfs  {{inventory_hostname}}:/pulsar
+        /cvmfs/data.galaxyproject.org/   -fstype=nfs  158.39.48.135:/cvmfs/data.galaxyproject.org/
+    owner: root:root
+    path: /etc/auto.direct
+    permissions: '0644'
+
 
 runcmd:
-  - dhclient # because the DNS server at uh-iaas is sometimes broken...
+  ## for Extra Packages for Enterprise Linux packages (stupid centos)
+  - yum install -y epel-release
+
+#  - yum -y groupinstall "development tools"
+
+  ## some editors and tools we need
+  - yum install -y vim   wget python36 python36-pip python36-devel libarchive-devel yum-utils openssl-devel autofs
+  - mkdir /pulsar /cvmfs
+  - systemctl enable autofs
+  - systemctl start  autofs
+
+  # htcondor install
+
+  - wget -P /tmp/ http://research.cs.wisc.edu/htcondor/yum/RPM-GPG-KEY-HTCondor
+  - rpm --import /tmp/RPM-GPG-KEY-HTCondor
+  - wget -P /etc/yum.repos.d https://research.cs.wisc.edu/htcondor/yum/repo.d/htcondor-stable-rhel{{ansible_distribution_major_version}}.repo
+  - yum -y install condor
+
+  # Start condor and enable it on start
   - systemctl enable condor
-  - systemctl start  condor
-  - condor_store_cred -p {password} -f /var/lock/condor/pool_password
-  - condor_reconfig
+  - systemctl start condor
+  - sleep 15
+  - /sbin/condor_store_cred -p {{condor_password}} -f {{condor_passwd_file}}
+  - /sbin/condor_reconfig

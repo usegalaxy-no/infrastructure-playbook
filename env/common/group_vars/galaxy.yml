@@ -23,7 +23,7 @@ galaxy_file_path: /data
 
 galaxy_config:
   galaxy:
-    brand: "NELS Galaxy"
+    brand: "NeLS Galaxy"
     admin_users: "{{galaxy_admin}}"
     master_api: gAlAxy
     enable_beta_gdpr: true

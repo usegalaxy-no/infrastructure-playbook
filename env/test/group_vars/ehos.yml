@@ -1,0 +1,32 @@
+condor_password: TSCy4H1Ekp9npNgoV67ZOUEF52iMiN
+condor_uid_domain: usegalaxy.no
+
+ehos_user: ehos
+ehos_min_cores: 1
+ehos_min_instances: 0
+ehos_min_ram: 4
+ehos_nodes_max: 6
+ehos_nodes_min: 2
+ehos_nodes_spare: 2
+ehos_sleep: 30
+
+openstack_flavor: m1.medium
+openstack_image: GOLD CentOS 7
+
+openstack_network: dualStack
+ehos_project_prefix: ehos_v1
+
+ehosd_config_file: templates/ehos/ehos.yaml.j2
+ehos_execute_config_file: templates/ehos/execute.yaml.j2
+ehosd_systemd: templates/ehos/ehos.service.j2
+ehos_condor_master: templates/ehos/condor_master.j2
+ehosd_daemon_file: templates/ehos/ehos_daemon.yaml.j2
+
+
+nfs_exports:
+  - "/pulsar *(rw,sync,root_squash)"
+  - "/cvmfs/data.galaxyproject.org/ *(ro,sync,no_root_squash,no_subtree_check,fsid=101)"
+
+cvmfs_role: client
+galaxy_cvmfs_repos_enabled: config-repo
+cvmfs_quota_limit: 6000
