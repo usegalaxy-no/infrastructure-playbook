@@ -1,18 +1,17 @@
 [galaxyserver]
-test.usegalaxy.no ansible_user=centos
+test.usegalaxy.no ansible_host=158.39.74.224 ansible_user=centos
 
 [database]
-#158.39.201.49 ansible_user=centos
-test-db.usegalaxy.no ansible_user=centos
+test-db.usegalaxy.no ansible_host=158.39.74.224 ansible_user=centos
 
 [slurm]
-158.39.201.71 ansible_user=centos
+test-slurm.usegalaxy.no ansible_host=158.39.201.71 ansible_user=centos
 
 [pulsar_nmbu_orion]
 10.219.0.102 ansible_user=rundeck
 
 [jenkins]
-test.usegalaxy.no ansible_user=centos
+test.usegalaxy.no ansible_host=158.39.74.224 ansible_user=centos
 
 [ehos_servers]
 158.39.48.135 ansible_user=centos

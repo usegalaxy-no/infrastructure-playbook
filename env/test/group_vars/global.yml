@@ -1,5 +1,5 @@
-galaxy_host: "test.usegalaxy.no"
-galaxy_ip: 158.39.74.224
+galaxy_host: "{{ groups['galaxyserver'][0] }}"
+galaxy_ip: "{{ groups['galaxyserver'][0].ansible_host }}"
 
 galaxy_admin: "admin@usegalaxy.no, torfinn.nome@nmbu.no"
 galaxy_master_api_key: !vault |
@@ -11,12 +11,9 @@ galaxy_master_api_key: !vault |
   66393039633133646462376130323230313864666566626462363436303533356265643231343738
   6261323632316134663239363166323630666137356361333961
 
-galaxy_root: /opt/galaxy_dist
 
-
-
-db_host: 158.39.201.49
-database_ip: 158.39.201.49
+db_host: "{{ groups['database'][0] }}"
+database_ip: "{{ groups['database'][0].ansible_host }}"
 galaxy_db_user: "galaxy"
 galaxy_database: "galaxy-test"
 galaxy_db_passwd: !vault |

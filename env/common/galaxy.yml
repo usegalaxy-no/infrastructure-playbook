@@ -6,6 +6,7 @@
     - group_vars/global.yml
     - group_vars/galaxy.yml
     - group_vars/pulsar_nmbu_orion.yml
+    - group_vars/slurm.yml
 
   pre_tasks:
     - name: Install Dependencies
