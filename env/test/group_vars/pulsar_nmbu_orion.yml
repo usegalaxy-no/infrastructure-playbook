@@ -7,6 +7,7 @@ pulsar_server_dir: /mnt/users/usegalaxy_no/server
 pulsar_venv_dir: /mnt/users/usegalaxy_no/venv
 pulsar_config_dir: /mnt/users/usegalaxy_no/config
 pulsar_staging_dir: /mnt/users/usegalaxy_no/staging
+pulsar_cache_dir: /mnt/users/usegalaxy_no/cache
 pulsar_systemd: true
 
 #pulsar_host: 0.0.0.0
@@ -30,8 +31,7 @@ pulsar_rabbitmq_password: !vault |
 pulsar_rabbitmq_proxy: "{{ groups['database'][0] }}"
 pulsar_rabbitmq_vhost: pulsar_nmbu_orion
 
-pulsar_message_queue: "pyamqp://{{ pulsar_rabbitmq_username}}:{{ pulsar_rabbitmq_password}}@{{ pulsar_rabbitmq_proxy }}:443/rabbitmq/{{ pulsar_rabbitmq_vhost }}"
-
+pulsar_message_queue: "pyamqp://{{ pulsar_rabbitmq_username}}:{{ pulsar_rabbitmq_password}}@{{ pulsar_rabbitmq_proxy }}:5671/rabbitmq/{{ pulsar_rabbitmq_vhost }}/"
 pulsar_create_user: false
 
 pulsar_optional_dependencies:
@@ -57,6 +57,7 @@ pulsar_yaml_config:
   staging_directory: "{{ pulsar_staging_dir }}"
   private_token: "{{ pulsar_private_token }}"
   message_queue_url: "{{ pulsar_message_queue }}"
+  file_cache_dir: "{{ pulsar_cache_dir }}"
   #pyamqp://username:password@proxy.usegalaxy.eu:5671//pulsar/galaxy_test?ssl=1
   # Add the following at some point, to use Slurm:
   #managers:
