@@ -22,7 +22,6 @@ ehosd_systemd: templates/ehos/ehos.service.j2
 ehos_condor_master: templates/ehos/condor_master.j2
 ehosd_daemon_file: templates/ehos/ehos_daemon.yaml.j2
 
-
 nfs_exports:
   - "/pulsar *(rw,sync,root_squash)"
   - "/cvmfs/data.galaxyproject.org/ *(ro,sync,no_root_squash,no_subtree_check,fsid=101)"
@@ -30,3 +29,57 @@ nfs_exports:
 cvmfs_role: client
 galaxy_cvmfs_repos_enabled: config-repo
 cvmfs_quota_limit: 6000
+
+pulsar_virtualenv_command: virtualenv-3
+
+pulsar_user: pulsar
+pulsar_group: pulsar
+
+pulsar_server_dir: /pulsar
+pulsar_venv_dir: "{{pulsar_server_dir}}/venv"
+pulsar_config_dir: "{{pulsar_server_dir}}/config"
+pulsar_staging_dir: "{{pulsar_server_dir}}/staging"
+pulsar_systemd: true
+
+#pulsar_host: 0.0.0.0
+#pulsar_port: 8913
+
+pulsar_private_token: SecretToken
+pulsar_rabbitmq_username: test
+pulsar_rabbitmq_password: wAQsJfQptm11p2TGWRDyc9aA3ormo2
+pulsar_rabbitmq_proxy: "{{ groups['database'][0] }}"
+pulsar_rabbitmq_vhost: test
+
+pulsar_message_queue: "pyamqp://{{ pulsar_rabbitmq_username}}:{{ pulsar_rabbitmq_password}}@{{ pulsar_rabbitmq_proxy }}:443/rabbitmq/{{ pulsar_rabbitmq_vhost }}"
+
+pulsar_create_user: yes
+
+pulsar_optional_dependencies:
+  - pyOpenSSL
+  # For remote transfers initiated on the Pulsar end rather than the Galaxy end
+  - pycurl
+  # uwsgi used for more robust deployment than paste
+  - uwsgi
+  # drmaa required if connecting to an external DRM using it.
+  - drmaa
+  # kombu needed if using a message queue
+  - kombu
+  # requests and poster using Pulsar remote staging and pycurl is unavailable
+  - requests
+  # psutil and pylockfile are optional dependencies but can make Pulsar
+  # more robust in small ways.
+  - psutil
+
+pulsar_yaml_config:
+  dependency_resolvers_config_file: dependency_resolvers_conf.xml
+  conda_auto_init: True
+  conda_auto_install: True
+  staging_directory: "{{ pulsar_staging_dir }}"
+  private_token: "{{ pulsar_private_token }}"
+  message_queue_url: "{{ pulsar_message_queue }}"
+  #pyamqp://username:password@proxy.usegalaxy.eu:5671//pulsar/galaxy_test?ssl=1
+  # Add the following at some point, to use Slurm:
+  #managers:
+  #_default_:
+  #  type: queued_drmaa
+  #  native_specification: "--partition=hugemem"

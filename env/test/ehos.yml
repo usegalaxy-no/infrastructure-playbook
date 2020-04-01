@@ -14,9 +14,16 @@
   pre_tasks:
     - name: Install Dependencies
       package:
-        #        use_backend: dnf
-        name: ['python3', 'git', 'bzip2', 'vim']
-
+        name:
+         - python3
+         - git
+         - bzip2
+         - vim
+         - python36-virtualenv
+         - gcc
+         - libcurl-devel
+        state: present
+        update_cache: yes
   tasks:
 
   post_tasks:
@@ -26,10 +33,11 @@
         name: nfs
 
   roles:
-    - geerlingguy.repo-epel
-    - galaxyproject.cvmfs
-    - geerlingguy.nfs
-    - ehos
+#    - geerlingguy.repo-epel
+#    - galaxyproject.cvmfs
+#    - geerlingguy.nfs
+    - galaxyproject.pulsar
+#    - ehos
 
 
 
