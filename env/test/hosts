@@ -14,5 +14,5 @@ test-db.usegalaxy.no ansible_user=centos
 [jenkins]
 test.usegalaxy.no ansible_user=centos
 
-[ehos-servers]
+[ehos_servers]
 158.39.48.135 ansible_user=centos

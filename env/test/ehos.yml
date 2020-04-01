@@ -1,4 +1,4 @@
-- hosts: ehos-servers
+- hosts: ehos_servers
   become: true
 
   tags:
