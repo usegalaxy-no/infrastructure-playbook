@@ -1,0 +1,25 @@
+openstack_auth_url: https://api.uh-iaas.no:5000/v3
+openstack_username: kim.brugger@uib.no
+openstack_password: GU4VY4ofYsAokadP
+openstack_domain_name: dataporten
+openstack_project_name: uib-service-group
+openstack_region_name: osl
+openstack_user_domain_name: dataporten
+
+condor_password: TSCy4H1Ekp9npNgoV67ZOUEF52iMiN
+condor__uid_domain: usegalaxy.no
+
+ehos_min_cores: 1
+ehos_min_instances: 0
+ehos_min_ram: 4
+ehos_nodes_max: 6
+ehos_nodes_min: 2
+ehos_nodes_spare: 2
+ehos_sleep: 30
+
+openstack_flavor: m1.medium
+openstack_image: GOLD CentOS 7
+
+openstack_network: dualStack
+ehos_project_prefix: ehos_v1
+ehos_userdata_file: /usr/local/etc/ehos.yaml

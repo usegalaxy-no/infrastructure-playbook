@@ -1,4 +1,4 @@
-- hosts: ehos_head
+- hosts: ehos-servers
   become: true
 
   tags:
@@ -7,7 +7,7 @@
   vars_files:
     - group_vars/global.yml
     - group_vars/ehos.vault
-    - group_vars/ehos_nfs.yml
+    - group_vars/ehos.yml
 
   vars:
 
@@ -18,13 +18,6 @@
         name: ['python3', 'git', 'bzip2', 'vim']
 
   tasks:
-#
-#    - name: install cvmfs-local-cache
-#
-#    - name: setup NFS mount for shared data and cvmfs
-#
-#    - name: install pulsar
-#    - name: configure pulsar
 
   post_tasks:
     - name: restart nfs
@@ -36,7 +29,7 @@
     - geerlingguy.repo-epel
     - galaxyproject.cvmfs
     - geerlingguy.nfs
-    #- ehos
+    - ehos
 
 
 

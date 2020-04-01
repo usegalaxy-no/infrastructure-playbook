@@ -1,0 +1,16 @@
+[Unit]
+Description = Runs the ehos system
+After = network.target
+
+StartLimitBurst=5
+StartLimitIntervalSec=10
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=root
+ExecStart = /usr/local/bin/ehosd.py -l /var/log/ehos/ehos.log  /usr/local/etc/ehos.yaml /usr/local/etc/ehos_daemon.yaml
+
+[Install]
+WantedBy = multi-user.target
