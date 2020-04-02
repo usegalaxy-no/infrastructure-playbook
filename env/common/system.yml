@@ -1,4 +1,4 @@
-- hosts: slurm, galaxyserver, jenkins
+- hosts: slurm, galaxyserver, jenkins, database
   become: true
   vars_files:
   - group_vars/global.yml
@@ -8,3 +8,4 @@
       name: Europe/Oslo
   roles:
     - reallyenglish.dhclient
+    - nbigot.ansible-fail2ban
