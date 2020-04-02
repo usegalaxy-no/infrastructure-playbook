@@ -1,38 +1,53 @@
 # base system
-- geerlingguy.postgresql
-- geerlingguy.certbot
-- geerlingguy.apache
-- geerlingguy.repo-epel
-- geerlingguy.nfs
+- src: geerlingguy.postgresql
+  version: 2.2.0
+- src: geerlingguy.certbot
+  version: 3.0.3
+- src: geerlingguy.apache
+  version: 3.1.0
+- src: geerlingguy.repo-epel
+  version: 1.2.4
+- src: geerlingguy.nfs
+  version: 1.5.0
   #- geerlingguy.nginx
-- dj-wasabi.telegraf
+- src: dj-wasabi.telegraf
+  version: 0.12.0
 
 # Galaxy specefic stuff.
-- galaxyproject.galaxy
-- uchida.miniconda
+- src: galaxyproject.galaxy
+  version: 0.9.5
+- src: uchida.miniconda
+  version: 0.3.0
 - src: https://github.com/usegalaxy-eu/ansible-role-supervisor
   name: usegalaxy-eu.supervisor
 - src: geerlingguy.pip
   version: 1.0.0
 - src: https://github.com/galaxyproject/ansible-galaxy-tools.git
   name: usegalaxy.galaxy-tools
-- galaxyproject.cvmfs
+- src: galaxyproject.cvmfs
+  version: 0.2.8
 - src: galaxyproject.repos
   version: 0.0.1
 - src: galaxyproject.slurm
   version: 0.1.2
-- geerlingguy.rabbitmq
-- usegalaxy_eu.galaxy_systemd
-- galaxyproject.nginx
-- usegalaxy_eu.certbot
+- src: geerlingguy.rabbitmq
+  version: 1.0.0
+- src: usegalaxy_eu.galaxy_systemd
+  version: 0.1.2
+- src: galaxyproject.nginx
+  version: 0.6.4
+- src: usegalaxy_eu.certbot
+  version: 0.1.4
 - src: galaxyproject.pulsar
-  version: 1.0.2
+  version: 1.0.4
 - src: geerlingguy.java
   version: 1.9.5
 - src: geerlingguy.jenkins
   version: 4.2.1
-- reallyenglish.dhclient
+- src: reallyenglish.dhclient
+  version: 1.0.0
 - src: usegalaxy_eu.gxadmin
   version: 0.0.5
 - src: https://github.com/elixir-no-nels/ansible-role-ehos.git
   name: ehos
+  
