@@ -1,7 +1,7 @@
 # Python 3 support
-#pip_virtualenv_command: /usr/bin/python3 -m virtualenv # usegalaxy_eu.certbot, usegalaxy_eu.tiaas2, galaxyproject.galaxy
-#certbot_virtualenv_package_name: python3-virtualenv    # usegalaxy_eu.certbot
-#pip_package: python3-pip                               # geerlingguy.pip
+pip_virtualenv_command: /usr/bin/python3 -m virtualenv # usegalaxy_eu.certbot, usegalaxy_eu.tiaas2, galaxyproject.galaxy
+certbot_virtualenv_package_name: python36-virtualenv    # usegalaxy_eu.certbot
+pip_package: python3-pip                               # geerlingguy.pip
 
 
 # Galaxy
@@ -12,7 +12,8 @@ galaxy_layout: root-dir
 galaxy_root: /srv/galaxy
 
 galaxy_user: {name: galaxy, shell: /bin/bash}
-galaxy_commit_id: release_19.09
+#galaxy_commit_id: release_20.01
+galaxy_commit_id: 45527c64605778f33473ec4ae107690ba4ec7898
 galaxy_config_style: yaml
 galaxy_force_checkout: true
 miniconda_prefix: "{{ galaxy_tool_dependency_dir }}/_conda"
@@ -42,6 +43,8 @@ galaxy_config:
     welcome_url: static/welcome.html
     support_url: https://elixir.no/helpdesk
     terms_url: https://theonion.com
+    statsd_host: localhost
+    statsd_influxdb: true
     id_secret: !vault |
           $ANSIBLE_VAULT;1.1;AES256
           62306463646165326238323064633339333430363634356635613661613830653231323731666333
@@ -132,3 +135,18 @@ nginx_conf_ssl_certificate_key: /etc/ssl/user/privkey-nginx.pem
 cvmfs_role: client
 galaxy_cvmfs_repos_enabled: config-repo
 cvmfs_quota_limit: 6000
+
+telegraf_plugins_extra:
+  listen_galaxy_routes:
+    plugin: "statsd"
+    config:
+      - service_address = ":8125"
+      - metric_separator = "."
+      - allowed_pending_messages = 10000
+  monitor_galaxy_queue:
+    plugin: "exec"
+    config:
+      - commands = ["/usr/bin/env PGDATABASE=galaxy /usr/local/bin/gxadmin iquery queue-overview --short-tool-id"]
+      - timeout = "10s"
+      - data_format = "influx"
+      - interval = "15s"

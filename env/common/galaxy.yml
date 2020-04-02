@@ -7,12 +7,21 @@
     - group_vars/galaxy.yml
     - group_vars/pulsar_nmbu_orion.yml
     - group_vars/slurm.yml
+    - group_vars/telegraf.yml
 
   pre_tasks:
     - name: Install Dependencies
       package:
 #        use_backend: dnf
-        name: ['epel-release','python3', 'python-psycopg2', 'git', 'python-virtualenv', 'make', 'bzip2','postgresql']
+        name:
+          - 'epel-release'
+          - 'python3'
+          - 'python3-psycopg2'
+          - 'git'
+          - 'python36-virtualenv'
+          - 'make'
+          - 'bzip2'
+          - 'postgresql'
   handlers:
     - name: Restart Galaxy
       systemd:
@@ -36,6 +45,50 @@
       become: false
       include: tasks/keys.yml
 
+    - name: Make sure compliance log exists
+      file:
+        path: "{{ galaxy_root }}/server/compliance.log"
+        state: touch
+        mode: 0600
+        owner: "{{ galaxy_user.name }}"
+
+    # For gxadmin:
+    - name: Add env vars in bashrc
+      become: true
+      become_user: galaxy
+      lineinfile:
+        path: "~/.bashrc"
+        regexp: "^export {{ item.var }}"
+        line: "export {{ item.var }}='{{ item.val }}'"
+      with_items:
+        - var: GDPR_MODE
+          val: "$(openssl rand -hex 24 2>/dev/null)"
+        - var: GALAXY_CONFIG_DIR
+          val: "{{ galaxy_root }}/config"
+        - var: GALAXY_CONFIG_file
+          val: "{{ galaxy_root }}/config/galaxy.yml"
+        - var: PGUSER
+          val: "{{ galaxy_db_user }}"
+        - var: PGHOST
+          val: "{{ postgres_host }}"
+        - var: INFLUX_URL
+          val: "{{ telegraf_urls }}"
+        - var: INFLUX_PASS
+          val: {{ telegraf_password }}
+        - var: INFLUX_USER
+          val: {{ telegraf_username }}
+        - var: INFLUX_DB
+          val: {{ telegraf_database }}
+
+    - name: Copy using the 'content' for inline data
+      become: true
+      become_user: galaxy
+      copy:
+        content: |
+          {{ groups['database'][0] }}:5432:*:{{ galaxy_db_user }}:{{ galaxy_db_passwd }}
+        dest: "~/.pgpass"
+        mode: 0600
+
   roles:
     - geerlingguy.pip
     - galaxyproject.repos
@@ -48,6 +101,7 @@
     - galaxyproject.cvmfs
     - galaxyproject.repos
     - galaxyproject.slurm
+    - dj-wasabi.telegraf
   post_tasks:
     - name: Install slurm-drmaa
       package:
