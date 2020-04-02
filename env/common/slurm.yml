@@ -26,6 +26,11 @@
 
 - hosts: slurm
   become: true
+  pre_tasks:
+    - name: Install epel
+      package:
+        name:
+          - 'epel-release'
   vars_files:
     - group_vars/global.yml
     - group_vars/slurm.yml
@@ -46,6 +51,12 @@
     - galaxyproject.repos
     - galaxyproject.slurm
   post_tasks:
-    - name: Install slurm-drmaa
+    - name: Install packages
       package:
-        name: slurm-drmaa
+        name:
+          - 'slurm-drmaa'
+          - 'epel-release'
+          - 'python3'
+          - 'git'
+          - 'python36-virtualenv'
+          - 'bzip2'
