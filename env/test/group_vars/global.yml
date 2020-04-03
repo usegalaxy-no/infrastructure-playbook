@@ -1,5 +1,5 @@
 galaxy_host: "{{ groups['galaxyserver'][0] }}"
-galaxy_ip: "{{ groups['galaxyserver'][0].ansible_host }}"
+galaxy_ip: "{{ groups['galaxyserver'][0] }}"
 
 galaxy_admin: "admin@usegalaxy.no, torfinn.nome@nmbu.no"
 galaxy_master_api_key: !vault |
