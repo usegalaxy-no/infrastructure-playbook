@@ -1,5 +1,5 @@
 galaxy_host: "{{ groups['galaxyserver'][0] }}"
-galaxy_ip: "{{ groups['galaxyserver'][0].ansible_host }}"
+galaxy_ip: "{{ hostvars[galaxy_host].ansible_host }}"
 
 galaxy_admin_email: "admin@usegalaxy.no"
 galaxy_admin: "admin@usegalaxy.no, torfinn.nome@nmbu.no"
@@ -14,7 +14,7 @@ galaxy_master_api_key: !vault |
 
 
 db_host: "{{ groups['database'][0] }}"
-database_ip: "{{ groups['database'][0].ansible_host }}"
+database_ip: "{{ hostvars[db_host].ansible_host }}"
 galaxy_db_user: "galaxy"
 galaxy_database: "galaxy-test"
 galaxy_db_passwd: !vault |
