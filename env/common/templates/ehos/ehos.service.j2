@@ -9,7 +9,7 @@ StartLimitIntervalSec=10
 Type=simple
 Restart=always
 RestartSec=1
-User=root
+User={{ehos_user}}
 ExecStart = /usr/local/bin/ehosd.py -l /var/log/ehos/ehos.log  /usr/local/etc/ehos.yaml /usr/local/etc/ehos_daemon.yaml
 
 [Install]
