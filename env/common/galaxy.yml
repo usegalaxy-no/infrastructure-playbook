@@ -74,11 +74,11 @@
         - var: INFLUX_URL
           val: "{{ telegraf_urls }}"
         - var: INFLUX_PASS
-          val: {{ telegraf_password }}
+          val: "{{ telegraf_password }}"
         - var: INFLUX_USER
-          val: {{ telegraf_username }}
+          val: "{{ telegraf_username }}"
         - var: INFLUX_DB
-          val: {{ telegraf_database }}
+          val: "{{ telegraf_database }}"
 
     - name: Copy using the 'content' for inline data
       become: true
