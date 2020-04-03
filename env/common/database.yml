@@ -10,10 +10,6 @@
     - group_vars/rabbitmq.vault
     - group_vars/rabbitmq_proxy.yml
 
-  vars:
-
-
-
   handlers:
     - name: restart rabbitmq
       service: name=rabbitmq-server state=restarted
@@ -22,24 +18,17 @@
     - name: Install Dependencies
       package:
         name: ['epel-release', 'python3']
-    - name: Install apache dependencies
-      package:
-        name: ['libproxy', 'mod_proxy_uwsgi']
 
   tasks:
     - name: Setup ssh access
       become: false
       include: tasks/keys.yml
-
     - name: setup rabbitmq certs, vhosts and users
       include: tasks/rabbitmq.yml
 
   roles:
     - role: geerlingguy.postgresql
       become: yes
-    - role: geerlingguy.certbot
-    - role: geerlingguy.rabbitmq
-    - geerlingguy.apache
-
-
-
+    - geerlingguy.rabbitmq
+    - galaxyproject.nginx
+ 

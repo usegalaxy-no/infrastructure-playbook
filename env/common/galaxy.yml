@@ -59,27 +59,28 @@
       lineinfile:
         path: "~/.bashrc"
         regexp: "^export {{ item.var }}"
-        line: "export {{ item.var }}='{{ item.val }}'"
+        line: "export {{ item.var }}={{ item.val }}"
       with_items:
         - var: GDPR_MODE
-          val: "$(openssl rand -hex 24 2>/dev/null)"
+          val: '$(openssl rand -hex 24 2>/dev/null)'
         - var: GALAXY_CONFIG_DIR
-          val: "{{ galaxy_root }}/config"
-        - var: GALAXY_CONFIG_file
-          val: "{{ galaxy_root }}/config/galaxy.yml"
+          val: '{{ galaxy_root }}/config'
+        - var: GALAXY_CONFIG_FILE
+          val: '{{ galaxy_root }}/config/galaxy.yml'
         - var: PGUSER
-          val: "{{ galaxy_db_user }}"
+          val: '{{ galaxy_db_user }}'
         - var: PGHOST
-          val: "{{ postgres_host }}"
+          val: '{{ groups["database"][0] }}'
+        - var: PGDATABASE
+          val: '{{ galaxy_database }}'
         - var: INFLUX_URL
-          val: "{{ telegraf_urls }}"
+          val: '{{ telegraf_urls }}'
         - var: INFLUX_PASS
-          val: "{{ telegraf_password }}"
+          val: '{{ telegraf_password }}'
         - var: INFLUX_USER
-          val: "{{ telegraf_username }}"
+          val: '{{ telegraf_username }}'
         - var: INFLUX_DB
-          val: "{{ telegraf_database }}"
-
+          val: '{{ telegraf_database }}'
     - name: Copy using the 'content' for inline data
       become: true
       become_user: galaxy

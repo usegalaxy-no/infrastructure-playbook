@@ -2,7 +2,7 @@
 test.usegalaxy.no ansible_host=158.39.74.224 ansible_user=centos
 
 [database]
-test-db.usegalaxy.no ansible_host=158.39.74.224 ansible_user=centos
+test-db.usegalaxy.no ansible_host=158.39.201.49 ansible_user=centos
 
 [slurm]
 test-slurm.usegalaxy.no ansible_host=158.39.201.71 ansible_user=centos

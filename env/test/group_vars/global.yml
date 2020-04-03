@@ -1,6 +1,7 @@
 galaxy_host: "{{ groups['galaxyserver'][0] }}"
-galaxy_ip: "{{ groups['galaxyserver'][0] }}"
+galaxy_ip: "{{ hostvars[galaxy_host].ansible_host }}"
 
+galaxy_admin_email: "admin@usegalaxy.no"
 galaxy_admin: "admin@usegalaxy.no, torfinn.nome@nmbu.no"
 galaxy_master_api_key: !vault |
   $ANSIBLE_VAULT;1.1;AES256
@@ -13,7 +14,7 @@ galaxy_master_api_key: !vault |
 
 
 db_host: "{{ groups['database'][0] }}"
-database_ip: "{{ groups['database'][0].ansible_host }}"
+database_ip: "{{ hostvars[db_host].ansible_host }}"
 galaxy_db_user: "galaxy"
 galaxy_database: "galaxy-test"
 galaxy_db_passwd: !vault |
@@ -32,3 +33,42 @@ db_connection: "postgresql://{{galaxy_db_user}}:{{galaxy_db_passwd}}@{{db_host}}
 #ssl_chain: "/etc/letsencrypt/live/{{galaxy_host}}/chain.pem"
 
 
+# Install the latest version of Telegraf
+telegraf_agent_package_state: latest
+
+# Configure the output to point to an InfluxDB
+# running on localhost, and # place data in the
+# database "telegraf" which will be created if need be.
+telegraf_agent_output:
+  - type: influxdb
+    config:
+    - urls = ["https://maas-test.bioinfo.no/influx/"]
+    - database = "usegalaxy"
+    - username = "usegalaxy"
+    - password = !vault |
+                 $ANSIBLE_VAULT;1.1;AES256
+                 35343832356535666332363232323538313034613337393064623263336162343535613538323766
+                 3436326638303232326137343438363730646665646533390a313036316334636237636165336466
+                 34323730386434623334383262616439393261613238333136663030373664313132363032633631
+                 3366353363646638370a643436306337393433343236393363353237313562623835366161336430
+                 32633931373833623261373562316561346236636137363032613331616335663061
+
+# The default plugins, applied to any telegraf-configured host
+telegraf_plugins_default:
+  - plugin: cpu
+  - plugin: disk
+  - plugin: kernel
+  - plugin: processes
+  - plugin: io
+  - plugin: mem
+  - plugin: system
+  - plugin: swap
+  - plugin: net
+  - plugin: netstat
+
+  # system.yml
+dhclient_interface: "{{ ansible_default_ipv4.interface }}"
+dhclient_config:
+  - "timeout 300;"
+  - "retry 60;"
+  - "supersede domain-search \"usegalaxy.no\";"

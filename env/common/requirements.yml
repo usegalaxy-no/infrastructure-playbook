@@ -50,4 +50,5 @@
   version: 0.0.5
 - src: https://github.com/elixir-no-nels/ansible-role-ehos.git
   name: ehos
-  
+- src: nbigot.ansible-fail2ban
+  version: v5.0.0
