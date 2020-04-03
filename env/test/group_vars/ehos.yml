@@ -23,7 +23,8 @@ ehos_condor_master: templates/ehos/condor_master.j2
 ehosd_daemon_file: templates/ehos/ehos_daemon.yaml.j2
 
 nfs_exports:
-  - "/pulsar *(rw,sync,root_squash)"
+  - "/srv/pulsar *(rw,sync,no_root_squash)"
+  - "/srv/galaxy *(rw,sync,no_root_squash)"
   - "/cvmfs/data.galaxyproject.org/ *(ro,sync,no_root_squash,no_subtree_check,fsid=101)"
 
 cvmfs_role: client
@@ -35,51 +36,71 @@ pulsar_virtualenv_command: virtualenv-3
 pulsar_user: pulsar
 pulsar_group: pulsar
 
-pulsar_server_dir: /pulsar
+pulsar_server_dir: /srv/pulsar
 pulsar_venv_dir: "{{pulsar_server_dir}}/venv"
 pulsar_config_dir: "{{pulsar_server_dir}}/config"
 pulsar_staging_dir: "{{pulsar_server_dir}}/staging"
+pulsar_dependencies_dir: "{{pulsar_server_dir}}/dependencies"
 pulsar_systemd: true
+#pulsar_systemd_runner: uwsgi
+
+#galaxy_server_dir: "/srv/galaxy"
+#galaxy_config_dir: "{{galaxy_server_dir}}/config"
+
 
 #pulsar_host: 0.0.0.0
 #pulsar_port: 8913
 
-pulsar_private_token: SecretToken
+#pulsar_private_token: SecretToken
 pulsar_rabbitmq_username: test
 pulsar_rabbitmq_password: wAQsJfQptm11p2TGWRDyc9aA3ormo2
 pulsar_rabbitmq_proxy: "{{ groups['database'][0] }}"
 pulsar_rabbitmq_vhost: test
 
-pulsar_message_queue: "pyamqp://{{ pulsar_rabbitmq_username}}:{{ pulsar_rabbitmq_password}}@{{ pulsar_rabbitmq_proxy }}:443/rabbitmq/{{ pulsar_rabbitmq_vhost }}"
+pulsar_message_queue: "amqps://{{ pulsar_rabbitmq_username}}:{{ pulsar_rabbitmq_password}}@{{ pulsar_rabbitmq_proxy }}/%2F{{ pulsar_rabbitmq_vhost }}"
+#amqps://test:wAQsJfQptm11p2TGWRDyc9aA3ormo2@test-db.usegalaxy.no/%2Ftest
 
 pulsar_create_user: yes
 
 pulsar_optional_dependencies:
-  - pyOpenSSL
+  # - pyOpenSSL
   # For remote transfers initiated on the Pulsar end rather than the Galaxy end
-  - pycurl
+  # Does not work, needs to be installed with --install-option="--with-nss"
+  #- pycurl
   # uwsgi used for more robust deployment than paste
   - uwsgi
   # drmaa required if connecting to an external DRM using it.
   - drmaa
   # kombu needed if using a message queue
   - kombu
-  # requests and poster using Pulsar remote staging and pycurl is unavailable
+  # requests and requests_toolbelt for remote staging and pycurl is unavailable, poster is not working for python3
   - requests
+  - requests_toolbelt
   # psutil and pylockfile are optional dependencies but can make Pulsar
   # more robust in small ways.
   - psutil
+  - pylockfile
+
+pulsar_drmaa_library_path: /usr/lib64/condor/libdrmaa.so
 
 pulsar_yaml_config:
   dependency_resolvers_config_file: dependency_resolvers_conf.xml
   conda_auto_init: True
   conda_auto_install: True
   staging_directory: "{{ pulsar_staging_dir }}"
-  private_token: "{{ pulsar_private_token }}"
   message_queue_url: "{{ pulsar_message_queue }}"
-  #pyamqp://username:password@proxy.usegalaxy.eu:5671//pulsar/galaxy_test?ssl=1
-  # Add the following at some point, to use Slurm:
-  #managers:
-  #_default_:
-  #  type: queued_drmaa
-  #  native_specification: "--partition=hugemem"
+  managers:
+    _default_:
+      type: queued_drmaa
+      #type: queued_python
+      #num_concurrent_jobs: 1
+      # Examples for creating queues
+    8gb_mem:
+      type: queued_drmaa
+      native_specification: "request_memory=8"
+    16gb_mem:
+      type: queued_drmaa
+      native_specification: "request_memory=16"
+    32gb_mem:
+      type: queued_drmaa
+      native_specification: "request_memory=32"
