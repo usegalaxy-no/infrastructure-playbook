@@ -6,6 +6,10 @@
             <param id="galaxy_url">https://{{ galaxy_host }}</param>
             <param id="amqp_url">amqp://{{ pulsar_rabbitmq_username}}:{{ pulsar_rabbitmq_password}}@{{ pulsar_rabbitmq_proxy }}:443/rabbitmq/{{ pulsar_rabbitmq_vhost }}/</param>
         </plugin>
+        <plugin id="pulsar_nrec" type="runner" load="galaxy.jobs.runners.pulsar:PulsarMQJobRunner">
+            <param id="galaxy_url">https://test.usegalaxy.no</param>
+            <param id="amqp_url">amqps://test:wAQsJfQptm11p2TGWRDyc9aA3ormo2@test-db.usegalaxy.no/%2Ftest</param>
+        </plugin>
     </plugins>
     <destinations default="slurm">
         <destination id="local" runner="local"/>
@@ -14,9 +18,20 @@
             <param id="jobs_directory">{{ pulsar_staging_dir }}</param>
             <param id="submit_native_specification">-p hugemem,cigene,smallmem -n 1 -N 1</param>
         </destination>
+        <plugin id="pulsar_nrec" type="runner" load="galaxy.jobs.runners.pulsar:PulsarMQJobRunner">
+            <param id="galaxy_url">https://test.usegalaxy.no</param>
+            <param id="amqp_url">amqps://test:wAQsJfQptm11p2TGWRDyc9aA3ormo2@test-db.usegalaxy.no/%2Ftest</param>
+        </plugin>
+        <destination id="pulsar_nrec" runner="pulsar_nrec">
+            <param id="jobs_directory">/srv/pulsar/staging/</param>
+            <!-- use a queue defined at the pulsar end -->
+            <!-- <param id="manager">8gb_mem</param> -->
+        </destination>
      </destinations>
     <tools>
         <tool id="upload1" destination="local" />
         <tool id="cat1" destination="pulsar_nmbu_orion_1c" />
+        <!-- all fastqc jobs go to the nrec pulsar server -->
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.72+galaxy1" destination="pulsar_nrec"/>
     </tools>
 </job_conf>
