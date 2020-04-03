@@ -16,6 +16,8 @@
       package:
         name:
          - python3
+         # pycurl installed through pip in virtual env does not work! This one does, but not the best solution.
+         #- python36-pycurl
          - git
          - bzip2
          - vim
@@ -33,11 +35,15 @@
         name: nfs
 
   roles:
-#    - geerlingguy.repo-epel
-#    - galaxyproject.cvmfs
-#    - geerlingguy.nfs
-    - galaxyproject.pulsar
-#    - ehos
+    - geerlingguy.repo-epel
+    - galaxyproject.cvmfs
+    - geerlingguy.nfs
+#    - galaxyproject.pulsar
+    - pulsar
+#    - role: galaxyproject.galaxy
+#      galaxy_manage_mutable_setup: yes
+#      galaxy_manage_database: no
+    - ehos
 
 
 
