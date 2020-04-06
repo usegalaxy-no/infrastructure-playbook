@@ -42,7 +42,7 @@ galaxy_config:
 
     welcome_url: static/welcome.html
     support_url: https://elixir.no/helpdesk
-    terms_url: https://theonion.com
+    terms_url: https://{{galaxy_host}}/galaxy-terms/
     statsd_host: localhost
     statsd_influxdb: true
     id_secret: !vault |
