@@ -1,0 +1,31 @@
+---
+# copy public keys to the server.
+- name: Encrypt logs
+  block:
+
+    - name: Install gpg
+      package:
+        name:
+          - gpg
+
+    - name: copy gpg key to host
+      copy:
+        src: files/gpg/usegalaxy.gpg
+        dest: /root/usegalaxy.gpg
+
+    - name: import gpg key
+      command:
+        cmd: gpg --import ~/usegalaxy.gpg
+
+    - name: trust gpg key (not really safe)
+      command:
+        cmd: echo -e "5\ny\n"  | gpg --command-fd 0 --expert --edit-key {{gpg_key_name}} trust
+
+    - name: Set log rotate for nginx
+      template:
+        src: templates/system/logrotate.nginx
+        dest: /etc/logrotate.d/nginx
+        mode: 0644
+        owner: root
+        group: root
+        backup: yes

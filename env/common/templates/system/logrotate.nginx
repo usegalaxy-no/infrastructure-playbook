@@ -1,0 +1,17 @@
+/var/log/nginx/*log {
+  create 0664 nginx root
+  daily
+  shred
+  rotate 10
+  missingok
+  notifempty
+  compress
+  compresscmd /usr/bin/gpg2
+  compressoptions -e -r {{gpg_key_name}} --homedir /root/.gnupg
+  compressext .gpg
+  sharedscripts
+  postrotate
+  /bin/kill -USR1 `cat /run/nginx.pid 2>/dev/null` 2>/dev/null || true
+  endscript
+}
+
