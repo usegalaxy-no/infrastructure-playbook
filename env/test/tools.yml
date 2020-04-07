@@ -1,0 +1,33 @@
+- hosts: test-slurm.usegalaxy.no
+#  gather_facts: False
+#  connection: local
+  vars:
+      tooldir: "{{ansible_env.HOME}}/files"
+      galaxy_tools_tool_list_files: [ "files/tools_list.yml" ]
+      galaxy_tools_galaxy_instance_url: https://test.usegalaxy.no/
+      galaxy_tools_api_key: !vault |
+                            $ANSIBLE_VAULT;1.1;AES256
+                            64303562626666623462396532326338623862633563633563303330383761393032313464353465
+                            6531316363393431626464376535393439343630326434370a613263653034396632383666373865
+                            31656238396338393766323733616533653433666235306166366664666236656461646465616637
+                            3334633063613831650a306334613636373738306465373265356235306661386137616635353633
+                            34636430323961303933316639316461343461663330313234316465336437343030613863316237
+                            3764653137616165323333663338396634653931633864373734
+  pre_tasks:
+    - name: Install required packages
+      become: true
+      package:
+        name:
+          - python-virtualenv
+    - name: Create Folder
+      file:
+        path: "{{ tooldir }}"
+        mode: 0755 
+        state: directory
+    - name: Copy tools list
+      synchronize:
+        src: files/tools_list.yml
+        dest: "{{ tooldir }}/tools_list.yml"
+
+  roles:
+      - galaxyprojectdotorg.galaxy-tools

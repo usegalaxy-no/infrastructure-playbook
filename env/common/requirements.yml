@@ -52,3 +52,5 @@
   name: ehos
 - src: nbigot.ansible-fail2ban
   version: v5.0.0
+- src: https://github.com/galaxyproject/ansible-galaxy-tools.git
+  name: galaxyprojectdotorg.galaxy-tools
