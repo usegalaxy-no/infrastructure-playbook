@@ -1,0 +1,10 @@
+- hosts: galaxyserver
+  become: true
+  vars_files:
+    - group_vars/global.yml
+  tasks:
+
+    - name: Setup log-rotate
+      become: true
+      include: tasks/logrotate.yml
+

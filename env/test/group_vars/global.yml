@@ -33,6 +33,8 @@ db_connection: "postgresql://{{galaxy_db_user}}:{{galaxy_db_passwd}}@{{db_host}}
 #ssl_chain: "/etc/letsencrypt/live/{{galaxy_host}}/chain.pem"
 
 
+gpg_key_name: admin@usegalaxy.no
+
 # Install the latest version of Telegraf
 telegraf_agent_package_state: latest
 

@@ -50,7 +50,11 @@ server {
         uwsgi_param          UWSGI_SCHEME $scheme;
         include              uwsgi_params;
     }
-    
+
+    location /galaxy-terms/ {
+        alias /srv/galaxy/server/static/tos/;
+    }
+
     location /robots.txt {
         alias {{ galaxy_server_dir }}/static/robots.txt;
     }
