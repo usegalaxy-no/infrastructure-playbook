@@ -27,8 +27,10 @@
       include: tasks/rabbitmq.yml
 
   roles:
-    - role: geerlingguy.postgresql
-      become: yes
+    - galaxyproject.postgresql
+    - role: natefoo.postgresql_objects
+      become: true
+      become_user: postgres
     - geerlingguy.rabbitmq
     - galaxyproject.nginx
  

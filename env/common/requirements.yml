@@ -1,6 +1,10 @@
 # base system
-- src: geerlingguy.postgresql
-  version: 2.2.0
+- src: galaxyproject.postgresql
+  version: 1.0.2
+- src: natefoo.postgresql_objects
+  version: 1.1
+#- src: geerlingguy.postgresql
+#  version: 2.2.0
 - src: geerlingguy.certbot
   version: 3.0.3
 - src: geerlingguy.apache
