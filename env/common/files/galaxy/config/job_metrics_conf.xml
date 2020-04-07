@@ -5,6 +5,6 @@
     <meminfo />
     <uname />
     <!-- <env /> -->
-    <cgroup />
+    <cgroup params="cpuacct.usage,memory.max_usage_in_bytes,memory.memsw.max_usage_in_bytes" />
     <hostname />
 </job_metrics>
