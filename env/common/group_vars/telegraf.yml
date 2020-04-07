@@ -1,5 +1,7 @@
-
-telegraf_passwd:  !vault |
+telegraf_urls: ["https://maas-test.bioinfo.no/influx"]
+telegraf_database: usegalaxy
+telegraf_username: usegalaxy
+telegraf_password:  !vault |
   $ANSIBLE_VAULT;1.1;AES256
   61386562313735636533646438303638356234393962356161343961313033343066343535303833
   3538613339643935303764666236343032313461643237330a376364363734393432383361386132
@@ -11,10 +13,10 @@ telegraf_passwd:  !vault |
 telegraf_agent_output:
   - type: influxdb
     config:
-      - urls = ["https://maas-test.bioinfo.no/influx"]
-      - database = "telegraf"
-      - username = "admin"
-      - password = "{{telegraf_passwd}}"
+      - urls = {{ telegraf_urls }}
+      - database = {{ telegraf_database }}
+      - username = {{ telegraf_username }}
+      - password = {{ telegraf_password }}
 
 #example config, needs to be determined later on
 telegraf_plugins_default:
