@@ -21,6 +21,7 @@ postgresql_hba_entries:
 # Makes it possible for the galaxy-db use to connect both from localhost and the galaxy-host (ip based
   - {type: local, database: "{{galaxy_database}}", user: "{{galaxy_db_user}}", auth_method: md5}
   - {type: host, database: "{{galaxy_database}}", user: "{{galaxy_db_user}}", address: "{{ galaxy_ip }}/32", auth_method: md5}
+  - {type: host, database: "{{galaxy_database}}", user: telegraf, address: "{{ galaxy_ip }}/32", auth_method: trust}
 # This is needed to ensure that the database exists and comes from sqlalchemy not the galaxy code!
   - {type: host, database: "postgres", user: "{{galaxy_db_user}}", address: "{{ galaxy_ip }}/32", auth_method: md5}
 # If encryptions between galaxy and post is needed
@@ -33,7 +34,14 @@ postgresql_objects_privileges:
     roles: telegraf
     privs: SELECT
     objs: ALL_IN_SCHEMA
-  
+postgresql_privs:
+    db: "{{ galaxy_database }}"
+    privs: SELECT, USAGE
+    roles: telegraf
+    objs: ALL_IN_SCHEMA
+    state: present
+    grant_option: yes
+
 postgresql_global_config_options:
   - option: listen_addresses
     value: '*'

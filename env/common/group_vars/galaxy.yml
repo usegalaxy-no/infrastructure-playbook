@@ -137,7 +137,7 @@ galaxy_cvmfs_repos_enabled: config-repo
 cvmfs_quota_limit: 6000
 
 
-custom_telegraf_env: "/usr/bin/env GDPR_MODE=1 GALAXY_ROOT=/srv/galaxy/ GALAXY_CONFIG_FILE=/srv/galaxy/config/galaxy.yml PGDATABASE=galaxy PGHOST={{galaxy_database}}"
+custom_telegraf_env: "/usr/bin/env GDPR_MODE=1 GALAXY_ROOT=/srv/galaxy/ GALAXY_CONFIG_FILE=/srv/galaxy/config/galaxy.yml PGDATABASE={{galaxy_database}} PGHOST={{db_host}}"
 custom_telegraf_gxadmin_bin: /usr/local/bin/gxadmin
 telegraf_plugins_extra:
   listen_galaxy_routes:
@@ -152,7 +152,7 @@ telegraf_plugins_extra:
       - commands = ["{{ custom_telegraf_env }} {{ custom_telegraf_gxadmin_bin }} iquery queue-overview --short-tool-id"]
       - timeout = "10s"
       - data_format = "influx"
-      - interval = "15s"
+      - interval = "30s"
 # Some custom galaxy monitoring stuff
   galaxy_uploaded:
     plugin: "exec"
@@ -167,7 +167,7 @@ telegraf_plugins_extra:
       - commands = ["{{ custom_telegraf_env }} {{ custom_telegraf_gxadmin_bin }} uwsgi lastlog"]
       - timeout = "15s"
       - data_format = "influx"
-      - interval = "15s"
+      - interval = "30s"
   galaxy_jobs_queued:
     plugin: "exec"
     config:
