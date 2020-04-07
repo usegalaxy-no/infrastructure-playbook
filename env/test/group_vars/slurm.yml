@@ -38,3 +38,8 @@ slurm_partitions:
     Default: YES
     MaxTime: UNLIMITED
     Nodes: "test-slurm"
+
+
+cvmfs_role: client
+galaxy_cvmfs_repos_enabled: config-repo
+cvmfs_quota_limit: 6000
