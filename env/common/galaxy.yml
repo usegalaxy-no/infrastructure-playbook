@@ -41,6 +41,14 @@
         mode: '0644'
         force: yes
 
+    # TODO: This should not be needed, but...
+    - name: Make sure galaxy owner owns tool-data
+      file:
+        path: "{{ galaxy_root }}/server/tool-data"
+        state: directory
+        mode: "0644"
+        owner: "{{ galaxy_user.name }}"
+
     - name: Setup ssh access
       become: false
       include: tasks/keys.yml
