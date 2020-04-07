@@ -2,6 +2,7 @@
   become: true
   vars_files:
   - group_vars/global.yml
+  - group_vars/telegraf.yml
   tasks:
   - name: Set timezone to Europe/Oslo
     timezone:
@@ -9,3 +10,4 @@
   roles:
     - reallyenglish.dhclient
     - nbigot.ansible-fail2ban
+    - dj-wasabi.telegraf
