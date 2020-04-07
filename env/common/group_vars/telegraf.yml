@@ -2,29 +2,35 @@ telegraf_urls: ["https://maas-test.bioinfo.no/influx"]
 telegraf_database: usegalaxy
 telegraf_username: usegalaxy
 telegraf_password:  !vault |
-  $ANSIBLE_VAULT;1.1;AES256
-  61386562313735636533646438303638356234393962356161343961313033343066343535303833
-  3538613339643935303764666236343032313461643237330a376364363734393432383361386132
-  63386338636135666164636432313733386432373364393531303436653132353766323131393237
-  6636383439353633340a393136333161393333646464633435393662626532653534646665353865
-  3934
+                    $ANSIBLE_VAULT;1.1;AES256
+                    39363763616335636262646633343865343866306266656333623064663861333032323237646433
+                    6432656663656431613633373536386437336233396266620a373863323864336336613938363338
+                    65623963313438653261636433303138656635393561613333616337326137326637333039326236
+                    3031623435646531660a623132303430623865616439633833396464343333386138613239306562
+                    39663462626430303965663739653062303138643131316339616638653935623031
 
+
+telegraf_agent_hostname: "{{ inventory_hostname }}"
 
 telegraf_agent_output:
   - type: influxdb
     config:
-      - urls = "{{ telegraf_urls }}"
+      - urls = {{ telegraf_urls }}
       - database = "{{ telegraf_database }}"
       - username = "{{ telegraf_username }}"
       - password = "{{ telegraf_password }}"
 
 #example config, needs to be determined later on
 telegraf_plugins_default:
+  - plugin: cpu
+    config:
+      - percpu = false
   - plugin: disk
-    interval: 12
-    tags:
-      - diskmetrics = "true"
-    tagpass:
-      - fstype = [ "ext4", "xfs" ]
-      - path = [ "/", "/home" ]
-
+  - plugin: kernel
+  - plugin: processes
+  - plugin: io
+  - plugin: mem
+  - plugin: system
+  - plugin: swap
+  - plugin: net
+  - plugin: netstat

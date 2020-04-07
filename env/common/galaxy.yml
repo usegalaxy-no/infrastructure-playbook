@@ -49,7 +49,7 @@
       file:
         path: "{{ galaxy_root }}/server/compliance.log"
         state: touch
-        mode: 0600
+        mode: "0600"
         owner: "{{ galaxy_user.name }}"
 
     # For gxadmin:
