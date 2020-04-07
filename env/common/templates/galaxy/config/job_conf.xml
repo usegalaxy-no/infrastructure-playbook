@@ -4,7 +4,7 @@
         <plugin id="slurm" type="runner" load="galaxy.jobs.runners.slurm:SlurmJobRunner"/>
         <plugin id="pulsar" type="runner" load="galaxy.jobs.runners.pulsar:PulsarMQJobRunner">
             <param id="galaxy_url">https://{{ galaxy_host }}</param>
-            <param id="amqp_url">amqp://{{ pulsar_rabbitmq_username}}:{{ pulsar_rabbitmq_password}}@{{ pulsar_rabbitmq_proxy }}:443/rabbitmq/{{ pulsar_rabbitmq_vhost }}/</param>
+            <param id="amqp_url">amqp://{{ pulsar_rabbitmq_username}}:{{ pulsar_rabbitmq_password}}@{{ pulsar_rabbitmq_proxy }}/%2F{{ pulsar_rabbitmq_vhost }}</param>
         </plugin>
         <plugin id="pulsar_nrec" type="runner" load="galaxy.jobs.runners.pulsar:PulsarMQJobRunner">
             <param id="galaxy_url">https://test.usegalaxy.no</param>

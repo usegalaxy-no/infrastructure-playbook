@@ -10,9 +10,6 @@ pulsar_staging_dir: /mnt/users/usegalaxy_no/staging
 pulsar_cache_dir: /mnt/users/usegalaxy_no/cache
 pulsar_systemd: true
 
-#pulsar_host: 0.0.0.0
-#pulsar_port: 8913
-
 pulsar_private_token: !vault |
                       $ANSIBLE_VAULT;1.1;AES256
                       66373761626431306234326534626333373636666239633064343532303565386463306337373564
@@ -29,38 +26,54 @@ pulsar_rabbitmq_password: !vault |
                           6535633366623737650a356239613730373435366233633439306130393865653837336539646466
                           62646536393862653031363663303861326363346132623635326132653336333762
 pulsar_rabbitmq_proxy: "{{ groups['database'][0] }}"
+pulsar_rabbitmq_port: 5671
 pulsar_rabbitmq_vhost: pulsar_nmbu_orion
 
-pulsar_message_queue: "pyamqp://{{ pulsar_rabbitmq_username}}:{{ pulsar_rabbitmq_password}}@{{ pulsar_rabbitmq_proxy }}:5671/rabbitmq/{{ pulsar_rabbitmq_vhost }}/"
 pulsar_create_user: false
 
+pulsar_message_queue: "amqps://{{ pulsar_rabbitmq_username}}:{{ pulsar_rabbitmq_password}}@{{ pulsar_rabbitmq_proxy }}/%2F{{ pulsar_rabbitmq_vhost }}"
+#amqps://test:wAQsJfQptm11p2TGWRDyc9aA3ormo2@test-db.usegalaxy.no/%2Ftest
+
 pulsar_optional_dependencies:
-  - pyOpenSSL
+  # - pyOpenSSL
   # For remote transfers initiated on the Pulsar end rather than the Galaxy end
-  - pycurl
+  # Does not work, needs to be installed with --install-option="--with-nss"
+  #- pycurl
   # uwsgi used for more robust deployment than paste
   - uwsgi
   # drmaa required if connecting to an external DRM using it.
   - drmaa
   # kombu needed if using a message queue
   - kombu
-  # requests and poster using Pulsar remote staging and pycurl is unavailable
+  # requests and requests_toolbelt for remote staging and pycurl is unavailable, poster is not working for python3
   - requests
+  - requests_toolbelt
   # psutil and pylockfile are optional dependencies but can make Pulsar
   # more robust in small ways.
   - psutil
+  - pylockfile
+
+pulsar_drmaa_library_path: /local/genome/packages/slurm-drmaa/1.1.0/lib/libdrmaa.so
 
 pulsar_yaml_config:
   dependency_resolvers_config_file: dependency_resolvers_conf.xml
   conda_auto_init: True
   conda_auto_install: True
   staging_directory: "{{ pulsar_staging_dir }}"
-  private_token: "{{ pulsar_private_token }}"
   message_queue_url: "{{ pulsar_message_queue }}"
-  file_cache_dir: "{{ pulsar_cache_dir }}"
-  #pyamqp://username:password@proxy.usegalaxy.eu:5671//pulsar/galaxy_test?ssl=1
-  # Add the following at some point, to use Slurm:
-  #managers:
-  #_default_:
-  #  type: queued_drmaa
-  #  native_specification: "--partition=hugemem"
+  managers:
+    _default_:
+      type: queued_drmaa
+      native_specification: "--nodes=1 --partition=smallmem,cigene,hugemem --ntasks=1 --mem=8G"
+    32gb_mem:
+      type: queued_drmaa
+      native_specification: "--nodes=1 --partition=hugemem --ntasks=1 --mem=384G"
+    32gb_mem_6cpu:
+      type: queued_drmaa
+      native_specification: "--nodes=1 --partition=hugemem --ntasks=6 --mem=384G"
+    384gb_mem:
+      type: queued_drmaa
+      native_specification: "--nodes=1 --partition=hugemem --ntasks=1 --mem=384G"
+    384gb_mem_6cpu:
+      type: queued_drmaa
+      native_specification: "--nodes=1 --partition=hugemem --ntasks=6 --mem=384G"
