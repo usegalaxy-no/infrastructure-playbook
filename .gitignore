@@ -1,2 +1,4 @@
 *vault_password
 roles/
+munge.key
+env/common/roles/
