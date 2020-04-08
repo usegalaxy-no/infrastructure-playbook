@@ -11,6 +11,7 @@ telegraf_password:  !vault |
 
 
 telegraf_agent_hostname: "{{ inventory_hostname }}"
+telegraf_agent_interval: "30" # seconds
 
 telegraf_agent_output:
   - type: influxdb

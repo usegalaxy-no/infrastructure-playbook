@@ -34,6 +34,7 @@ postgresql_conf:
   - listen_addresses: '*' 
 postgresql_pg_hba_conf:
   - local all postgres peer
+  - local "{{galaxy_database}} telegraf peer
   - host all all 127.0.0.1/32 md5
   - host all all ::1/128 md5
   - local "{{galaxy_database}}" "{{galaxy_db_user}}" md5
@@ -75,3 +76,21 @@ nginx_conf_http:
 nginx_ssl_role: usegalaxy_eu.certbot
 nginx_conf_ssl_certificate: /etc/ssl/certs/fullchain.pem
 nginx_conf_ssl_certificate_key: /etc/ssl/user/privkey-nginx.pem
+
+
+# Telegraf
+telegraf_plugins_extra:
+  postgresql:
+    config:
+      - address = "postgres://telegraf@localhost/{{galaxy_database}}"
+  rabbitmq:
+    config:
+      - url = "http://localhost:15672"
+      - username = "telegraf"
+      - password = "!vault |
+                    $ANSIBLE_VAULT;1.1;AES256
+                    63353036333237313062613235393239633162346163363763323731313534383564646163346566
+                    3838363166623131316464653135333130306163663739620a656166316630303630356664313530
+                    65613661656334393362393463616137653862343935613536393437653633313435343365336232
+                    3466616136333332620a666463646439646337366262363163643137383062313564343033303933
+                    37343931663531656130303532323035326532373639613832656163643334636331"
