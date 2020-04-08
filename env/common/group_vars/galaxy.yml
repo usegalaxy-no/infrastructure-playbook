@@ -136,6 +136,7 @@ cvmfs_quota_limit: 6000
 
 custom_telegraf_env: "/usr/bin/env GDPR_MODE=1 GALAXY_ROOT=/srv/galaxy/ GALAXY_CONFIG_FILE=/srv/galaxy/config/galaxy.yml PGDATABASE={{galaxy_database}} PGHOST={{db_host}}"
 custom_telegraf_gxadmin_bin: /usr/local/bin/gxadmin
+custom_telegraf_slurm_collect_bin: /usr/local/bin/slurm-collect
 telegraf_plugins_extra:
   listen_galaxy_routes:
     plugin: "statsd"
@@ -203,3 +204,8 @@ telegraf_plugins_extra:
       - timeout = "15s"
       - data_format = "influx"
       - interval = "1m"
+  slurm:
+    plugin: "exec"
+    config:
+      - commands = ["{{ custom_telegraf_slurm_collect_bin }}"]
+      - data_format = "influx"

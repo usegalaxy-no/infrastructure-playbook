@@ -3,6 +3,7 @@
   vars_files:
     - group_vars/global.yml
     - group_vars/slurm.yml
+    - group_vars/galaxy.yml
   vars:
     slurm_roles: ['controller', 'exec']
   tasks:
@@ -16,6 +17,14 @@
       owner: munge
       group: munge
       mode: '0400'
+  - name: Copy slurm telegraf plugin
+    copy:
+      src: files/telegraf/slurm-collect.sh
+      dest: "{{ custom_telegraf_slurm_collect_bin }}"
+      owner: root
+      group: root
+      mode: '0755'
+
   roles:
     - galaxyproject.repos
     - galaxyproject.slurm
