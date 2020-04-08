@@ -56,5 +56,6 @@
       file:
         path: "{{ galaxy_root }}/server/tool-data"
         state: directory
+        recurse: yes
         mode: '0755'
         owner: "{{ galaxy_user.name }}"
