@@ -22,73 +22,16 @@
           - 'make'
           - 'bzip2'
           - 'postgresql'
+  
+  tasks:
+    - name: Perform misc tasks
+      include: tasks/galaxy.yml
+
   handlers:
     - name: Restart Galaxy
       systemd:
         name: galaxy
         state: restarted
-  tasks:
-    - name: Disable SELinux
-      selinux:
-        state: disabled
-
-    - name: Add branding
-      copy:
-        src: templates/galaxy/static/
-        dest: "{{ galaxy_root }}/server/static/"
-        owner: galaxy
-        group: galaxy
-        mode: '0644'
-        force: yes
-
-    - name: Setup ssh access
-      become: false
-      include: tasks/keys.yml
-
-    - name: Make sure compliance log exists
-      file:
-        path: "{{ galaxy_root }}/server/compliance.log"
-        state: touch
-        mode: "0600"
-        owner: "{{ galaxy_user.name }}"
-
-    # For gxadmin:
-    - name: Add env vars in bashrc
-      become: true
-      become_user: galaxy
-      lineinfile:
-        path: "~/.bashrc"
-        regexp: "^export {{ item.var }}"
-        line: "export {{ item.var }}={{ item.val }}"
-      with_items:
-        - var: GDPR_MODE
-          val: '$(openssl rand -hex 24 2>/dev/null)'
-        - var: GALAXY_CONFIG_DIR
-          val: '{{ galaxy_root }}/config'
-        - var: GALAXY_CONFIG_FILE
-          val: '{{ galaxy_root }}/config/galaxy.yml'
-        - var: PGUSER
-          val: '{{ galaxy_db_user }}'
-        - var: PGHOST
-          val: '{{ groups["database"][0] }}'
-        - var: PGDATABASE
-          val: '{{ galaxy_database }}'
-        - var: INFLUX_URL
-          val: '{{ telegraf_urls }}'
-        - var: INFLUX_PASS
-          val: '{{ telegraf_password }}'
-        - var: INFLUX_USER
-          val: '{{ telegraf_username }}'
-        - var: INFLUX_DB
-          val: '{{ telegraf_database }}'
-    - name: Copy using the 'content' for inline data
-      become: true
-      become_user: galaxy
-      copy:
-        content: |
-          {{ groups['database'][0] }}:5432:*:{{ galaxy_db_user }}:{{ galaxy_db_passwd }}
-        dest: "~/.pgpass"
-        mode: 0600
 
   roles:
     - geerlingguy.pip
