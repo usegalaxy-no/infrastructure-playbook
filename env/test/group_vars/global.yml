@@ -75,3 +75,9 @@ dhclient_config:
   - "timeout 300;"
   - "retry 60;"
   - "supersede domain-search \"usegalaxy.no\";"
+
+# Postfix
+#postfix_relayhost: smtp.uib.no # TODO: Make sure this works
+#postfix_aliases:
+#  - user: root
+#    alias: torfinn.nome@nmbu.no

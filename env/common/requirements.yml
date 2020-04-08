@@ -3,8 +3,6 @@
   version: 1.0.2
 - src: natefoo.postgresql_objects
   version: 1.1
-#- src: geerlingguy.postgresql
-#  version: 2.2.0
 - src: geerlingguy.certbot
   version: 3.0.3
 - src: geerlingguy.apache
@@ -13,11 +11,14 @@
   version: 1.2.4
 - src: geerlingguy.nfs
   version: 1.5.0
-  #- geerlingguy.nginx
 - src: dj-wasabi.telegraf
   version: 0.12.0
+- src: nbigot.ansible-fail2ban
+  version: v5.0.0
+  - src: idiv-biodiversity.postfix
+  version: v0.4.0
 
-# Galaxy specefic stuff.
+# Galaxy specific stuff.
 - src: galaxyproject.galaxy
   version: 0.9.5
 - src: uchida.miniconda
@@ -54,7 +55,5 @@
   version: 0.0.5
 - src: https://github.com/elixir-no-nels/ansible-role-ehos.git
   name: ehos
-- src: nbigot.ansible-fail2ban
-  version: v5.0.0
 - src: https://github.com/galaxyproject/ansible-galaxy-tools.git
   name: galaxyprojectdotorg.galaxy-tools
