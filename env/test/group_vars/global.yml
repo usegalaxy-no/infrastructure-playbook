@@ -1,7 +1,8 @@
 galaxy_host: "{{ groups['galaxyserver'][0] }}"
 galaxy_ip: "{{ hostvars[galaxy_host].ansible_host }}"
 
-galaxy_admin_email: "admin@usegalaxy.no"
+galaxy_admin_email_to: "admin@usegalaxy.no"
+galaxy_admin_email_from: "admin@usegalaxy.no"
 galaxy_admin: "admin@usegalaxy.no, torfinn.nome@nmbu.no"
 galaxy_master_api_key: !vault |
   $ANSIBLE_VAULT;1.1;AES256
