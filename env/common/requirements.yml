@@ -17,6 +17,8 @@
   version: v5.0.0
 - src: idiv-biodiversity.postfix
   version: v0.4.0
+- src: geerlingguy.ansible
+  version: 2.0.2
 
 # Galaxy specific stuff.
 - src: galaxyproject.galaxy

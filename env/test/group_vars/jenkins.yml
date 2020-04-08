@@ -10,3 +10,5 @@ jenkins_admin_password: !vault |
 jenkins_url_prefix: /jenkins
 jenkins_plugins:
   - matrix-auth
+  - ansible
+  - github
