@@ -90,15 +90,6 @@
         dest: "~/.pgpass"
         mode: 0600
 
-  post_tasks:
-    # TODO: This should not be needed, but...
-    - name: Make sure galaxy owner owns tool-data
-      file:
-        path: "{{ galaxy_root }}/server/tool-data"
-        state: directory
-        mode: '0755'
-        owner: "{{ galaxy_user.name }}"
-
   roles:
     - geerlingguy.pip
     - galaxyproject.repos
@@ -112,7 +103,15 @@
     - galaxyproject.repos
     - galaxyproject.slurm
     - dj-wasabi.telegraf
+
   post_tasks:
     - name: Install slurm-drmaa
       package:
         name: slurm-drmaa
+    # TODO: This should not be needed, but...
+    - name: Make sure galaxy owner owns tool-data
+      file:
+        path: "{{ galaxy_root }}/server/tool-data"
+        state: directory
+        mode: '0755'
+        owner: "{{ galaxy_user.name }}"
