@@ -12,15 +12,13 @@ galaxy_layout: root-dir
 galaxy_root: /srv/galaxy
 
 galaxy_user: {name: galaxy, shell: /bin/bash}
-#galaxy_commit_id: release_20.01
-galaxy_commit_id: 45527c64605778f33473ec4ae107690ba4ec7898
+galaxy_commit_id: release_20.01
 galaxy_config_style: yaml
 galaxy_force_checkout: true
 miniconda_prefix: "{{ galaxy_tool_dependency_dir }}/_conda"
 miniconda_version: "4.6.14"
 
 galaxy_file_path: /data
-
 
 galaxy_config:
   galaxy:
@@ -31,7 +29,6 @@ galaxy_config:
     database_connection: "{{db_connection}}"
     file_path: "{{ galaxy_file_path }}"
     check_migrate_tools: false
-    #shed_tool_data_dir: "{{ galaxy_mutable_data_dir }}/var/shed_tools"
     tool_data_table_config_path: /cvmfs/data.galaxyproject.org/byhand/location/tool_data_table_conf.xml,/cvmfs/data.galaxyproject.org/managed/location/tool_data_table_conf.xml
     job_config_file: "{{ galaxy_config_dir }}/job_conf.xml"
     job_metrics_config_file: "{{ galaxy_config_dir }}/job_metrics_conf.xml"
