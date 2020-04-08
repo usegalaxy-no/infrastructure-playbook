@@ -1,17 +1,20 @@
 # This is just a sample file. For a fully documented version of this file, see
 # https://github.com/galaxyproject/ansible-galaxy-tools/blob/master/files/tool_list.yaml.sample
+
+# Warning: The tool_panel_section_id needs to already be defined by a tool in shed_tool_conf.xml.
+
 tools:
   - name: 'fastqc'
     owner: 'devteam'
-    tool_panel_section_id: 'FASTQ Quality Control'
+    tool_panel_section_id: 'fastq_quality_control'
   - name: 'bwa'
     owner: 'devteam'
-    tool_panel_section_id: 'Mapping'
+    tool_panel_section_id: 'mapping'
   - name: 'bowtie2'
     owner: 'devteam'
-    tool_panel_section_id: 'Mapping'
+    tool_panel_section_id: 'mapping'
   - name: 'minimap2'
     owner: 'iuc'
-    tool_panel_section_id: 'Mapping'
+    tool_panel_section_id: 'mapping'
   - name: 'data_manager_bwa_mem_index_builder'
     owner: 'devteam'

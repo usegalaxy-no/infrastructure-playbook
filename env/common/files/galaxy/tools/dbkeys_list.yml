@@ -1,0 +1,11 @@
+# Each dbkey should posses keys and values for all DMs that require
+# arguments other than the dbkey itself
+dbkeys:
+- dbkey: sacCer2
+  genome_version: EquCab2.70
+- dbkey: sacCer1
+  genome_version: EquCab2.70
+# List of DMs to run for listed dbkeys
+data_managers:
+- id: data_manager_fetch_genome_all_fasta
+- id: data_manager_snpeff_download

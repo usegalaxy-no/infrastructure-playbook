@@ -57,5 +57,3 @@
   version: 0.0.5
 - src: https://github.com/elixir-no-nels/ansible-role-ehos.git
   name: ehos
-- src: https://github.com/galaxyproject/ansible-galaxy-tools.git
-  name: galaxyprojectdotorg.galaxy-tools
