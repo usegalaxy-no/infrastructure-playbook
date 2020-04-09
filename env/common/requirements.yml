@@ -19,6 +19,8 @@
   version: v0.4.0
 - src: geerlingguy.ansible
   version: 2.0.2
+- src: geerlingguy.docker
+  version: 2.7.0
 
 # Galaxy specific stuff.
 - src: galaxyproject.galaxy
@@ -57,3 +59,5 @@
   version: 0.0.5
 - src: https://github.com/elixir-no-nels/ansible-role-ehos.git
   name: ehos
+- src: usegalaxy_eu.gie_proxy
+  version: 0.0.1
