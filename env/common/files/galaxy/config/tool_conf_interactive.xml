@@ -3,4 +3,4 @@
         <tool file="interactive/interactivetool_jupyter_notebook.xml" />
         <tool file="interactive/interactivetool_rstudio.xml" />
    </section>
-</toolbox>
+</toolbox> 
