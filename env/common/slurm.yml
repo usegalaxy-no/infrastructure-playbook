@@ -43,6 +43,7 @@
   vars_files:
     - group_vars/global.yml
     - group_vars/slurm.yml
+    - group_vars/galaxy.yml
   vars:
     slurm_roles: ['exec']
   tasks:
@@ -60,6 +61,8 @@
     - galaxyproject.repos
     - galaxyproject.slurm
     - galaxyproject.cvmfs
+    - geerlingguy.docker
+
   post_tasks:
     - name: Install packages
       package:
