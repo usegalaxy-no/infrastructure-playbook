@@ -5,7 +5,7 @@
     - group_vars/slurm.yml
     - group_vars/galaxy.yml
   vars:
-    slurm_roles: ['controller', 'exec']
+    slurm_roles: ['controller']
   tasks:
   - name: Setup ssh access
     become: false
