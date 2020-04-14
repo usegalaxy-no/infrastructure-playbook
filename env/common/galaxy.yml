@@ -54,10 +54,15 @@
       package:
         name: slurm-drmaa
     # TODO: This should not be needed, but...
-    - name: Make sure galaxy owner owns tool-data
+    - name: Make sure galaxy owns some files
       file:
         path: "{{ galaxy_root }}/server/tool-data"
         state: directory
         recurse: yes
+        mode: '0755'
+        owner: "{{ galaxy_user.name }}"
+      file:
+        path: "{{ galaxy_mutable_config_dir }}/sanitize_whitelist.txt"
+        state: file
         mode: '0755'
         owner: "{{ galaxy_user.name }}"

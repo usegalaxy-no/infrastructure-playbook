@@ -32,6 +32,7 @@ galaxy_config:
     tool_data_table_config_path: /cvmfs/data.galaxyproject.org/byhand/location/tool_data_table_conf.xml,/cvmfs/data.galaxyproject.org/managed/location/tool_data_table_conf.xml
     job_config_file: "{{ galaxy_config_dir }}/job_conf.xml"
     job_metrics_config_file: "{{ galaxy_config_dir }}/job_metrics_conf.xml"
+    sanitize_whitelist_file: "{{ galaxy_mutable_config_dir }}/sanitize_whitelist.txt"
     interactivetools_enable: "True"
     interactivetools_map: "{{ gie_proxy_sessions_path }}"
     outputs_to_working_directory: True
@@ -91,6 +92,8 @@ galaxy_config_files:
     dest: "{{ galaxy_config['galaxy']['job_metrics_config_file'] }}"
   - src: files/galaxy/config/tool_conf_interactive.xml
     dest: "{{ galaxy_config_dir }}/tool_conf_interactive.xml"
+  - src: files/galaxy/tools/sanitize_whitelist.txt
+    dest: "{{ galaxy_mutable_config_dir }}/sanitize_whitelist.txt"
 
 galaxy_tool_config_files:
   - "{{ galaxy_server_dir }}/config/tool_conf.xml.sample"
