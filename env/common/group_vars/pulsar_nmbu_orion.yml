@@ -1,7 +1,8 @@
-pulsar_server_dir: /mnt/users/usegalaxy_no/server
-pulsar_venv_dir: /mnt/users/usegalaxy_no/venv
-pulsar_config_dir: /mnt/users/usegalaxy_no/config
-pulsar_staging_dir: /mnt/users/usegalaxy_no/staging
+pulsar_data_path: /mnt/users/usegalaxy_no
+pulsar_server_dir: '{{ pulsar_data_path }}/server'
+pulsar_venv_dir: '{{ pulsar_data_path }}/venv'
+pulsar_config_dir: '{{ pulsar_data_path }}/config'
+pulsar_staging_dir: '{{ pulsar_data_path }}/staging'
 pulsar_systemd: true
 
 pulsar_host: 0.0.0.0

@@ -1,5 +1,7 @@
 - hosts: pulsar_nmbu_orion
   become: true
+  vars_files:
+    - group_vars/pulsar_nmbu_orion.yml
   pre_tasks:
     - name: Install some packages
       package:
@@ -9,5 +11,8 @@
           - python3
         state: present
         update_cache: yes
+  tasks:
+    - name: Add cron jobs
+      include: tasks/pulsar.yml
   roles:
     - galaxyproject.pulsar
