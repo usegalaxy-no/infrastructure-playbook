@@ -48,5 +48,6 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.72+galaxy1" destination="pulsar_nrec"/>
         <tool destination="interactive_local" id="interactive_tool_jupyter_notebook" />
         <tool destination="interactive_local" id="interactive_tool_rstudio" />
+        <tool destination="interactive_local" id="interactive_tool_ethercalc" />
     </tools>
 </job_conf>
