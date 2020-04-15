@@ -1,0 +1,75 @@
+#messages{
+	float:right;
+}
+
+.full-width{
+	width:99%;
+}
+
+.box-header {
+    background:url(../images/block-bg.jpg) no-repeat transparent;
+    color: #960014;
+    font-family: "Lucida Sans Unicode",Arial,Helvetica;
+    font-size: 21px;
+    font-weight: normal;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    padding-top: 5px;
+}
+
+.block-header {
+    color: #777777;
+    font-size: 16px;
+    padding: 5px 0;
+}
+
+.box-body{
+	padding:10px;
+}
+
+.logo-box{
+	float:left;
+	margin-left:10px;
+	text-align:left;
+}
+
+.logo-box h1{
+	font-size:30px;
+	font-weight:bold;
+	margin-bottom:10px;
+	color:#273F7B;
+}
+.logo-box p{
+	font-size:12px;
+	font-weight: normal;
+	border-top:1px solid #666644;	
+}
+
+.contact-form{
+	width:500px;
+}
+.contact-form input {
+    border: 1px solid #60A6EB;
+    border-radius: 5px 5px 5px 5px;
+    color: #1566A8;
+    font-size: 16px;
+    height: 25px;
+    width: 350px;
+}
+.contact-form textarea {
+    border: 1px solid #60A6EB;
+    border-radius: 5px 5px 5px 5px;
+    color: #1566A8;
+    font-size: 16px;
+    height: 110px;
+    width: 97%;
+}
+#breadcrum {
+	list-style:none outside none;
+	margin:0;
+	padding:0;
+}
+
+#breadcrum li{
+	float:left;
+}
