@@ -1,0 +1,15 @@
+[
+  { "title" : "Server Maintenance Alert",
+    "text"  : "This NeLS Galaxy server will be down for maintenance on the <b>4th of November</b> after 16:30.<br>We apologize for any inconveniences this causes for our users.",
+    "color" : "red",
+    "show"  : false
+  }
+,
+  { "title":"NeLS Services Alert",
+    "text": "Due to infrastructure maintenance, the NeLS portal and storage will be unavailable<br>from Friday 17th November at 15:00 to Monday the 20th at 10:00.",
+    "color":"red|orange|yellow|green|blue|violet",
+    "show" : false,
+    "from": "2017-11-16T13:00:00",
+    "to":   "2017-11-20T10:00:00"    
+  }
+]

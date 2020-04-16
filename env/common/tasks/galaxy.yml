@@ -1,15 +1,34 @@
-- name: Disable SELinux # Is this needed?
-  selinux:
-    state: disabled
+#- name: Disable SELinux # Is this needed?
+#  selinux:
+#    state: disabled
 
 - name: Add branding
   copy:
     src: templates/galaxy/static/
     dest: "{{ galaxy_root }}/server/static/"
-    owner: galaxy
-    group: galaxy
+    owner: root
+    group: root
     mode: '0644'
     force: yes
+
+- name: add client scss
+  copy:
+    src: templates/galaxy/client/blue.scss
+    dest: "{{ galaxy_root }}/server/client/galaxy/style/scss/theme/blue.scss"
+    owner: root
+    group: root
+    mode: '0644'
+    force: yes
+  register:
+
+- name: rebuild client
+  make:
+    chdir: "{{ galaxy_server_dir }}"
+    target: "{{ galaxy_client_make_target }}"
+  environment:
+    PATH: "{{ galaxy_venv_dir }}/bin:{{ ansible_env.PATH }}"
+    VIRTUAL_ENV: "{{ galaxy_venv_dir }}"
+
 
 - name: Setup ssh access
   become: false

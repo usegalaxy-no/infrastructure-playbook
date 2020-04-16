@@ -1,41 +1,474 @@
-<!DOCTYPE html>
-<html lang="en">
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="style/base.css" type="text/css" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Welcome to Usegalaxy.no</title>
+
+	<!-- --- -->
+
+        <link type="text/css" rel="stylesheet" href="https://nels.bioinfo.no/javax.faces.resource/bootstrap-3.3.7.min.css.xhtml?ln=css" />
+        <link type="text/css" rel="stylesheet" href="https://nels.bioinfo.no/javax.faces.resource/bootstrap-theme-3.3.7.min.css.xhtml?ln=css" />
+
+
+	<link type="text/css" rel="stylesheet" href="css/containers.css" />
+	<link type="text/css" rel="stylesheet" href="css/welcome.css" />
+
+	<style type="text/css">
+	.twitterbox {
+  	    -moz-box-shadow:    3px 3px 6px 2px #eee, inset 0 0 6px rgb(207,216,240);
+	    -webkit-box-shadow: 3px 3px 6px 2px #eee, inset 0 0 6px rgb(207,216,240);
+            -moz-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.35);
+            -webkit-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.35);
+            box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.35);
+            border: 1px solid #cfcfcf;
+	}
+        .tosbox {
+            display:block;
+            position:fixed;
+            left:0px;
+            bottom:-266px;
+            height:250px;
+            width:100%;
+            padding:0x;
+            background-color:#E0E0E0;
+            box-shadow: 0px -0px 10px 6px #D0D0D0;
+            border-top:   1px solid #273F7B;
+        }
+        .tosboxinner {
+            position:relative;
+            margin-left: auto;
+            margin-right: auto;
+            border-radius: 10px;
+            border: 1px solid #B0B0E0;
+            background-color:#C0C0EE;
+            padding: 30px; 
+            width: calc(100% - 150px);
+            //height: 100px;
+            top: 50px; 
+            font-size: 11pt;
+        }
+        .showtos {
+            transform: translateY(-265px);
+            transition: transform 600ms ease-out 500ms;
+            transition-property: transform;
+            transition-duration: 600ms;
+            transition-timing-function: ease-out;
+            transition-delay: 300ms;
+        }
+        .acceptbutton {
+            border-radius: 3px;
+            border: none; // 1px solid #5A60A0;
+	    border-radius: 6px;
+            background-color:#175D91;
+            padding: 14px 20px;
+            font-size: 15px;
+            font-weight:bold;
+	    text-decoration:none;
+            color:white;
+        }
+        .acceptbutton:hover {
+            color:white;
+            text-decoration:none;
+        }
+	</style>
+
 </head>
-<body class="m-0">
-<div class="jumbotron rounded-0">
-    <div class="container">
-        <h2>Hello, <strong>useGalaxy.no</strong> is running!</h2>
-        <br>
-        <a target="_blank" href="https://docs.galaxyproject.org/en/latest/admin/config.html" class="btn btn-primary btn-lg">Configuring Galaxy »</a>
-        <a target="_blank" href="https://galaxyproject.org/admin/tools/add-tool-from-toolshed-tutorial/" class="btn btn-primary btn-lg">Installing Tools »</a>
-    </div>
-    <br>
-    <div class="container">
-        <p>Take an interactive tour:
-            <a target="_parent" href="../tours/core.galaxy_ui" class="btn btn-secondary btn-sm">Galaxy UI</a>
-            <a target="_parent" href="../tours/core.history" class="btn btn-secondary btn-sm">History</a>
-            <a target="_parent" href="../tours/core.scratchbook" class="btn btn-secondary btn-sm">Scratchbook</a>
-        </p>
-    </div>
+
+<body>
+<script type="text/javascript">
+
+var tos_script = "tos_usegalaxy.php";
+
+
+/**
+ *    responseHTML
+ *    (c) 2007-2008 xul.fr
+ *    Licence Mozilla 1.1
+ */
+function createXHR()
+{
+    var request = false;
+        try {
+            request = new ActiveXObject('Msxml2.XMLHTTP');
+        }
+        catch (err2) {
+            try {
+                request = new ActiveXObject('Microsoft.XMLHTTP');
+            }
+            catch (err3) {
+                try {
+                   request = new XMLHttpRequest();
+                }
+                catch (err1) {
+                  request = false;
+                }
+            }
+        }
+    return request;
+}
+
+/**
+ * Displays information about quota usage (if quotas are enabled in Galaxy) 
+ */
+function displayQuota() { //
+    var quota=(parent.Galaxy)?parent.Galaxy.user.attributes.quota:null;
+    var usage=(parent.Galaxy)?parent.Galaxy.user.attributes.nice_total_disk_usage:null;
+    if (quota===undefined || quota===null || quota=="unlimited") return;    
+    var quotaText="This Galaxy server has limitations on disc usage, and you have currently used <strong>"+usage+"</strong> of your total quota of <strong>"+quota+"</strong>. "+
+                  "To free up disc space, please move your files to the NeLS Storage after you are finished with them. If you require a larger disc quota, contact the <a href=\"mailto:contact@bioinfo.no\">Help Desk</a>.";
+    document.getElementById("display_quota").innerHTML = quotaText;
+}
+
+/**
+ *  Checks if the user has accepted the terms of service. 
+ *  If not, a popup will be displayed that prompts the user to accept.
+ */
+function checkTermsOfServiceAcceptance() { 
+    // console.log("Checking ToS");
+    var xhr = createXHR();
+    xhr.onreadystatechange=function()
+    {
+        if(xhr.readyState == 4) {
+            var response=xhr.responseText;
+            // response="grace:666 days"; // HARD-CODED VALUE FOR TESTING ONLY!
+            // console.log("ToS RESPONSE: "+response);
+            if (response == "" || response == "undefined" || response == "true") {
+                // The user has accepted the ToS. Do nothing!
+            } 
+            else if (response.indexOf("grace:")==0) {
+               var timeleft = response.substring("grace:".length);
+               var message = "<p style='font-size:10pt;'>If you do not accept, you will still be able to use the service for a limited grace period to download any data you have already stored on the server <nobr>("+timeleft+" remaining).</nobr></p>";
+               document.getElementById('tosmessage').innerHTML+=message;
+               document.getElementById('tosaccept').classList.add("showtos"); // show ToS popup
+            }
+            else if (response == "blocked" || response == "expired") { // the user should not be allowed to do anything (except for clicking accept)
+                // hide the tools and history panels and menu bar
+               var toolsPanel   = window.top.document.getElementById('left'); 
+               var historyPanel = window.top.document.getElementById('right');
+               var menus =  window.top.document.getElementsByClassName('navbar-nav');
+               var toolsBlocker = blockPanel(toolsPanel);
+               var historyBlocker = blockPanel(historyPanel);
+               if (typeof menus[0] !== 'undefined') menus[0].style.display="none"; // hide the menu tabs from view
+               document.getElementById('published_workflows').href="javascript:return false;"; // disable this link to prevent possible backdoor				
+               if (response == "expired") {
+                   var message = "<p style='font-size:10pt;color:red;'>Your grace period has expired. To continue using the service you must accept the terms.</p>";
+                   document.getElementById('tosmessage').innerHTML+=message;
+               }
+               // show ToS popup
+               document.getElementById('tosaccept').classList.add("showtos"); 
+            } else if (response.indexOf("<?php")==0 || response.indexOf("#!")==0) {
+               console.log("ToS ERROR: ToS script was not executed");
+            } else if (response.indexOf("ERROR:")==0) { 
+               console.log("ToS "+response); // To minimize the inconvenience to the user, don't to anything if an error occurs (except make a note in the log)               
+            } 
+          
+        }
+    };
+    xhr.open("GET", tos_script, true); // 
+    xhr.send(null);
+}
+
+/** 
+ * This function should be called when the user clicks the "Accept" button for the ToS.
+ * It invokes a REST API function to register the choice
+ */
+function acceptTermsOfService() {
+   var tosPopup=document.getElementById('tosaccept');
+   tosPopup.style.display="none"; // hide the popup
+
+   // In case the user was blocked: remove the blocking panels and bring back the menu
+   var toolsPanelBlocker  = window.top.document.getElementById('leftBlocker');
+   var historyPanelBlocker = window.top.document.getElementById('rightBlocker');
+   var menus =  window.top.document.getElementsByClassName('navbar-nav');
+   if (toolsPanelBlocker) toolsPanelBlocker.parentElement.removeChild(toolsPanelBlocker);
+   if (historyPanelBlocker) historyPanelBlocker.parentElement.removeChild(historyPanelBlocker);
+   if (typeof menus[0] !== 'undefined') menus[0].style.display="flex";
+   document.getElementById('published_workflows').href="../workflows/list_published"; 
+   var xhr = createXHR();
+    xhr.onreadystatechange=function()
+    {
+        if(xhr.readyState == 4) {
+            var response=xhr.responseText;
+            console.log("ToS Accept RESPONSE: "+response);
+            if (response.toLowerCase().indexOf("error")==0) console.log("ToS Acceptance "+response);				
+        }
+    }
+   xhr.open("GET", tos_script+"?action=accept", true);
+   xhr.send(null);
+   return true;    
+}
+
+
+
+/**
+ *  Creates and returns a "Server Alert" <div>-block that can be added to the page
+ */
+function createServerAlert(alert) { // alert is an object with required properties "title" and "text", and optional properties "show", "color", "from" and "to"
+   if (alert.hasOwnProperty('show') && alert.show==false) return "";
+   var title=alert.title;
+   var text=alert.text;
+   if (typeof title == 'undefined' || title=="" || typeof text == 'undefined' || text=="") return "";
+   var fromDate;
+   var toDate;
+   var currentTime=new Date();
+   // Dates should be defined in JSON as "<YYYY>-<MM>-<DD>" or "<YYYY>-<MM>-<DD>T<HH>:<mm>"
+   if (alert.hasOwnProperty('from')) fromDate=new Date(alert.from);
+   if (alert.hasOwnProperty('to')) toDate=new Date(alert.to);
+   if (typeof fromDate !== 'undefined' && fromDate>=currentTime) return "";
+   if (typeof toDate !== 'undefined' && toDate<=currentTime) return "";
+   var borderColor="#dca7a7"; // "#F03030"; // red
+   var bgColor="#e7c3c3"; // "#FF8080";     // red
+   var bgColorLight="#f2dede";
+   var txtColor="#552222";
+   if (alert.hasOwnProperty('color')) { // default color is RED
+             if (alert.color=="green")  {borderColor="#B2DBA1";bgColor="#C8E5BC";bgColorLight="#DFF0D8";txtColor="#225522";}
+        else if (alert.color=="yellow") {borderColor="#F5E79E";bgColor="#F8EFC0";bgColorLight="#FCF8E3";txtColor="#555522";}
+        else if (alert.color=="orange")	{borderColor="#FCCC8F";bgColor="#FFD469";bgColorLight="#FFEEC4";txtColor="#5C3822";}
+        else if (alert.color=="blue")   {borderColor="#9ACFEA";bgColor="#B9DEF0";bgColorLight="#D9EDF7";txtColor="#182255";}
+        else if (alert.color=="violet") {borderColor="#DDA6FF";bgColor="#EEBAFF";bgColorLight="#FFDBFF";txtColor="#332255";}
+   }
+   var element="<div class=\"alert\" style=\"border:1px solid "+borderColor+";padding:14px;border-radius:4px;";
+   element+="background-image:linear-gradient(to bottom,"+bgColorLight+" 0,"+bgColor+" 100%);box-shadow:0 0 5px 0 rgba(0, 0, 0, 0.35);margin-top:10px;\" >";
+   element+=("<p style=\"font-family:Roboto, sans-serif;font-weight:300;font-size:18px;margin-bottom:5px;color:"+txtColor+";padding-bottom:6px;\" >"+title+"</p>"+text+"</div>");
+   return element;
+}
+
+
+/**
+ *  Takes an array of server alerts (objects) as input and adds them to the specified element on the page
+ */
+function processAllServerAlerts(alerts,elementID) {
+     if (!Array.isArray(alerts)) return;
+     var all_alerts="<br/>";
+     for (var i = 0; i < alerts.length; i++) {
+        var text=createServerAlert(alerts[i]);
+        all_alerts+=text;
+     }
+     if (all_alerts!="") {
+         document.getElementById(elementID).innerHTML = all_alerts;
+         alignNodeLogos();
+     }
+}
+
+/**
+ *  Reads server alerts from a central database (via REST API calls) and also a local JSON file and then calls another function to process them
+ */
+function showServerAlerts(url,elementID) { //
+    var xhr = createXHR();
+    xhr.onreadystatechange=function()
+    {
+        if(xhr.readyState == 4 && xhr.status == 200) {
+            if (typeof xhr.responseText=='undefined' || xhr.responeText=="") return;
+            try {
+               var alerts=JSON.parse(xhr.responseText);
+               processAllServerAlerts(alerts,elementID);
+            } catch(err) {console.log(err);}
+        }
+    };
+    xhr.open("GET", url , true);
+    xhr.send(null);
+}
+
+/**
+ * This function adds a dark translucent layer on top of another element, thereby blocking access to it
+ */
+function blockPanel(element) {
+    var owner = element.ownerDocument;
+    var glasspane = owner.createElement("div");
+    glasspane.id=element.id+"Blocker";
+    glasspane.style.top=0;
+    glasspane.style.left=0;
+    glasspane.style.width="100%";
+    glasspane.style.height="100%";
+    glasspane.style.position="absolute";
+    glasspane.style.zIndex=300;
+    glasspane.style.backgroundColor="black";
+    glasspane.style.opacity=0.4;
+//    glasspane.style.setProperty("transition","opacity 2s");
+//    glasspane.style.setProperty("-webkit-transition","opacity 2s");
+//    glasspane.style.setProperty("-o-transition","opacity 2s");
+//    glasspane.style.setProperty("-moz-transition","opacity 2s");
+    glasspane.content=" ";
+    element.insertBefore(glasspane, element.firstChild);
+    return glasspane;
+}
+
+/**
+ * Repositions the node logos so that they are placed at the bottom of the screen (unless that is inconvenient)
+ */
+function alignNodeLogos() {
+   var logos=document.getElementById('nodelogos');
+   var logos_rect=logos.getBoundingClientRect();
+   var before_logos=document.getElementById('beforenodelogos').getBoundingClientRect();
+   var vp_height=document.documentElement.clientHeight; // height of viewport window/frame (page content)
+   var logos_height=logos_rect.bottom-logos_rect.top;
+   var margin=vp_height-(before_logos.bottom+logos_height+1);
+   if (margin<0) margin=0;
+   logos.style.marginTop=margin+"px";
+   logos.style.visibility="visible"
+}
+
+function clickSharedData() {
+    var doc = (parent!=null)?parent.document:null;
+    var menu = (doc!=null)?doc.querySelector("#shared > a:first-of-type"):null;
+    if (menu!=null) menu.click();
+}
+
+/**
+ *  This function should be run when the page has loaded to add additional elements to the page
+ *  such as Server Alerts and Terms of Service popup
+ */
+function onStartUp() {
+    displayQuota();
+    server_alerts_url="https://galaxy-ntnu.bioinfo.no/nels/api/serveralerts/usegalaxy/active";
+    showServerAlerts(server_alerts_url,"server_alerts");
+    showServerAlerts("nels_server_alerts.json","local_server_alerts");// DEPRECATED
+    alignNodeLogos();
+    window.onresize = alignNodeLogos;
+    checkTermsOfServiceAcceptance();
+}
+
+window.onload = onStartUp;
+</script>
+
+<!---------------------------- beginning of page --------------------------------------->
+
+<div id="content-container" style="padding:10px 26px 0px 10px;"> <!-- This contains the whole page -->
+
+<!-- Header -->  
+  <div class="box-header" id="topheader">
+     <a href="https://www.elixir-norway.org" target="_blank"><img src="images/elixir_no_logo.png" style="height:50px;margin-top:0px;border:0;padding-right:16px;vertical-align:middle;"></a>
+
+       Welcome to usegalaxy.no
+
+ </div>
+<!-- end header -->
+
+<!-- The following table divides the page into four squares (2x2) --> 
+<table style="border:0px;">
+ <tr style="border:0px;">
+  <td style="vertical-align:top;padding-right:70px;width:60%;min-width:300px;">
+
+	<!--   Introduction -->
+	<div class="box-body" style="border:0px;">
+	   <a href="https://wiki.galaxyproject.org" target="_blank">Galaxy</a> is a web-based platform for data intensive life science research that provides
+	   users with a unified, easy-to-use graphical interface to a host of different analysis tools.
+	   These tools can be run interactively, one by one, or combined into multi-step workflows that can be executed as a single analysis.
+	   <br><br>
+	   If this is your first time using Galaxy, you might want to have a look at this
+	   <a href="https://galaxy-ntnu.bioinfo.no/www/userguide" class="smallbutton button3d" style="">Quick Start Guide</a><br>
+	   Additional documentation and tutorials on using Galaxy can be found <a href="https://wiki.galaxyproject.org/Learn" target="_blank">here</a>.
+	   <br><br>
+	   <div id="display_quota"></div>
+        <!--<div id="server_alerts"></div>         These alerts are defined in a common database at https://galaxy-ntnu.bioinfo.no/nels  -->
+	   <div id="local_server_alerts"></div> <!--  Local alerts can be defined in JSON format (list of objects) in the file "nels_server_alerts.json" (in the same directory as this HTML page)  -->
+	</div>
+	<!-- End of introduction box -->
+
+  </td>
+  <td style="height:320px;max-width:520px;min-width:250px;border:0px;vertical-align:top;" >
+
+    <!-- Twitter feed box -->
+   <div class="col-sm-6 text-center twitterbox" style="height:336px;width:520px;max-width:520px;padding:10px;" id="twitter">
+      <a class="twitter-timeline" href="https://twitter.com/elixirnorway?ref_src=twsrc%5Etfw" height="320" width="500">Tweets by elixirnorway</a>
+      <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+   </div>
+
+  </td>
+ </tr>
+
+ <tr> <!-- second row of main 2x2 table -->	    
+ <td style="vertical-align:top;padding-top:20px;"> <!-- Row 2 Column 1 -->
+
+<!-- Tools and Workflows -->
+<table style="border:0px;width:100%;padding:0px;margin:0px;"> <!-- inner table to align support button with Tools & WF header -->
+<tr style="padding:0px;margin:0px;border:0px;">
+   <td style="width:320px;border:0px;padding:0px;margin:0px;">
+      <div class="box-header" id="toolsheader">Tools and Workflows</div>
+   </td>
+   <td>
+     <div>
+        <!-- support button -->
+        <a target="_top" href="mailto:contact@bioinfo.no" class="button3d" style="height:36px;width:170px;">
+          <table style="padding:0;margin:0;">
+            <tr style="padding:0;">
+              <td style="padding:0;margin:0;vertical-align:top">
+                <img src="images/mail-icon1.gif" style="height:32px;width:40px;margin-top:2px;border:0;padding-right:0px;">
+              </td>
+              <td style="height:36px;padding:0;margin:0;vertical-align:top">
+                 <H2 style="font-size:12pt;margin-top:10px;">Contact Support</H2>
+              </td>
+            </tr>
+          </table>
+        </a>
+	<!-- end of support button -->       
+      </div>
+   </td>
+  </tr>
+</table>
+
+   <div class="box-body" style="margin-top:8px;padding-right:40px;">
+  <a href="https://www.elixir-norway.org" target="_blank">ELIXIR Norway</a> aims to develop tools and workflows for specific data analysis tasks, based on input from large user groups
+   and help-desk users in Norway and also toward ELIXIR internationally.
+   To see a list of analysis workflows available on this Galaxy server, click the &ldquo;<a href="" onClick="clickSharedData();return false;">Shared Data</a>&rdquo; menu at
+   the top of the page and select &ldquo;<a href="../workflows/list_published" id="published_workflows" target="_parent">Workflows</a>&rdquo;.
+   Visit&nbsp;the&nbsp;<a href="https://nels.bioinfo.no" target="_blank" >NeLS Portal</a> to
+   see the full list of available <a href="https://galaxy-ntnu.bioinfo.no/www/nels_pipelines.html">analysis workflows</a>.
+  </div>
+   
+  </td> <!-- end of Row 2 Column 1 -->
+
+  <td style="vertical-align:top;padding-top:20px;"> <!-- Row 2 Column 2 -->
+<div class="box-header" id="grafanaheader">Server load</div>
+<!-- --- GRAFANA --- -->
+<iframe style="border: 0px" width="500px" height="200px" src="https://stats.galaxyproject.eu/dashboard-solo/db/jobs-dashboard?panelId=1&amp;refresh=1m&amp;orgId=1"></iframe>
+<!-- --- END: GRAFANA --- -->
+
+  </td> <!-- end of Row 2 Column 2 -->
+
+</tr> <!-- end of row 2 -->
+</table> <!-- End of main 2x2 table -->
+
+<!-- Node logos -->
+<div id="beforenodelogos" style="height:20px"></div> <!-- This element serves as a fixed point before the node logos. The margin between this element and the logos below will be adjusted dynamically -->
+
+<div class="box-body" id="nodelogos" style="display:flex;flex-wrap:wrap;justify-content:space-around;align-content:strech;visibility:hidden;margin-top:0px;">
+   <div style="padding:14px;flex-grow:1;"><img height="40" src="images/uio-logo-and-name.png"></div>
+   <div style="padding:14px;flex-grow:1;"><img height="40" src="images/uib-logo-and-name.png"></div>
+   <div style="padding:14px;flex-grow:1;"><img height="43" src="images/ntnu-logo-and-name.png"></div>
+   <div style="padding:14px;flex-grow:1;"><img height="40" src="images/uit-logo-and-name.png"></div>
+   <div style="padding:14px;flex-grow:1;"><img height="44" src="images/nmbu-logo-and-name.png"></div>
 </div>
-<div class="container">
-    <p class="lead">
-        <a target="_blank" class="reference" href="http://galaxyproject.org/">
-            Galaxy</a> is an open platform for supporting data intensive
-        research. Galaxy is developed by <a target="_blank" class="reference" href="https://galaxyproject.org/galaxy-team/">The Galaxy Team</a>
-        with the support of  <a target="_blank" class="reference" href="https://github.com/galaxyproject/galaxy/blob/dev/CONTRIBUTORS.md">many contributors</a>.
-    </p>
-    <footer>
-        The <a target="_blank" class="reference" href="http://galaxyproject.org/">Galaxy Project</a>
-        is supported in part by <a target="_blank" class="reference" href="http://www.genome.gov">NHGRI</a>,
-        <a target="_blank" class="reference" href="http://www.nsf.gov">NSF</a>,
-        <a target="_blank" class="reference" href="http://www.huck.psu.edu">The Huck Institutes of the Life Sciences</a>,
-        <a target="_blank" class="reference" href="http://www.ics.psu.edu">The Institute for CyberScience at Penn State</a>,
-        and <a target="_blank" class="reference" href="http://www.jhu.edu/">Johns Hopkins University</a>.
-    </footer>
+
+
+</div> <!-- end of: div id="content-container"-->
+
+<!-- end of page -->
+
+
+
+<!-- Accept Terms of Service popup. This will be hidden unless the user has not yet accepted the ToS --> 
+
+<div id="tosaccept" class="tosbox">
+   <div id="tosacceptinner" class="tosboxinner">
+       <table style="border:none;">
+        <tr>
+          <td>
+            <span id="tosmessage" style="font-size:15px;">
+              By using any of the NeLS Galaxy servers, you agree to the <a href="/galaxy-terms/" target="galaxy_main">Terms of Service</a> and data Privacy Policy, including our use of Cookies.
+            </span>
+          </td>
+          <td style="padding-left:30px;">
+            <a href="" onClick="acceptTermsOfService();return false;" class="acceptbutton">I&nbsp;Accept</a>
+          </td>
+        </tr>
+       </table>
+   </div>
 </div>
+
+<!-- End of Accept Terms of Service popup -->
+
 </body>
 </html>

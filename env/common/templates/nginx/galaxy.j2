@@ -55,6 +55,10 @@ server {
         alias /srv/galaxy/server/static/tos/;
     }
 
+    location /docs/ {
+        alias /srv/galaxy/server/static/docs/;
+    }
+
     location /robots.txt {
         alias {{ galaxy_server_dir }}/static/robots.txt;
     }
