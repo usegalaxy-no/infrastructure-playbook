@@ -31,10 +31,10 @@ postgresql_objects_privileges:
 #    type: sequence
 #    privs: USAGE,SELECT
 postgresql_conf:
-  - listen_addresses: '*' 
+  - listen_addresses: "'*'" 
 postgresql_pg_hba_conf:
   - local all postgres peer
-  - local "{{galaxy_database}} telegraf peer
+  - local "{{galaxy_database}}" telegraf peer
   - host all all 127.0.0.1/32 md5
   - host all all ::1/128 md5
   - local "{{galaxy_database}}" "{{galaxy_db_user}}" md5

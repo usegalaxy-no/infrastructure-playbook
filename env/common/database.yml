@@ -18,7 +18,7 @@
   pre_tasks:
     - name: Install Dependencies
       package:
-        name: ['epel-release', 'python3']
+        name: ['epel-release', 'python3', 'python-psycopg2']
   tasks:
     - name: setup rabbitmq certs, vhosts and users
       include: tasks/rabbitmq.yml
