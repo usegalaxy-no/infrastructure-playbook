@@ -9,7 +9,7 @@
     owner: root
     group: root
     mode: '0644'
-    force: yes
+#    force: yes
 
 - name: add client scss
   copy:
@@ -18,8 +18,8 @@
     owner: root
     group: root
     mode: '0644'
-    force: yes
-  register:
+#    force: yes
+  register: scss_file
 
 - name: rebuild client
   make:
@@ -28,6 +28,7 @@
   environment:
     PATH: "{{ galaxy_venv_dir }}/bin:{{ ansible_env.PATH }}"
     VIRTUAL_ENV: "{{ galaxy_venv_dir }}"
+  when: scss_file.changed
 
 
 - name: Setup ssh access
