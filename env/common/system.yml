@@ -1,13 +1,21 @@
-- hosts: slurm, galaxyserver, jenkins, database
+- hosts: slurm, galaxyserver, jenkins, database, ehos_servers
   become: true
   vars_files:
     - secret_group_vars/global.vault
     - group_vars/global.yml
     - group_vars/telegraf.yml
+  pre_tasks:
+    - name: Install Dependencies
+      package:
+        name:
+          - 'epel-release'
   tasks:
   - name: Set timezone to Europe/Oslo
     timezone:
       name: Europe/Oslo
+  - name: Setup ssh access
+    become: false
+    include: tasks/keys.yml
   roles:
     - reallyenglish.dhclient
     - nbigot.ansible-fail2ban
