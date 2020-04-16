@@ -147,7 +147,6 @@ certbot_agree_tos: --agree-tos
 # NGINX
 nginx_selinux_allow_local_connections: true
 nginx_servers:
-  - server_status
   - redirect-ssl
 nginx_enable_default_server: false
 nginx_ssl_servers:
@@ -242,4 +241,4 @@ telegraf_plugins_extra:
       - data_format = "influx"
   nginx:
     config:
-      - urls = ["http://localhost:9096/server_status"]
+      - urls = ["http://{{ galaxy_host }}/server_status"]
