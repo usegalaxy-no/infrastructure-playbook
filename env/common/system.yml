@@ -1,8 +1,9 @@
 - hosts: slurm, galaxyserver, jenkins, database
   become: true
   vars_files:
-  - group_vars/global.yml
-  - group_vars/telegraf.yml
+    - secret_group_vars/global.vault
+    - group_vars/global.yml
+    - group_vars/telegraf.yml
   tasks:
   - name: Set timezone to Europe/Oslo
     timezone:

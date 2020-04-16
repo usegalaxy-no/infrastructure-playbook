@@ -4,6 +4,7 @@
     - database
 
   vars_files:
+    - secret_group_vars/global.vault
     - group_vars/global.yml
     - group_vars/database.yml
     - group_vars/certbot.yml
@@ -33,4 +34,3 @@
       become_user: postgres
     - geerlingguy.rabbitmq
     - galaxyproject.nginx
- 

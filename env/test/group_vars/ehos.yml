@@ -1,4 +1,4 @@
-condor_password: TSCy4H1Ekp9npNgoV67ZOUEF52iMiN
+condor_password: "{{nrec_condor_password}}"
 condor_uid_domain: usegalaxy.no
 
 ehos_user: ehos
@@ -52,13 +52,12 @@ pulsar_systemd: true
 #pulsar_port: 8913
 
 #pulsar_private_token: SecretToken
-pulsar_rabbitmq_username: test
-pulsar_rabbitmq_password: wAQsJfQptm11p2TGWRDyc9aA3ormo2
+pulsar_rabbitmq_username: nrec_galaxy
+pulsar_rabbitmq_password: "{{nrec_rabbitmq_password}}"
 pulsar_rabbitmq_proxy: "{{ groups['database'][0] }}"
-pulsar_rabbitmq_vhost: test
+pulsar_rabbitmq_vhost: pulsar_nrec
 
 pulsar_message_queue: "amqps://{{ pulsar_rabbitmq_username}}:{{ pulsar_rabbitmq_password}}@{{ pulsar_rabbitmq_proxy }}/%2F{{ pulsar_rabbitmq_vhost }}"
-#amqps://test:wAQsJfQptm11p2TGWRDyc9aA3ormo2@test-db.usegalaxy.no/%2Ftest
 
 pulsar_create_user: yes
 

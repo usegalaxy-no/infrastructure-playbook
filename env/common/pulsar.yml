@@ -1,6 +1,7 @@
 - hosts: pulsar_nmbu_orion
   become: true
   vars_files:
+    - secret_group_vars/global.vault
     - group_vars/pulsar_nmbu_orion.yml
   pre_tasks:
     - name: Install some packages

@@ -5,6 +5,7 @@
     - ehos
 
   vars_files:
+    - secret_group_vars/global.vault
     - group_vars/global.yml
     - group_vars/ehos.vault
     - group_vars/ehos.yml

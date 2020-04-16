@@ -1,6 +1,7 @@
 - hosts: galaxyserver
   become: true
   vars_files:
+    - secret_group_vars/global.vault
     - group_vars/global.yml
     - group_vars/slurm.yml
     - group_vars/galaxy.yml

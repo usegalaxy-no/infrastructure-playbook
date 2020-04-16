@@ -23,10 +23,10 @@ galaxy_file_path: /data
 galaxy_config:
   galaxy:
     brand: "/ NeLS"
-    admin_users: "{{galaxy_admin}}"
-    master_api: gAlAxy
+    admin_users: "{{ galaxy_admin }}"
+    master_api: "{{ galaxy_master_api_key }}"
     enable_beta_gdpr: true
-    database_connection: "{{db_connection}}"
+    database_connection: "{{ db_connection }}"
     file_path: "{{ galaxy_file_path }}"
     check_migrate_tools: false
     tool_data_table_config_path: /cvmfs/data.galaxyproject.org/byhand/location/tool_data_table_conf.xml,/cvmfs/data.galaxyproject.org/managed/location/tool_data_table_conf.xml
@@ -47,13 +47,7 @@ galaxy_config:
     terms_url: https://{{galaxy_host}}/galaxy-terms/
     statsd_host: localhost
     statsd_influxdb: true
-    id_secret: !vault |
-          $ANSIBLE_VAULT;1.1;AES256
-          62306463646165326238323064633339333430363634356635613661613830653231323731666333
-          3932366531646532326339636233376430353432616339370a613334663534383630383363353037
-          31323962613436333463346634396164363030633238386562373831393064323533356637373336
-          6463383138366132650a383632636465363439383832383538666665386265386236626461333464
-          65336137396531366632396137316237376566366161386162356563643762643436
+    id_secret: "{{galaxy_id_secret}}"
 
     message_box_visible: true
     message_box_class: warning
