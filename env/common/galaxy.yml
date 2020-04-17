@@ -49,6 +49,7 @@
     - dj-wasabi.telegraf
     - geerlingguy.docker
     - usegalaxy_eu.gie_proxy
+    - usegalaxy_eu.gxadmin
 
   post_tasks:
     - name: Install slurm-drmaa
