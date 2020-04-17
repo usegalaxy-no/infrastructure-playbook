@@ -12,6 +12,8 @@
         name:
           - 'epel-release'
           - 'mailx'
+          - 'vim'
+          - 'mlocate'
   tasks:
     - name: Set timezone to Europe/Oslo
       timezone:
