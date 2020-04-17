@@ -80,3 +80,9 @@
       {{ groups['database'][0] }}:5432:*:{{ galaxy_db_user }}:{{ galaxy_db_passwd }}
     dest: "~/.pgpass"
     mode: 0600
+
+- name: Allow nginx to read static files
+  sefcontext:
+    target: '{{ galaxy_server_dir }}/static/'
+    setype: httpd_sys_content_t
+    state: present

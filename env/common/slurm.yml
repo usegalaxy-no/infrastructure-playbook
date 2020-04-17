@@ -7,16 +7,17 @@
     - group_vars/galaxy.yml
   vars:
     slurm_roles: ['controller']
+    nfs_mode: server
   tasks:
   - name: Setup ssh access
     become: false
     include: tasks/keys.yml
   - name: Add users and other tasks
     include: tasks/slurm.yml
-
   roles:
     - galaxyproject.repos
     - galaxyproject.slurm
+    - indigo-dc.nfs
   post_tasks:
     - name: Install slurm-drmaa
       package:
@@ -35,6 +36,7 @@
     - group_vars/galaxy.yml
   vars:
     slurm_roles: ['exec']
+    nfs_mode: client
   tasks:
   - name: Setup ssh access
     become: false
@@ -46,7 +48,7 @@
     - galaxyproject.slurm
     - galaxyproject.cvmfs
     - geerlingguy.docker
-
+    - indigo-dc.nfs
   post_tasks:
     - name: Install packages
       package:

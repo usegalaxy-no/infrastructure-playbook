@@ -44,6 +44,22 @@ slurm_partitions:
 
 slurm_munge_key: files/munge/munge.key
 
+slurm_node_ips: "{{ groups['slurm'] | map('extract', hostvars, ['ansible_eth0', 'ipv4', 'address']) | join(',') }}"
+
+nfs_exports:
+  - path: "/srv/galaxy"
+    export: "{{ slurm_node_ips }}(rw,async,no_root_squash)"
+  - path: "/data"
+    export: "{{ slurm_node_ips }}(rw,sync,no_root_squash)"
+
+nfs_client_imports:
+  - local: "/srv/galaxy"
+    remote: "/srv/galaxy"
+    server_host: "{{ galaxy_host }}"
+  - local: "/data"
+    remote: "/data"
+    server_host: "{{ galaxy_host }}"
+
 cvmfs_role: client
 galaxy_cvmfs_repos_enabled: config-repo
 cvmfs_quota_limit: 6000
