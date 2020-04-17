@@ -11,13 +11,9 @@
   - name: Setup ssh access
     become: false
     include: tasks/keys.yml
-  - name: Copy slurm telegraf plugin
-    copy:
-      src: files/telegraf/slurm-collect.sh
-      dest: "{{ custom_telegraf_slurm_collect_bin }}"
-      owner: root
-      group: root
-      mode: '0755'
+  - name: Add users and other tasks
+    include: tasks/slurm.yml
+
   roles:
     - galaxyproject.repos
     - galaxyproject.slurm
@@ -25,7 +21,7 @@
     - name: Install slurm-drmaa
       package:
         name: slurm-drmaa
-
+    
 - hosts: slurm
   become: true
   pre_tasks:
@@ -43,6 +39,8 @@
   - name: Setup ssh access
     become: false
     include: tasks/keys.yml
+  - name: Add users and other tasks
+    include: tasks/slurm.yml
   roles:
     - galaxyproject.repos
     - galaxyproject.slurm

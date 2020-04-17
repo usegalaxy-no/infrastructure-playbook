@@ -5,13 +5,13 @@ pip_package: python3-pip                               # geerlingguy.pip
 
 
 # Galaxy
-galaxy_create_user: true
+galaxy_create_user: false
 galaxy_separate_privileges: true
 galaxy_manage_paths: true
 galaxy_layout: root-dir
 galaxy_root: /srv/galaxy
 
-galaxy_user: {name: galaxy, shell: /bin/bash}
+galaxy_user: { name: galaxy }
 galaxy_commit_id: release_20.01
 galaxy_config_style: yaml
 galaxy_force_checkout: true
@@ -29,7 +29,7 @@ galaxy_config:
     database_connection: "{{ db_connection }}"
     file_path: "{{ galaxy_file_path }}"
     check_migrate_tools: false
-    tool_data_table_config_path: /cvmfs/data.galaxyproject.org/byhand/location/tool_data_table_conf.xml,/cvmfs/data.galaxyproject.org/managed/location/tool_data_table_conf.xml
+    #tool_data_table_config_path: /cvmfs/data.galaxyproject.org/byhand/location/tool_data_table_conf.xml,/cvmfs/data.galaxyproject.org/managed/location/tool_data_table_conf.xml
     job_config_file: "{{ galaxy_config_dir }}/job_conf.xml"
     job_metrics_config_file: "{{ galaxy_config_dir }}/job_metrics_conf.xml"
     sanitize_whitelist_file: "{{ galaxy_mutable_config_dir }}/sanitize_whitelist.txt"
@@ -241,4 +241,4 @@ telegraf_plugins_extra:
       - data_format = "influx"
   nginx:
     config:
-      - urls = ["http://{{ galaxy_host }}/server_status"]
+      - urls = ["https://{{ galaxy_host }}/server_status"]

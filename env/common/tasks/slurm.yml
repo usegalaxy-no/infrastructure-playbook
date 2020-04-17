@@ -1,0 +1,24 @@
+- name: Copy slurm telegraf plugin
+  copy:
+    src: files/telegraf/slurm-collect.sh
+    dest: "{{ custom_telegraf_slurm_collect_bin }}"
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Add groups
+  become: true
+  group:
+    name: "{{ item.name }}"
+    gid: "{{ item.gid }}"
+  with_items: "{{ system_groups }}"
+
+- name: Add users
+  become: true
+  user:
+    name: "{{ item.name }}"
+    uid: "{{ item.uid }}"
+    shell: "{{ item.uid }}"
+    group: "{{ item.group }}"
+    create_home: "{{ item.create_home }}"
+  with_items: "{{ system_users }}"

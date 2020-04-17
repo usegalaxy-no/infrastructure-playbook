@@ -11,6 +11,7 @@
       package:
         name:
           - 'epel-release'
+          - 'mailx'
   tasks:
     - name: Set timezone to Europe/Oslo
       timezone:

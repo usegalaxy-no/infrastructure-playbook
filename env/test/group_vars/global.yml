@@ -1,3 +1,11 @@
+system_groups:
+  - { name: galaxy, gid: 1024 }
+  - { name: slurm, gid: 1025 }
+
+system_users:
+  - { name: galaxy, uid: 1024, group: galaxy, shell: /bin/bash, create_home: yes }
+  - { name: slurm, uid: 1025, group: slurm, shell: /sbin/nologin, create_home: no }
+
 galaxy_host: "{{ groups['galaxyserver'][0] }}"
 galaxy_ip: "{{ hostvars[galaxy_host].ansible_host }}"
 
