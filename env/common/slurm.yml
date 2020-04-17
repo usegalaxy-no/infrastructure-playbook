@@ -11,13 +11,6 @@
   - name: Setup ssh access
     become: false
     include: tasks/keys.yml
-  - name: Copy munge key
-    copy:
-      src: files/munge/munge.key
-      dest: /etc/munge/munge.key
-      owner: munge
-      group: munge
-      mode: '0400'
   - name: Copy slurm telegraf plugin
     copy:
       src: files/telegraf/slurm-collect.sh
@@ -25,7 +18,6 @@
       owner: root
       group: root
       mode: '0755'
-
   roles:
     - galaxyproject.repos
     - galaxyproject.slurm
@@ -51,13 +43,6 @@
   - name: Setup ssh access
     become: false
     include: tasks/keys.yml
-  - name: Copy munge key
-    copy:
-      src: files/munge/munge.key
-      dest: /etc/munge/munge.key
-      owner: munge
-      group: munge
-      mode: '0400'
   roles:
     - galaxyproject.repos
     - galaxyproject.slurm

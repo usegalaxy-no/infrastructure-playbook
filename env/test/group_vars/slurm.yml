@@ -25,7 +25,6 @@ slurm_config:
   SlurmdLogFile: /var/log/slurm/slurmd.log
   SlurmdDebug: 3
   DefMemPerCPU: 1000
-  MemLimitEnforce: no
 slurm_nodes:
   - name: "test"
     CoresPerSocket: 1
@@ -43,6 +42,7 @@ slurm_partitions:
     MaxTime: UNLIMITED
     Nodes: "test-slurm"
 
+slurm_munge_key: files/munge/munge.key
 
 cvmfs_role: client
 galaxy_cvmfs_repos_enabled: config-repo
