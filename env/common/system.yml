@@ -10,7 +10,7 @@
     - name: Install Dependencies
       package:
         name:
-          - 'epel-release'
+#          - 'epel-release'
           - 'mailx'
           - 'vim'
           - 'mlocate'
@@ -23,6 +23,7 @@
       include: tasks/keys.yml
 
   roles:
+    - geerlingguy.repo-epel
     - reallyenglish.dhclient
     - nbigot.ansible-fail2ban
     - dj-wasabi.telegraf
