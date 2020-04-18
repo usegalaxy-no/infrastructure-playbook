@@ -8,7 +8,7 @@
   vars:
     slurm_roles: ['controller']
     nfs_mode: server
-  tasks:
+  pre_tasks:
   - name: Setup ssh access
     become: false
     include: tasks/keys.yml
@@ -25,11 +25,6 @@
     
 - hosts: slurm
   become: true
-  pre_tasks:
-    - name: Install epel
-      package:
-        name:
-          - 'epel-release'
   vars_files:
     - group_vars/global.yml
     - group_vars/slurm.yml
@@ -37,13 +32,14 @@
   vars:
     slurm_roles: ['exec']
     nfs_mode: client
-  tasks:
+  pre_tasks:
   - name: Setup ssh access
     become: false
     include: tasks/keys.yml
   - name: Add users and other tasks
     include: tasks/slurm.yml
   roles:
+    - geerlingguy.repo-epel
     - galaxyproject.repos
     - galaxyproject.slurm
     - galaxyproject.cvmfs
@@ -54,7 +50,6 @@
       package:
         name:
           - 'slurm-drmaa'
-          - 'epel-release'
           - 'python3'
           - 'git'
           - 'python36-virtualenv'
