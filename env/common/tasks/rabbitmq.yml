@@ -38,9 +38,13 @@
 #
   - name: Copy cert files 
     copy:
-      src: /etc/letsencrypt/live/{{ inventory_hostname }}/
+      src: "/etc/letsencrypt/live/{{ inventory_hostname }}/{{ item }}"
       dest: /etc/rabbitmq/
       remote_src: yes
       owner: rabbitmq
       group: rabbitmq
-      mode: 600
+      mode: 0600
+    with_items:
+      - cert.pem
+      - fullchain.pem
+      - privkey.pem
