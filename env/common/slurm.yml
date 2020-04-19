@@ -12,6 +12,17 @@
   - name: Setup ssh access
     become: false
     include: tasks/keys.yml
+  - name: Add galaxy paths for nfs export
+    become: true
+    file:
+      path: "{{ item }}"
+      state: directory
+      mode: '0750'
+      owner: "{{ galaxy_user.name }}"
+      group: "{{ galaxy_user.name }}"
+    with_items:
+      - "{{ galaxy_file_path }}"
+      - "{{ galaxy_root }}"
   - name: Add users and other tasks
     include: tasks/slurm.yml
   roles:
