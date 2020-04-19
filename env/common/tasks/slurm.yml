@@ -18,7 +18,7 @@
   user:
     name: "{{ item.name }}"
     uid: "{{ item.uid }}"
-    shell: "{{ item.uid }}"
+    shell: "{{ item.shell }}"
     group: "{{ item.group }}"
     create_home: "{{ item.create_home }}"
   with_items: "{{ system_users }}"
