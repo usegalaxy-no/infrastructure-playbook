@@ -83,11 +83,13 @@
 
 - name: Allow nginx httpd_sys_content_t to access the static files
   sefcontext:
-    target: '{{ galaxy_server_dir }}/static(/.*)?'
+    target: "{{ item }}(/.*)?"
     setype: httpd_sys_content_t
     state: present
   register: update_fcontexts
+  with_items: "{{ galaxy_selinux_web_access_dirs }}"
 
 - name: Apply new SELinux file context to filesystem
-  command: "restorecon -rv {{ galaxy_server_dir }}/static"
+  command: "restorecon -rv {{ item }}"
+  with_items: "{{ galaxy_selinux_web_access_dirs }}"
   when: update_fcontexts.changed

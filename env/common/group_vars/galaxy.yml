@@ -107,6 +107,9 @@ galaxy_systemd_reports: true
 galaxy_zergpool_listen_addr: 127.0.0.1:8080
 galaxy_restart_handler_name: "Restart Galaxy"
 
+galaxy_selinux_web_access_dirs:
+  - "{{ galaxy_server_dir }}/client/galaxy/images"
+  - "{{ galaxy_server_dir }}/static"
 
 # Interactive Tools
 docker_install_compose: false
