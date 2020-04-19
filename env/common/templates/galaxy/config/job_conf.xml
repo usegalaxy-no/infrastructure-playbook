@@ -2,9 +2,9 @@
     <plugins workers="4">
         <plugin id="local" type="runner" load="galaxy.jobs.runners.local:LocalJobRunner"/>
         <plugin id="slurm" type="runner" load="galaxy.jobs.runners.slurm:SlurmJobRunner"/>
-        <plugin id="pulsar" type="runner" load="galaxy.jobs.runners.pulsar:PulsarMQJobRunner">
+        <plugin id="pulsar_nmbu" type="runner" load="galaxy.jobs.runners.pulsar:PulsarMQJobRunner">
             <param id="galaxy_url">https://{{ galaxy_host }}</param>
-            <param id="amqp_url">amqp://{{ pulsar_rabbitmq_username}}:{{ pulsar_rabbitmq_password}}@{{ pulsar_rabbitmq_proxy }}/%2F{{ pulsar_rabbitmq_vhost }}</param>
+            <param id="amqp_url">amqps://{{ pulsar_rabbitmq_username}}:{{ pulsar_rabbitmq_password}}@{{ pulsar_rabbitmq_proxy }}/%2F{{ pulsar_rabbitmq_vhost }}</param>
         </plugin>
         <plugin id="pulsar_nrec" type="runner" load="galaxy.jobs.runners.pulsar:PulsarMQJobRunner">
             <param id="galaxy_url">https://test.usegalaxy.no</param>
@@ -17,14 +17,10 @@
     <destinations default="slurm">
         <destination id="local" runner="local"/>
         <destination id="slurm" runner="slurm"/>
-        <destination id="pulsar_nmbu_orion_1c" runner="pulsar">
+        <destination id="pulsar_nmbu_orion_1c" runner="pulsar_nmbu">
             <param id="jobs_directory">{{ pulsar_staging_dir }}</param>
             <param id="submit_native_specification">-p hugemem,cigene,smallmem -n 1 -N 1</param>
         </destination>
-        <plugin id="pulsar_nrec" type="runner" load="galaxy.jobs.runners.pulsar:PulsarMQJobRunner">
-            <param id="galaxy_url">https://test.usegalaxy.no</param>
-            <param id="amqp_url">amqps://test:wAQsJfQptm11p2TGWRDyc9aA3ormo2@test-db.usegalaxy.no/%2Ftest</param>
-        </plugin>
         <destination id="pulsar_nrec" runner="pulsar_nrec">
             <param id="jobs_directory">/srv/pulsar/staging/</param>
             <!-- use a queue defined at the pulsar end -->

@@ -53,16 +53,4 @@ pulsar_yaml_config:
   managers:
     _default_:
       type: queued_drmaa
-      native_specification: "--nodes=1 --partition=smallmem,cigene,hugemem --ntasks=1 --mem=8G"
-    32gb_mem:
-      type: queued_drmaa
-      native_specification: "--nodes=1 --partition=hugemem --ntasks=1 --mem=384G"
-    32gb_mem_6cpu:
-      type: queued_drmaa
-      native_specification: "--nodes=1 --partition=hugemem --ntasks=6 --mem=384G"
-    384gb_mem:
-      type: queued_drmaa
-      native_specification: "--nodes=1 --partition=hugemem --ntasks=1 --mem=384G"
-    384gb_mem_6cpu:
-      type: queued_drmaa
-      native_specification: "--nodes=1 --partition=hugemem --ntasks=6 --mem=384G"
+      native_specification: "--nodes=1 --partition=smallmem,cigene,hugemem --ntasks=1 --mem=8000"
