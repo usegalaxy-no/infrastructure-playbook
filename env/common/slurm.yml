@@ -23,8 +23,8 @@
     with_items:
       - "{{ galaxy_file_path }}"
       - "{{ galaxy_root }}"
-  - name: Add users and other tasks
-    include: tasks/slurm.yml
+  - name: Create users and groups
+    include: tasks/users_groups.yml
   roles:
     - galaxyproject.repos
     - galaxyproject.slurm
@@ -44,9 +44,8 @@
     slurm_roles: ['exec']
     nfs_mode: client
   pre_tasks:
-  - name: Setup ssh access
-    become: false
-    include: tasks/keys.yml
+  - name: Create users and groups
+    include: tasks/users_groups.yml
   - name: Add users and other tasks
     include: tasks/slurm.yml
   roles:

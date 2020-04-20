@@ -1,0 +1,35 @@
+---
+- name: Create system users
+  block:
+#    - debug:
+#        msg: "Adding {{user.name}} to {{ inventory_hostname }}"
+#        msg: "Adding {{user.name}} to {{ inventory_hostname }} ]]  {{user.group_names}} / {{group_names}} --> {{user.group_names | intersect(group_names)|length }}"
+
+    - name: Add {{user.name }} to hosts
+      become: true
+      user:
+        name: "{{ user.name }}"
+        uid: "{{ user.uid }}"
+        shell: "{{ user.shell }}"
+        group: "{{ user.group }}"
+        create_home: "{{ user.create_home }}"
+
+    - name: ssh keys available
+      local_action: stat path=files/ssh/{{ user.name }}_authorized_keys.vault
+      register: ssh_keys_file
+
+#    - debug:
+#        msg: "ssh key stat files/ssh/{{ user.name }}_authorized_keys.vault  /{{ ssh_keys_file }}"
+
+    - name: Copy ssh keys to host
+      become: "{{ user.name }}"
+      copy:
+        src: files/ssh/{{ user.name }}_authorized_keys.vault
+        dest: ~/.ssh/authorized_keys
+        mode: 0600
+      when: ssh_keys_file.stat.exists
+
+
+  when: (user.group_names | intersect(group_names)|length) or
+        (user.group_names[0] == 'all')
+

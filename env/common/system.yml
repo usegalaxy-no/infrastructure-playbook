@@ -10,17 +10,19 @@
     - name: Install Dependencies
       package:
         name:
-#          - 'epel-release'
           - 'mailx'
           - 'vim'
           - 'mlocate'
+    - name: set hostname
+      hostname:
+        name: "{{inventory_hostname}}"
   tasks:
     - name: Set timezone to Europe/Oslo
       timezone:
         name: Europe/Oslo
     - name: Setup ssh access
       become: false
-      include: tasks/keys.yml
+      include: tasks/users_groups.yml
 
   roles:
     - geerlingguy.repo-epel

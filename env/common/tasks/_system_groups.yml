@@ -1,0 +1,11 @@
+- name:
+  block:
+#    - debug:
+#        msg: "Adding {{group.name}} to {{ inventory_hostname }} ]]  {{group.group_names}} / {{group_names}} --> {{group.group_names | intersect(group_names)|length }}"
+    - name: Add {{group.name}} to hosts
+      become: true
+      group:
+        name: "{{ group.name }}"
+        gid: "{{ group.gid }}"
+  when: (group.group_names | intersect(group_names)|length) or
+        (group.group_names[0] == 'all')
