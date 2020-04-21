@@ -16,12 +16,12 @@
     - name: set hostname
       hostname:
         name: "{{inventory_hostname}}"
+
   tasks:
     - name: Set timezone to Europe/Oslo
       timezone:
         name: Europe/Oslo
-    - name: Setup ssh access
-      become: false
+    - name: Create users and groups
       include: tasks/users_groups.yml
 
   roles:

@@ -9,9 +9,8 @@
     slurm_roles: ['controller']
     nfs_mode: server
   pre_tasks:
-  - name: Setup ssh access
-    become: false
-    include: tasks/keys.yml
+  - name: Create users and groups
+    include: tasks/users_groups.yml
   - name: Add galaxy paths for nfs export
     become: true
     file:
@@ -23,8 +22,6 @@
     with_items:
       - "{{ galaxy_file_path }}"
       - "{{ galaxy_root }}"
-  - name: Create users and groups
-    include: tasks/users_groups.yml
   roles:
     - galaxyproject.repos
     - galaxyproject.slurm
