@@ -2,7 +2,7 @@
   block:
 #    - debug:
 #        msg: "Adding {{group.name}} to {{ inventory_hostname }} ]]  {{group.group_names}} / {{group_names}} --> {{group.group_names | intersect(group_names)|length }}"
-    - name: Add {{group.name}} to hosts
+    - name: Add {{group.name}} group to hosts
       become: true
       group:
         name: "{{ group.name }}"
