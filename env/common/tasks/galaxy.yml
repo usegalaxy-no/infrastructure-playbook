@@ -30,11 +30,6 @@
     VIRTUAL_ENV: "{{ galaxy_venv_dir }}"
   when: scss_file.changed
 
-
-- name: Setup ssh access
-  become: false
-  include: tasks/keys.yml
-
 - name: Make sure compliance log exists
   file:
     path: "{{ galaxy_root }}/server/compliance.log"
