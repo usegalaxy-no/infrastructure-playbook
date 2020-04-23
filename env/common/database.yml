@@ -18,12 +18,15 @@
   pre_tasks:
     - name: Install Dependencies
       package:
-        name: ['epel-release', 'python3', 'python-psycopg2']
+        name: ['python3', 'python-psycopg2']
   tasks:
+    - name: Create users and groups
+      include: tasks/users_groups.yml
     - name: setup rabbitmq certs, vhosts and users
       include: tasks/rabbitmq.yml
 
   roles:
+    - geerlingguy.repo-epel
     - galaxyproject.postgresql
     - role: natefoo.postgresql_objects
       become: true

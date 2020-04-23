@@ -15,7 +15,6 @@
       package:
 #        use_backend: dnf
         name:
-          - 'epel-release'
           - 'python3'
           - 'python3-psycopg2'
           - 'git'
@@ -23,7 +22,10 @@
           - 'make'
           - 'bzip2'
           - 'postgresql'
-  
+    - name: Create users and groups
+      include: tasks/users_groups.yml
+
+
   tasks:
     - name: Perform misc tasks
       include: tasks/galaxy.yml
@@ -35,6 +37,7 @@
         state: restarted
 
   roles:
+    - geerlingguy.repo-epel
     - geerlingguy.pip
     - galaxyproject.repos
     - galaxyproject.galaxy
