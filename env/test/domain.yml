@@ -1,0 +1,32 @@
+---
+- hosts: localhost
+  vars_files:
+    - secret_group_vars/global.vault
+    - group_vars/global.yml
+  vars:
+    domain: usegalaxy.no
+  tasks:
+  - name: add A records
+    cloudflare_dns:
+      zone:  "{{ domain }}"
+      record: "{{ item.host }}"
+      type: A
+      value: "{{ item.ip }}"
+      ttl: 1
+      account_email: "{{ cloudflare_email }}"
+      account_api_token: "{{ cloudflare_api_token }}"
+    with_items:
+      - { host: "{{ galaxy_host }}", ip: "{{ galaxy_ip }}" }
+      - { host: "{{ db_host }}", ip: "{{ db_ip }}" }
+
+#  - name: Remove records
+#    cloudflare_dns:
+#      zone: "{{ domain }}"
+#      record: "{{ item.host }}"
+#      type: A
+#      value: "{{ item.ip }}"
+#      state: absent
+#      account_email: "{{ cloudflare_email }}"
+#      account_api_token: "{{ cloudflare_api_token }}"
+#    with_items:
+#      - { host: 'test-slurm.usegalaxy.no', ip: '158.39.201.72' }
