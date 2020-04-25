@@ -1,3 +1,5 @@
+domain: usegalaxy.no
+
 system_groups:
   - { name: galaxy, gid: 1024, group_names: ['galaxyserver', 'slurm'] }
   - { name: slurm, gid: 1025, group_names: ['galaxyserver', 'slurm'] }
