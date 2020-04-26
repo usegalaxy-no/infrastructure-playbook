@@ -5,6 +5,11 @@
     - group_vars/global.yml
     - group_vars/telegraf.yml
   pre_tasks:
+    - name: Disable ipv6
+      sysctl:
+        name: net.ipv6.conf.eth0.disable_ipv6
+        value: '1'
+        state: present
     - name: Install Dependencies
       package:
         name:
