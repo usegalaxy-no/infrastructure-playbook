@@ -9,6 +9,7 @@
     account_api_token: "{{ cloudflare_api_token }}"
   with_items:
     - { host: "{{ galaxy_host }}", ip: "{{ galaxy_ip }}" }
+    - { host: "*.interactivetoolentrypoint.interactivetool.{{ galaxy_host }}", ip: "{{ galaxy_ip }}" }
     - { host: "{{ db_host }}", ip: "{{ db_ip }}" }
 
 #  - name: Remove records
