@@ -12,6 +12,7 @@
         uid: "{{ user.uid }}"
         shell: "{{ user.shell }}"
         group: "{{ user.group }}"
+        groups: "{{ user.groups | default('') }}"
         create_home: "{{ user.create_home }}"
 
     - name: ssh keys available for {{ user.name }}

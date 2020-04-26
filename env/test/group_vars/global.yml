@@ -5,13 +5,14 @@ system_groups:
   - { name: slurm, gid: 1025, group_names: ['galaxyserver', 'slurm'] }
   - { name: galaxyadmin, gid: 1026, group_names: ['all']} #just for the sudoers file.
   - { name: sysadmin, gid: 1027, group_names: ['all']}
+  - { name: docker, gid: 1028, group_names: ['galaxyserver', 'slurm']}
 
 system_users:
-  - { name: galaxy, uid: 1024, group: galaxy, shell: /bin/bash, create_home: yes, group_names: ['galaxyserver', 'slurm'] }
+  - { name: galaxy, uid: 1024, group: galaxy, shell: /bin/bash, create_home: yes, groups: ['docker'], group_names: ['galaxyserver', 'slurm'] }
   - { name: slurm, uid: 1025, group: slurm, shell: /sbin/nologin, create_home: no, group_names: ['galaxyserver', 'slurm'] }
   - { name: galaxyadmin, uid: 1026, group: galaxyadmin, shell: /bin/bash, create_home: yes, group_names: ['galaxyserver'] }
   - { name: sysadmin, uid: 1027, group: sysadmin, shell: /bin/bash, create_home: yes, group_names: ['all'] }
-
+  
 galaxy_host: "{{ groups['galaxyserver'][0] }}"
 galaxy_ip: "{{ hostvars[galaxy_host].ansible_host }}"
 
