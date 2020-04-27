@@ -1,12 +1,15 @@
 - hosts: slurm, galaxyserver, jenkins, database, ehos_servers
   become: true
-
   vars_files:
     - secret_group_vars/global.vault
     - group_vars/global.yml
     - group_vars/telegraf.yml
-
   pre_tasks:
+    - name: Disable ipv6
+      sysctl:
+        name: net.ipv6.conf.eth0.disable_ipv6
+        value: '1'
+        state: present
     - name: Install Dependencies
       package:
         name:
@@ -16,17 +19,23 @@
     - name: set hostname
       hostname:
         name: "{{inventory_hostname}}"
-
   tasks:
     - name: Set timezone to Europe/Oslo
       timezone:
         name: Europe/Oslo
     - name: Create users and groups
       include: tasks/users_groups.yml
-
   roles:
     - geerlingguy.repo-epel
     - reallyenglish.dhclient
     - nbigot.ansible-fail2ban
     - dj-wasabi.telegraf
     - idiv-biodiversity.postfix
+
+- hosts: localhost
+  vars_files:
+    - secret_group_vars/global.vault
+    - group_vars/global.yml
+  tasks:
+    - name: Set up DNS entries
+      include: tasks/domain.yml

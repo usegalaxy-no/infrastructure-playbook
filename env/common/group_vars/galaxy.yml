@@ -140,11 +140,11 @@ certbot_post_renewal: |
     systemctl restart nginx || true
 certbot_domains:
  - "{{ galaxy_host }}"
- #- "*.interactivetoolentrypoint.interactivetool.{{ galaxy_host }}"
-#certbot_dns_provider: cloudflare
-#certbot_dns_credentials:
-#  api_key: the-token
-#  email: torfinn.nome@gmail.com
+ - "*.interactivetoolentrypoint.interactivetool.{{ galaxy_host }}"
+certbot_dns_provider: cloudflare
+certbot_dns_credentials:
+  api_key: "{{ cloudflare_api_token }}"
+  email: "{{ cloudflare_email }}"
 certbot_agree_tos: --agree-tos
 
 # NGINX
@@ -245,3 +245,14 @@ telegraf_plugins_extra:
   nginx:
     config:
       - urls = ["https://{{ galaxy_host }}/server_status"]
+
+  logparser:
+    plugin: logparser
+    config:
+      - files = ["/var/log/nginx/access.log"]
+      - from_beginning = true
+      - name_override = "nginx_access_log"
+    filter:
+      name: grok
+      config:
+        - patterns = ["%{COMBINED_LOG_FORMAT}"]

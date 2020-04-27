@@ -11,8 +11,9 @@
   version: 1.2.4
 - src: geerlingguy.nfs
   version: 1.5.0
-- src: dj-wasabi.telegraf
-  version: 0.12.0
+- src: https://github.com/dj-wasabi/ansible-telegraf
+  name: dj-wasabi.telegraf
+  #  version: 0.12.0
 - src: nbigot.ansible-fail2ban
   version: v5.0.0
 - src: idiv-biodiversity.postfix
