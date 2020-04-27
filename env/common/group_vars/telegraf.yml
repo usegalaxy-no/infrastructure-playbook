@@ -28,3 +28,4 @@ telegraf_plugins_default:
   - plugin: swap
   - plugin: net
   - plugin: netstat
+  - plugin: chrony

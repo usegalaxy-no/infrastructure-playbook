@@ -245,3 +245,14 @@ telegraf_plugins_extra:
   nginx:
     config:
       - urls = ["https://{{ galaxy_host }}/server_status"]
+
+  logparser:
+    plugin: logparser
+    config:
+      - files = ["/var/log/nginx/access.log"]
+      - from_beginning = true
+      - name_override = "nginx_access_log"
+    filter:
+      name: grok
+      config:
+        - patterns = ["%{COMBINED_LOG_FORMAT}"]

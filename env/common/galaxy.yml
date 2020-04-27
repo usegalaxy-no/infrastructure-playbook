@@ -49,7 +49,9 @@
     - galaxyproject.cvmfs
     - galaxyproject.repos
     - galaxyproject.slurm
-    - dj-wasabi.telegraf
+    - role: dj-wasabi.telegraf
+      tags:
+        - telegraf
     - usegalaxy_eu.gie_proxy
     - usegalaxy_eu.gxadmin
 
