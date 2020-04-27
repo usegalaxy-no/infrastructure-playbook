@@ -59,6 +59,10 @@ server {
         alias /srv/galaxy/server/static/docs/;
     }
 
+    location /tos/ {
+        proxy_pass  http://127.0.0.1:8081/;
+    }
+
     location /robots.txt {
         alias {{ galaxy_server_dir }}/static/robots.txt;
     }
