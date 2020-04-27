@@ -72,3 +72,7 @@
         state: file
         mode: '0755'
         owner: "{{ galaxy_user.name }}"
+    - name: Install the tos-api
+      include_role:
+        name: tos-api
+        tasks_from: other
