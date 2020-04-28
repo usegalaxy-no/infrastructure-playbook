@@ -162,27 +162,25 @@ function checkTermsOfServiceAcceptance() {
                }
                document.getElementById('published_workflows').href="javascript:return false;"; // disable this link to prevent possible backdoor				
 
+//            } else {
+//               console.log("ToS "+response.status); // To minimize the inconvenience to the user, don't to anything if an error occurs (except make a note in the log)
+//            }
             } else {
-               console.log("ToS "+response.status); // To minimize the inconvenience to the user, don't to anything if an error occurs (except make a note in the log)               
-            }
-        } else {
-            var message = "<p style='font-size:10pt;'>As you have not signed in your acceptance of usage will not be recorded and data will be deleted without warning";
-            document.getElementById('tosmessage').innerHTML+=message;
-            document.getElementById('tosaccept').classList.add("showtos"); // show ToS popup
-            document.getElementById('tosmessage').innerHTML+=message;
-            // show ToS popup
-            document.getElementById('tosaccept').classList.add("showtos");
+                var message = "<p style='font-size:10pt;'>As you have not signed in your acceptance of usage will not be recorded and data will be deleted without warning";
+                document.getElementById('tosmessage').innerHTML += message;
+                document.getElementById('tosaccept').classList.add("showtos"); // show ToS popup
 
-            // hide the tools and history panels and menu bar
-            var toolsPanel   = window.top.document.getElementById('left');
-            var historyPanel = window.top.document.getElementById('right');
-            var menus =  window.top.document.getElementsByClassName('navbar-nav');
-            var toolsBlocker = blockPanel(toolsPanel);
-            var historyBlocker = blockPanel(historyPanel);
-            if (typeof menus[0] !== 'undefined') {
-                menus[0].style.display="none"; // hide the menu tabs from view
+                // hide the tools and history panels and menu bar
+                var toolsPanel = window.top.document.getElementById('left');
+                var historyPanel = window.top.document.getElementById('right');
+                var menus = window.top.document.getElementsByClassName('navbar-nav');
+                var toolsBlocker = blockPanel(toolsPanel);
+                var historyBlocker = blockPanel(historyPanel);
+                if (typeof menus[0] !== 'undefined') {
+                    menus[0].style.display = "none"; // hide the menu tabs from view
+                }
+                document.getElementById('published_workflows').href = "javascript:return false;"; // disable this link to prevent possible backdoor
             }
-            document.getElementById('published_workflows').href="javascript:return false;"; // disable this link to prevent possible backdoor
         }
     };
     xhr.open("GET", tos_script, true); // 
