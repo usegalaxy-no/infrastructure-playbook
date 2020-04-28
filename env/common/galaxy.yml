@@ -76,4 +76,3 @@
     - name: Install the tos-api
       include_role:
         name: tos-api
-        tasks_from: other
