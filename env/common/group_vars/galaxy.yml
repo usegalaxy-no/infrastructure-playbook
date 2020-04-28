@@ -41,6 +41,8 @@ galaxy_config:
     allow_path_paste: true
     #    require_login: true
     allow_user_impersonation: true
+    smtp_server: "localhost"
+    email_from: "galaxy-no-reply@{{ galaxy_host }}"
 
     welcome_url: static/welcome.html
     support_url: https://elixir.no/helpdesk
