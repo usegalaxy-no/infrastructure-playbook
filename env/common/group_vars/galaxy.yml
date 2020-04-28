@@ -88,6 +88,8 @@ galaxy_config_files:
     dest: "{{ galaxy_config_dir }}/tool_conf_interactive.xml"
   - src: files/galaxy/tools/sanitize_whitelist.txt
     dest: "{{ galaxy_mutable_config_dir }}/sanitize_whitelist.txt"
+  - src: files/galaxy/tools/interactive/interactivetool_jupyter_notebook.xml
+    dest: "{{ galaxy_server_dir }}/tools/interactive/interactivetool_jupyter_notebook.xml"
 
 galaxy_tool_config_files:
   - "{{ galaxy_server_dir }}/config/tool_conf.xml.sample"
