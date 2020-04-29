@@ -37,6 +37,15 @@
     mode: "0600"
     owner: "{{ galaxy_user.name }}"
 
+- name: setup log dir for galaxy
+  file:
+    path: "{{ galaxy_log_dir }}"
+    state: directory
+    owner: "{{galaxy_user}}"
+    group: "{{galaxy_user}}"
+    mode: 0755
+
+
 # For gxadmin:
 - name: Add env vars in bashrc
   become: true

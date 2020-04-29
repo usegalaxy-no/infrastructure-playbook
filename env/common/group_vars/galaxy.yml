@@ -10,6 +10,7 @@ galaxy_separate_privileges: true
 galaxy_manage_paths: true
 galaxy_layout: root-dir
 galaxy_root: /srv/galaxy
+galaxy_log_dir: /var/log/galaxy
 
 galaxy_user: { name: galaxy }
 galaxy_commit_id: release_20.01
@@ -52,6 +53,45 @@ galaxy_config:
     message_box_visible: true
     message_box_class: warning
     message_box_content: This is the development version of the new usegalaxy.no website. Not for production use!
+    logging:
+      disable_existing_loggers: false
+      filters:
+        stack:
+          (): galaxy.web_stack.application_stack_log_filter
+      formatters:
+        stack:
+          (): galaxy.web_stack.application_stack_log_formatter
+      handlers:
+        console:
+          class: logging.StreamHandler
+          filters:
+            - stack
+          formatter: stack
+          level: DEBUG
+          stream: ext://sys.stderr
+        files:
+          class: logging.FileHandler
+          filters:
+            - stack
+          level: DEBUG
+          formatter: stack
+          filename: "{{galaxy_log_dir}}/galaxy.log"
+      loggers:
+        amqp:
+          level: INFO
+          qualname: amqp
+        paste.httpserver.ThreadPool:
+          level: WARN
+          qualname: paste.httpserver.ThreadPool
+        routes.middleware:
+          level: WARN
+          qualname: routes.middleware
+      root:
+        handlers:
+          - files
+        level: DEBUG
+      version: 1
+
   uwsgi:
     # Default values
     socket: 127.0.0.1:8080
