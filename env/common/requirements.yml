@@ -65,3 +65,5 @@
   name: tos-api
 - src: usegalaxy_eu.gie_proxy
   version: 0.0.1
+- src: https://github.com/usegalaxy-no/ansible-nels_storage
+  name: usegalaxy-no.nels_storage

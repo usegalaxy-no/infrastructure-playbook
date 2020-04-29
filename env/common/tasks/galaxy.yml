@@ -76,6 +76,14 @@
     dest: "~/.pgpass"
     mode: 0600
 
+- name: Copy slurm telegraf plugin
+  copy:
+    src: files/telegraf/slurm-collect.sh
+    dest: "{{ custom_telegraf_slurm_collect_bin }}"
+    owner: root
+    group: root
+    mode: '0755'
+
 - name: Allow nginx httpd_sys_content_t to access the static files
   sefcontext:
     target: "{{ item }}(/.*)?"
