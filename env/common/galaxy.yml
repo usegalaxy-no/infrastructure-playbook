@@ -25,7 +25,6 @@
     - name: Create users and groups
       include: tasks/users_groups.yml
 
-
   tasks:
     - name: Perform misc tasks
       include: tasks/galaxy.yml
@@ -54,6 +53,9 @@
         - telegraf
     - usegalaxy_eu.gie_proxy
     - usegalaxy_eu.gxadmin
+    - role: usegalaxy-no.nels_storage
+      tags:
+        - nels
 
   post_tasks:
     - name: Install slurm-drmaa

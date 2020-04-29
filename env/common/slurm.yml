@@ -3,9 +3,12 @@
   vars_files:
     - secret_group_vars/global.vault
     - group_vars/global.yml
+    - group_vars/galaxy.yml
   tasks:
     - name: Create users and groups
       include: tasks/users_groups.yml
+    - name: Galaxy related tasks
+      include: tasks/slurm.yml
 
 - hosts: galaxyserver
   become: true
@@ -47,9 +50,6 @@
   vars:
     slurm_roles: ['exec']
     nfs_mode: client
-  pre_tasks:
-  - name: setup slurm
-    include: tasks/slurm.yml
   roles:
     - geerlingguy.repo-epel
     - galaxyproject.repos

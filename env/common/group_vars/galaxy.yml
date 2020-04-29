@@ -29,6 +29,7 @@ galaxy_config:
     enable_beta_gdpr: true
     database_connection: "{{ db_connection }}"
     file_path: "{{ galaxy_file_path }}"
+    tool_data_path: "{{ galaxy_server_dir }}/tool-data"
     check_migrate_tools: false
     #tool_data_table_config_path: /cvmfs/data.galaxyproject.org/byhand/location/tool_data_table_conf.xml,/cvmfs/data.galaxyproject.org/managed/location/tool_data_table_conf.xml
     job_config_file: "{{ galaxy_config_dir }}/job_conf.xml"
@@ -42,6 +43,8 @@ galaxy_config:
     allow_path_paste: true
     #    require_login: true
     allow_user_impersonation: true
+    smtp_server: "localhost"
+    email_from: "galaxy-no-reply@{{ galaxy_host }}"
 
     welcome_url: static/welcome.html
     support_url: https://elixir.no/helpdesk
@@ -128,10 +131,13 @@ galaxy_config_files:
     dest: "{{ galaxy_config_dir }}/tool_conf_interactive.xml"
   - src: files/galaxy/tools/sanitize_whitelist.txt
     dest: "{{ galaxy_mutable_config_dir }}/sanitize_whitelist.txt"
+  - src: files/galaxy/tools/interactive/interactivetool_jupyter_notebook.xml
+    dest: "{{ galaxy_server_dir }}/tools/interactive/interactivetool_jupyter_notebook.xml"
 
 galaxy_tool_config_files:
   - "{{ galaxy_server_dir }}/config/tool_conf.xml.sample"
   - "{{ galaxy_config_dir }}/tool_conf_interactive.xml"
+  - "{{ galaxy_server_dir }}/config/nels_tool_conf.xml"
 
 galaxy_config_templates:
   - src: templates/galaxy/config/job_conf.xml
@@ -140,6 +146,14 @@ galaxy_config_templates:
     dest: "{{ galaxy_config_dir }}/reports.yml"
   - src: templates/galaxy/config/pulsar_app.yml.j2
     dest: "{{ galaxy_config_dir }}/pulsar_app.yml"
+
+# NeLS Storage
+nels_storage_url: "https://test-fe.cbu.uib.no/nels/welcome.xhtml"
+nels_storage_api_url: "https://test-fe.cbu.uib.no/nels-storage2"
+nels_storage_import_tool_dir: "{{ galaxy_server_dir }}/tools/data_source"
+nels_storage_export_tool_dir: "{{ galaxy_server_dir }}/tools/data_destination"
+nels_storage_config_dir: "{{ galaxy_config['galaxy']['tool_data_path'] }}"
+nels_storage_tool_conf_dir: "{{ galaxy_server_dir }}/config"
 
 # systemd
 galaxy_systemd_mode: mule
