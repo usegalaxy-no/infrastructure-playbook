@@ -1,0 +1,35 @@
+- name: cvmfs
+  hosts: cvmfsstratum0servers
+  become: true
+  vars_files:
+    - group_vars/global.yml
+  vars:
+    cvmfs_keys:
+      - path: "/etc/cvmfs/keys/{{ galaxy_host }}/data.{{ galaxy_host }}.pub"
+        key: |
+          -----BEGIN PUBLIC KEY-----
+          MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAumGVOoY9O9B9J2A2n82A
+          OhewmxGt4JXOryMc2gIfjyb2K2hIxPxoDtqxaj4QZx4lLge+Y4WyCAiz/5v8m+Ef
+          Pprx+rxrXzuXAi0lfYNL1+1lUUrOPpRvn0fnzMC+2cb52gchVYjZEK0i5N1ctoV3
+          DjUol5rawBtAXZ1z8RF4352idAyt9D5KMZ13X12cxR2Rw8F/dQzL2MkuplvwQKpU
+          zNt0jbIlwbCWovkEKi5kaZIrn9d7yoIMIbabdOH4HtMxUX7wlH9Qlpr23Y1iVe5Y
+          8ZqKZKV/stlhgpGCsolyyg1GDcKL0H7ysk8J03cqIgznmfe+MdWo4oGU6wgvAq+B
+          oQIDAQAB
+          -----END PUBLIC KEY-----
+    cvmfs_role: stratum0
+    cvmfs_server_urls:
+      - domain: "{{ galaxy_host }}"
+        urls:
+          - "http://{{ cvmfs0_host }}/cvmfs/@fqrn@"
+    cvmfs_repositories:
+      - repository: "data.{{ galaxy_host }}"
+        stratum0: "{{ cvmfs0_host }}"
+        key_dir: "/etc/cvmfs/keys/{{ galaxy_host }}"
+        server_options:
+          - CVMFS_AUTO_TAG=false
+          - CVMFS_GARBAGE_COLLECTION=true
+          - CVMFS_AUTO_GC=false
+        client_options:
+          - CVMFS_NFILES=4096
+  roles:
+    - galaxyproject.cvmfs

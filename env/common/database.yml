@@ -19,6 +19,9 @@
     - name: Install Dependencies
       package:
         name: ['python3', 'python-psycopg2']
+    - name: Install Apache dependencies
+      package:
+         name: ['libproxy', 'mod_proxy_uwsgi']
   tasks:
     - name: Create users and groups
       include: tasks/users_groups.yml
@@ -31,5 +34,6 @@
     - role: natefoo.postgresql_objects
       become: true
       become_user: postgres
+    - geerlingguy.certbot
     - geerlingguy.rabbitmq
-    - galaxyproject.nginx
+    - geerlingguy.apache

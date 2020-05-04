@@ -4,6 +4,9 @@ test.usegalaxy.no ansible_host=158.39.74.224 ansible_user=sysadmin
 [database]
 test-db.usegalaxy.no ansible_host=158.39.201.49 ansible_user=sysadmin
 
+[cvmfsstratum0servers]
+test-cvmfs0.usegalaxy.no ansible_host=158.39.201.49 ansible_user=sysadmin
+
 [slurm]
 test-slurm.usegalaxy.no ansible_host=158.39.201.71 ansible_user=sysadmin
 

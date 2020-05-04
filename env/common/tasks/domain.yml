@@ -11,6 +11,7 @@
     - { host: "{{ galaxy_host }}", ip: "{{ galaxy_ip }}" }
     - { host: "*.interactivetoolentrypoint.interactivetool.{{ galaxy_host }}", ip: "{{ galaxy_ip }}" }
     - { host: "{{ db_host }}", ip: "{{ db_ip }}" }
+    - { host: "{{ cvmfs0_host }}", ip: "{{ cvmfs0_ip }}"}
 
 #  - name: Remove records
 #    cloudflare_dns:
