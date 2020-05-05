@@ -42,6 +42,9 @@ def main():
     args = parser.parse_args()
     args.infile = args.infile[0]
 
+    if not os.path.isfile( args.infile ):
+        sys.exit()
+
 
     if args.replace:
         tempfile = "{}.tmp".format(args.infile)
