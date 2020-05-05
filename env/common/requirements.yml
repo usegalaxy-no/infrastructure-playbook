@@ -54,7 +54,7 @@
 - src: geerlingguy.java
   version: 1.9.5
 - src: geerlingguy.jenkins
-  version: 4.2.1
+  version: 4.3.0
 - src: reallyenglish.dhclient
   version: 1.0.0
 - src: usegalaxy_eu.gxadmin
