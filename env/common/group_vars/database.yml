@@ -31,7 +31,8 @@ postgresql_objects_privileges:
 #    type: sequence
 #    privs: USAGE,SELECT
 postgresql_conf:
-  - listen_addresses: "'*'" 
+  - listen_addresses: "'*'"
+  - data_directory: /databases/postgres/
 postgresql_pg_hba_conf:
   - local all postgres peer
   - local "{{galaxy_database}}" telegraf peer
