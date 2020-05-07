@@ -32,6 +32,8 @@ db_connection: "postgresql://{{galaxy_db_user}}:{{galaxy_db_passwd}}@{{db_host}}
 #ssl_key: "/etc/letsencrypt/live/{{galaxy_host}}/privkey.pem"
 #ssl_chain: "/etc/letsencrypt/live/{{galaxy_host}}/chain.pem"
 
+cvmfs0_host: "{{ groups['cvmfsstratum0servers'][0] }}"
+cvmfs0_ip: "{{ hostvars[cvmfs0_host].ansible_host }}"
 
 gpg_key_name: admin@usegalaxy.no
 

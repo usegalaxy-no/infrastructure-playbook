@@ -39,3 +39,5 @@
   tasks:
     - name: Set up DNS entries
       include: tasks/domain.yml
+      tags:
+        - domain

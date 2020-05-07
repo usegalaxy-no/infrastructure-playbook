@@ -1,7 +1,6 @@
 apache_listen_ip: "*"
 apache_listen_port: 80
 apache_listen_port_ssl: 443
-apache_vhosts_filename: "rabbitmq.conf"
-apache_vhosts_template: "templates/apache/rabbitmq.conf.j2"
+apache_vhosts_filename: "apache.conf"
+apache_vhosts_template: "templates/apache/apache.conf.j2"
 apache_remove_default_vhost: true
-

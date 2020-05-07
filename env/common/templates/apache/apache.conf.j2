@@ -1,9 +1,4 @@
-<VirtualHost {{inventory_hostname}}:80>
-    Redirect permanent / https://{{inventory_hostname}}/
-</VirtualHost>
-
-LoadModule proxy_uwsgi_module modules/mod_proxy_uwsgi.so
-
+#LoadModule proxy_uwsgi_module modules/mod_proxy_uwsgi.so
 
 #Listen 443
 <VirtualHost {{inventory_hostname}}:443>
@@ -15,7 +10,6 @@ LoadModule proxy_uwsgi_module modules/mod_proxy_uwsgi.so
     SSLCertificateKeyFile /etc/letsencrypt/live/{{inventory_hostname}}/privkey.pem
     SSLCertificateChainFile /etc/letsencrypt/live/{{inventory_hostname}}/fullchain.pem
 
-
     # don't decode encoded slashes in path info
     AllowEncodedSlashes NoDecode
     ProxyRequests Off
@@ -23,18 +17,17 @@ LoadModule proxy_uwsgi_module modules/mod_proxy_uwsgi.so
 
     RewriteEngine On
 
-
     <location /rabbitmq/ >
       RewriteRule "^/rabbitmq/(.*)" "/$1" 
-
 
       ProxyPass  http://127.0.0.1:15672/ nocanon
       ProxypassReverse http://127.0.0.1:15672/
     </location>
 
-
-
-
-
-
+    <location /jenkins >
+        ProxyPass         http://localhost:4000/ nocanon
+        ProxyPassReverse  http://localhost:4000/
+        RequestHeader set X-Forwarded-Proto "https"
+        RequestHeader set X-Forwarded-Port "443"
+    </location>
 </VirtualHost>
