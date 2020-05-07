@@ -1,7 +1,20 @@
+/var/log/cron
+/var/log/maillog
+/var/log/secure
+/var/log/spooler
+{
+    missingok
+    sharedscripts
+    postrotate
+	/bin/kill -HUP `cat /var/run/syslogd.pid 2> /dev/null` 2> /dev/null || true
+    endscript
+}
+
 /var/log/messages {
     rotate 30
     daily
     postrotate
-      /usr/local/bin/log_strip_out_uwsgi.py -r $1.1
+      /bin/kill -HUP `cat /var/run/syslogd.pid 2> /dev/null` 2> /dev/null || true
+      /usr/local/bin/log_strip_out_uwsgi.py -r $1-`date --date="yesterday"  '+%Y%m%d'`
     endscript
 }
