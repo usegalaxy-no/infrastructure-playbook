@@ -1,31 +1,45 @@
 ---
-# copy public keys to the server.
-- name: Encrypt logs
+# GDPR specific logrotations.
+- name: setup usegalaxy.no specific logrotates
   block:
 
-    - name: Install gpg
-      package:
-        name:
-          - gpg
+    - name: "Check if NGINX is installed"
+      package_facts:
+        manager: "auto"
 
-    - name: copy gpg key to host
-      copy:
-        src: files/gpg/usegalaxy.gpg
-        dest: /root/usegalaxy.gpg
-
-    - name: import gpg key
-      command:
-        cmd: gpg --import ~/usegalaxy.gpg
-
-    - name: trust gpg key (not really safe)
-      command:
-        cmd: echo -e "5\ny\n"  | gpg --command-fd 0 --expert --edit-key {{gpg_key_name}} trust
-
-    - name: Set log rotate for nginx
+    - name: "nginx logrotate"
       template:
-        src: templates/system/logrotate.nginx
+        src: files/system/logrotate.nginx
         dest: /etc/logrotate.d/nginx
         mode: 0644
         owner: root
         group: root
         backup: yes
+      when: "'nginx' in ansible_facts.packages"
+
+
+    - name: check for galaxy installataion
+      stat:
+        path: "{{galaxy_root}}"
+      register: galaxy_installation
+
+
+    - name: "messages logrotate"
+      template:
+        src: files/system/logrotate.syslog
+        dest: /etc/logrotate.d/syslog
+        mode: 0644
+        owner: root
+        group: root
+        backup: yes
+      when: galaxy_installation.stat.isdir
+
+    - name: uwsgi log stripper script
+      copy:
+        src: files/bin/log_strip_out_uwsgi.py
+        dest: /usr/local/bin/log_strip_out_uwsgi.py
+        mode: 0755
+        owner: root
+        group: root
+        backup: yes
+      when: galaxy_installation.stat.isdir
