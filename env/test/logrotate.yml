@@ -2,6 +2,7 @@
   become: true
   vars_files:
     - group_vars/global.yml
+    - group_vars/galaxy.yml
   tasks:
 
     - name: Setup log-rotate
