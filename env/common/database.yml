@@ -27,6 +27,12 @@
       include: tasks/users_groups.yml
     - name: setup rabbitmq certs, vhosts and users
       include: tasks/rabbitmq.yml
+    - name: Create backup directory
+      file:
+        path: "{{ postgresql_backup_dir }}"
+        state: directory
+        mode: "0700"
+        owner: "postgres"
 
   roles:
     - geerlingguy.repo-epel
