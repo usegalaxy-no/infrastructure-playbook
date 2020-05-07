@@ -7,7 +7,9 @@
   vars_files:
     - secret_group_vars/global.vault
     - group_vars/global.yml
+    - group_vars/telegraf.yml
     - secret_group_vars/ehos.vault
+    # extends the telegraf vars to include ehos monitoring
     - group_vars/ehos.yml
 
   vars:
@@ -27,6 +29,8 @@
          - libcurl-devel
         state: present
         update_cache: yes
+      when: no
+
   tasks:
 
   post_tasks:
@@ -37,9 +41,12 @@
 
   roles:
     - geerlingguy.repo-epel
+    - role: dj-wasabi.telegraf
+      tags:
+        - telegraf
     - galaxyproject.cvmfs
     - geerlingguy.nfs
-#    - galaxyproject.pulsar
+    - galaxyproject.pulsar
     - pulsar
 #    - role: galaxyproject.galaxy
 #      galaxy_manage_mutable_setup: yes

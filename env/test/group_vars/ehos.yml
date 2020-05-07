@@ -42,6 +42,7 @@ pulsar_config_dir: "{{pulsar_server_dir}}/config"
 pulsar_staging_dir: "{{pulsar_server_dir}}/staging"
 pulsar_dependencies_dir: "{{pulsar_server_dir}}/dependencies"
 pulsar_systemd: true
+pulsar_systemd_file: templates/pulsar/pulsar.service.j2
 #pulsar_systemd_runner: uwsgi
 
 #galaxy_server_dir: "/srv/galaxy"
@@ -103,3 +104,12 @@ pulsar_yaml_config:
     32gb_mem:
       type: queued_drmaa
       native_specification: "request_memory=32"
+
+
+telegraf_plugins_extra:
+  exec:
+    config:
+      - interval = '60s'
+      - commands =  ['/usr/local/bin/ehos_status.py /usr/local/etc/ehos.yaml']
+      - timeout = '10s'
+      - data_format = 'influx'
