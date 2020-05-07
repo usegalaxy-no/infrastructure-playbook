@@ -1,6 +1,8 @@
----
 - hosts: jenkins
   become: true
+  vars_files:
+    - secret_group_vars/global.vault
+    - group_vars/jenkins.yml
   pre_tasks:
     - name: Allow jenkins user to execute things as root
       copy:
@@ -13,3 +15,4 @@
     - geerlingguy.java
     - geerlingguy.jenkins
     - geerlingguy.ansible
+    - geerlingguy.git
