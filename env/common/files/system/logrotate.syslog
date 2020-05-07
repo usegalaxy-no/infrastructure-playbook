@@ -1,0 +1,7 @@
+/var/log/messages {
+    rotate 30
+    daily
+    postrotate
+      /usr/local/bin/log_strip_out_uwsgi.py -r $1.1
+    endscript
+}

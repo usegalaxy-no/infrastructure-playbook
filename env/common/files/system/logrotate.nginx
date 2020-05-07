@@ -1,0 +1,11 @@
+/var/log/nginx/*log {
+  create 0664 nginx root
+  daily
+  shred
+  rotate 1
+  missingok
+  notifempty
+  postrotate
+  /bin/kill -USR1 `cat /run/nginx.pid 2>/dev/null` 2>/dev/null || true
+  endscript
+}
