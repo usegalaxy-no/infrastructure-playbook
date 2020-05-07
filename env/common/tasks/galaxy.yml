@@ -44,7 +44,11 @@
     owner: "{{galaxy_user}}"
     group: "{{galaxy_user}}"
     mode: 0755
+  when: no
 
+- name: Setup log-rotate
+  become: true
+  include: tasks/logrotate.yml
 
 # For gxadmin:
 - name: Add env vars in bashrc
