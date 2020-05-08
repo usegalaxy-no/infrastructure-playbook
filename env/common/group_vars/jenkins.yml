@@ -4,8 +4,9 @@ jenkins_plugin_timeout: 120
 jenkins_http_port: 4000
 jenkins_url_prefix: /jenkins
 jenkins_plugins:
-- matrix-auth
-- github
-- blueocean
-- ansible
-- ssh-credentials
+  - matrix-auth
+  - workflow-aggregator
+  - git
+  - ssh-agent
+docker_users:
+  - jenkins

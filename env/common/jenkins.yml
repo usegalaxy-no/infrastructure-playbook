@@ -13,6 +13,7 @@
         mode: 0440
   roles:
     - geerlingguy.java
+    - geerlingguy.docker
     - geerlingguy.jenkins
     - geerlingguy.ansible
     - geerlingguy.git
