@@ -135,11 +135,13 @@ galaxy_config_files:
     dest: "{{ galaxy_server_dir }}/tools/interactive/interactivetool_jupyter_notebook.xml"
 
 galaxy_tool_config_files:
-  - "{{ galaxy_server_dir }}/config/tool_conf.xml.sample"
+  - "{{ galaxy_config_dir }}/tool_conf.xml"
   - "{{ galaxy_config_dir }}/tool_conf_interactive.xml"
   - "{{ galaxy_server_dir }}/config/nels_tool_conf.xml"
 
 galaxy_config_templates:
+  - src: files/galaxy/config/tool_conf.xml
+    dest: "{{ galaxy_config_dir }}/tool_conf.xml"
   - src: templates/galaxy/config/job_conf.xml
     dest: "{{ galaxy_config['galaxy']['job_config_file'] }}"
   - src: templates/galaxy/config/reports.yml

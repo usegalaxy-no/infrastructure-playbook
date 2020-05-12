@@ -67,3 +67,5 @@
   version: 0.0.1
 - src: https://github.com/usegalaxy-no/ansible-nels_storage
   name: usegalaxy-no.nels_storage
+- src: geerlingguy.git
+  version: 3.0.0
