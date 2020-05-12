@@ -1,0 +1,23 @@
+---
+- name: Part of the trusted set of servers
+
+  block:
+
+
+    - name: add firewalld rule for {{ item }}
+      firewalld:
+        source: "{{ hostvars[item]['ansible_host'] }}"
+        permanent: true
+        state: enabled
+#      immediate: yes
+        zone: trusted
+      when: hostvars[item]['trusted_host'] is defined and hostvars[item]['trusted_host'] == 'yes'
+      loop: "{{ groups['all'] }}"
+
+#    - name: debug
+#      debug:
+#        msg: "{{ item }} --> {{ hostvars[item]['ansible_host'] }}"
+#      when: hostvars[item]['trusted_host'] is defined and hostvars[item]['trusted_host'] == 'yes'
+#      loop: "{{ groups['all'] }}"
+
+
