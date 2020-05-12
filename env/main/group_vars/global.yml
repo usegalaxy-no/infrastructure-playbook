@@ -1,5 +1,5 @@
 domain: usegalaxy.no
-env: testing
+env: production
 
 system_groups:
   - { name: galaxy, gid: 1024, group_names: ['galaxyserver', 'slurm'] }
