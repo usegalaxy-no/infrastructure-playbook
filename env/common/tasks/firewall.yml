@@ -6,13 +6,9 @@
       include: tasks/_firewall_trusted_network.yml
       when: trusted_host is defined and trusted_host == 'yes'
 
-    #      firewalld:
-    #        source: "{{galaxy_ip}}"
-    #        permanent: true
-    #        state: enabled
-    #        #        immediate: yes
-    #        zone: trusted
-    #      loop: "{{ groups['all'] }}"
+    - name: Ensure firewalld is installed
+      package:
+        name: firewalld
 
     - name: systemd start of firewalld
       systemd:
@@ -25,32 +21,31 @@
       package_facts:
         manager: "auto"
 
-
     - name: ssh firewall setup (always open)
       firewalld:
         service: ssh
         permanent: true
 #        immediate: yes
         state: enabled
-        zone: external
+        zone: public
 
 
     - name: https firewall setup
       firewalld:
         service: https
         permanent: true
-#        immediate: yes
+        immediate: yes
         state: enabled
-        zone: external
+        zone: public
       when: "'nginx' in ansible_facts.packages or 'httpd' in ansible_facts.packages"
 
     - name: http firewall setup
       firewalld:
         service: http
         permanent: true
-#        immediate: yes
+        immediate: yes
         state: enabled
-        zone: external
+        zone: public
       when: "'nginx' in ansible_facts.packages or 'httpd' in ansible_facts.packages"
 
     - name: rabbitmq firewall setup
@@ -59,9 +54,14 @@
         permanent: true
         state: enabled
 #        immediate: yes
-        zone: external
+        zone: public
       when: "'rabbitmq-server' in ansible_facts.packages"
 
+
+    - name: Allow access from pulsar nodes
+      include: tasks/_firewall_pulsar_hosts.yml server={{inventory_hostname}}
+      loop: "{{ groups['all'] }}"
+      when: "'rabbitmq-server' in ansible_facts.packages"
 
     - name: postgres firewall setup
       firewalld:
@@ -69,7 +69,7 @@
         permanent: true
         state: enabled
 #        immediate: yes
-        zone: external
+        zone: public
       when: "False and 'postgresql10-server' in ansible_facts.packages"
 
 

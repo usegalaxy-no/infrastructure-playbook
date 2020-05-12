@@ -4,7 +4,7 @@
   block:
 
 
-    - name: add firewalld rule for {{ item }}
+    - name: add firewalld rule for trusted network
       firewalld:
         source: "{{ hostvars[item]['ansible_host'] }}"
         permanent: true
@@ -14,10 +14,5 @@
       when: hostvars[item]['trusted_host'] is defined and hostvars[item]['trusted_host'] == 'yes'
       loop: "{{ groups['all'] }}"
 
-#    - name: debug
-#      debug:
-#        msg: "{{ item }} --> {{ hostvars[item]['ansible_host'] }}"
-#      when: hostvars[item]['trusted_host'] is defined and hostvars[item]['trusted_host'] == 'yes'
-#      loop: "{{ groups['all'] }}"
 
 
