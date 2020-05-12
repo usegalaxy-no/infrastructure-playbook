@@ -43,7 +43,7 @@
     state: directory
     owner: "{{galaxy_user}}"
     group: "{{galaxy_user}}"
-    mode: 0755
+    mode: '0755'
   when: no
 
 - name: Setup log-rotate
@@ -61,10 +61,14 @@
   with_items:
     - var: GDPR_MODE
       val: '$(openssl rand -hex 24 2>/dev/null)'
+    - var: GALAXY_ROOT
+      val: '{{ galaxy_root }}'
     - var: GALAXY_CONFIG_DIR
       val: '{{ galaxy_root }}/config'
     - var: GALAXY_CONFIG_FILE
       val: '{{ galaxy_root }}/config/galaxy.yml'
+    - var: GALAXY_LOG_DIR
+      val: '{{ galaxy_log_dir }}'
     - var: PGUSER
       val: '{{ galaxy_db_user }}'
     - var: PGHOST
@@ -87,7 +91,7 @@
     content: |
       {{ groups['database'][0] }}:5432:*:{{ galaxy_db_user }}:{{ galaxy_db_passwd }}
     dest: "~/.pgpass"
-    mode: 0600
+    mode: '0600'
 
 - name: Copy slurm telegraf plugin
   copy:
@@ -109,3 +113,12 @@
   command: "restorecon -rv {{ item }}"
   with_items: "{{ galaxy_selinux_web_access_dirs }}"
   when: update_fcontexts.changed
+
+- name: Cron job for cleaning Galaxy histories
+  cron:
+    name: "clean histories"
+    minute: "07"
+    hour: "5"
+    weekday: "6"
+    user: "{{ galaxy_user.name }}"
+    job: "{{ custom_telegraf_gxadmin_bin}} galaxy cleanup 30"
