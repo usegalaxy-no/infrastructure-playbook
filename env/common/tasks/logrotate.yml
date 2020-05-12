@@ -3,7 +3,7 @@
 - name: setup usegalaxy.no specific logrotates
   block:
 
-    - name: "Check if NGINX is installed"
+    - name: "collect host information"
       package_facts:
         manager: "auto"
 
