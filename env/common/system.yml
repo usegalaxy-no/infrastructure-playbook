@@ -1,4 +1,4 @@
-- hosts: slurm, galaxyserver, jenkins, database, ehos_servers
+- hosts: galaxyserver, database, slurm
   become: true
   vars_files:
     - secret_group_vars/global.vault
@@ -26,11 +26,12 @@
     - name: Create users and groups
       include: tasks/users_groups.yml
   roles:
-    - geerlingguy.repo-epel
-    - reallyenglish.dhclient
-    - nbigot.ansible-fail2ban
-    - dj-wasabi.telegraf
-    - idiv-biodiversity.postfix
+    - role: geerlingguy.repo-epel
+    - role: reallyenglish.dhclient
+      when: "env != 'production'"
+    - role: nbigot.ansible-fail2ban
+    - role: dj-wasabi.telegraf
+    - role: idiv-biodiversity.postfix
 
 - hosts: localhost
   vars_files:
