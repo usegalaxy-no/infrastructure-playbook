@@ -1,9 +1,11 @@
 [galaxyserver]
-main.usegalaxy.no ansible_user=centos
+main.usegalaxy.no ansible_host=158.37.7.52  ansible_user=sysadmin
 
 [database]
-db.usegalaxy.no ansible_user=centos
+db.usegalaxy.no ansible_host=158.37.7.53 ansible_user=sysadmin
 
 [slurm]
-slurm.usegalaxy.no ansible_user=centos
+slurm.usegalaxy.no ansible_host=158.37.7.54 ansible_user=sysadmin
 
+[cvmfsstratum0servers]
+test-cvmfs0.usegalaxy.no ansible_host=158.37.7.53 ansible_user=sysadmin
