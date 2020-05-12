@@ -1,0 +1,28 @@
+---
+- name: Part of the trusted set of servers
+
+  block:
+
+#    - name: group all
+#      debug:
+#        msg: " ---]]] {{ item }} "
+
+
+    - name: looking for pulsar nodes
+      debug:
+        msg: "Groupname {{ group_name }} --> {{ hostvars[item]['group_names'] }}"      when: group_name.find('pulsar') > -1
+      loop: "{{ hostvars[item]['group_names'] }}"
+      loop_control:
+        loop_var: group_name
+
+#    - name: add firewalld rule for pulsar node
+#      firewalld:
+#        rich_rule: rule family="ipv4" source address="{{ hostvars[item]['ansible_host'] }}" port port=5671 protocol=tcp accept
+#        permanent: true
+#        state: enabled
+#       immediate: yes
+#        zone: trusted
+#      when: item.find('pulsar') > -1
+#      loop: "{{ group_names }}"
+
+

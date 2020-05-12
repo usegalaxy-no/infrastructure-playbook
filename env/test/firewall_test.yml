@@ -1,0 +1,26 @@
+- hosts: all
+  become: true
+
+  vars_files:
+    - group_vars/global.yml
+
+  pre_tasks:
+    - name: Install Dependencies
+      package:
+        name:
+          - 'python3'
+          - 'git'
+          - 'epel-release'
+#          - 'python36-virtualenv'
+          - 'make'
+          - 'bzip2'
+
+  tasks:
+
+    - name: Setup firewalld
+      become: true
+      include: tasks/firewall.yml
+
+  roles:
+    - geerlingguy.repo-epel
+    - geerlingguy.pip
