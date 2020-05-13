@@ -3,7 +3,6 @@ pip_virtualenv_command: /usr/bin/python3 -m virtualenv # usegalaxy_eu.certbot, u
 certbot_virtualenv_package_name: python36-virtualenv    # usegalaxy_eu.certbot
 pip_package: python3-pip                               # geerlingguy.pip
 
-
 # Galaxy
 galaxy_create_user: false
 galaxy_separate_privileges: true
@@ -152,7 +151,7 @@ galaxy_jobconf:
         - id: pulsar_nrec
           load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
           params:
-            amqp_url: "pyamqp://test:{{ rabbitmq_password_galaxy_nrec }}@{{ pulsar_rabbitmq_proxy }}//test?ssl=1"
+            amqp_url: "amqp://test:{{ rabbitmq_password_galaxy_test }}@{{ pulsar_rabbitmq_proxy }}//test?ssl=1"
             galaxy_url: "https://{{ galaxy_host }}"
             manager: _default_
             amqp_acknowledge: True
@@ -163,7 +162,7 @@ galaxy_jobconf:
         - id: pulsar_nmbu
           load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
           params:
-            amqp_url: "pyamqp://nmbu_galaxy:{{ rabbitmq_password_galaxy_nmbu }}@{{ pulsar_rabbitmq_proxy }}//pulsar_nmbu_orion?ssl=1"
+            amqp_url: "amqp://nmbu_galaxy:{{ rabbitmq_password_galaxy_nmbu }}@{{ pulsar_rabbitmq_proxy }}//pulsar_nmbu_orion?ssl=1"
             galaxy_url: "https://{{ galaxy_host }}"
             manager: _default_
             amqp_acknowledge: True
