@@ -18,7 +18,7 @@ galaxy_config_style: yaml
 galaxy_force_checkout: true
 miniconda_prefix: "{{ galaxy_tool_dependency_dir }}/_conda"
 miniconda_version: "4.6.14"
-
+galaxy_instance_codename: "{{ env }}"
 galaxy_file_path: /data
 
 galaxy_config:
@@ -124,6 +124,180 @@ galaxy_config:
 
 galaxy_systemd_zergling_env: DRMAA_LIBRARY_PATH=/usr/lib64/libdrmaa.so.1
 
+galaxy_singularity_images_cvmfs_path: '/cvmfs/singularity.galaxyproject.org/all/'
+galaxy_handler_count: "{{ galaxy_systemd_handlers }}"
+pulsar_rabbitmq_proxy: "{{ groups['database'][0] }}"
+
+# Job Conf
+galaxy_jobconf:
+    plugin_workers: 8
+    handlers:
+        count: "{{ galaxy_handler_count }}"
+        assign_with: db-skip-locked
+        max_grab: 8
+    plugins:
+        #- id: drmaa
+          #load: galaxy.jobs.runners.drmaa:DRMAAJobRunner
+          #workers: 3
+        # These live on the pythonpath
+        - id: dynamic
+          params:
+            rules_module: 'usegalaxy'
+        - id: slurm
+          load: galaxy.jobs.runners.slurm:SlurmJobRunner
+        - id: local
+          load: galaxy.jobs.runners.local:LocalJobRunner
+        - id: pulsar_embedded
+          load: galaxy.jobs.runners.pulsar:PulsarEmbeddedJobRunner
+        - id: pulsar_nrec
+          load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
+          params:
+            amqp_url: "pyamqp://test:{{ rabbitmq_password_galaxy_nrec }}@{{ pulsar_rabbitmq_proxy }}//test?ssl=1"
+            galaxy_url: "https://{{ galaxy_host }}"
+            manager: _default_
+            amqp_acknowledge: True
+            amqp_ack_republish_time: 300
+            amqp_consumer_timeout: 2.0
+            amqp_publish_retry: True
+            amqp_publish_retry_max_retries: 60
+        - id: pulsar_nmbu
+          load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
+          params:
+            amqp_url: "pyamqp://nmbu_galaxy:{{ rabbitmq_password_galaxy_nmbu }}@{{ pulsar_rabbitmq_proxy }}//pulsar_nmbu_orion?ssl=1"
+            galaxy_url: "https://{{ galaxy_host }}"
+            manager: _default_
+            amqp_acknowledge: True
+            amqp_ack_republish_time: 300
+            amqp_consumer_timeout: 2.0
+            amqp_publish_retry: True
+            amqp_publish_retry_max_retries: 60
+    default_destination: gateway_1x
+    destinations:
+        - id: local
+          runner: local
+        - id: slurm
+          runner: slurm
+          params:
+            tmp_dir: "True"
+        # Gateways
+        - id: gateway_singlerun
+          runner: dynamic
+          params:
+              type: python
+              function: gateway
+        - id: gateway_1x
+          runner: dynamic
+          params:
+              type: python
+              function: gateway_1x
+        - id: gateway_1_5x
+          runner: dynamic
+          params:
+              type: python
+              function: gateway_1_5x
+        - id: gateway_2x
+          runner: dynamic
+          params:
+              type: python
+              function: gateway_2x
+        # Pulsar MQs
+        - id: remote_cluster_nrec
+          runner: pulsar_nrec
+          params:
+              jobs_directory: /srv/pulsar/staging/
+        - id: remote_cluster_nmbu
+          runner: pulsar_nmbu
+          env:
+              LC_ALL: C
+          params:
+              jobs_directory: /mnt/users/usegalaxy_no/staging/
+              #transport: curl
+              #remote_metadata: "false"
+              #default_file_action: remote_transfer
+              #dependency_resolution: remote
+              #rewrite_parameters: "true"
+              #persistence_directory: /data/share/persisted_data
+        - id: slurm_singularity
+          runner: slurm
+          params:
+              singularity_enabled: 'true'
+              singularity_volumes: '$galaxy_root:ro,$tool_directory:ro,$working_directory:rw,$job_directory:rw,/data/db/:ro,/data/dnb01/galaxy_db/:ro,/data/dnb02/galaxy_db/:ro'
+              singularity_default_container_id: '/cvmfs/singularity/ubuntu:18.04'
+        - id: slurm_singularity2
+          runner: slurm
+          params:
+              singularity_enabled: 'true'
+              singularity_volumes: '$galaxy_root:ro,$tool_directory:ro,$working_directory:rw,$job_directory:rw,/data/db/:ro,/data/dnb01/galaxy_db/:ro,/data/dnb02/galaxy_db/:ro'
+              singularity_default_container_id: '/data/0/cvmfs/singularity/ubuntu:18.04'
+          raw: |
+            <param id="container">
+                <container type="singularity" shell="/bin/sh" resolve_dependencies="true">/cvmfs/singularity/ubuntu:18.04</container>
+            </param>
+        - id: slurm_singularity_with_conda
+          runner: slurm
+          params:
+              singularity_enabled: 'true'
+          raw: |
+            <param id="container">
+                <container type="singularity" shell="/bin/bash" resolve_dependencies="true">/cvmfs/singularity/python:2.7.12--1</container>
+            </param>
+        - id: slurm_docker
+          runner: slurm
+          params:
+            docker_enabled: 'true'
+            docker_volumes: '$galaxy_root:ro,$tool_directory:ro,$working_directory:rw,$job_directory:rw'
+            #TODO ,/data/db/:ro,/data/dnb01/galaxy_db/:ro,/data/dnb02/galaxy_db/:ro'
+            docker_default_container_id: 'ubuntu:18.04'
+            docker_auto_rm: 'true'
+            docker_sudo: 'false'
+            docker_set_user: ''
+        - id: slurm_docker_interactive
+          runner: slurm
+          params:
+            docker_enabled: 'true'
+            docker_volumes: '$working_directory:rw,$job_directory:rw'
+            docker_default_container_id: 'ubuntu:18.04'
+            docker_auto_rm: 'true'
+            docker_sudo: 'false'
+            docker_set_user: ''
+        - id: slurm_docker_ie
+          runner: slurm
+          params:
+            docker_enabled: 'true'
+            docker_volumes: '$galaxy_root:ro,$tool_directory:ro,$working_directory:rw,$job_directory:rw'
+            #TODO ,/data/db/:ro,/data/dnb01/galaxy_db/:ro,/data/dnb02/galaxy_db/:ro'
+            docker_default_container_id: 'ubuntu:18.04'
+            docker_auto_rm: 'true'
+            docker_sudo: 'false'
+            docker_set_user: ''
+        - id: slurm_docker_ie_interactive
+          runner: slurm
+          params:
+            docker_enabled: 'true'
+            docker_volumes: '$working_directory:rw,$job_directory:rw'
+            docker_default_container_id: 'ubuntu:18.04'
+            docker_auto_rm: 'true'
+            docker_sudo: 'false'
+            docker_set_user: ''
+    tools:
+        - id: upload1
+          destination: gateway_singlerun
+    limits:
+      - type: 'walltime'
+        value: '148:00:00'
+      - type: 'output_size'
+        value: '300GB'
+      - type: 'registered_user_concurrent_jobs'
+        value: '500'
+      - type: 'anonymous_user_concurrent_jobs'
+        value: '4'
+      - type: 'destination_user_concurrent_jobs'
+        id: 'sh_fdid_slurm_docker_ie_interactive'
+        value: '10'
+      - type: 'destination_user_concurrent_jobs'
+        id: 'sh_fdid_slurm_intensive_jobs'
+        value: '10'
+
 galaxy_config_files:
   - src: files/galaxy/config/job_metrics_conf.xml
     dest: "{{ galaxy_config['galaxy']['job_metrics_config_file'] }}"
@@ -142,12 +316,21 @@ galaxy_tool_config_files:
 galaxy_config_templates:
   - src: files/galaxy/config/tool_conf.xml
     dest: "{{ galaxy_config_dir }}/tool_conf.xml"
-  - src: templates/galaxy/config/job_conf.xml
+  - src: templates/galaxy/config/job_conf.xml.j2
     dest: "{{ galaxy_config['galaxy']['job_config_file'] }}"
   - src: templates/galaxy/config/reports.yml
     dest: "{{ galaxy_config_dir }}/reports.yml"
   - src: templates/galaxy/config/pulsar_app.yml.j2
     dest: "{{ galaxy_config_dir }}/pulsar_app.yml"
+
+galaxy_dynamic_job_rules_src_dir: files/galaxy/dynamic_rules
+galaxy_dynamic_job_rules_dir: "{{ galaxy_root }}/dynamic_rules"
+galaxy_dynamic_job_rules:
+  - usegalaxy/joint_destinations.yaml
+  - usegalaxy/sorting_hat.py
+  - usegalaxy/destination_specifications.yaml
+  - usegalaxy/tool_destinations.yaml
+  - readme.txt
 
 # NeLS Storage
 nels_storage_url: "https://test-fe.cbu.uib.no/nels/welcome.xhtml"
@@ -162,6 +345,8 @@ galaxy_systemd_mode: mule
 galaxy_systemd_reports: true
 galaxy_zergpool_listen_addr: 127.0.0.1:8080
 galaxy_restart_handler_name: "Restart Galaxy"
+galaxy_systemd_handlers: 8
+galaxy_systemd_workflow_schedulers: 2
 
 galaxy_selinux_web_access_dirs:
   - "{{ galaxy_server_dir }}/client/galaxy/images"

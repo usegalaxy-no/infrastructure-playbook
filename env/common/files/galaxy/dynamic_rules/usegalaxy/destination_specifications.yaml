@@ -1,0 +1,146 @@
+---
+slurm:
+  limits:
+    cores: 40
+    mem: 1000
+  env:
+    #NUMBA_CACHE_DIR: /data/2/galaxy_db/tmp
+    GALAXY_MEMORY_MB: '{MEMORY_MB}'
+    GALAXY_SLOTS: '{PARALLELISATION}'
+  params:
+    priority: -{PRIORITY}
+    request_cpus: '{PARALLELISATION}'
+    request_memory: '{MEMORY}'
+    tmp_dir: 'True'
+
+slurm_singularity:
+  limits:
+    cores: 40
+    mem: 1000
+  env: {}
+  params:
+    priority: -{PRIORITY}
+    request_cpus: '{PARALLELISATION}'
+    request_memory: '{MEMORY}'
+    singularity_enabled: true
+    # can and should be made stricter at some point
+    #singularity_volumes: '/data/dnb01/galaxy_db/:ro,/data/dnb02/galaxy_db/:ro,/data/0/galaxy_import/galaxy_user_data/:ro,/data/1/galaxy_import/galaxy_user_data/:ro,/data/2/galaxy_db/:ro,/data/3/galaxy_db/:ro,/data/4/galaxy_db/:ro,/data/5/galaxy_import/galaxy_user_data/:ro,/data/6/galaxy_db/:ro,/data/7/galaxy_db/:ro,$galaxy_root:ro,$tool_directory:ro,$working_directory:rw,$job_directory:rw,/data/db/:ro'
+    singularity_volumes: '/data/:ro,$galaxy_root:ro,$tool_directory:ro,$working_directory:rw,$job_directory:rw'
+    singularity_default_container_id: '/cvmfs/singularity/ubuntu:18.04'
+    singularity_run_extra_arguments: '-H /usr/local/galaxy/'
+    tmp_dir: 'True'
+
+remote_cluster_mq_nrec:
+  env: {}
+  params:
+    priority: -{PRIORITY}
+    request_cpus: '{PARALLELISATION}'
+    request_memory: '{MEMORY}'
+    jobs_directory: '/srv/pulsar/staging/'
+    dependency_resolution: 'remote'
+    #submit_user: 'galaxy'
+
+remote_cluster_mq_nmbu_orion:
+  env: {}
+  params:
+    priority: -{PRIORITY}
+    request_cpus: '{PARALLELISATION}'
+    request_memory: '{MEMORY}'
+    jobs_directory: '/mnt/users/usegalaxy_no/staging/'
+    dependency_resolution: 'remote'
+
+slurm_docker_ie:
+  limits:
+    cores: 10
+    mem: 50
+  env: {}
+  params:
+    priority: -{PRIORITY}
+    request_cpus: '{PARALLELISATION}'
+    request_memory: '{MEMORY}'
+    docker_enabled: true
+    # can and should be made stricter at some point
+    docker_volumes: '/data/dnb01/galaxy_db/:ro,/data/dnb02/galaxy_db/:rw,/data/0/galaxy_import/galaxy_user_data/:ro,/data/1/galaxy_import/galaxy_user_data/:ro,/data/2/galaxy_db/:ro,/data/3/galaxy_db/:ro,/data/4/galaxy_db/:ro,/data/5/galaxy_import/galaxy_user_data/:ro,/data/6/galaxy_db/:ro,/data/7/galaxy_db/:ro,$galaxy_root:ro,$tool_directory:ro,$working_directory:rw,$job_directory:rw,/data/db/:ro'
+    docker_memory: '{MEMORY}'
+    docker_auto_rm: true
+    docker_default_container_id: busybox:ubuntu-14.04
+    docker_sudo: false
+    docker_set_user: ''
+    tmp_dir: 'True'
+
+
+slurm_docker_ie_interactive:
+  limits:
+    cores: 10
+    mem: 50
+  env: {}
+  params:
+    priority: -{PRIORITY}
+    request_cpus: '{PARALLELISATION}'
+    request_memory: '{MEMORY}'
+    docker_enabled: true
+    # can and should be made stricter at some point
+    docker_volumes: '$working_directory:rw,$job_directory:rw,$tool_directory:ro'
+    docker_memory: '{MEMORY}'
+    docker_auto_rm: true
+    docker_default_container_id: busybox:ubuntu-14.04
+    docker_sudo: false
+    docker_set_user: ''
+    tmp_dir: 'True'
+
+slurm_docker:
+  env:
+    # this can be removed, as soon as we don't expose this env on cn029 anymore
+    DOCKER_HOST: ''
+  params:
+    priority: -{PRIORITY}
+    request_cpus: '{PARALLELISATION}'
+    request_memory: '{MEMORY}'
+    docker_enabled: true
+    # can and should be made stricter at some point
+    docker_volumes: '/data/dnb01/galaxy_db/:ro,/data/dnb02/galaxy_db/:rw,/data/0/galaxy_import/galaxy_user_data/:ro,/data/1/galaxy_import/galaxy_user_data/:ro,/data/2/galaxy_db/:ro,/data/3/galaxy_db/:ro,/data/4/galaxy_db/:ro,/data/5/galaxy_import/galaxy_user_data/:ro,/data/6/galaxy_db/:ro,/data/7/galaxy_db/:ro,$galaxy_root:ro,$tool_directory:ro,$working_directory:rw,$job_directory:rw,/data/db/:ro'
+    docker_memory: '{MEMORY}'
+    docker_auto_rm: true
+    docker_default_container_id: busybox:ubuntu-14.04
+    docker_sudo: false
+    docker_set_user: ''
+    tmp_dir: 'True'
+
+
+slurm_docker_interactive:
+  env:
+    # this can be removed, as soon as we don't expose this env on cn029 anymore
+    DOCKER_HOST: ''
+  params:
+    priority: -{PRIORITY}
+    request_cpus: '{PARALLELISATION}'
+    request_memory: '{MEMORY}'
+    docker_enabled: true
+    # can and should be made stricter at some point
+    docker_volumes: '$working_directory:rw,$job_directory:rw,$tool_directory:ro'
+    docker_memory: '{MEMORY}'
+    docker_auto_rm: true
+    docker_default_container_id: busybox:ubuntu-14.04
+    docker_sudo: false
+    docker_set_user: ''
+    tmp_dir: 'True'
+
+remote_cluster_mq_no01:
+  limits:
+    cores: 4
+    mem: 15
+  env:
+    GALAXY_MEMORY_MB: '{MEMORY_MB}'
+    GALAXY_SLOTS: '{PARALLELISATION}'
+    LC_ALL: C
+    SINGULARITY_CACHEDIR: /data/share/var/database/container_cache
+  params:
+    priority: -{PRIORITY}
+    submit_request_cpus: '{PARALLELISATION}'
+    submit_request_memory: '{MEMORY}'
+    jobs_directory: '/data/share/staging'
+    default_file_action: 'remote_transfer'
+    dependency_resolution: 'none'
+    outputs_to_working_directory: True
+    rewrite_parameters: True
+    transport: 'curl'
