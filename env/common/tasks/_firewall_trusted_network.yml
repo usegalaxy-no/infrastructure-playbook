@@ -9,7 +9,7 @@
         source: "{{ hostvars[item]['ansible_host'] }}"
         permanent: true
         state: enabled
-#      immediate: yes
+        immediate: yes
         zone: trusted
       when: hostvars[item]['trusted_host'] is defined and hostvars[item]['trusted_host'] == 'yes'
       loop: "{{ groups['all'] }}"
