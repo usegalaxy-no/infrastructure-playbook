@@ -7,11 +7,11 @@ rabbitmq_users:
   - {name: admin,  vhost: '', 
      passwd: "{{admin_rabbitmq_password}}", tags: administrator}
   - {name: nrec_galaxy, vhost: pulsar_nrec,
-     passwd: "{{nrec_rabbitmq_password}}"}
+     passwd: "{{rabbitmq_password_galaxy_nrec}}"}
   - {name: nmbu_galaxy, vhost: pulsar_nmbu_orion,
-     passwd: "{{nmbu_rabbitmq_password}}" }
+     passwd: "{{rabbitmq_password_galaxy_nmbu}}" }
   - {name: test, vhost: test, 
-     passwd: "{{test_rabbitmq_password}}" }
+     passwd: "{{rabbitmq_password_galaxy_test}}" }
   - {name: telegraf, vhost: '', 
      passwd: "{{telegraf_rabbitmq_password}}" }
           

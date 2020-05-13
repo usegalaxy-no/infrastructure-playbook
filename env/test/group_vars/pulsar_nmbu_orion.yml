@@ -11,17 +11,16 @@ pulsar_staging_dir: '{{ pulsar_data_path }}/staging'
 pulsar_cache_dir: '{{ pulsar_data_path }}/cache'
 pulsar_systemd: true
 
-pulsar_private_token: "{{nmbu_pulsar_private_token}}"
 pulsar_rabbitmq_username: nmbu_galaxy
-pulsar_rabbitmq_password: "{{ nmbu_rabbitmq_password }}"
-pulsar_rabbitmq_proxy: "{{ groups['database'][0] }}"
-pulsar_rabbitmq_port: 5671
+pulsar_rabbitmq_password: "{{ rabbitmq_password_galaxy_nmbu }}"
 pulsar_rabbitmq_vhost: pulsar_nmbu_orion
+pulsar_private_token: "{{ pulsar_nmbu_private_token }}"
+pulsar_rabbitmq_proxy: "{{ groups['database'][0] }}"
 
 pulsar_create_user: false
 
-pulsar_message_queue: "amqps://{{ pulsar_rabbitmq_username}}:{{ pulsar_rabbitmq_password}}@{{ pulsar_rabbitmq_proxy }}/%2F{{ pulsar_rabbitmq_vhost }}"
-#amqps://test:wAQsJfQptm11p2TGWRDyc9aA3ormo2@test-db.usegalaxy.no/%2Ftest
+#pulsar_message_queue: "amqps://{{ pulsar_rabbitmq_username}}:{{ pulsar_rabbitmq_password}}@{{ pulsar_rabbitmq_proxy }}/%2F{{ pulsar_rabbitmq_vhost }}"
+pulsar_message_queue: "pyamqp://{{ pulsar_rabbitmq_username }}:{{ rabbitmq_password_galaxy_nmbu }}@{{ pulsar_rabbitmq_proxy }}//{{ pulsar_rabbitmq_vhost }}?ssl=1"
 
 pulsar_optional_dependencies:
   # - pyOpenSSL
