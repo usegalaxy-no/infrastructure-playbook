@@ -1,0 +1,48 @@
+---
+- name: Check if data folder has already been moved
+  stat:
+    path: "{{ postgresql_pgdata }}"
+  register: data_dir
+
+- name: shift postgresql data
+  block:
+
+  - name: Create directory for storing databases
+    file:
+      path: "{{ postgresql_data_directory }}"
+      state: directory
+      mode: "0700"
+      owner: "postgres"
+      group: "postgres"
+
+  - name: stop postgresql-10 server
+    systemd:
+      name: postgresql-10
+      enabled: true
+      state: stopped
+
+  - name: Move old data dir to new location
+    command: mv /var/lib/pgsql/10/data/ {{postgresql_data_directory}}/
+
+  - name: Drop old data dir
+    file:
+      path: /var/lib/pgsql/10/data/
+      state: absent
+
+  - name: Make syslink from new location to old data dir
+    file:
+      src: "{{ postgresql_data_directory }}/data"
+      dest: /var/lib/pgsql/10/data
+      state: link
+      owner: postgres
+      group: postgres
+
+  - name: restart postgresql-10 server
+    systemd:
+      name: postgresql-10
+      enabled: true
+      state: started
+  when: data_dir.stat.isdir
+
+
+
