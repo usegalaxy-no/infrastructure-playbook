@@ -42,7 +42,7 @@ slurm_partitions:
     MaxTime: UNLIMITED
     Nodes: "test-slurm"
 
-slurm_munge_key: files/munge/munge.key
+slurm_munge_key: files/munge/munge.vault
 
 slurm_node_ips: "{{ groups['slurm'] | map('extract', hostvars, ['ansible_eth0', 'ipv4', 'address']) | join(',') }}"
 
