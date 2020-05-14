@@ -1,0 +1,92 @@
+slurm_cgroup_config:
+  CgroupMountpoint: "/sys/fs/cgroup"
+  CgroupAutomount: yes
+  ConstrainCores: yes
+  TaskAffinity: no
+  ConstrainRAMSpace: no
+  ConstrainSwapSpace: no
+  ConstrainDevices: no
+  AllowedRamSpace: 100
+  AllowedSwapSpace: 0
+  MaxRAMPercent: 100
+  MaxSwapPercent: 100
+  MinRAMSpace: 30
+slurm_config:
+  ClusterName: usegalaxy_test_nrec
+  SchedulerType: sched/backfill
+  TaskPlugin: task/affinity,task/cgroup
+  TaskPluginParam: Sched
+  SelectType: select/cons_res
+  ProctrackType: proctrack/cgroup
+  JobAcctGatherType: jobacct_gather/cgroup
+  SelectTypeParameters: CR_Core_Memory
+  ControlMachine: test
+  SlurmctldLogFile: /var/log/slurm/slurmctld.log
+  SlurmdLogFile: /var/log/slurm/slurmd.log
+  SlurmdDebug: 3
+  DefMemPerCPU: 1000
+slurm_nodes:
+  - name: "test"
+    CoresPerSocket: 1
+    Sockets: 2
+    ThreadsPerCore: 1
+    RealMemory: 7821
+  - name: "test-slurm"
+    CoresPerSocket: 1
+    Sockets: 8
+    ThreadsPerCore: 1
+    RealMemory: 32011
+slurm_partitions:
+  - name: usegalaxy
+    Default: YES
+    MaxTime: UNLIMITED
+    Nodes: "test-slurm"
+
+slurm_munge_key: files/munge/munge.key
+
+slurm_node_ips: "{{ groups['slurm'] | map('extract', hostvars, ['ansible_eth0', 'ipv4', 'address']) | join(',') }}"
+
+nfs_exports:
+  - path: "/srv/galaxy"
+    export: "{{ slurm_node_ips }}(rw,async,no_root_squash)"
+  - path: "/data"
+    export: "{{ slurm_node_ips }}(rw,sync,no_root_squash)"
+
+nfs_client_imports:
+  - local: "/srv/galaxy"
+    remote: "/srv/galaxy"
+    server_host: "{{ galaxy_host }}"
+  - local: "/data"
+    remote: "/data"
+    server_host: "{{ galaxy_host }}"
+
+cvmfs_role: client
+galaxy_cvmfs_repos_enabled: config-repo
+cvmfs_quota_limit: 6000
+cvmfs_server_urls:
+  - domain: galaxyproject.org
+    use_geoapi: no
+    urls:
+      - "http://invivo.hpc.uio.no/cvmfs/@fqrn@"
+      - "http://cvmfs1-ufr0.galaxyproject.eu/cvmfs/@fqrn@"
+      - "http://cvmfs1-iu0.galaxyproject.org/cvmfs/@fqrn@"
+      - "http://cvmfs1-psu0.galaxyproject.org/cvmfs/@fqrn@"
+      - "http://cvmfs1-tacc0.galaxyproject.org/cvmfs/@fqrn@"
+      - "http://cvmfs1-mel0.gvl.org.au/cvmfs/@fqrn@"
+  - domain: "{{ galaxy_host }}"
+    use_geoapi: no
+    urls:
+      - "http://{{ cvmfs0_host }}/cvmfs/@fqrn@"
+cvmfs_keys:
+  - path: "/etc/cvmfs/keys/{{ galaxy_host }}/data.{{ galaxy_host }}.pub"
+    key: |
+      -----BEGIN PUBLIC KEY-----
+      MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAumGVOoY9O9B9J2A2n82A
+      OhewmxGt4JXOryMc2gIfjyb2K2hIxPxoDtqxaj4QZx4lLge+Y4WyCAiz/5v8m+Ef
+      Pprx+rxrXzuXAi0lfYNL1+1lUUrOPpRvn0fnzMC+2cb52gchVYjZEK0i5N1ctoV3
+      DjUol5rawBtAXZ1z8RF4352idAyt9D5KMZ13X12cxR2Rw8F/dQzL2MkuplvwQKpU
+      zNt0jbIlwbCWovkEKi5kaZIrn9d7yoIMIbabdOH4HtMxUX7wlH9Qlpr23Y1iVe5Y
+      8ZqKZKV/stlhgpGCsolyyg1GDcKL0H7ysk8J03cqIgznmfe+MdWo4oGU6wgvAq+B
+      oQIDAQAB
+      -----END PUBLIC KEY-----
+
