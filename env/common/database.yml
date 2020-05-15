@@ -19,17 +19,23 @@
     - name: Install Dependencies
       package:
         name: ['python3', 'python-psycopg2']
-  tasks:
-    - name: Create users and groups
-      include: tasks/users_groups.yml
-    - name: setup rabbitmq certs, vhosts and users
-      include: tasks/rabbitmq.yml
+
     - name: Create backup directory
       file:
         path: "{{ postgresql_backup_dir }}"
         state: directory
         mode: "0700"
         owner: "postgres"
+        group: "postgres"
+
+
+  tasks:
+    - name: Create users and groups
+      include: tasks/users_groups.yml
+    - name: setup rabbitmq certs, vhosts and users
+      include: tasks/rabbitmq.yml
+    - name: database specific tasks
+      include: tasks/database.yml
 
   roles:
     - geerlingguy.repo-epel
@@ -37,5 +43,9 @@
     - role: natefoo.postgresql_objects
       become: true
       become_user: postgres
-    - galaxyproject.nginx
     - geerlingguy.rabbitmq
+    - geerlingguy.apache
+    - geerlingguy.certbot
+
+
+
