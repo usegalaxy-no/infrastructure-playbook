@@ -10,7 +10,8 @@
 
     - name: looking for pulsar nodes
       debug:
-        msg: "Groupname {{ group_name }} --> {{ hostvars[item]['group_names'] }}"      when: group_name.find('pulsar') > -1
+        msg: "Groupname {{ group_name }} --> {{ hostvars[item]['group_names'] }}"
+      when: group_name.find('pulsar') > -1
       loop: "{{ hostvars[item]['group_names'] }}"
       loop_control:
         loop_var: group_name

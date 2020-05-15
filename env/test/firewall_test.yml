@@ -9,9 +9,7 @@
       package:
         name:
           - 'python3'
-          - 'git'
           - 'epel-release'
-#          - 'python36-virtualenv'
           - 'make'
           - 'bzip2'
 

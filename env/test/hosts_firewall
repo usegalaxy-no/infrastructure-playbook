@@ -1,6 +1,6 @@
 [galaxyserver]
 host1 ansible_host=158.37.63.81  ansible_user=centos trusted_host=yes
 
-[database]
+[nrec_pulsar]
 host2 ansible_host=158.37.63.116 ansible_user=centos trusted_host=yes
 
