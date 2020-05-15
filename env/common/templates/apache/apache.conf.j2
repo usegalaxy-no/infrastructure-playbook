@@ -24,9 +24,9 @@
       ProxypassReverse http://127.0.0.1:15672/
     </location>
 
-    <location /jenkins >
-        ProxyPass         http://localhost:4000/jenkins nocanon
-        RequestHeader set X-Forwarded-Proto "https"
-        RequestHeader set X-Forwarded-Port "443"
-    </location>
+#    <location /jenkins >
+#        ProxyPass         http://localhost:4000/jenkins nocanon
+#        RequestHeader set X-Forwarded-Proto "https"
+#        RequestHeader set X-Forwarded-Port "443"
+#    </location>
 </VirtualHost>
