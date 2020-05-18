@@ -55,44 +55,6 @@ galaxy_config:
     message_box_visible: true
     message_box_class: warning
     message_box_content: This is the development version of the new usegalaxy.no website. Not for production use!
-    logging:
-      disable_existing_loggers: false
-      filters:
-        stack:
-          (): galaxy.web_stack.application_stack_log_filter
-      formatters:
-        stack:
-          (): galaxy.web_stack.application_stack_log_formatter
-      handlers:
-        console:
-          class: logging.StreamHandler
-          filters:
-            - stack
-          formatter: stack
-          level: DEBUG
-          stream: ext://sys.stderr
-        files:
-          class: logging.FileHandler
-          filters:
-            - stack
-          level: DEBUG
-          formatter: stack
-          filename: "{{galaxy_log_dir}}/galaxy.log"
-      loggers:
-        amqp:
-          level: INFO
-          qualname: amqp
-        paste.httpserver.ThreadPool:
-          level: WARN
-          qualname: paste.httpserver.ThreadPool
-        routes.middleware:
-          level: WARN
-          qualname: routes.middleware
-      root:
-        handlers:
-          - files
-        level: DEBUG
-      version: 1
 
   uwsgi:
     # Default values
@@ -151,7 +113,7 @@ galaxy_jobconf:
         - id: pulsar_nrec
           load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
           params:
-            amqp_url: "amqp://test:{{ rabbitmq_password_galaxy_test }}@{{ pulsar_rabbitmq_proxy }}//test?ssl=1"
+            amqp_url: "amqp://test:{{ test_rabbitmq_password }}@{{ pulsar_rabbitmq_proxy }}//test?ssl=1"
             galaxy_url: "https://{{ galaxy_host }}"
             manager: _default_
             amqp_acknowledge: True
@@ -162,7 +124,7 @@ galaxy_jobconf:
         - id: pulsar_nmbu
           load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
           params:
-            amqp_url: "amqp://nmbu_galaxy:{{ rabbitmq_password_galaxy_nmbu }}@{{ pulsar_rabbitmq_proxy }}//pulsar_nmbu_orion?ssl=1"
+            amqp_url: "amqp://nmbu_galaxy:{{ nmbu_rabbitmq_password }}@{{ pulsar_rabbitmq_proxy }}//pulsar_nmbu_orion?ssl=1"
             galaxy_url: "https://{{ galaxy_host }}"
             manager: _default_
             amqp_acknowledge: True
@@ -398,8 +360,8 @@ nginx_ssl_servers:
 nginx_conf_http:
   client_max_body_size: 1g
 nginx_ssl_role: usegalaxy_eu.certbot
-nginx_conf_ssl_certificate: /etc/ssl/certs/fullchain.pem
-nginx_conf_ssl_certificate_key: /etc/ssl/user/privkey-nginx.pem
+nginx_conf_ssl_certificate: /etc/letsencrypt/live/{{ galaxy_host }}/fullchain.pem
+nginx_conf_ssl_certificate_key: /etc/letsencrypt/live/{{ galaxy_host }}/privkey.pem
 
 
 cvmfs_role: client
