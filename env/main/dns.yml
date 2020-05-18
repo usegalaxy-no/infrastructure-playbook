@@ -1,0 +1,9 @@
+- hosts: localhost
+  vars_files:
+    - secret_group_vars/global.vault
+    - group_vars/global.yml
+  tasks:
+    - name: Set up DNS entries
+      include: tasks/domain.yml
+      tags:
+        - domain
