@@ -62,11 +62,11 @@
   version: 1.0.4
 - src: usegalaxy_eu.gxadmin
   version: 0.0.5
+- src: https://github.com/usegalaxy-no/ansible-nels_storage
+  name: usegalaxy-no.nels_storage
 - src: https://github.com/elixir-no-nels/ansible-role-ehos.git
   name: ehos
 - src: https://github.com/usegalaxy-no/ansible-role-tos-api.git
   name: tos-api
 - src: usegalaxy_eu.gie_proxy
   version: 0.0.1
-- src: https://github.com/usegalaxy-no/ansible-nels_storage
-  name: usegalaxy-no.nels_storage
