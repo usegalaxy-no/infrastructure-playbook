@@ -1,8 +1,8 @@
 server {
     listen 80 default_server;
     listen [::]:80 default_server;
-
-    server_name "{{ inventory_hostname }}";
+# disabled this for all traffic to be redirected to https
+#    server_name "{{ inventory_hostname }}";
 
     location /.well-known/ {
         root {{ certbot_well_known_root | default( '/tmp/nginx_well_known')}};

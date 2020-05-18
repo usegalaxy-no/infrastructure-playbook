@@ -1,6 +1,17 @@
+{% for alias in aliases.split(',')  %}
+
+server {
+    listen 443 ssl;
+    server_name {{ alias }};
+    return 301 $scheme://{{inventory_hostname}}$request_uri;
+}
+
+{% endfor %}
+
 server {
     # Listen on port 443
     listen        *:443 ssl default_server;
+
     # The virtualhost is our domain name
     server_name   "{{ inventory_hostname }}";
 
