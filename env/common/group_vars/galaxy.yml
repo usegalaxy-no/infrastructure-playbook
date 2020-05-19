@@ -110,7 +110,7 @@ galaxy_jobconf:
           load: galaxy.jobs.runners.local:LocalJobRunner
         - id: pulsar_embedded
           load: galaxy.jobs.runners.pulsar:PulsarEmbeddedJobRunner
-        - id: pulsar_nrec
+        - id: pulsar_no_test
           load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
           params:
             amqp_url: "amqp://test:{{ test_rabbitmq_password }}@{{ pulsar_rabbitmq_proxy }}//test?ssl=1"
@@ -121,7 +121,7 @@ galaxy_jobconf:
             amqp_consumer_timeout: 2.0
             amqp_publish_retry: True
             amqp_publish_retry_max_retries: 60
-        - id: pulsar_nmbu
+        - id: pulsar_no_nmbu
           load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
           params:
             amqp_url: "amqp://nmbu_galaxy:{{ nmbu_rabbitmq_password }}@{{ pulsar_rabbitmq_proxy }}//pulsar_nmbu_orion?ssl=1"
@@ -162,21 +162,21 @@ galaxy_jobconf:
               type: python
               function: gateway_2x
         # Pulsar MQs
-        - id: remote_cluster_nrec
-          runner: pulsar_nrec
+        - id: remote_cluster_mq_nrec
+          runner: pulsar_no_test
           params:
               jobs_directory: /srv/pulsar/staging/
-        - id: remote_cluster_nmbu
-          runner: pulsar_nmbu
+        - id: remote_cluster_mq_nmbu
+          runner: pulsar_no_nmbu
           env:
               LC_ALL: C
           params:
               jobs_directory: /mnt/users/usegalaxy_no/staging/
-              #transport: curl
-              #remote_metadata: "false"
-              #default_file_action: remote_transfer
-              #dependency_resolution: remote
-              #rewrite_parameters: "true"
+              transport: curl
+              remote_metadata: "false"
+              default_file_action: remote_transfer
+              dependency_resolution: remote
+              rewrite_parameters: "true"
               #persistence_directory: /data/share/persisted_data
         - id: slurm_singularity
           runner: slurm
