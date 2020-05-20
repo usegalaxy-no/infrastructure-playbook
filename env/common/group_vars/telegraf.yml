@@ -1,4 +1,7 @@
 telegraf_urls: ["https://maas-test.bioinfo.no/influx"]
+
+telegraf_urls: ['https://nels.bioinfo.no/maas-api/']
+
 telegraf_database: usegalaxy
 telegraf_username: usegalaxy
 
