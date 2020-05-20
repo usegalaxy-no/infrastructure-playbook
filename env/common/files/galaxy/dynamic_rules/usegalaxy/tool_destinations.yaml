@@ -979,8 +979,7 @@ velveth:
   name: _velveth
 vsearch_search: {mem: 80}
 
-cat1:
-  runner: pulsar_nmbu
+cat1: { runner: remote_cluster_mq_nmbu }
 
 
 # Some admin tools
