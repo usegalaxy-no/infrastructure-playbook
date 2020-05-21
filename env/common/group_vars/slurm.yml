@@ -12,7 +12,7 @@ slurm_cgroup_config:
   MaxSwapPercent: 100
   MinRAMSpace: 30
 slurm_config:
-  ClusterName: usegalaxy_test_nrec
+  ClusterName: "usegalaxy_{{ env }}"
   SchedulerType: sched/backfill
   TaskPlugin: task/affinity,task/cgroup
   TaskPluginParam: Sched
@@ -26,21 +26,23 @@ slurm_config:
   SlurmdDebug: 3
   DefMemPerCPU: 1000
 slurm_nodes:
-  - name: "test"
-    CoresPerSocket: 1
-    Sockets: 2
-    ThreadsPerCore: 1
-    RealMemory: 7821
-  - name: "test-slurm"
-    CoresPerSocket: 1
-    Sockets: 8
-    ThreadsPerCore: 1
-    RealMemory: 32011
+  - name: "{{ hostvars[galaxy_host].ansible_hostname }}"
+    CoresPerSocket: "{{ hostvars[galaxy_host].ansible_processor_cores }}"
+    Sockets: "{{ hostvars[galaxy_host].ansible_processor_count }}"
+    ThreadsPerCore: "{{ hostvars[galaxy_host].ansible_processor_threads_per_core }}"
+    CPUs: "{{ hostvars[galaxy_host].ansible_processor_vcpus }}"
+    RealMemory: "{{ hostvars[galaxy_host].ansible_memtotal_mb }}"
+  - name: "{{ hostvars[slurm_host].ansible_hostname }}"
+    CoresPerSocket: "{{ hostvars[slurm_host].ansible_processor_cores }}"
+    Sockets: "{{ hostvars[slurm_host].ansible_processor_count }}"
+    ThreadsPerCore: "{{ hostvars[slurm_host].ansible_processor_threads_per_core }}"
+    CPUs: "{{ hostvars[slurm_host].ansible_processor_vcpus }}"
+    RealMemory: "{{ hostvars[slurm_host].ansible_memtotal_mb }}"
 slurm_partitions:
-  - name: usegalaxy
+  - name: "usegalaxy_{{ env }}"
     Default: YES
     MaxTime: UNLIMITED
-    Nodes: "test-slurm"
+    Nodes: "{{ hostvars[slurm_host].ansible_hostname }}"
 
 slurm_munge_key: files/munge/munge.vault
 
