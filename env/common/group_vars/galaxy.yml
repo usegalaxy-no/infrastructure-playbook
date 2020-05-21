@@ -442,7 +442,7 @@ telegraf_plugins_extra:
   slurm:
     plugin: "exec"
     config:
-      - commands = ["{{ custom_telegraf_slurm_collect_bin }}"]
+      - commands = ["/usr/bin/python3 {{ custom_telegraf_slurm_collect_bin }}"]
       - data_format = "influx"
   nginx:
     config:

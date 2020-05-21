@@ -18,7 +18,7 @@
     - group_vars/slurm.yml
     - group_vars/galaxy.yml
   vars:
-    slurm_roles: ['controller']
+    slurm_roles: ['controller', 'dbd']
     nfs_mode: server
   pre_tasks:
   - name: Add galaxy paths for nfs export

@@ -1,7 +1,3 @@
-#- name: Disable SELinux # Is this needed?
-#  selinux:
-#    state: disabled
-
 - name: Add branding
   copy:
     src: templates/galaxy/static/
@@ -95,11 +91,13 @@
 
 - name: Copy slurm telegraf plugin
   copy:
-    src: files/telegraf/slurm-collect.sh
+    src: files/telegraf/slurm.py
     dest: "{{ custom_telegraf_slurm_collect_bin }}"
     owner: root
     group: root
     mode: '0755'
+  tags:
+    - telegraf
 
 - name: Allow nginx httpd_sys_content_t to access the static files
   sefcontext:
@@ -108,11 +106,15 @@
     state: present
   register: update_fcontexts
   with_items: "{{ galaxy_selinux_web_access_dirs }}"
+  tags:
+    - selinux
 
 - name: Apply new SELinux file context to filesystem
   command: "restorecon -rv {{ item }}"
   with_items: "{{ galaxy_selinux_web_access_dirs }}"
   when: update_fcontexts.changed
+  tags:
+    - selinux
 
 - name: Cron job for cleaning Galaxy histories
   cron:
