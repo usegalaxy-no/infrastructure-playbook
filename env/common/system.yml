@@ -5,6 +5,12 @@
     - group_vars/global.yml
     - group_vars/telegraf.yml
   pre_tasks:
+    - name: Enforce SELinux
+      selinux:
+        policy: targeted
+        state: enforcing
+      tags:
+        - selinux
     - name: Disable ipv6
       sysctl:
         name: net.ipv6.conf.eth0.disable_ipv6
