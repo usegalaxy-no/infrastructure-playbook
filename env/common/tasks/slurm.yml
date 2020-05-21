@@ -1,3 +1,10 @@
+- name: Create ssh dir
+  file:
+    dest: "~{{ galaxy_user.name }}/.ssh/"
+    state: directory
+    owner: "{{ galaxy_user.name }}"
+    group: "{{ galaxy_user.name }}"
+    mode: 0700
 - name: Add NeLS storage IDs to known_hosts
   become: true
   become_user: "{{ galaxy_user.name }}"
