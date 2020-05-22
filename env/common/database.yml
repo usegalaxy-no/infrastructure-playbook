@@ -53,3 +53,6 @@
     - role: geerlingguy.mysql
       tags:
       - mysql
+    - role: dj-wasabi.telegraf
+      tags:
+        - telegraf
