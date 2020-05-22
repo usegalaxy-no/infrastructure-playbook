@@ -34,6 +34,8 @@
       include: tasks/users_groups.yml
     - name: setup rabbitmq certs, vhosts and users
       include: tasks/rabbitmq.yml
+      tags:
+        - rabbitmq
     - name: database specific tasks
       include: tasks/database.yml
 
@@ -43,7 +45,9 @@
     - role: natefoo.postgresql_objects
       become: true
       become_user: postgres
-    - geerlingguy.rabbitmq
+    - role: geerlingguy.rabbitmq
+      tags:
+        - rabbitmq
     - geerlingguy.apache
     - geerlingguy.certbot
     - role: geerlingguy.mysql
