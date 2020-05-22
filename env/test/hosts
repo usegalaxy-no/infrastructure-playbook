@@ -1,5 +1,5 @@
 [galaxyserver]
-test.usegalaxy.no ansible_host=158.39.74.224 ansible_user=sysadmin trusted_host=yes
+test.usegalaxy.no ansible_host=158.39.74.224 ansible_user=sysadmin trusted_host=yes aliases=test-www.usegalaxy.no
 
 [database]
 test-db.usegalaxy.no ansible_host=158.39.201.49 ansible_user=sysadmin trusted_host=yes
