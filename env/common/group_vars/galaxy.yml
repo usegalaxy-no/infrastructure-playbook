@@ -64,6 +64,7 @@ galaxy_config:
     processes: 1
     threads: 4
     offload-threads: 2
+    stats-push: statsd:127.0.0.1:8125
     static-map:
       - /static/style={{ galaxy_server_dir }}/static/style/blue/
       - /static={{ galaxy_server_dir }}/static
