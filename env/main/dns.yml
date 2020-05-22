@@ -1,9 +1,32 @@
 - hosts: localhost
+  vars:
+    - test: yes
   vars_files:
     - secret_group_vars/global.vault
     - group_vars/global.yml
   tasks:
-    - name: Set up DNS entries
-      include: tasks/domain.yml
-      tags:
-        - domain
+    - name: add generic A records
+      cloudflare_dns:
+        zone:  "{{ domain }}"
+        record: "{{ inventory_hostname }}"
+        type: A
+        value: "{{ ansible_host }}"
+        ttl: 1
+        account_email: "{{ cloudflare_email }}"
+        account_api_token: "{{ cloudflare_api_token }}"
+      with_items:
+        - "{{ groups['all'] | flatten(1)}}"
+
+    - name: add special A records
+      cloudflare_dns:
+        zone:  "{{ domain }}"
+        record: "{{ inventory_hostname }}"
+        type: A
+        value: "{{ ansible_host }}"
+        ttl: 1
+        account_email: "{{ cloudflare_email }}"
+        account_api_token: "{{ cloudflare_api_token }}"
+      with_items:
+        - { host: "*.interactivetoolentrypoint.interactivetool.{{ galaxy_host }}", ip: "{{ galaxy_ip }}" }
+        - { host: "www.{{galaxy_host}}", ip: "{{ galaxy_ip }}" }
+
