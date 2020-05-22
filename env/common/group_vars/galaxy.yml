@@ -26,6 +26,7 @@ galaxy_config:
     admin_users: "{{ galaxy_admin }}"
     master_api: "{{ galaxy_master_api_key }}"
     enable_beta_gdpr: true
+    enable_quotas: true
     database_connection: "{{ db_connection }}"
     file_path: "{{ galaxy_file_path }}"
     tool_data_path: "{{ galaxy_server_dir }}/tool-data"
