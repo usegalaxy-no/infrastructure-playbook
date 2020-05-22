@@ -46,6 +46,6 @@
     - geerlingguy.rabbitmq
     - geerlingguy.apache
     - geerlingguy.certbot
-
-
-
+    - role: geerlingguy.mysql
+      tags:
+      - mysql

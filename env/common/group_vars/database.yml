@@ -49,6 +49,26 @@ postgresql_backup_hour: 03
 postgresql_backup_minute: 13
 
 
+# MySQL (for Slurm)
+mysql_enabled_on_startup: true
+mysql_innodb_buffer_pool_size: 1024M
+mysql_innodb_log_file_size: 64M
+mysql_innodb_lock_wait_timeout: 900
+mysql_root_home: /root
+mysql_user_home: "~{{ ansible_user_id }}"
+mysql_user_name: "{{ ansible_user_id }}"
+mysql_user_password: "{{ mysql_root_password }}"
+mysql_databases:
+  - name: slurm_acct_db
+    encoding: latin1
+    collation: latin1_general_ci
+mysql_users:
+  - name: "{{ mysql_slurm_username }}"
+    host: "{{ galaxy_ip }}"
+    password: "{{ mysql_slurm_password }}"
+    priv: "slurm_acct_db.*:ALL"
+
+
 # Certbot
 certbot_auto_renew_hour: "{{ 23 |random(seed=inventory_hostname)  }}"
 certbot_auto_renew_minute: "{{ 59 |random(seed=inventory_hostname)  }}"

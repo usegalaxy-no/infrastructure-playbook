@@ -50,6 +50,7 @@ galaxy_config:
     terms_url: https://{{galaxy_host}}/galaxy-terms/
     statsd_host: localhost
     statsd_influxdb: true
+    statsd_prefix: "galaxy_page_timings"
     id_secret: "{{galaxy_id_secret}}"
 
     message_box_visible: true
@@ -113,7 +114,7 @@ galaxy_jobconf:
         - id: pulsar_no_test
           load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
           params:
-            amqp_url: "amqp://test:{{ test_rabbitmq_password }}@{{ pulsar_rabbitmq_proxy }}//test?ssl=1"
+            amqp_url: "amqp://test:{{ rabbitmq_password_galaxy_test }}@{{ pulsar_rabbitmq_proxy }}//test?ssl=1"
             galaxy_url: "https://{{ galaxy_host }}"
             manager: _default_
             amqp_acknowledge: True
@@ -124,7 +125,7 @@ galaxy_jobconf:
         - id: pulsar_no_nmbu
           load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
           params:
-            amqp_url: "amqp://nmbu_galaxy:{{ nmbu_rabbitmq_password }}@{{ pulsar_rabbitmq_proxy }}//pulsar_nmbu_orion?ssl=1"
+            amqp_url: "amqp://nmbu_galaxy:{{ rabbitmq_password_galaxy_nmbu }}@{{ pulsar_rabbitmq_proxy }}//pulsar_nmbu_orion?ssl=1"
             galaxy_url: "https://{{ galaxy_host }}"
             manager: _default_
             amqp_acknowledge: True
@@ -382,7 +383,8 @@ telegraf_plugins_extra:
   monitor_galaxy_queue:
     plugin: "exec"
     config:
-      - commands = ["{{ custom_telegraf_env }} {{ custom_telegraf_gxadmin_bin }} iquery queue-overview --short-tool-id"]
+      - commands = ["{{ custom_telegraf_env }} {{ custom_telegraf_gxadmin_bin }} iquery queue-overview --short-tool-id",
+                    "{{ custom_telegraf_env }} {{ custom_telegraf_gxadmin_bin }} iquery workflow-invocation-status"]
       - timeout = "10s"
       - data_format = "influx"
       - interval = "30s"
@@ -400,7 +402,7 @@ telegraf_plugins_extra:
       - commands = ["{{ custom_telegraf_env }} {{ custom_telegraf_gxadmin_bin }} uwsgi lastlog"]
       - timeout = "15s"
       - data_format = "influx"
-      - interval = "30s"
+      - interval = "15s"
   galaxy_jobs_queued:
     plugin: "exec"
     config:
@@ -442,7 +444,7 @@ telegraf_plugins_extra:
   slurm:
     plugin: "exec"
     config:
-      - commands = ["{{ custom_telegraf_slurm_collect_bin }}"]
+      - commands = ["/usr/bin/python3 {{ custom_telegraf_slurm_collect_bin }}"]
       - data_format = "influx"
   nginx:
     config:
