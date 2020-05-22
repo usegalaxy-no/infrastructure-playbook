@@ -383,7 +383,8 @@ telegraf_plugins_extra:
   monitor_galaxy_queue:
     plugin: "exec"
     config:
-      - commands = ["{{ custom_telegraf_env }} {{ custom_telegraf_gxadmin_bin }} iquery queue-overview --short-tool-id"]
+      - commands = ["{{ custom_telegraf_env }} {{ custom_telegraf_gxadmin_bin }} iquery queue-overview --short-tool-id",
+                    "{{ custom_telegraf_env }} {{ custom_telegraf_gxadmin_bin }} iquery workflow-invocation-status"]
       - timeout = "10s"
       - data_format = "influx"
       - interval = "30s"
@@ -401,7 +402,7 @@ telegraf_plugins_extra:
       - commands = ["{{ custom_telegraf_env }} {{ custom_telegraf_gxadmin_bin }} uwsgi lastlog"]
       - timeout = "15s"
       - data_format = "influx"
-      - interval = "30s"
+      - interval = "15s"
   galaxy_jobs_queued:
     plugin: "exec"
     config:
