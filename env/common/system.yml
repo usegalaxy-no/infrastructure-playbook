@@ -36,7 +36,10 @@
     - role: reallyenglish.dhclient
       when: "env != 'production'"
     - role: nbigot.ansible-fail2ban
+    - role: weareinteractive.sudo
+      tags: ['sudo']
     - role: dj-wasabi.telegraf
+      tags: ['telegraf']
     - role: idiv-biodiversity.postfix
 
 - hosts: localhost

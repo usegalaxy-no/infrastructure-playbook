@@ -23,6 +23,8 @@
   version: 1.5.0
 - src: geerlingguy.rabbitmq
   version: 1.0.0
+- src: weareinteractive.sudo
+  version: 1.14.1
 
 - src: https://github.com/dj-wasabi/ansible-telegraf
   name: dj-wasabi.telegraf
