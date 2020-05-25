@@ -30,3 +30,6 @@ telegraf_plugins_default:
   - plugin: net
   - plugin: netstat
   - plugin: chrony
+  - plugin: fail2ban
+    config:
+      - use_sudo = true

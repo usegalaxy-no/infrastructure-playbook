@@ -5,7 +5,7 @@ postgresql_objects_users:
   - name: "{{galaxy_db_user}}"
     password: "{{galaxy_db_passwd}}"
   - name: telegraf
-    password: null
+    password: "{{ telegraf_database_password }}"
 #  - name: tiaas
 #    password: null
 postgresql_objects_databases:
@@ -37,13 +37,14 @@ postgresql_conf:
 #  - data_directory: "'{{ postgresql_pgdata }}'"
 postgresql_pg_hba_conf:
   - local all postgres peer
-  - local "{{galaxy_database}}" telegraf peer
   - host all all 127.0.0.1/32 md5
   - host all all ::1/128 md5
   - local "{{galaxy_database}}" "{{galaxy_db_user}}" md5
   - host "{{galaxy_database}}" "{{galaxy_db_user}}" "{{ galaxy_ip }}/32" md5
-  - host "{{galaxy_database}}" telegraf "{{ galaxy_ip }}/32" trust
   - host postgres "{{galaxy_db_user}}" "{{ galaxy_ip }}/32" md5
+  - host "{{galaxy_database}}" telegraf  127.0.0.1/32 md5
+  - host "{{galaxy_database}}" telegraf "{{ galaxy_ip }}/32" trust
+  - host "{{galaxy_database}}" telegraf  "{{ db_ip }}/32" md5
 postgresql_backup_dir: /backup
 postgresql_backup_hour: 03
 postgresql_backup_minute: 13
@@ -67,6 +68,9 @@ mysql_users:
     host: "{{ galaxy_ip }}"
     password: "{{ mysql_slurm_password }}"
     priv: "slurm_acct_db.*:ALL"
+  - name: telegraf
+    host: "{{ db_host }}"
+    password: "{{ telegraf_database_password }}"
 
 
 # Certbot
@@ -105,9 +109,12 @@ nginx_conf_ssl_certificate_key: /etc/ssl/user/privkey-nginx.pem
 telegraf_plugins_extra:
   postgresql:
     config:
-      - address = "postgres://telegraf@localhost/{{galaxy_database}}"
+      - address = "postgres://telegraf:{{ telegraf_database_password }}@{{ db_host }}/{{galaxy_database}}"
   rabbitmq:
     config:
       - url = "http://localhost:15672"
       - username = "telegraf"
-      - password = "{{telegraf_rabbitmq_password}}"
+      - password = "{{ telegraf_rabbitmq_password }}"
+  mysql:
+    config:
+      - servers = ["telegraf:{{ telegraf_database_password }}@tcp({{ db_host }}:3306)/"]

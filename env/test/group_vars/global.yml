@@ -80,3 +80,14 @@ dhclient_config:
 #postfix_aliases:
 #  - user: root
 #    alias: torfinn.nome@nmbu.no
+
+# Sudo access
+sudo_defaults:
+  - name: telegraf
+    defaults: '!logfile, !syslog, !pam_session'
+sudo_users:
+      - name: telegraf
+        nopasswd: yes
+        commands:
+          - '/usr/bin/fail2ban-client status'
+          - '/usr/bin/fail2ban-client status *'

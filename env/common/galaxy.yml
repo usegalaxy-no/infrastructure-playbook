@@ -39,7 +39,9 @@
     - geerlingguy.repo-epel
     - geerlingguy.pip
     - galaxyproject.repos
-    - galaxyproject.galaxy
+    - role: galaxyproject.galaxy
+      tags:
+        - galaxy
     - role: uchida.miniconda
       become: true
       become_user: galaxy
