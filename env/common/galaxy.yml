@@ -61,6 +61,9 @@
     - name: Install slurm-drmaa
       package:
         name: slurm-drmaa
+    - name: Install the tos-api
+      include_role:
+        name: tos-api
     # TODO: This should not be needed, but...
     - name: galaxy need a compliance log for conda, will otherwise fail.
       file:
@@ -68,6 +71,13 @@
         state: file
         mode: '0644'
         owner: "{{ galaxy_user.name }}"
+    - name: galaxy root is readable for nginx
+      file:
+        path: "{{ galaxy_root }}"
+        state: directory
+        mode: '0755'
+        owner: "{{ galaxy_user.name }}"
+        group: "{{ galaxy_user.name }}"
     - name: Make sure galaxy owns tool-data
       file:
         path: "{{ galaxy_root }}/server/tool-data"
@@ -81,6 +91,3 @@
         state: file
         mode: '0755'
         owner: "{{ galaxy_user.name }}"
-    - name: Install the tos-api
-      include_role:
-        name: tos-api
