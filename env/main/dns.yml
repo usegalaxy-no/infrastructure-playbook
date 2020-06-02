@@ -30,3 +30,12 @@
         - { host: "*.interactivetoolentrypoint.interactivetool.{{ galaxy_host }}", ip: "{{ galaxy_ip }}" }
         - { host: "www.{{galaxy_host}}", ip: "{{ galaxy_ip }}" }
 
+    - name: add MX record
+      cloudflare_dns:
+        zone:  "{{ domain }}"
+        record: "{{ domain }}"
+        type: MX
+        value: "{{ smtp_host }}"
+        ttl: 1
+        account_email: "{{ cloudflare_email }}"
+        account_api_token: "{{ cloudflare_api_token }}"
