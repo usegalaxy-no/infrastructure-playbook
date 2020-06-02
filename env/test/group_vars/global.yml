@@ -82,6 +82,8 @@ postfix_relayhost: "{{ smtp_host }}" # TODO: Make sure this works
 postfix_aliases:
   - user: root
     alias: kim.brugger@uib.no, torfinn.nome@nmbu.no
+  - user: admin
+    alias: root
   - user: usegalaxy
     alias: contact@bioinfo.no
   - user: abuse
