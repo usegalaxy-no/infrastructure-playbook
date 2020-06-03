@@ -3,7 +3,6 @@
 
   block:
 
-
     - name: add firewalld rule for trusted network
       firewalld:
         source: "{{ hostvars[item]['ansible_host'] }}"
