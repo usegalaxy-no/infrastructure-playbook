@@ -29,6 +29,8 @@ galaxy_database: "galaxy-test"
 slurm_host: "{{ groups['slurm'][0] }}"
 slurm_ip: "{{ hostvars[slurm_host].ansible_host }}"
 
+smtp_host: "{{ db_host }}"
+
 # variables generated based on the information above, should only need to edit in extreme cases
 db_connection: "postgresql://{{galaxy_db_user}}:{{galaxy_db_passwd}}@{{db_host}}/{{galaxy_database}}"
 # certs for the frontend
@@ -76,10 +78,23 @@ dhclient_config:
   - "supersede domain-search \"usegalaxy.no\";"
 
 # Postfix
-#postfix_relayhost: smtp.uib.no # TODO: Make sure this works
-#postfix_aliases:
-#  - user: root
-#    alias: torfinn.nome@nmbu.no
+postfix_relayhost: "{{ smtp_host }}" # TODO: Make sure this works
+postfix_aliases:
+  - user: root
+    alias: kim.brugger@uib.no, torfinn.nome@nmbu.no
+  - user: admin
+    alias: root
+  - user: usegalaxy
+    alias: contact@bioinfo.no
+  - user: abuse
+    alias: root
+postfix_smtp:
+  tls_CApath: '/etc/pki/tls/certs'
+  tls_security_level: 'may'
+  tls_cert_file: '/etc/ssl/certs/fullchain.pem'
+  tls_key_file: '/etc/ssl/user/privkey-nginx.pem'
+  tls_note_starttls_offer: 'yes'
+
 
 # Sudo access
 sudo_defaults:

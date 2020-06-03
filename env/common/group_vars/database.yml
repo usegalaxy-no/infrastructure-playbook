@@ -118,3 +118,22 @@ telegraf_plugins_extra:
   mysql:
     config:
       - servers = ["telegraf:{{ telegraf_database_password }}@tcp({{ db_host }}:3306)/"]
+
+postfix_relayhost: ""
+postfix_inet_interfaces:
+  - all
+postfix_inet_protocols: all
+postfix_destinations:
+  - $myhostname
+  - usegalaxy.no
+  - localhost
+postfix_smtpd:
+  tls_CApath: '/etc/pki/tls/certs'
+  tls_security_level: 'may'
+  tls_cert_file: '/etc/ssl/certs/fullchain.pem'
+  tls_key_file: '/etc/ssl/user/privkey-nginx.pem'
+  tls_auth_only: 'no'
+  tls_loglevel: '1'
+  tls_received_header: 'yes'
+  tls_session_cache_timeout: '3600s'
+postfix_tls_random_source: 'dev:/dev/urandom'

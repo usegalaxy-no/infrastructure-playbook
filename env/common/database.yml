@@ -56,3 +56,6 @@
     - role: dj-wasabi.telegraf
       tags:
         - telegraf
+    - role: idiv-biodiversity.postfix
+      tags:
+        - postfix
