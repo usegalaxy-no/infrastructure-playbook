@@ -99,6 +99,11 @@
   tags:
     - telegraf
 
+- name: test to see if selinux is running
+  command: getenforce
+  register: sestatus
+  changed_when: false
+
 - name: Allow nginx httpd_sys_content_t to access the static files
   sefcontext:
     target: "{{ item }}(/.*)?"
@@ -106,6 +111,7 @@
     state: present
   register: update_fcontexts
   with_items: "{{ galaxy_selinux_web_access_dirs }}"
+  when: '"Enabled" in sestatus.stdout'
   tags:
     - selinux
 
