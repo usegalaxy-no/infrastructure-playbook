@@ -1,11 +1,6 @@
 # adds firewalls to a server dependent on what is running
 - name: add firewalls
   block:
-
-    - name: Part of the trusted set of servers
-      include: tasks/_firewall_trusted_network.yml
-      when: trusted_host is defined and trusted_host == 'yes'
-
     - name: Ensure firewalld is installed
       package:
         name: firewalld
@@ -16,10 +11,14 @@
         enabled: yes
         name: firewalld
 
-
     - name: "collect host information"
       package_facts:
         manager: "auto"
+
+
+    - name: Part of the trusted set of servers
+      include: tasks/_firewall_trusted_network.yml
+      when: trusted_host is defined and trusted_host == 'yes'
 
     - name: ssh firewall setup (always open)
       firewalld:
@@ -50,27 +49,35 @@
 
     - name: rabbitmq firewall setup
       firewalld:
-        port: 5671-5672/tcp # 5672 is amqps
+        service: amqp
         permanent: true
         state: enabled
-#        immediate: yes
+        immediate: yes
         zone: public
       when: "'rabbitmq-server' in ansible_facts.packages"
 
-
-    - name: Allow access from pulsar nodes
-      include: tasks/_firewall_pulsar_hosts.yml server={{inventory_hostname}}
-      loop: "{{ groups['all'] }}"
-      when: "'rabbitmq-server' in ansible_facts.packages"
-
-    - name: postgres firewall setup
+    - name: rabbitmq firewall setup
       firewalld:
-        service: postgres
+        service: amqps
         permanent: true
         state: enabled
-#        immediate: yes
+        immediate: yes
         zone: public
-      when: "False and 'postgresql10-server' in ansible_facts.packages"
+      when: "'rabbitmq-server' in ansible_facts.packages"
+
+#    - name: Allow access from pulsar nodes
+#      include: tasks/_firewall_pulsar_hosts.yml server={{inventory_hostname}}
+#      loop: "{{ groups['all'] }}"
+#      when: "false and 'rabbitmq-server' in ansible_facts.packages"
+
+#    - name: postgres firewall setup, dropped as now open between trusted hosts
+#      firewalld:
+#        service: postgres
+#        permanent: true
+#        state: enabled
+#        immediate: yes
+#        zone: public
+#      when: "False and 'postgresql10-server' in ansible_facts.packages"
 
 
 
