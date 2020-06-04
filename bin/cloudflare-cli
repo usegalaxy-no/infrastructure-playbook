@@ -1,0 +1,149 @@
+#!/usr/bin/env python3
+
+import argparse
+import os
+import sys
+
+from tabulate import tabulate
+import CloudFlare
+cf = None
+DEFAULT_ZONE = 'usegalaxy.no'
+
+def list_records( args ):
+
+    zone_name = DEFAULT_ZONE
+    
+    # query for the zone name and expect only one value back
+    try:
+        zones = cf.zones.get(params = {'name':zone_name,'per_page':1})
+    except CloudFlare.exceptions.CloudFlareAPIError as e:
+        exit('/zones.get %d %s - api call failed' % (e, e))
+    except Exception as e:
+        exit('/zones.get - %s - api call failed' % (e))
+
+    if len(zones) == 0:
+        exit('No zones found')
+
+    # extract the zone_id which is needed to process that zone
+    zone = zones[0]
+    zone_id = zone['id']
+
+    # request the DNS records from that zone
+    try:
+        dns_records = cf.zones.dns_records.get(zone_id)
+    except CloudFlare.exceptions.CloudFlareAPIError as e:
+        exit('/zones/dns_records.get %d %s - api call failed' % (e, e))
+
+    # print the results - first the zone name
+    print( f"Domain: {zone_id}\t{zone_name}\tZone")
+
+    # then all the DNS records for that zone
+    table = []
+    for dns_record in dns_records:
+        r_name = dns_record['name']
+        r_type = dns_record['type']
+        r_value = dns_record['content']
+        r_id = dns_record['id']
+
+        table.append([ r_id, r_name, r_value, r_type])
+        
+    print( tabulate(table, ['id', 'name','value', 'type'], tablefmt="psql"))
+
+
+
+    exit(0)
+
+
+def delete_record( args ) -> None:
+
+
+    zone_name = DEFAULT_ZONE
+
+    if len( args.command):
+        dns_record_id = args.command.pop( 0 )
+    else:
+        print( 'delete requires a dns-record-id')
+        exit(-1)
+    
+    zone_info = cf.zones.get(params={'name': zone_name})[0]
+    zone_id = zone_info['id']
+    print( zone_id )
+    
+    r = cf.zones.dns_records.delete(zone_id, dns_record_id)
+    exit(0)
+
+def add_record( args ) -> None:
+
+
+    zone_name = DEFAULT_ZONE
+
+    
+
+    
+    if len( args.command) == 4 :
+        r_type, r_name, r_value, r_ttl  = args.command
+    else:
+        print( 'add requires: type, name, value and ttl')
+        exit(-1)
+    
+    zone_info = cf.zones.get(params={'name': zone_name})[0]
+    zone_id = zone_info['id']
+    
+    r = cf.zones.dns_records.post(zone_id, data={"type":r_type,"name":r_name,"content":r_value,"ttl":120})
+    exit(0)
+    
+
+    
+def main() -> None:
+
+    parser = argparse.ArgumentParser(description='cloudflare utils')
+    commands = ["list", "delete", "add"]
+    parser.add_argument('-a', '--api-key', help='cloudflare api key, can also be sat by env CF_API_KEY')
+    parser.add_argument('-e', '--api-email',   help='cloudflare account email, can also be sat by env CF_API_EMAIL')
+    parser.add_argument('command', nargs='+', help="{}".format(",".join(commands)))
+
+    args = parser.parse_args()
+
+
+    if 'CF_API_KEY' in os.environ and args.api_key is None:
+        args.api_key = os.environ['CF_API_KEY']
+
+    if 'CF_API_EMAIL' in os.environ and args.api_email is None:
+        args.api_email = os.environ['CF_API_EMAIL']
+
+
+    if  args.api_key is None or args.api_email is None:
+
+        print("\n\nError:")        
+        print("============================================")
+        print("Please provide both an API-KEY and API-EMAIL")
+        print("============================================\n")
+        parser.print_help()
+        sys.exit(1)
+        
+    
+
+    global cf
+    cf = CloudFlare.CloudFlare(email=args.api_email, token=args.api_key)
+
+    command = args.command.pop(0)
+    if command not in commands:
+        parser.print_help()
+        exit(-1)
+
+#    print( args )
+        
+    if command == 'list':
+        list_records(args)
+    elif command == 'delete':
+        delete_record(args)
+    elif command == 'add':
+        add_record( args )
+    else:
+        print("Unknown command: {} are allowed.".format(string_utils.comma_sep( commands )))
+        sys.exit( 1 )
+
+    
+
+if __name__ == '__main__':
+    main()
