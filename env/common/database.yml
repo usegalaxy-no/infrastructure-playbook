@@ -28,6 +28,11 @@
         owner: "postgres"
         group: "postgres"
 
+    - name: Open firewalld ports
+      tags: firewall-setup
+      become: true
+      include: tasks/firewall.yml ports="['ssh', 'http', 'https', 'amqp', 'amqps']"
+
 
   tasks:
     - name: Create users and groups

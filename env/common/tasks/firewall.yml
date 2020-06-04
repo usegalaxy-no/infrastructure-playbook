@@ -1,4 +1,4 @@
-# adds firewalls to a server dependent on what is running
+---
 - name: add firewalls
   block:
     - name: Ensure firewalld is installed
@@ -11,74 +11,18 @@
         enabled: yes
         name: firewalld
 
-    - name: "collect host information"
-      package_facts:
-        manager: "auto"
-
-
     - name: Part of the trusted set of servers
       include: tasks/_firewall_trusted_network.yml
       when: trusted_host is defined and trusted_host == 'yes'
 
-    - name: ssh firewall setup (always open)
-      firewalld:
-        service: ssh
-        permanent: true
-#        immediate: yes
-        state: enabled
-        zone: public
-
-
-    - name: https firewall setup
-      firewalld:
-        service: https
-        permanent: true
-        immediate: yes
-        state: enabled
-        zone: public
-      when: "'nginx' in ansible_facts.packages or 'httpd' in ansible_facts.packages"
-
-    - name: http firewall setup
-      firewalld:
-        service: http
-        permanent: true
-        immediate: yes
-        state: enabled
-        zone: public
-      when: "'nginx' in ansible_facts.packages or 'httpd' in ansible_facts.packages"
-
-    - name: rabbitmq firewall setup
-      firewalld:
-        service: amqp
-        permanent: true
-        state: enabled
-        immediate: yes
-        zone: public
-      when: "'rabbitmq-server' in ansible_facts.packages"
-
-    - name: rabbitmq firewall setup
-      firewalld:
-        service: amqps
-        permanent: true
-        state: enabled
-        immediate: yes
-        zone: public
-      when: "'rabbitmq-server' in ansible_facts.packages"
-
-#    - name: Allow access from pulsar nodes
-#      include: tasks/_firewall_pulsar_hosts.yml server={{inventory_hostname}}
-#      loop: "{{ groups['all'] }}"
-#      when: "false and 'rabbitmq-server' in ansible_facts.packages"
-
-#    - name: postgres firewall setup, dropped as now open between trusted hosts
-#      firewalld:
-#        service: postgres
-#        permanent: true
-#        state: enabled
-#        immediate: yes
-#        zone: public
-#      when: "False and 'postgresql10-server' in ansible_facts.packages"
-
+- name: opening firewall for port
+  firewalld:
+    service: "{{item}}"
+    permanent: true
+    state: enabled
+    immediate: yes
+    zone: public
+  loop: "{{ports}}"
 
 
 

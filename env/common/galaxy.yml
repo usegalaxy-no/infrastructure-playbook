@@ -22,8 +22,15 @@
           - 'make'
           - 'bzip2'
           - 'postgresql'
+          -
     - name: Create users and groups
+      tags: create_users
       include: tasks/users_groups.yml
+
+    - name: Open firewalld ports
+      tags: firewall-setup
+      become: true
+      include: tasks/firewall.yml ports="['ssh', 'http', 'https']"
 
   tasks:
     - name: Perform misc tasks
