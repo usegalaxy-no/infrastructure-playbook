@@ -1,8 +1,19 @@
 ---
 - name: Create system groups
-  include: tasks/_system_groups.yml group={{item}}
+  become: true
+  group:
+    name: "{{ item.name }}"
+    gid: "{{ item.gid }}"
+  when: (item.group_names | intersect(group_names)|length) or
+    (item.group_names[0] == 'all')
   with_items: "{{ system_groups }}"
+
 
 - name: Create system users
   include: tasks/_system_users.yml user={{item}}
-  with_items: "{{ system_users }}"
+#  with_items: "{{ system_users }}"
+  loop: "{{ system_users }}"
+
+
+
+
