@@ -28,8 +28,8 @@ slurm_config:
   DefMemPerCPU: 1000
 slurmdbd_config:
   AuthType: auth/munge
-  DbdAddr: "{{ hostvars[galaxy_host].ansible_hostname }}"
-  DbdHost: "{{ hostvars[galaxy_host].ansible_hostname }}"
+  DbdAddr: "{{ galaxy_host }}"
+  DbdHost: "{{ galaxy_host }}"
   SlurmUser: slurm
   LogFile: /var/log/slurm/slurmdbd.log
   PidFile: /var/run/slurmdbd.pid
@@ -40,13 +40,13 @@ slurmdbd_config:
   StorageUser: "{{ mysql_slurm_username }}"
   StorageLoc: slurm_acct_db
 slurm_nodes:
-  - name: "{{ hostvars[galaxy_host].ansible_hostname }}"
+  - name: "{{ galaxy_host }}"
     CoresPerSocket: "{{ hostvars[galaxy_host].ansible_processor_cores }}"
     Sockets: "{{ hostvars[galaxy_host].ansible_processor_count }}"
     ThreadsPerCore: "{{ hostvars[galaxy_host].ansible_processor_threads_per_core }}"
     CPUs: "{{ hostvars[galaxy_host].ansible_processor_vcpus }}"
     RealMemory: "{{ hostvars[galaxy_host].ansible_memtotal_mb }}"
-  - name: "{{ hostvars[slurm_host].ansible_hostname }}"
+  - name: "{{ slurm_host }}"
     CoresPerSocket: "{{ hostvars[slurm_host].ansible_processor_cores }}"
     Sockets: "{{ hostvars[slurm_host].ansible_processor_count }}"
     ThreadsPerCore: "{{ hostvars[slurm_host].ansible_processor_threads_per_core }}"
@@ -56,7 +56,7 @@ slurm_partitions:
   - name: "usegalaxy_{{ env }}"
     Default: YES
     MaxTime: UNLIMITED
-    Nodes: "{{ hostvars[slurm_host].ansible_hostname }}"
+    Nodes: "{{ slurm_host }}"
 
 slurm_munge_key: files/munge/munge.key
 
