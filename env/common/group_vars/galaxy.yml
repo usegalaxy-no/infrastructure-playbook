@@ -398,6 +398,23 @@ telegraf_plugins_extra:
       - timeout = "15s"
       - data_format = "influx"
       - interval = "1h"
+  galaxy_monthly_users_active:
+    plugin: "exec"
+    config:
+      - commands = ["{{ custom_telegraf_env }} {{ custom_telegraf_gxadmin_bin }} iquery monthly-users-active"]
+      - timeout = "15s"
+      - data_format = "influx"
+      - interval = "1h"
+
+  galaxy_monthly_jobs:
+    plugin: "exec"
+    config:
+      - commands = ["{{ custom_telegraf_env }} {{ custom_telegraf_gxadmin_bin }} iquery monthly-jobs"]
+      - timeout = "15s"
+      - data_format = "influx"
+      - interval = "1h"
+
+
   galaxy_lastlog:
     plugin: "exec"
     config:
