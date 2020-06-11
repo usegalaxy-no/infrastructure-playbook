@@ -1,10 +1,8 @@
-telegraf_urls: ["https://maas-test.bioinfo.no/influx"]
-
-telegraf_urls: ['https://nels.bioinfo.no/maas-api/']
-
 telegraf_database: usegalaxy
 telegraf_username: usegalaxy
 
+# Install the latest version of Telegraf
+telegraf_agent_package_state: latest
 
 telegraf_agent_hostname: "{{ inventory_hostname }}"
 telegraf_agent_interval: "60" # seconds
@@ -32,3 +30,6 @@ telegraf_plugins_default:
   - plugin: net
   - plugin: netstat
   - plugin: chrony
+  - plugin: fail2ban
+    config:
+      - use_sudo = true
