@@ -56,6 +56,13 @@
   vars:
     slurm_roles: ['exec']
     nfs_mode: client
+
+  pre_tasks:
+    - name: Open firewalld ports
+      tags: firewall-setup
+      become: true
+      include: tasks/firewall.yml ports="['ssh']"
+
   roles:
     - geerlingguy.repo-epel
     - galaxyproject.repos
