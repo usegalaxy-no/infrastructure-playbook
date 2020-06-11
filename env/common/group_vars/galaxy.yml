@@ -93,6 +93,7 @@ galaxy_handler_count: "{{ galaxy_systemd_handlers }}"
 pulsar_rabbitmq_proxy: "{{ groups['database'][0] }}"
 
 # Job Conf
+# Adding Pulsar hosts: https://pulsar-network.readthedocs.io/en/latest/galaxy.html 
 galaxy_jobconf:
     plugin_workers: 8
     handlers:
