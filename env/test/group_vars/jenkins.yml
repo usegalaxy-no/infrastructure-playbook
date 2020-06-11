@@ -1,7 +1,1 @@
-jenkins_http_port: 4000
-jenkins_admin_username: "admin"
-jenkins_url_prefix: /jenkins
-jenkins_plugins:
-  - matrix-auth
-  - ansible
-  - github
+../../common/group_vars/jenkins.yml
