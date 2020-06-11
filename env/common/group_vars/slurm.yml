@@ -14,8 +14,8 @@ slurm_cgroup_config:
 slurm_config:
   ClusterName: usegalaxy
   SchedulerType: sched/backfill
-  TaskPlugin: task/affinity,task/cgroup
-  TaskPluginParam: Sched
+  #TaskPlugin: task/affinity,task/cgroup
+  #TaskPluginParam: Sched
   SelectType: select/cons_res
   ProctrackType: proctrack/cgroup
   JobAcctGatherType: jobacct_gather/cgroup
