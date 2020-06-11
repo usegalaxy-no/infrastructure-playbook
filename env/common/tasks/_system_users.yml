@@ -23,17 +23,18 @@
 #    - debug:
 #        msg: "ssh key stat files/ssh/{{ user.name }}_authorized_keys.vault  /{{ ssh_keys_file }}"
 
-    - name: Create ssh dir
+    - name: Create ssh dir for {{user.name}}
       file:
         dest: ~{{ user.name }}/.ssh/
         state: directory
         owner: "{{ user.name }}"
         group: "{{ user.group }}"
         mode: 0700
+
       when: ssh_keys_file.stat.exists
 
 
-    - name: Copy ssh keys to host
+    - name: Copy {{user.name}} ssh keys to host
       copy:
         src: files/ssh/{{ user.name }}/authorized_keys.vault
         dest: ~{{ user.name }}/.ssh/authorized_keys
@@ -53,7 +54,5 @@
         mode: 0440
         validate: /usr/sbin/visudo -cf %s
 
-
   when: (user.group_names | intersect(group_names)|length) or
         (user.group_names[0] == 'all')
-
