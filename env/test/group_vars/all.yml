@@ -1,0 +1,7 @@
+domain: usegalaxy.no
+env: testing
+
+telegraf_urls: ["https://maas-test.bioinfo.no/influx"]
+
+matomo_host: //maas-test.bioinfo.no/matomo/
+matomo_id: 1

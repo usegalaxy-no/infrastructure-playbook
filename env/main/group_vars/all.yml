@@ -1,0 +1,7 @@
+domain: usegalaxy.no
+env: production
+
+telegraf_urls: ['https://nels.bioinfo.no/maas-api/']
+
+matomo_host: //nels.bioinfo.no/maas-analytics/
+matomo_id: 1
