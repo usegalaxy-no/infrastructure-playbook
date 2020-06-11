@@ -1,0 +1,11 @@
+openstack_auth_url: https://api.uh-iaas.no:5000/v3
+openstack_username: <USERNAME>
+openstack_password: <PASSWORD>
+openstack_domain_name: dataporten
+openstack_project_name: uib-service-group
+openstack_region_name: <REGION>
+openstack_user_domain_name: dataporten
+
+
+
+
