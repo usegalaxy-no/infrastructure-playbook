@@ -69,7 +69,7 @@ mysql_users:
     password: "{{ mysql_slurm_password }}"
     priv: "slurm_acct_db.*:ALL"
   - name: telegraf
-    host: "{{ db_host }}"
+    host: localhost
     password: "{{ telegraf_database_password }}"
 
 
@@ -117,7 +117,11 @@ telegraf_plugins_extra:
       - password = "{{ telegraf_rabbitmq_password }}"
   mysql:
     config:
-      - servers = ["telegraf:{{ telegraf_database_password }}@tcp({{ db_host }}:3306)/"]
+      - servers = ["telegraf:{{ telegraf_database_password }}@tcp(localhost:3306)/"]
+  postfix:
+    config:
+      - queue_directory = "/var/spool/postfix"
+  
 
 postfix_relayhost: ""
 postfix_inet_interfaces:
@@ -130,8 +134,8 @@ postfix_destinations:
 postfix_smtpd:
   tls_CApath: '/etc/pki/tls/certs'
   tls_security_level: 'may'
-  tls_cert_file: '/etc/ssl/certs/fullchain.pem'
-  tls_key_file: '/etc/ssl/user/privkey-nginx.pem'
+  tls_cert_file: '/etc/letsencrypt/live/{{ db_host }}/fullchain.pem'
+  tls_key_file: '/etc/letsencrypt/live/{{ db_host }}/privkey.pem'
   tls_auth_only: 'no'
   tls_loglevel: '1'
   tls_received_header: 'yes'

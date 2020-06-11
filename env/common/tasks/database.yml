@@ -6,7 +6,6 @@
 
 - name: shift postgresql data
   block:
-
   - name: Create directory for storing databases
     file:
       path: "{{ postgresql_data_directory }}"
@@ -44,5 +43,11 @@
       state: started
   when: data_dir.stat.isdir
 
-
-
+- name: Give telegraf permission to Postfix spool
+  acl:
+    path: /var/spool/postfix/
+    entity: telegraf
+    etype: group
+    permissions: rx
+    recursive: yes
+    state: present

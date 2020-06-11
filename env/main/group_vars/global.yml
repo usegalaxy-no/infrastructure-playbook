@@ -71,6 +71,8 @@ postfix_relayhost: "{{ smtp_host }}" # TODO: Make sure this works
 postfix_aliases:
   - user: root
     alias: kim.brugger@uib.no, torfinn.nome@nmbu.no
+  - user: admin
+    alias: root
   - user: usegalaxy
     alias: contact@bioinfo.no
   - user: abuse
@@ -78,8 +80,8 @@ postfix_aliases:
 postfix_smtp:
   tls_CApath: '/etc/pki/tls/certs'
   tls_security_level: 'may'
-  tls_cert_file: '/etc/ssl/certs/fullchain.pem'
-  tls_key_file: '/etc/ssl/user/privkey-nginx.pem'
+  tls_cert_file: '/etc/letsencrypt/live/{{ inventory_hostname }}/fullchain.pem'
+  tls_key_file: '/etc/letsencrypt/live/{{ inventory_hostname }}/privkey.pem'
   tls_note_starttls_offer: 'yes'
 
 matomo_host: //nels.bioinfo.no/maas-analytics/
