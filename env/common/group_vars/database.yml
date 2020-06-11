@@ -118,6 +118,10 @@ telegraf_plugins_extra:
   mysql:
     config:
       - servers = ["telegraf:{{ telegraf_database_password }}@tcp({{ db_host }}:3306)/"]
+  postfix:
+    config:
+      - queue_directory = "/var/spool/postfix"
+  
 
 postfix_relayhost: ""
 postfix_inet_interfaces:
