@@ -40,8 +40,6 @@ cvmfs0_ip: "{{ hostvars[cvmfs0_host].ansible_host }}"
 
 gpg_key_name: admin@usegalaxy.no
 
-telegraf_urls: ["https://maas-test.bioinfo.no/influx"]
-
   # system.yml
 dhclient_interface: "{{ ansible_default_ipv4.interface }}"
 dhclient_config:
@@ -53,7 +51,7 @@ dhclient_config:
 postfix_relayhost: "{{ smtp_host }}" # TODO: Make sure this works
 postfix_aliases:
   - user: root
-    alias: kim.brugger@uib.no, torfinn.nome@nmbu.no
+    alias: kim.brugger@uib.no
   - user: admin
     alias: root
   - user: usegalaxy
