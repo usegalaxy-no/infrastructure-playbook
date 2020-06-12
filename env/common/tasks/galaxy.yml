@@ -43,8 +43,6 @@
     - pulsar_persisted_data
     - pulsar_staging
 
-
-
 - name: setup log dir for galaxy
   file:
     path: "{{ galaxy_log_dir }}"
@@ -105,6 +103,16 @@
   copy:
     src: files/telegraf/slurm.py
     dest: "{{ custom_telegraf_slurm_collect_bin }}"
+    owner: root
+    group: root
+    mode: '0755'
+  tags:
+    - telegraf
+
+- name: Copy uwsgi telegraf plugin
+  copy:
+    src: files/telegraf/telegraf-uwsgi.sh
+    dest: "{{ custom_telegraf_uwsgi_bin }}"
     owner: root
     group: root
     mode: '0755'

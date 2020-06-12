@@ -297,6 +297,7 @@ cvmfs_quota_limit: 6000
 custom_telegraf_env: "/usr/bin/env GDPR_MODE=1 GALAXY_ROOT=/srv/galaxy/ GALAXY_CONFIG_FILE=/srv/galaxy/config/galaxy.yml PGDATABASE={{galaxy_database}} PGHOST={{db_host}}"
 custom_telegraf_gxadmin_bin: /usr/local/bin/gxadmin
 custom_telegraf_slurm_collect_bin: /usr/local/bin/slurm-collect
+custom_telegraf_uwsgi_bin: /usr/local/bin/telegraf-uwsgi.sh
 telegraf_plugins_extra:
   listen_galaxy_routes:
     plugin: "statsd"
@@ -387,6 +388,13 @@ telegraf_plugins_extra:
     config:
       - commands = ["/usr/bin/python3 {{ custom_telegraf_slurm_collect_bin }}"]
       - data_format = "influx"
+
+  uwsgi:
+    plugin: "exec"
+    config:
+      - commands = ["/bin/bash {{ custom_telegraf_uwsgi_bin }}"]
+      - data_format = "influx"
+
   nginx:
     config:
       - urls = ["https://{{ galaxy_host }}/server_status"]
