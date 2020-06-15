@@ -5,3 +5,27 @@ telegraf_urls: ['https://nels.bioinfo.no/maas-api/']
 
 matomo_host: //nels.bioinfo.no/maas-analytics/
 matomo_id: 1
+
+cvmfs_keys:
+  - path: "/etc/cvmfs/keys/{{ galaxy_host }}/data.{{ galaxy_host }}.pub"
+    key: |
+      -----BEGIN PUBLIC KEY-----
+      MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqFrp2sfBG1xa6w5FkffT
+      eiTvGYzeRa2O3wOYDs7uF39s10slLC1O7vsTmxD8aGCTXG9cBpqWea3dim/SwMwW
+      UgUP7n8RsC9MYoFBRJGNFynLD6LTKxANllUq98CFxsGhMOvwy+3gcBbhHuUaKVzU
+      C28fuhIK1XDWtZkKMkFqBfNVo185u88Jlu8Px+l7BwXmTunDRmUjW0itESezHSje
+      2TsxzBZT94RdxW1hp8Tgs7AXUaW/oYSBd0uBt5Rjl7Z/L0Bf3eKarIbrwG3QZZMQ
+      Tiru+uZD2LgxbDiH/kG8kIKxlVL6RangpND1VCJSf/DRGzByspq/uN5Lpr/8fZfK
+      VQIDAQAB
+      -----END PUBLIC KEY-----
+  - path: "/etc/cvmfs/keys/galaxyproject.org/cvmfs-config.galaxyproject.org.pub"
+    key: |
+      -----BEGIN PUBLIC KEY-----
+      MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuJZTWTY3/dBfspFKifv8
+      TWuuT2Zzoo1cAskKpKu5gsUAyDFbZfYBEy91qbLPC3TuUm2zdPNsjCQbbq1Liufk
+      uNPZJ8Ubn5PR6kndwrdD13NVHZpXVml1+ooTSF5CL3x/KUkYiyRz94sAr9trVoSx
+      THW2buV7ADUYivX7ofCvBu5T6YngbPZNIxDB4mh7cEal/UDtxV683A/5RL4wIYvt
+      S5SVemmu6Yb8GkGwLGmMVLYXutuaHdMFyKzWm+qFlG5JRz4okUWERvtJ2QAJPOzL
+      mAG1ceyBFowj/r3iJTa+Jcif2uAmZxg+cHkZG5KzATykF82UH1ojUzREMMDcPJi2
+      dQIDAQAB
+      -----END PUBLIC KEY-----
