@@ -36,6 +36,7 @@
     - role: reallyenglish.dhclient
       when: "env != 'production'"
     - role: nbigot.ansible-fail2ban
+      tags: fail2ban
     - role: weareinteractive.sudo
       tags: ['sudo']
     - role: dj-wasabi.telegraf
