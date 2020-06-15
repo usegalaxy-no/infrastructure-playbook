@@ -78,17 +78,17 @@ nfs_client_imports:
 
 cvmfs_role: client
 galaxy_cvmfs_repos_enabled: config-repo
-cvmfs_quota_limit: 6000
+cvmfs_quota_limit: 10000
 cvmfs_server_urls:
   - domain: galaxyproject.org
     use_geoapi: no
     urls:
-      - "http://invivo.hpc.uio.no/cvmfs/@fqrn@"
-      - "http://cvmfs1-ufr0.galaxyproject.eu/cvmfs/@fqrn@"
-      - "http://cvmfs1-iu0.galaxyproject.org/cvmfs/@fqrn@"
       - "http://cvmfs1-psu0.galaxyproject.org/cvmfs/@fqrn@"
+      - "http://cvmfs1-iu0.galaxyproject.org/cvmfs/@fqrn@"
       - "http://cvmfs1-tacc0.galaxyproject.org/cvmfs/@fqrn@"
+      - "http://cvmfs1-ufr0.galaxyproject.eu/cvmfs/@fqrn@"
       - "http://cvmfs1-mel0.gvl.org.au/cvmfs/@fqrn@"
+      - "http://invivo.hpc.uio.no/cvmfs/@fqrn@"
   - domain: "{{ galaxy_host }}"
     use_geoapi: no
     urls:
@@ -105,4 +105,16 @@ cvmfs_keys:
       8ZqKZKV/stlhgpGCsolyyg1GDcKL0H7ysk8J03cqIgznmfe+MdWo4oGU6wgvAq+B
       oQIDAQAB
       -----END PUBLIC KEY-----
+  - path: "/etc/cvmfs/keys/galaxyproject.org/cvmfs-config.galaxyproject.org.pub"
+    key: |
+      -----BEGIN PUBLIC KEY-----
+      MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuJZTWTY3/dBfspFKifv8
+      TWuuT2Zzoo1cAskKpKu5gsUAyDFbZfYBEy91qbLPC3TuUm2zdPNsjCQbbq1Liufk
+      uNPZJ8Ubn5PR6kndwrdD13NVHZpXVml1+ooTSF5CL3x/KUkYiyRz94sAr9trVoSx
+      THW2buV7ADUYivX7ofCvBu5T6YngbPZNIxDB4mh7cEal/UDtxV683A/5RL4wIYvt
+      S5SVemmu6Yb8GkGwLGmMVLYXutuaHdMFyKzWm+qFlG5JRz4okUWERvtJ2QAJPOzL
+      mAG1ceyBFowj/r3iJTa+Jcif2uAmZxg+cHkZG5KzATykF82UH1ojUzREMMDcPJi2
+      dQIDAQAB
+      -----END PUBLIC KEY-----
+
 
