@@ -67,7 +67,8 @@
     - geerlingguy.repo-epel
     - galaxyproject.repos
     - galaxyproject.slurm
-    - galaxyproject.cvmfs
+    - role: galaxyproject.cvmfs
+      tags: cvmfs
     - geerlingguy.docker
     - indigo-dc.nfs
   post_tasks:
