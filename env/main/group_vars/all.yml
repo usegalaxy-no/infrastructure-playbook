@@ -29,3 +29,84 @@ cvmfs_keys:
       mAG1ceyBFowj/r3iJTa+Jcif2uAmZxg+cHkZG5KzATykF82UH1ojUzREMMDcPJi2
       dQIDAQAB
       -----END PUBLIC KEY-----
+
+# Job Conf
+# Adding Pulsar hosts: https://pulsar-network.readthedocs.io/en/latest/galaxy.html 
+galaxy_jobconf:
+    plugin_workers: 8
+    handlers:
+        count: "{{ galaxy_handler_count }}"
+        assign_with: db-skip-locked
+        max_grab: 8
+    plugins:
+        #- id: drmaa
+          #load: galaxy.jobs.runners.drmaa:DRMAAJobRunner
+          #workers: 3
+        # These live on the pythonpath
+        - id: dynamic
+          params:
+            rules_module: 'usegalaxy'
+        - id: slurm
+          load: galaxy.jobs.runners.slurm:SlurmJobRunner
+        - id: local
+          load: galaxy.jobs.runners.local:LocalJobRunner
+        - id: pulsar_embedded
+          load: galaxy.jobs.runners.pulsar:PulsarEmbeddedJobRunner
+        - id: pulsar_no_nmbu
+          load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
+          params:
+            amqp_url: "amqp://nmbu_galaxy:{{ rabbitmq_password_galaxy_nmbu }}@{{ pulsar_rabbitmq_proxy }}//pulsar_nmbu_orion?ssl=1"
+            galaxy_url: "https://{{ galaxy_host }}"
+            manager: _default_
+            amqp_acknowledge: True
+            amqp_ack_republish_time: 300
+            amqp_consumer_timeout: 2.0
+            amqp_publish_retry: True
+            amqp_publish_retry_max_retries: 60
+    default_destination: gateway_1x
+    destinations:
+        - id: local
+          runner: local
+        - id: slurm
+          runner: slurm
+          params:
+            tmp_dir: "True"
+        # Gateways
+        - id: gateway_singlerun
+          runner: dynamic
+          params:
+              type: python
+              function: gateway
+        - id: gateway_1x
+          runner: dynamic
+          params:
+              type: python
+              function: gateway_1x
+        - id: gateway_1_5x
+          runner: dynamic
+          params:
+              type: python
+              function: gateway_1_5x
+        - id: gateway_2x
+          runner: dynamic
+          params:
+              type: python
+              function: gateway_2x
+    tools:
+        - id: upload1
+          destination: gateway_singlerun
+    limits:
+      - type: 'walltime'
+        value: '148:00:00'
+      - type: 'output_size'
+        value: '300GB'
+      - type: 'registered_user_concurrent_jobs'
+        value: '500'
+      - type: 'anonymous_user_concurrent_jobs'
+        value: '4'
+      - type: 'destination_user_concurrent_jobs'
+        id: 'sh_fdid_slurm_docker_ie_interactive'
+        value: '10'
+      - type: 'destination_user_concurrent_jobs'
+        id: 'sh_fdid_slurm_intensive_jobs'
+        value: '10'
