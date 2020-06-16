@@ -4,6 +4,8 @@
 telegraf_agent_version: 1.10.0
 telegraf_agent_version_patch: 1
 telegraf_agent_package: telegraf
+telegraf_agent_package_file_deb: telegraf_{{ telegraf_agent_version }}-{{ telegraf_agent_version_patch }}_{{ telegraf_agent_package_arch }}.deb
+telegraf_agent_package_file_rpm: telegraf-{{ telegraf_agent_version }}-{{ telegraf_agent_version_patch }}.{{ ansible_architecture }}.rpm
 telegraf_agent_package_path: /tmp
 telegraf_agent_package_method: repo
 telegraf_agent_package_state: present
@@ -15,6 +17,7 @@ telegraf_agent_flush_interval: 10
 telegraf_agent_flush_jitter: 0
 telegraf_agent_aws_tags: False
 telegraf_agent_aws_tags_prefix: ""
+telegraf_agent_config_path: /etc/telegraf
 
 # Docker specific settings
 telegraf_uid_docker: 998
@@ -70,6 +73,7 @@ telegraf_yum_baseurl:
   centos: "https://repos.influxdata.com/rhel/{{ telegraf_redhat_releasever }}/$basearch/stable"
   default: "https://repos.influxdata.com/{{ ansible_distribution|lower }}/{{ telegraf_redhat_releasever }}/$basearch/stable"
   redhat: "https://repos.influxdata.com/rhel/{{ telegraf_redhat_releasever }}/$basearch/stable"
+telegraf_yum_gpgkey: "https://repos.influxdata.com/influxdb.key"
 
 telegraf_win_install_dir: 'C:\Telegraf'
 telegraf_win_logfile: 'C:\\Telegraf\\telegraf.log'

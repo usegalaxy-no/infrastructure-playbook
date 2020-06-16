@@ -1,8 +1,39 @@
 # dj-wasabi.telegraf
 
+- [dj-wasabi.telegraf](#dj-wasabitelegraf)
+  * [Build status:](#build-status-)
+  * [Requirements](#requirements)
+    + [Supported systems](#supported-systems)
+    + [InfluxDB](#influxdb)
+    + [Docker](#docker)
+  * [Upgrade](#upgrade)
+    + [0.7.0](#070)
+  * [Role Variables](#role-variables)
+    + [Ansible role specific variables](#ansible-role-specific-variables)
+      - [Telegraf Package](#telegraf-package)
+    + [Telegraf agent process configuration.](#telegraf-agent-process-configuration)
+    + [Docker specific role variables:](#docker-specific-role-variables-)
+  * [Extra information](#extra-information)
+    + [ansible_fqdn problematic for getting hostname](#ansible-fqdn-problematic-for-getting-hostname)
+    + [Setting tags](#setting-tags)
+    + [Docker specifics](#docker-specifics)
+      - [Docker image](#docker-image)
+      - [Docker mounts](#docker-mounts)
+      - [Example Docker configuration](#example-docker-configuration)
+  * [Windows specific Variables](#windows-specific-variables)
+  * [Extra information](#extra-information-1)
+    + [telegraf_plugins_default](#telegraf-plugins-default)
+    + [telegraf_plugins_extra](#telegraf-plugins-extra)
+  * [Dependencies](#dependencies)
+  * [Example Playbook](#example-playbook)
+  * [Contributors](#contributors)
+  * [Molecule](#molecule)
+  * [License](#license)
+  * [Author Information](#author-information)
+
 ## Build status:
 
-[![Build Status](https://travis-ci.org/dj-wasabi/ansible-telegraf.svg?branch=master)](https://travis-ci.org/dj-wasabi/ansible-telegraf)
+[![Build Status](https://travis-ci.org/dj-wasabi/ansible-telegraf.svg?branch=master)](https://travis-ci.org/dj-wasabi/ansible-telegraf) <img src="https://img.shields.io/ansible/role/d/5173"/> <img src="https://img.shields.io/ansible/quality/5173"/>
 
 This role will install and configure telegraf.
 
@@ -15,14 +46,16 @@ Design goals are to have a minimal memory footprint with a plugin system so that
 ## Requirements
 
 ### Supported systems
+
 This role supports the following systems:
 
  * Red Hat
  * Debian
  * Ubuntu
  * Docker container
- * Windows (Best effort)
  * (Open)Suse
+ * Windows (Best effort)
+ * FreeBSD (Best effort)
 
 So, you'll need one of those systems.. :-)
 Please sent Pull Requests or suggestions when you want to use this role for other systems.
@@ -55,13 +88,14 @@ Specifying the version to be installed:
 
 * `telegraf_agent_version`: The version of Telegraf to install. Default: `1.10.0`
 
-How `Telegraf` needs to be installed. There are 3 methods in getting `Telegraf` installed on the target host:
+How `Telegraf` needs to be installed. There are 4 methods in getting `Telegraf` installed on the target host:
 
 * Via the package manager, like `yum`, `apt` or `zypper` ("repo");
 * Via a download from the `https://dl.influxdata.com/` site ("online");
 * Already provided and is already available on the target host, but not yet installed/configured ("offline");
+* Already installed on the target host or done manually, but not yet configured ("manual");
 
-This can be configured by setting `telegraf_agent_package_method` to one of the appropriate values ( `repo`, `online` or `offline`).
+This can be configured by setting `telegraf_agent_package_method` to one of the appropriate values ( `repo`, `online`, `offline` or `manual`).
 
 #### Telegraf Package
 
@@ -99,6 +133,23 @@ These properties set in how and what package will be installed.
 Full agent settings reference: [https://github.com/influxdata/telegraf/blob/master/docs/CONFIGURATION.md#agent-configuration](https://github.com/influxdata/telegraf/blob/master/docs/CONFIGURATION.md#agent-configuration).
 
 ## Extra information
+
+### ansible_fqdn problematic for getting hostname
+
+Extra info regarding: ansible_fqdn problematic for getting hostname #105
+
+*Describe the bug*
+
+In some nodes I'm getting weird hostnames, mostly localhost.localdomain. Those nodes show proper configuration in hostnamectl. I've seen you're using 'ansible_fqdn' as default.
+
+Seems like ansible_fqdn and ansible_hostname can give different results, and sometimes even very weird results, as it sometimes makes DNS calls (which is not under my control in that cases) to infer that names.
+
+*Fix proposal*
+
+In my playbook I've added this parameter:
+
+	telegraf_agent_hostname: "{{ ansible_nodename }}"
+
 ### Setting tags
 
 You can set tags for the host running telegraf:
@@ -190,6 +241,8 @@ There are two properties which are similar, but are used differently. Those are:
 * `telegraf_plugins_default`
 * `telegraf_plugins_extra`
 
+### telegraf_plugins_default
+
 With the property `telegraf_plugins_default` it is set to use the default set of Telegraf plugins. You could override it with more plugins, which should be enabled at default.
 
 	telegraf_plugins_default:
@@ -204,6 +257,8 @@ With the property `telegraf_plugins_default` it is set to use the default set of
 	  - plugin: netstat
 
 Every telegraf agent has these as a default configuration.
+
+### telegraf_plugins_extra
 
 The 2nd parameter `telegraf_plugins_extra` can be used to add plugins specific to the servers goal. It is a hash instead of a list, so that you can merge values from multiple var files together. Following is an example for using this parameter for MySQL database servers:
 
@@ -221,6 +276,8 @@ Telegraf plugin options:
 * `tagpass`: (added in Telegraf 0.1.5) tag names and arrays of strings that are used to filter metrics by the current plugin. Each string in the array is tested as an exact match against the tag name, and if it matches the metric is emitted.
 * `tagdrop`: (added in Telegraf 0.1.5) The inverse of tagpass. If a tag matches, the metric is not emitted. This is tested on metrics that have passed the tagpass test.
 * `interval`: How often to gather this metric. Normal plugins use a single global interval, but if one particular plugin should be run less or more often, you can configure that here.
+* `filter.name`: Like when there is an extra filter that needs to be configured, like `grok` for a `logparser` plugin.
+* `filter.config`: The extra configuration for the - in the `filter.name` example - `grok` filter. (See example below)
 
 An example might look like this:
 
@@ -243,6 +300,19 @@ telegraf_processors:
         - tag = "level"
         - dest = "LogLevel"
 ```
+
+When you want to make use of the `grok` filter for the logparser:
+
+	telegraf_plugins_extra:
+		logparser:
+		plugin: logparser
+		config:
+			- files = ["/var/log/messages"]
+			- from_beginning = false
+		filter:
+			name: grok
+			config:
+			- patterns = ["invoked oom-killer"]
 
 ## Dependencies
 
