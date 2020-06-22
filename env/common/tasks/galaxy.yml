@@ -150,3 +150,42 @@
     weekday: "6"
     user: "{{ galaxy_user.name }}"
     job: "{{ custom_telegraf_gxadmin_bin}} galaxy cleanup 30"
+
+
+# oidc specific tasks.
+
+- name: oidc config file
+  tags: auth
+  copy:
+    src: templates/galaxy/config/oidc_config.xml
+    dest: "{{ galaxy_config_dir }}/oidc_config.xml"
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: oidc backends config file
+  tags: auth
+  template:
+    src: templates/galaxy/config/oidc_backends.xml.j2
+    dest: "{{ galaxy_config_dir }}/oidc_backends.xml"
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: psa_authnz file
+  tags: auth
+  copy:
+    src: templates/galaxy/auth/psa_authnz.py
+    dest: "{{ galaxy_server_dir }}/lib/galaxy/authnz/psa_authnz.py"
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: NeLS oidc file
+  tags: auth
+  template:
+    src: templates/galaxy/auth/nels.py
+    dest: "{{ galaxy_venv_dir }}/lib/python3.6/site-packages/social_core/backends/nels.py.j2"
+    owner: root
+    group: root
+    mode: '0644'
