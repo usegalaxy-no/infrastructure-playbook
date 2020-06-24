@@ -46,6 +46,12 @@ galaxy_config:
     smtp_server: "localhost"
     email_from: "galaxy-no-reply@{{ galaxy_host }}"
 
+    enable_oidc: true
+    oidc_config_file: "{{ galaxy_config_dir }}/oidc_config.xml"
+    oidc_backends_config_file: "{{ galaxy_config_dir }}/oidc_backends.xml"
+
+
+
     welcome_url: static/welcome.html
     support_url: https://elixir.no/helpdesk
     terms_url: https://{{galaxy_host}}/galaxy-terms/

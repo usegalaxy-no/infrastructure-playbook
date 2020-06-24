@@ -184,8 +184,8 @@
 - name: NeLS oidc file
   tags: auth
   template:
-    src: templates/galaxy/auth/nels.py
-    dest: "{{ galaxy_venv_dir }}/lib/python3.6/site-packages/social_core/backends/nels.py.j2"
+    src: templates/galaxy/auth/nels.py.j2
+    dest: "{{ galaxy_venv_dir }}/lib/python3.6/site-packages/social_core/backends/nels.py"
     owner: root
     group: root
     mode: '0644'
