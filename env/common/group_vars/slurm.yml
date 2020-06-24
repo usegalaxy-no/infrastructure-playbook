@@ -62,18 +62,20 @@ slurm_munge_key: files/munge/munge.key
 
 slurm_node_ips: "{{ groups['slurm'] | map('extract', hostvars, ['ansible_eth0', 'ipv4', 'address']) | join(',') }}"
 
+# Needs to be /data/part0 as it is not possible to share a drive with a mounted drive in it
+# Will need to extend this when/if new drives come online
 nfs_exports:
   - path: "/srv/galaxy"
     export: "{{ slurm_node_ips }}(rw,async,no_root_squash)"
-  - path: "/data"
+  - path: "/data/part0"
     export: "{{ slurm_node_ips }}(rw,sync,no_root_squash)"
 
 nfs_client_imports:
   - local: "/srv/galaxy"
     remote: "/srv/galaxy"
     server_host: "{{ galaxy_host }}"
-  - local: "/data"
-    remote: "/data"
+  - local: "/data/part0"
+    remote: "/data/part0"
     server_host: "{{ galaxy_host }}"
 
 cvmfs_role: client
