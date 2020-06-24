@@ -1,6 +1,6 @@
 ---
 
-- name: "Debian | Set name if state == latest"
+- name: "Debian | Set name if state != latest"
   set_fact:
     telegraf_agent_package: telegraf={{ telegraf_agent_version }}-{{ telegraf_agent_version_patch }}
   when:
@@ -15,6 +15,12 @@
     telegraf_agent_package_arch: "amd64"
   when:
     - ansible_architecture == "x86_64"
+
+- name: "Debian | Set telegraf_agent_package_arch specific for arm64"
+  set_fact:
+    telegraf_agent_package_arch: "armhf"
+  when:
+    - ansible_architecture == "arm64"
 
 - name: "Debian | Ensure the system can use the HTTPS transport for APT"
   stat:
@@ -65,8 +71,12 @@
 
 - name: "Debian | Download Telegraf package (online)"
   get_url:
-    url: https://dl.influxdata.com/telegraf/releases/telegraf_{{ telegraf_agent_version }}-{{ telegraf_agent_version_patch }}_{{ telegraf_agent_package_arch }}.deb
-    dest: "{{ telegraf_agent_package }}"
+    url: https://dl.influxdata.com/telegraf/releases/{{ telegraf_agent_package_file_deb }}
+    dest: "{{ telegraf_agent_package_path }}/{{ telegraf_agent_package }}"
+    use_proxy: "{{ true if http_proxy is defined and http_proxy else false }}"
+  environment:
+    http_proxy: "{{ http_proxy | default(None) | default(omit) }}"
+    https_proxy: "{{ https_proxy | default(None) | default(omit) }}"
   when:
     - telegraf_agent_package_method == "online"
 
@@ -74,6 +84,7 @@
   apt:
     name: "{{ telegraf_agent_package }}"
     state: "{{ telegraf_agent_package_state }}"
+    update_cache: yes
   register: is_telegraf_package_installed
   until: is_telegraf_package_installed is succeeded
   notify: "Restart Telegraf"
@@ -83,11 +94,11 @@
 
 - name: "Debian | Install Telegraf package"
   apt:
-    deb: "{{ telegraf_agent_package }}"
+    deb: "{{ telegraf_agent_package_path }}/{{ telegraf_agent_package }}"
     state: "present"
   register: is_telegraf_package_installed
   until: is_telegraf_package_installed is succeeded
   notify: "Restart Telegraf"
   become: yes
   when:
-    - telegraf_agent_package_method != "repo"
+    - telegraf_agent_package_method == "online" or telegraf_agent_package_method == "offline"
