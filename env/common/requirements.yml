@@ -51,7 +51,7 @@
 - src: https://github.com/galaxyproject/ansible-galaxy-tools.git
   name: usegalaxy.galaxy-tools
 - src: galaxyproject.cvmfs
-  version: 0.2.10
+  version: 0.2.11
 - src: galaxyproject.repos
   version: 0.0.1
 - src: galaxyproject.slurm
