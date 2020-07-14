@@ -1,6 +1,8 @@
 domain: usegalaxy.no
 env: production
 
+galaxy_commit_id: release_20.01
+
 telegraf_urls: ['https://nels.bioinfo.no/maas-api/']
 
 matomo_host: //nels.bioinfo.no/maas-analytics/

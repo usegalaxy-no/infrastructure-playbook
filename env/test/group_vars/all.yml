@@ -1,6 +1,8 @@
 domain: usegalaxy.no
 env: testing
 
+galaxy_commit_id: release_20.01
+
 telegraf_urls: ["https://maas-test.bioinfo.no/influx"]
 
 matomo_host: //maas-test.bioinfo.no/matomo/
