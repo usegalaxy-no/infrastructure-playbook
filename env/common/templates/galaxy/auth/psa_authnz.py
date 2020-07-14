@@ -22,15 +22,17 @@ DEFAULTS = {
 
 BACKENDS = {
     'google': 'social_core.backends.google_openidconnect.GoogleOpenIdConnect',
-    "globus": "social_core.backends.globus.GlobusOpenIdConnect",
+    'globus': 'social_core.backends.globus.GlobusOpenIdConnect',
     'elixir': 'social_core.backends.elixir.ElixirOpenIdConnect',
+    'okta': 'social_core.backends.okta_openidconnect.OktaOpenIdConnect',
     'nels': 'social_core.backends.nels.NeLSOpenIdConnect'
 }
 
 BACKENDS_NAME = {
     'google': 'google-openidconnect',
-    "globus": "globus",
+    'globus': 'globus',
     'elixir': 'elixir',
+    'okta': 'okta-openidconnect',
     'nels': 'nels'
 }
 
@@ -116,8 +118,10 @@ class PSAAuthnz(IdentityProvider):
 
         # Secondary AuthZ with Google identities is currently supported
         if provider != "google":
-            del self.config["SOCIAL_AUTH_SECONDARY_AUTH_PROVIDER"]
-            del self.config["SOCIAL_AUTH_SECONDARY_AUTH_ENDPOINT"]
+            if 'SOCIAL_AUTH_SECONDARY_AUTH_PROVIDER' in self.config:
+                del self.config["SOCIAL_AUTH_SECONDARY_AUTH_PROVIDER"]
+            if 'SOCIAL_AUTH_SECONDARY_AUTH_ENDPOINT' in self.config:
+                del self.config["SOCIAL_AUTH_SECONDARY_AUTH_ENDPOINT"]
 
     def _setup_idp(self, oidc_backend_config):
         self.config[setting_name('AUTH_EXTRA_ARGUMENTS')] = {'access_type': 'offline'}
@@ -403,8 +407,9 @@ def disconnect(name=None, user=None, user_storage=None, strategy=None,
     Additionally, returning any value except for a(n) (empty) dictionary, will break the
     disconnect pipeline, and that value will be returned as a result of calling the `do_disconnect` function.
     """
-    user_authnz = strategy.trans.sa_session.query(user_storage).filter(user_storage.table.c.user_id == user.id,
-                                                                       user_storage.table.c.provider == name).first()
+    sa_session = user_storage.sa_session
+    user_authnz = sa_session.query(user_storage).filter(user_storage.table.c.user_id == user.id,
+                                                        user_storage.table.c.provider == name).first()
     if user_authnz is None:
         return {'success': False, 'message': 'Not authenticated by any identity providers.'}
     # option A
