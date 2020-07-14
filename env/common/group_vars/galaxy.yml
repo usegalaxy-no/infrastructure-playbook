@@ -205,7 +205,6 @@ nginx_conf_ssl_certificate_key: /etc/letsencrypt/live/{{ galaxy_host }}/privkey.
 
 cvmfs_role: client
 galaxy_cvmfs_repos_enabled: config-repo
-cvmfs_quota_limit: 10000
 
 
 custom_telegraf_env: "/usr/bin/env GDPR_MODE=1 GALAXY_ROOT=/srv/galaxy/ GALAXY_CONFIG_FILE=/srv/galaxy/config/galaxy.yml PGDATABASE={{galaxy_database}} PGHOST={{db_host}}"

@@ -6,6 +6,7 @@ telegraf_urls: ["https://maas-test.bioinfo.no/influx"]
 matomo_host: //maas-test.bioinfo.no/matomo/
 matomo_id: 1
 
+cvmfs_quota_limit: 2000
 cvmfs_keys:
   - path: "/etc/cvmfs/keys/{{ galaxy_host }}/data.{{ galaxy_host }}.pub"
     key: |
