@@ -18,25 +18,25 @@
     - group_vars/slurm.yml
     - group_vars/galaxy.yml
   vars:
-    slurm_roles: ['controller', 'dbd']
+    slurm_roles: ["controller", "dbd"]
     nfs_mode: server
   pre_tasks:
-  - name: Add galaxy paths for nfs export
-    become: true
-    file:
-      path: "{{ item }}"
-      state: directory
-      mode: '0750'
-      owner: "{{ galaxy_user.name }}"
-      group: "{{ galaxy_user.name }}"
-    with_items:
-      - "{{ galaxy_file_path }}"
-      - "{{ galaxy_root }}"
+    - name: Add galaxy paths for nfs export
+      become: true
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: "0750"
+        owner: "{{ galaxy_user.name }}"
+        group: "{{ galaxy_user.name }}"
+      with_items:
+        - "{{ galaxy_file_path }}"
+        - "{{ galaxy_root }}"
 
-  - name: Open firewalld ports
-    tags: firewall-setup
-    become: true
-    include: tasks/firewall.yml ports="['ssh']"
+    - name: Open firewalld ports
+      tags: firewall-setup
+      become: true
+      include: tasks/firewall.yml ports="['ssh']"
 
   roles:
     - galaxyproject.repos
@@ -46,7 +46,7 @@
     - name: Install slurm-drmaa
       package:
         name: slurm-drmaa
-    
+
 - hosts: slurm
   become: true
   vars_files:
@@ -54,7 +54,7 @@
     - group_vars/slurm.yml
     - group_vars/galaxy.yml
   vars:
-    slurm_roles: ['exec']
+    slurm_roles: ["exec"]
     nfs_mode: client
 
   pre_tasks:
@@ -75,8 +75,9 @@
     - name: Install packages
       package:
         name:
-          - 'slurm-drmaa'
-          - 'python3'
-          - 'git'
-          - 'python36-virtualenv'
-          - 'bzip2'
+          - "slurm-drmaa"
+          - "python3"
+          - "git"
+          - "python36-virtualenv"
+          - "bzip2"
+          - "singularity"
