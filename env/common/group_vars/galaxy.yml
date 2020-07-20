@@ -48,8 +48,8 @@ galaxy_config:
     enable_oidc: true
     oidc_config_file: "{{ galaxy_config_dir }}/oidc_config.xml"
     oidc_backends_config_file: "{{ galaxy_config_dir }}/oidc_backends.xml"
-
-    webhooks_dir: "{{ galaxy_config_dir }}/plugins/webhooks/"
+    # This is a hack, for some reason uwsgi cannot read from /srv/galaxy/config/plugins/webhooks/nels/, suspect chroot
+    webhooks_dir: "config/plugins/webhooks/nels/"
 
 
     welcome_url: static/welcome.html
