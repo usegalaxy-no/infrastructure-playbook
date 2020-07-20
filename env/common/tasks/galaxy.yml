@@ -26,6 +26,13 @@
     group: root
     mode: '0644'
 
+- name: config file for nels history export
+  template:
+    src: templates/galaxy/webhooks/nels_export_history_config.yml.j2
+    dest: "{{ galaxy_root }}/config/plugins/webhooks/nels/nels_export_history/config.yml"
+    owner: root
+    group: root
+    mode: '0644'
 
 
 - name: rebuild client
