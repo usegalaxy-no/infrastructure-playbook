@@ -12,7 +12,6 @@ galaxy_root: /srv/galaxy
 galaxy_log_dir: /var/log/galaxy
 
 galaxy_user: { name: galaxy }
-galaxy_commit_id: release_20.01
 galaxy_config_style: yaml
 galaxy_force_checkout: true
 miniconda_prefix: "{{ galaxy_tool_dependency_dir }}/_conda"
@@ -50,8 +49,6 @@ galaxy_config:
     oidc_config_file: "{{ galaxy_config_dir }}/oidc_config.xml"
     oidc_backends_config_file: "{{ galaxy_config_dir }}/oidc_backends.xml"
 
-
-
     welcome_url: static/welcome.html
     support_url: https://elixir.no/helpdesk
     terms_url: https://{{galaxy_host}}/galaxy-terms/
@@ -63,6 +60,9 @@ galaxy_config:
     message_box_visible: true
     message_box_class: warning
     message_box_content: This is the development version of the new usegalaxy.no website. Not for production use!
+
+    enable_beta_mulled_containers: true
+
 
   uwsgi:
     # Default values
@@ -94,7 +94,7 @@ galaxy_config:
 
 galaxy_systemd_zergling_env: DRMAA_LIBRARY_PATH=/usr/lib64/libdrmaa.so.1
 
-galaxy_singularity_images_cvmfs_path: '/cvmfs/singularity.galaxyproject.org/all/'
+galaxy_singularity_images_cvmfs_path: "/cvmfs/singularity.galaxyproject.org/all/"
 galaxy_handler_count: "{{ galaxy_systemd_handlers }}"
 pulsar_rabbitmq_proxy: "{{ groups['database'][0] }}"
 
@@ -122,6 +122,9 @@ galaxy_config_templates:
     dest: "{{ galaxy_config_dir }}/reports.yml"
   - src: templates/galaxy/config/pulsar_app.yml.j2
     dest: "{{ galaxy_config_dir }}/pulsar_app.yml"
+  - src: templates/galaxy/config/container_resolvers_conf.xml.j2"
+    dest: "{{ galaxy_config_dir }}/container_resolvers_conf.xml"
+
 
 galaxy_dynamic_job_rules_src_dir: files/galaxy/dynamic_rules
 galaxy_dynamic_job_rules_dir: "{{ galaxy_root }}/dynamic_rules"
@@ -205,7 +208,6 @@ nginx_conf_ssl_certificate_key: /etc/letsencrypt/live/{{ galaxy_host }}/privkey.
 
 cvmfs_role: client
 galaxy_cvmfs_repos_enabled: config-repo
-cvmfs_quota_limit: 10000
 
 
 custom_telegraf_env: "/usr/bin/env GDPR_MODE=1 GALAXY_ROOT=/srv/galaxy/ GALAXY_CONFIG_FILE=/srv/galaxy/config/galaxy.yml PGDATABASE={{galaxy_database}} PGHOST={{db_host}}"

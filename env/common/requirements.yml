@@ -45,13 +45,13 @@
 - src: natefoo.postgresql_objects
   version: 1.1
 - src: galaxyproject.galaxy
-  version: 0.9.5
+  version: 0.9.6
 - src: https://github.com/usegalaxy-eu/ansible-role-supervisor
   name: usegalaxy-eu.supervisor
 - src: https://github.com/galaxyproject/ansible-galaxy-tools.git
   name: usegalaxy.galaxy-tools
 - src: galaxyproject.cvmfs
-  version: 0.2.10
+  version: 0.2.11
 - src: galaxyproject.repos
   version: 0.0.1
 - src: galaxyproject.slurm

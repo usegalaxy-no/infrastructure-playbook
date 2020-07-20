@@ -20,6 +20,7 @@ slurm_config:
   ProctrackType: proctrack/cgroup
   JobAcctGatherType: jobacct_gather/cgroup
   AccountingStorageType: accounting_storage/slurmdbd
+  AccountingStorageHost: "{{ galaxy_host }}"
   SelectTypeParameters: CR_Core_Memory
   ControlMachine: "{{ galaxy_host }}"
   SlurmctldLogFile: /var/log/slurm/slurmctld.log
@@ -80,20 +81,17 @@ nfs_client_imports:
 
 cvmfs_role: client
 galaxy_cvmfs_repos_enabled: config-repo
-cvmfs_quota_limit: 10000
 cvmfs_server_urls:
   - domain: galaxyproject.org
-    use_geoapi: no
+    use_geoapi: yes
     urls:
+      - "http://invivo.hpc.uio.no/cvmfs/@fqrn@"
+      - "http://cvmfs1-ufr0.galaxyproject.eu/cvmfs/@fqrn@"
       - "http://cvmfs1-psu0.galaxyproject.org/cvmfs/@fqrn@"
       - "http://cvmfs1-iu0.galaxyproject.org/cvmfs/@fqrn@"
       - "http://cvmfs1-tacc0.galaxyproject.org/cvmfs/@fqrn@"
-      - "http://cvmfs1-ufr0.galaxyproject.eu/cvmfs/@fqrn@"
       - "http://cvmfs1-mel0.gvl.org.au/cvmfs/@fqrn@"
-      - "http://invivo.hpc.uio.no/cvmfs/@fqrn@"
   - domain: "{{ galaxy_host }}"
     use_geoapi: no
     urls:
       - "http://{{ cvmfs0_host }}/cvmfs/@fqrn@"
-
-

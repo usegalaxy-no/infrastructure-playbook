@@ -1,11 +1,14 @@
 domain: usegalaxy.no
 env: production
 
+galaxy_commit_id: release_20.01
+
 telegraf_urls: ['https://nels.bioinfo.no/maas-api/']
 
 matomo_host: //nels.bioinfo.no/maas-analytics/
 matomo_id: 1
 
+cvmfs_quota_limit: 10000
 cvmfs_keys:
   - path: "/etc/cvmfs/keys/{{ galaxy_host }}/data.{{ galaxy_host }}.pub"
     key: |
