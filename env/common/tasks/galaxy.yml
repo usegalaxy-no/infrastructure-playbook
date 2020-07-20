@@ -17,6 +17,17 @@
 #    force: yes
   register: scss_file
 
+
+- name: add client webhook patch file.
+  copy:
+    src: files/galaxy/client/options-menu.js
+    dest: "{{ galaxy_root }}/server/client/galaxy/scripts/mvc/history/options-menu.js"
+    owner: root
+    group: root
+    mode: '0644'
+
+
+
 - name: rebuild client
   make:
     chdir: "{{ galaxy_server_dir }}"
