@@ -1,7 +1,7 @@
 domain: usegalaxy.no
 env: testing
 
-galaxy_commit_id: release_20.01
+galaxy_commit_id: release_20.05
 
 telegraf_urls: ["https://maas-test.bioinfo.no/influx"]
 
@@ -135,5 +135,5 @@ nels_storage_export_tool_dir: "{{ galaxy_server_dir }}/tools/data_destination"
 nels_storage_config_dir: "{{ galaxy_config['galaxy']['tool_data_path'] }}"
 nels_storage_tool_conf_dir: "{{ galaxy_server_dir }}/config"
 nels_user_portal_url: "{{nels_url}}/welcome.xhtml"
-nels-galaxy-url: https://test.usegalaxy.no/nels-galaxy/
+nels_galaxy_api: https://test.usegalaxy.no/nels-galaxy/ # Not really, but fine for here and now!
 

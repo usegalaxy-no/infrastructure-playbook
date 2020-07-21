@@ -124,4 +124,4 @@ nels_storage_export_tool_dir: "{{ galaxy_server_dir }}/tools/data_destination"
 nels_storage_config_dir: "{{ galaxy_config['galaxy']['tool_data_path'] }}"
 nels_storage_tool_conf_dir: "{{ galaxy_server_dir }}/config"
 nels_user_portal_url: "{{nels_url}}/welcome.xhtml"
-nels-galaxy-url: https://usegalaxy.no/nels-galaxy/
+nels_galaxy_api: https://usegalaxy.no/nels-galaxy/
