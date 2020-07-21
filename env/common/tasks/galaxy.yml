@@ -7,6 +7,16 @@
     mode: '0644'
 #    force: yes
 
+- name: Add welcome.html (a hack, as uses a template!)
+  template:
+    src: templates/galaxy/static/welcome.html.j2
+    dest: "{{ galaxy_root }}/server/static/welcome.html"
+    owner: root
+    group: root
+    mode: '0644'
+#    force: yes
+
+
 - name: add client scss
   copy:
     src: templates/galaxy/client/blue.scss
@@ -26,10 +36,27 @@
     group: root
     mode: '0644'
 
+
+- name: directory creation for nels_export_history webhook
+  file:
+    path: "{{ galaxy_root }}/server/config/plugins/webhooks/nels/nels_export_history"
+    owner: root
+    group: root
+    mode: '0644'
+    state: directory
+
+- name: directory creation for nels_import_history webhook
+  file:
+    path: "{{ galaxy_root }}/server/config/plugins/webhooks/nels/nels_import_history"
+    owner: root
+    group: root
+    mode: '0644'
+    state: directory
+
 - name: config file for nels history export
   template:
     src: templates/galaxy/webhooks/nels_export_history_config.yml.j2
-    dest: "{{ galaxy_root }}/config/plugins/webhooks/nels/nels_export_history/config.yml"
+    dest: "{{ galaxy_root }}/server/config/plugins/webhooks/nels/nels_export_history/config.yml"
     owner: root
     group: root
     mode: '0644'
