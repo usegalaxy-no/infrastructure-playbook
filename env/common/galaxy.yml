@@ -73,7 +73,7 @@
         name: slurm-drmaa
     - name: Install the tos-api
       include_role:
-        name: tos-api
+        name: usegalaxy-no.tos-api
     # TODO: This should not be needed, but...
     - name: galaxy need a compliance log for conda, will otherwise fail.
       file:

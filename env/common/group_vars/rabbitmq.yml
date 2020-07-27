@@ -2,6 +2,7 @@ rabbitmq_vhosts:
   - pulsar_nrec
   - pulsar_nmbu_orion
   - test
+  - nels_galaxy
 
 rabbitmq_users:
   - {name: admin,  vhost: '', 
@@ -14,4 +15,8 @@ rabbitmq_users:
      passwd: "{{rabbitmq_password_galaxy_test}}" }
   - {name: telegraf, vhost: '', 
      passwd: "{{telegraf_rabbitmq_password}}", tags: monitoring }
-          
+  - {name: telegraf, vhost: '',
+     passwd: "{{telegraf_rabbitmq_password}}", tags: monitoring }
+  - {name: nels_galaxy, vhost: 'nels_galaxy',
+     passwd: '{{rabbitmq_password_nels_galaxy_api}}'}
+

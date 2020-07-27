@@ -1,7 +1,7 @@
 domain: usegalaxy.no
 env: testing
 
-galaxy_commit_id: release_20.01
+galaxy_commit_id: release_20.05
 
 telegraf_urls: ["https://maas-test.bioinfo.no/influx"]
 
@@ -124,3 +124,16 @@ galaxy_jobconf:
       - type: 'destination_user_concurrent_jobs'
         id: 'sh_fdid_slurm_intensive_jobs'
         value: '10'
+
+
+# NeLS prod settings.
+nels_url: https://test-fe.cbu.uib.no
+nels_storage_url: "{{nels_url}}/nels/welcome.xhtml"
+nels_storage_api_url: "{{nels_url}}/nels-storage2"
+nels_storage_import_tool_dir: "{{ galaxy_server_dir }}/tools/data_source"
+nels_storage_export_tool_dir: "{{ galaxy_server_dir }}/tools/data_destination"
+nels_storage_config_dir: "{{ galaxy_config['galaxy']['tool_data_path'] }}"
+nels_storage_tool_conf_dir: "{{ galaxy_server_dir }}/config"
+nels_user_portal_url: "{{nels_url}}/welcome.xhtml"
+nels_galaxy_api: https://test.usegalaxy.no/nels-galaxy/ # Not really, but fine for here and now!
+

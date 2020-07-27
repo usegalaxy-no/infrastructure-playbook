@@ -1,4 +1,4 @@
-- hosts: all
+- hosts: galaxyserver
   become: true
 
   vars_files:
@@ -15,10 +15,16 @@
 
   tasks:
 
-    - name: Setup firewalld
+    - name: Open firewalld ports
       become: true
-      include: tasks/firewall.yml
+      include: tasks/firewall.yml ports="['ssh', 'http', 'https']"
+      when: 'false'
+
+    - name: Create users and groups
+      tags: create_users
+      include: tasks/users_groups.yml
+
 
   roles:
-    - geerlingguy.repo-epel
-    - geerlingguy.pip
+#    - geerlingguy.repo-epel
+#    - geerlingguy.pip

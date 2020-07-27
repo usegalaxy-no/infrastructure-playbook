@@ -1,0 +1,33 @@
+id: nels_export_history
+type:
+  - history-menu
+activate: true
+title: Export History to NeLS
+
+function: >
+  action="export";
+  console.log( Galaxy );
+
+  galaxy_instance = window.location.host;
+  history_id = Galaxy.currHistoryPanel.model.id;
+  user_email = Galaxy.user.attributes.email;
+
+  console.log(galaxy_instance);
+  console.log(history_id);
+  console.log(user_email);
+
+
+
+  nels_storage_url  = "https://nels.bioinfo.no/welcome.xhtml?";
+  nels_storage_url  = "{{nels_user_portal_url}}?";
+  nels_storage_url += "appCallbackUrl={{nels_galaxy_api}}/nels-galaxy/export/"+galaxy_instance+"/"+user_email+"/"+history_id+"/";
+
+
+  console.log(nels_storage_url);
+
+  //window.location.href = nels_storage_url;
+
+  //  galaxy_url=window.location.protocol+"//"+window.location.host;
+  //  galaxy_url+=Galaxy.root;
+  //  console.log('galaxy history export');
+
