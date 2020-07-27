@@ -2,19 +2,19 @@ slurm_cgroup_config:
   CgroupMountpoint: "/sys/fs/cgroup"
   CgroupAutomount: yes
   ConstrainCores: yes
-  TaskAffinity: no
+  TaskAffinity: yes
   ConstrainRAMSpace: no
   ConstrainSwapSpace: no
   ConstrainDevices: no
-  AllowedRamSpace: 100
+  AllowedRamSpace: 99.5
   AllowedSwapSpace: 0
-  MaxRAMPercent: 100
+  MaxRAMPercent: 99.5
   MaxSwapPercent: 100
   MinRAMSpace: 30
 slurm_config:
   ClusterName: usegalaxy
   SchedulerType: sched/backfill
-  #TaskPlugin: task/affinity,task/cgroup
+  TaskPlugin: task/cgroup #,task/affinity
   #TaskPluginParam: Sched
   SelectType: select/cons_res
   ProctrackType: proctrack/cgroup
