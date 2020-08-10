@@ -177,7 +177,11 @@ $state-running-border: $border-color;
 
 // Workflow editor
 $workflow-editor-bg: $white;
-$workflow-overview-bg: $gray-200;
+$workflow-overview-bg: $NeLS_panel;
+$workflow-editor-grid-size: 0.7rem;
+$workflow-editor-grid-color: lighten($brand-primary, 65%);
+$worfklow-node-width: 10rem;
+
 
 // Margins
 $spacer: 1rem;
