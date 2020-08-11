@@ -36,7 +36,7 @@ TOOL_DESTINATION_ALLOWED_KEYS = ['cores', 'env', 'gpus', 'mem', 'name', 'nativeS
                                  'params', 'permissions', 'runner', 'tags', 'tmp', 'force_destination_id',
                                  'docker_auto_rm', 'docker_default_container_id', 'docker_set_user',
                                  'docker_memory', 'docker_run_extra_arguments', 'docker_set_user',
-                                 'docker_sudo', 'docker_volumes' ]
+                                 'docker_sudo', 'docker_volumes']
 
 SPECIFICATION_ALLOWED_KEYS = ['env', 'limits', 'params', 'tags', 'nodes']
 
@@ -143,11 +143,12 @@ def _get_limits(destination, dest_spec=SPECIFICATIONS, default_cores=1, default_
     limits.update(dest_spec.get(destination).get('limits', {}))
     return limits
 
+
 def _weighted_random_sampling(destinations, dest_spec=SPECIFICATIONS):
     bunch = []
     for d in destinations:
         weight = SPECIFICATIONS[d].get('nodes', 1)
-        bunch += [d]*weight
+        bunch += [d] * weight
     destination = sample(bunch, 1)[0]
     return destination
 
@@ -393,11 +394,14 @@ def gateway(tool_id, user, memory_scale=1.0, next_dest=None):
         resubmit=resubmit,
     )
 
+
 def gateway_1x(tool_id, user):
     return gateway(tool_id, user, memory_scale=1, next_dest='gateway_1_5x')
 
+
 def gateway_1_5x(tool_id, user):
     return gateway(tool_id, user, memory_scale=1.5, next_dest='gateway_2x')
+
 
 def gateway_2x(tool_id, user):
     return gateway(tool_id, user, memory_scale=2)
