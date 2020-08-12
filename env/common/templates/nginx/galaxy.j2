@@ -37,7 +37,13 @@ server {
 
     # The style directory is in a slightly different location
     location /static/style {
-        alias {{ galaxy_server_dir }}/static/style/blue;
+        alias {{ galaxy_server_dir }}/static/style;
+        expires 24h;
+     }
+
+      location /static/scripts/bundled {
+        alias {{ galaxy_server_dir }}/static/dist;
+
         expires 24h;
     }
 
