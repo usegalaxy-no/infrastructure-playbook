@@ -13,118 +13,105 @@ cvmfs_keys:
   - path: "/etc/cvmfs/keys/{{ galaxy_host }}/data.{{ galaxy_host }}.pub"
     key: |
       -----BEGIN PUBLIC KEY-----
-      MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqFrp2sfBG1xa6w5FkffT
-      eiTvGYzeRa2O3wOYDs7uF39s10slLC1O7vsTmxD8aGCTXG9cBpqWea3dim/SwMwW
-      UgUP7n8RsC9MYoFBRJGNFynLD6LTKxANllUq98CFxsGhMOvwy+3gcBbhHuUaKVzU
-      C28fuhIK1XDWtZkKMkFqBfNVo185u88Jlu8Px+l7BwXmTunDRmUjW0itESezHSje
-      2TsxzBZT94RdxW1hp8Tgs7AXUaW/oYSBd0uBt5Rjl7Z/L0Bf3eKarIbrwG3QZZMQ
-      Tiru+uZD2LgxbDiH/kG8kIKxlVL6RangpND1VCJSf/DRGzByspq/uN5Lpr/8fZfK
-      VQIDAQAB
+      MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAumGVOoY9O9B9J2A2n82A
+      OhewmxGt4JXOryMc2gIfjyb2K2hIxPxoDtqxaj4QZx4lLge+Y4WyCAiz/5v8m+Ef
+      Pprx+rxrXzuXAi0lfYNL1+1lUUrOPpRvn0fnzMC+2cb52gchVYjZEK0i5N1ctoV3
+      DjUol5rawBtAXZ1z8RF4352idAyt9D5KMZ13X12cxR2Rw8F/dQzL2MkuplvwQKpU
+      zNt0jbIlwbCWovkEKi5kaZIrn9d7yoIMIbabdOH4HtMxUX7wlH9Qlpr23Y1iVe5Y
+      8ZqKZKV/stlhgpGCsolyyg1GDcKL0H7ysk8J03cqIgznmfe+MdWo4oGU6wgvAq+B
+      oQIDAQAB
       -----END PUBLIC KEY-----
-  - path: "/etc/cvmfs/keys/galaxyproject.org/cvmfs-config.galaxyproject.org.pub"
-    key: |
-      -----BEGIN PUBLIC KEY-----
-      MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuJZTWTY3/dBfspFKifv8
-      TWuuT2Zzoo1cAskKpKu5gsUAyDFbZfYBEy91qbLPC3TuUm2zdPNsjCQbbq1Liufk
-      uNPZJ8Ubn5PR6kndwrdD13NVHZpXVml1+ooTSF5CL3x/KUkYiyRz94sAr9trVoSx
-      THW2buV7ADUYivX7ofCvBu5T6YngbPZNIxDB4mh7cEal/UDtxV683A/5RL4wIYvt
-      S5SVemmu6Yb8GkGwLGmMVLYXutuaHdMFyKzWm+qFlG5JRz4okUWERvtJ2QAJPOzL
-      mAG1ceyBFowj/r3iJTa+Jcif2uAmZxg+cHkZG5KzATykF82UH1ojUzREMMDcPJi2
-      dQIDAQAB
-      -----END PUBLIC KEY-----
-
 # Job Conf
-# Adding Pulsar hosts: https://pulsar-network.readthedocs.io/en/latest/galaxy.html 
+# Adding Pulsar hosts: https://pulsar-network.readthedocs.io/en/latest/galaxy.html
 galaxy_jobconf:
-    plugin_workers: 8
-    handlers:
-        count: "{{ galaxy_handler_count }}"
-        assign_with: db-skip-locked
-        max_grab: 8
-    plugins:
-        #- id: drmaa
-          #load: galaxy.jobs.runners.drmaa:DRMAAJobRunner
-          #workers: 3
-        # These live on the pythonpath
-        - id: dynamic
-          params:
-            rules_module: 'usegalaxy'
-        - id: slurm
-          load: galaxy.jobs.runners.slurm:SlurmJobRunner
-        - id: local
-          load: galaxy.jobs.runners.local:LocalJobRunner
-        - id: pulsar_embedded
-          load: galaxy.jobs.runners.pulsar:PulsarEmbeddedJobRunner
-        - id: pulsar_no_test
-          load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
-          params:
-            amqp_url: "amqp://test:{{ rabbitmq_password_galaxy_test }}@{{ pulsar_rabbitmq_proxy }}//test?ssl=1"
-            galaxy_url: "https://{{ galaxy_host }}"
-            manager: _default_
-            amqp_acknowledge: True
-            amqp_ack_republish_time: 300
-            amqp_consumer_timeout: 2.0
-            amqp_publish_retry: True
-            amqp_publish_retry_max_retries: 60
-        - id: pulsar_no_nmbu
-          load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
-          params:
-            amqp_url: "amqp://nmbu_galaxy:{{ rabbitmq_password_galaxy_nmbu }}@{{ pulsar_rabbitmq_proxy }}//pulsar_nmbu_orion?ssl=1"
-            galaxy_url: "https://{{ galaxy_host }}"
-            manager: _default_
-            amqp_acknowledge: True
-            amqp_ack_republish_time: 300
-            amqp_consumer_timeout: 2.0
-            amqp_publish_retry: True
-            amqp_publish_retry_max_retries: 60
-    default_destination: gateway_1x
-    destinations:
-        - id: local
-          runner: local
-        - id: slurm
-          runner: slurm
-          params:
-            tmp_dir: "True"
-        # Gateways
-        - id: gateway_singlerun
-          runner: dynamic
-          params:
-              type: python
-              function: gateway
-        - id: gateway_1x
-          runner: dynamic
-          params:
-              type: python
-              function: gateway_1x
-        - id: gateway_1_5x
-          runner: dynamic
-          params:
-              type: python
-              function: gateway_1_5x
-        - id: gateway_2x
-          runner: dynamic
-          params:
-              type: python
-              function: gateway_2x
-    tools:
-        - id: upload1
-          destination: gateway_singlerun
-    limits:
-      - type: 'walltime'
-        value: '148:00:00'
-      - type: 'output_size'
-        value: '300GB'
-      - type: 'registered_user_concurrent_jobs'
-        value: '500'
-      - type: 'anonymous_user_concurrent_jobs'
-        value: '4'
-      - type: 'destination_user_concurrent_jobs'
-        id: 'sh_fdid_slurm_docker_ie_interactive'
-        value: '10'
-      - type: 'destination_user_concurrent_jobs'
-        id: 'sh_fdid_slurm_intensive_jobs'
-        value: '10'
-
+  plugin_workers: 8
+  handlers:
+    count: "{{ galaxy_handler_count }}"
+    assign_with: db-skip-locked
+    max_grab: 8
+  plugins:
+    #- id: drmaa
+    #load: galaxy.jobs.runners.drmaa:DRMAAJobRunner
+    #workers: 3
+    # These live on the pythonpath
+    - id: dynamic
+      params:
+        rules_module: "usegalaxy"
+    - id: slurm
+      load: galaxy.jobs.runners.slurm:SlurmJobRunner
+    - id: local
+      load: galaxy.jobs.runners.local:LocalJobRunner
+    - id: pulsar_embedded
+      load: galaxy.jobs.runners.pulsar:PulsarEmbeddedJobRunner
+    - id: pulsar_no_test
+      load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
+      params:
+        amqp_url: "amqp://test:{{ rabbitmq_password_galaxy_test }}@{{ pulsar_rabbitmq_proxy }}//test?ssl=1"
+        galaxy_url: "https://{{ galaxy_host }}"
+        manager: _default_
+        amqp_acknowledge: True
+        amqp_ack_republish_time: 300
+        amqp_consumer_timeout: 2.0
+        amqp_publish_retry: True
+        amqp_publish_retry_max_retries: 60
+    - id: pulsar_no_nmbu
+      load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
+      params:
+        amqp_url: "amqp://nmbu_galaxy:{{ rabbitmq_password_galaxy_nmbu }}@{{ pulsar_rabbitmq_proxy }}//pulsar_nmbu_orion?ssl=1"
+        galaxy_url: "https://{{ galaxy_host }}"
+        manager: _default_
+        amqp_acknowledge: True
+        amqp_ack_republish_time: 300
+        amqp_consumer_timeout: 2.0
+        amqp_publish_retry: True
+        amqp_publish_retry_max_retries: 60
+  default_destination: gateway_1x
+  destinations:
+    - id: local
+      runner: local
+    - id: slurm
+      runner: slurm
+      params:
+        tmp_dir: "True"
+    # Gateways
+    - id: gateway_singlerun
+      runner: dynamic
+      params:
+        type: python
+        function: gateway
+    - id: gateway_1x
+      runner: dynamic
+      params:
+        type: python
+        function: gateway_1x
+    - id: gateway_1_5x
+      runner: dynamic
+      params:
+        type: python
+        function: gateway_1_5x
+    - id: gateway_2x
+      runner: dynamic
+      params:
+        type: python
+        function: gateway_2x
+  tools:
+    - id: upload1
+      destination: gateway_singlerun
+  limits:
+    - type: "walltime"
+      value: "148:00:00"
+    - type: "output_size"
+      value: "300GB"
+    - type: "registered_user_concurrent_jobs"
+      value: "500"
+    - type: "anonymous_user_concurrent_jobs"
+      value: "4"
+    - type: "destination_user_concurrent_jobs"
+      id: "sh_fdid_slurm_docker_ie_interactive"
+      value: "10"
+    - type: "destination_user_concurrent_jobs"
+      id: "sh_fdid_slurm_intensive_jobs"
+      value: "10"
 
 # NeLS prod settings.
 nels_url: https://test-fe.cbu.uib.no
