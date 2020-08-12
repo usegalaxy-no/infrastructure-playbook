@@ -13,17 +13,17 @@
   pre_tasks:
     - name: Install Dependencies
       package:
-#        use_backend: dnf
+        #        use_backend: dnf
         name:
-          - 'python3'
-          - 'python3-psycopg2'
-          - 'git'
-          - 'python36-virtualenv'
-          - 'make'
-          - 'bzip2'
-          - 'postgresql'
-          - 'jq'
-          
+          - "python3"
+          - "python3-psycopg2"
+          - "git"
+          - "python36-virtualenv"
+          - "make"
+          - "bzip2"
+          - "postgresql"
+          - "jq"
+
     - name: Create users and groups
       tags: create_users
       include: tasks/users_groups.yml
@@ -71,6 +71,9 @@
     - name: Install slurm-drmaa
       package:
         name: slurm-drmaa
+    - name: Install Singularity
+      package:
+        name: singularity
     - name: Install the tos-api
       include_role:
         name: usegalaxy-no.tos-api
@@ -79,13 +82,13 @@
       file:
         path: "{{ galaxy_root }}/server/compliance.log"
         state: file
-        mode: '0644'
+        mode: "0644"
         owner: "{{ galaxy_user.name }}"
     - name: galaxy root is readable for nginx
       file:
         path: "{{ galaxy_root }}"
         state: directory
-        mode: '0755'
+        mode: "0755"
         owner: "{{ galaxy_user.name }}"
         group: "{{ galaxy_user.name }}"
     - name: Make sure galaxy owns tool-data
@@ -93,11 +96,11 @@
         path: "{{ galaxy_root }}/server/tool-data"
         state: directory
         recurse: yes
-        mode: '0755'
+        mode: "0755"
         owner: "{{ galaxy_user.name }}"
     - name: Make sure galaxy owns /sanitize_whitelist.txt
       file:
         path: "{{ galaxy_mutable_config_dir }}/sanitize_whitelist.txt"
         state: file
-        mode: '0755'
+        mode: "0755"
         owner: "{{ galaxy_user.name }}"
