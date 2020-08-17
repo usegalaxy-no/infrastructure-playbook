@@ -106,7 +106,7 @@ galaxy_jobconf:
 # NeLS prod settings.
 nels_url: https://nels.bioinfo.no
 nels_storage_url: "{{nels_url}}/nels/welcome.xhtml"
-nels_storage_api_url: "{{nels_url}}/nels-storage2"
+nels_storage_api_url: "{{nels_url}}/nels/storage2"
 nels_storage_import_tool_dir: "{{ galaxy_server_dir }}/tools/data_source"
 nels_storage_export_tool_dir: "{{ galaxy_server_dir }}/tools/data_destination"
 nels_storage_config_dir: "{{ galaxy_config['galaxy']['tool_data_path'] }}"
