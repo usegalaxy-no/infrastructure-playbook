@@ -31,7 +31,7 @@
   - name: Copy rabbitmq file
     template:
       src: templates/rabbitmq/rabbitmq.j2
-      dest: /etc/rabbitmq/rabbitmq.config
+      dest: /etc/rabbitmq/rabbitmq.conf
     notify:
       - restart rabbitmq
 #    when: rabbitmq_config.stat.exists == True
