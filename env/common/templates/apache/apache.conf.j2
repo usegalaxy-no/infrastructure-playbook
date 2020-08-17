@@ -9,6 +9,7 @@
     SSLCertificateFile /etc/letsencrypt/live/{{inventory_hostname}}/cert.pem
     SSLCertificateKeyFile /etc/letsencrypt/live/{{inventory_hostname}}/privkey.pem
     SSLCertificateChainFile /etc/letsencrypt/live/{{inventory_hostname}}/fullchain.pem
+    SSLProtocol all -SSLv2 -SSLv3
 
     # don't decode encoded slashes in path info
     AllowEncodedSlashes NoDecode
