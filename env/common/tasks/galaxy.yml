@@ -1,3 +1,5 @@
+---
+
 - name: Add branding
   copy:
     src: templates/galaxy/static/
@@ -37,12 +39,22 @@
     mode: '0644'
 
 
+
+- name: directory creation for nels_export_history webhook
+  file:
+    path: "{{ galaxy_root }}/server/config/plugins/webhooks/nels/"
+    owner: root
+    group: root
+    mode: '0755'
+    state: directory
+
+
 - name: directory creation for nels_export_history webhook
   file:
     path: "{{ galaxy_root }}/server/config/plugins/webhooks/nels/nels_export_history"
     owner: root
     group: root
-    mode: '0644'
+    mode: '0755'
     state: directory
 
 - name: directory creation for nels_import_history webhook
@@ -50,7 +62,7 @@
     path: "{{ galaxy_root }}/server/config/plugins/webhooks/nels/nels_import_history"
     owner: root
     group: root
-    mode: '0644'
+    mode: '0755'
     state: directory
 
 - name: config file for nels history export
