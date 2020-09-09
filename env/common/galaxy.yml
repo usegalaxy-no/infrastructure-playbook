@@ -7,7 +7,7 @@
     - group_vars/global.yml
     - group_vars/galaxy.yml
     - group_vars/pulsar_nmbu_orion.yml
-    - group_vars/slurm.yml
+    #- group_vars/slurm.yml
     - group_vars/telegraf.yml
 
   pre_tasks:
@@ -57,7 +57,7 @@
     - galaxyproject.nginx
     - galaxyproject.cvmfs
     - galaxyproject.repos
-    - galaxyproject.slurm
+    #- galaxyproject.slurm
     - role: dj-wasabi.telegraf
       tags:
         - telegraf
