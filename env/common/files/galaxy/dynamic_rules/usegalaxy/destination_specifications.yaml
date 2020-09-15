@@ -12,6 +12,10 @@ slurm:
     request_cpus: '{PARALLELISATION}'
     request_memory: '{MEMORY}'
     tmp_dir: 'True'
+    nativeSpecification: |
+        --nodes=1
+        --ntasks={PARALLELISATION}
+        --mem={MEMORY_MB}
 
 slurm_singularity:
   limits:
@@ -29,6 +33,11 @@ slurm_singularity:
     singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/u/b/ubuntu:18.04'
     singularity_run_extra_arguments: '-H /srv/galaxy/'
     tmp_dir: 'True'
+    nativeSpecification: |
+        --nodes=1
+        --ntasks={PARALLELISATION}
+        --mem={MEMORY_MB}
+
 
 remote_cluster_mq_nrec:
   env: {}
