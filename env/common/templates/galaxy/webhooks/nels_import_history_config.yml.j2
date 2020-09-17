@@ -1,0 +1,12 @@
+id: nels_import_history
+type:
+  - history-menu
+activate: true
+title: Import history
+
+function: >
+  action="import";
+  galaxy_url=window.location.protocol+"//"+window.location.host + Galaxy.root +"nga/history/import/request/";
+  console.log(galaxy_url);
+  window.location.href = galaxy_url
+
