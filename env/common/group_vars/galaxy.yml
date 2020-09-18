@@ -63,7 +63,10 @@ galaxy_config:
     message_box_class: warning
     message_box_content: This is the development version of the new usegalaxy.no website. Not for production use!
 
+    container_image_cache_path: /srv/galaxy/containers
     enable_mulled_containers: true
+    containers_resolvers_config_file: "{{ galaxy_config_dir }}/container_resolvers_conf.xml"
+    dependency_resolvers_config_file: "{{ galaxy_config_dir }}/dependency_resolvers_conf.xml"
 
   uwsgi:
     # Default values
@@ -93,7 +96,7 @@ galaxy_config:
       - lib/galaxy/main.py
     farm: job-handlers:1,2
 
-galaxy_systemd_zergling_env: DRMAA_LIBRARY_PATH=/usr/lib64/libdrmaa.so.1
+galaxy_systemd_zergling_env: "DRMAA_LIBRARY_PATH=/usr/lib64/libdrmaa.so.1 SINGULARITY_CACHEDIR={{ galaxy_root}}/containers"
 
 galaxy_singularity_images_cvmfs_path: "/cvmfs/singularity.galaxyproject.org/all/"
 galaxy_handler_count: "{{ galaxy_systemd_handlers }}"
@@ -108,6 +111,8 @@ galaxy_config_files:
     dest: "{{ galaxy_mutable_config_dir }}/sanitize_whitelist.txt"
   - src: files/galaxy/tools/interactive/interactivetool_jupyter_notebook.xml
     dest: "{{ galaxy_server_dir }}/tools/interactive/interactivetool_jupyter_notebook.xml"
+  - src: files/galaxy/config/dependency_resolvers_conf.xml
+    dest: "{{ galaxy_config_dir }}/dependency_resolvers_conf.xml"
 
 galaxy_tool_config_files:
   - "{{ galaxy_config_dir }}/tool_conf.xml"
@@ -123,6 +128,8 @@ galaxy_config_templates:
     dest: "{{ galaxy_config_dir }}/reports.yml"
   - src: templates/galaxy/config/pulsar_app.yml.j2
     dest: "{{ galaxy_config_dir }}/pulsar_app.yml"
+  - src: templates/galaxy/config/container_resolvers_conf.xml.j2
+    dest: "{{ galaxy_config_dir }}/container_resolvers_conf.xml"
   - src: templates/galaxy/config/container_resolvers_conf.xml.j2
     dest: "{{ galaxy_config_dir }}/container_resolvers_conf.xml"
 

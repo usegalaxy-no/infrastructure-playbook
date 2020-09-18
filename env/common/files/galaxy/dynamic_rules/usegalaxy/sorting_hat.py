@@ -23,7 +23,7 @@ TOOL_DESTINATION_PATH = os.path.join(os.path.dirname(os.path.realpath(__file__))
 with open(TOOL_DESTINATION_PATH, 'r') as handle:
     TOOL_DESTINATIONS = yaml.load(handle, Loader=yaml.SafeLoader)
 
-DEFAULT_DESTINATION = 'slurm'
+DEFAULT_DESTINATION = 'slurm_singularity'
 DEFAULT_TOOL_SPEC = {
     'cores': 1,
     'mem': 4.0,
