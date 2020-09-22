@@ -371,7 +371,246 @@ function getCookie(name) {
     return null;
 }
 
+// ------------------- History import/export functionality ------------------
 
+// Configurable options:
+var historyPollingInterval=5000; // milliseconds between each time the history transfer API is polled for progress
+var allowCancel=false; // set to TRUE to display a CANCEL button next to the history progress bar during transfer
+var allowHide=true;    // set to TRUE to display a HIDE button next to the history progress bar after transfer
+var allowRetry=false;  // set to TRUE to display a RETRY button next to the history progress bar after an error. If this is false, the HIDE button will be displayed instead (if allowed)
+
+// Each key in the two maps below is an export (or import) state code and its value is an array with two elements.
+// The first array value is the message that will be displayed to the user for that state and the second is the corresponding progress indicator value (number between 0 and 100)
+// The progress values for the error states were chosen so that they appear towards the end of one of the three stages, but earlier than the completion of the stage
+
+var exportStateValues = {
+  'pre-queueing' : ['Waiting for response',2],
+  'new' : ['New transfer job created',4],
+  'waiting' : ['Waiting',6],
+  'queued' : ['Queued',8],
+  'running' : ['Preparing history export file',10],
+  'ok' : ['Finished preparing history file',30],
+  'fetch-queue' : ['Waiting to fetch history file',35],
+  'fetch-running' : ['Fetching history file',40],
+  'fetch-ok': ['Finished fetching history file',60],
+  'nels-transfer-queue': ['Waiting to transfer history file',65],
+  'nels-transfer-running' : ['Transferring history file to NeLS Storage',70],
+  'nels-transfer-ok': ['History file transfer completed',95],
+  'finished' : ['Done',100],
+
+  'error' : ['ERROR: an error occured during history file preparation',25],
+  'fetch-error' : ['ERROR: an error occurred while fetching history file',55],
+  'nels-transfer-error' : ['ERROR: an error occurred while transferring history file to NeLS Storage',90],
+
+  'aborted' : ['ABORTED: transfer was aborted by user',100]
+};
+
+var importStateValues = {
+   'to_be_filled_in': ['later',10],
+   'when_import_api': ['is done',100]
+};
+
+function isErrorState(state) {
+   return (state=="error" || state=="fetch-error" || state=="nels-transfer-error");
+}
+
+// - - - - - - - - - -
+
+var currentExports=null; // list of current export jobs
+var currentImports=null; // list of current import jobs
+var hiddenTransferJobs=[]; // list of jobs that should not be displayed
+
+/**
+ *  Contact the history transfer API to query the status of ongoing history export/imports
+ */
+function pollHistoryTransferStatus() { //
+    var GALAXY_URL=parent.location.href; // base URL for Galaxy server. This could include subdirectory
+    if (GALAXY_URL.endsWith("/")) GALAXY_URL=GALAXY_URL.replace(/\/$/, ""); // remove trailing slash
+    var url=GALAXY_URL+"/nga/user/exports/"; // the URL to the API endpoint
+    console.log("Polling History Transfer API: "+url);
+
+    var xhr = createXHR();
+    xhr.onreadystatechange=function()
+    {
+        if(xhr.readyState == 4 && xhr.status == 200) {
+            if (typeof xhr.responseText=='undefined' || xhr.responeText=="") return;
+            try {
+                 // console.log(xhr.responseText);
+                 var exports=JSON.parse(xhr.responseText); // this should return an array with exports
+                 if (Array.isArray(exports)) {
+                      if (hiddenTransferJobs.length>0) exports=filterHiddenJobs(exports); //
+                      currentExports=exports;
+                      displayHistoryTransfers(currentExports,currentImports);
+                  } else throw "ERROR: expected a JSON list from the history transfer API but got: "+response;
+            } catch(err) {console.log(err);}
+        }
+    };
+    xhr.open("GET", url , true);
+    xhr.send(null);
+}
+
+/**
+ * This filter method takes an array of jobs as input and returns a new array were hidden jobs have been removed
+ */
+function filterHiddenJobs(jobs) {
+   if (jobs==null || !Array.isArray(jobs) || jobs.length==0) return jobs;
+   filteredList=[];
+   for (i=0;i < jobs.length;i++) {
+        job=jobs[i];
+        if (!hiddenTransferJobs.includes(job['jobid'])) filteredList.push(job);
+   }
+   return filteredList;
+}
+
+/**
+ * Sends API control calls to the history transfer API (for instance to CANCEL or HIDE a job)
+ */
+function sendHistoryTransferAPIcall(jobid,command) { //
+    var GALAXY_URL=parent.location.href; // base URL for Galaxy server. This could include subdirectory
+    if (GALAXY_URL.endsWith("/")) GALAXY_URL=GALAXY_URL.replace(/\/$/, ""); // remove trailing slash
+    var url=GALAXY_URL+"/nga/user/exports/"; // the URL to the API endpoint
+    var query="jobid="+jobid+"&action="+command;
+    url+=query; // here I have just added jobid and action as query parameters, but this should be changed later!
+    console.log("History Transfer API call: "+url);
+
+    var xhr = createXHR();
+    xhr.onreadystatechange=function()
+    {
+        if(xhr.readyState == 4 && xhr.status == 200) {
+            console.log("History transfer API response: "+xhr.responeText);
+            if (typeof xhr.responseText=='undefined' || xhr.responeText=="") return;
+            pollHistoryTransferStatus();
+        }
+    };
+    xhr.open("GET", url , true);
+    xhr.send(null);
+}
+
+/**
+ * Displays a box on the page which shows the progress of the export and import jobs.
+ * If no export or import jobs are active, the box will be hidden instead.
+ */
+function displayHistoryTransfers(exports, imports) {
+   var ndt=document.getElementById('nels_data_transfer');
+   if ((exports==null || (Array.isArray(exports) && exports.length==0)) && (imports==null || (Array.isArray(imports) && imports.length==0))) {ndt.style.display='none';return;}
+   ndt.style.display='block';
+   var transfer_list = document.getElementById('nels_data_transfer_list');
+   transfer_list.innerHTML = ''; // hack to remove all current elements
+   if (exports!=null && Array.isArray(exports) && exports.length>0) {
+      for (i=0; i < exports.length; i++) {
+         job=exports[i];
+         if (hiddenTransferJobs.includes(job['jobid'])) continue; // do not display this
+         transfer_list.appendChild(createNeLSdataTransferElement(job,"export"));
+      }
+   }
+   if (imports!=null && Array.isArray(imports) && imports.length>0) {
+      for (i=0; i < imports.length; i++) {
+         job=imports[i];
+         if (hiddenTransferJobs.includes(job['jobid'])) continue; // do not display this
+         transfer_list.appendChild(createNeLSdataTransferElement(job,"import"));
+      }
+   }
+}
+
+/**
+ * Creates a progress display element for one transfer job.
+ * The first argument should be a job object and the second should be either "export" or "import" (String)
+ */
+function createNeLSdataTransferElement(job, jobtype) {
+   var jobid=job['jobid'];
+   var historyname=job['name'];
+   var state=job['state'];
+   var header=(jobtype=="export")?"Exporting history":"Importing history";
+   var stateValues=(jobtype=="export")?exportStateValues[state]:importStateValues[state];
+   var message=(Array.isArray(stateValues))?stateValues[0]:"[unable to retrieve message label]";
+   var progress=(Array.isArray(stateValues))?stateValues[1]:0;
+   var tooltip="";
+   if (jobtype=="export") {
+      createTime=('create_time' in job)?job['create_time']:""; // This should be formatted more nicely!
+      tooltip="Export job ["+jobid+"]: ";
+      if ('destination' in job) tooltip+="Transferring history to NeLS Storage folder '"+job['destination']+"'. ";
+      if (createTime!="") tooltip+="Job started: "+createTime;
+   } else {
+     // create tooltip for import jobs here
+   }
+   d0 = document.createElement("span");
+   d0.setAttribute("style", "font-weight:bold;");
+   d0.appendChild(document.createTextNode(header+": "));
+
+   d1 = document.createElement("div");
+   d1.setAttribute("id","nels-transfer-job-"+jobid);
+   d1.setAttribute("class", "nels-transfer");
+   d1.appendChild(d0);
+   d1.appendChild(document.createTextNode(historyname));
+   d1.title=tooltip;
+
+   d2 = document.createElement("div");
+   d2.setAttribute("class", "nels-transfer-inner");
+
+   d3 = document.createElement("div");
+   d3.setAttribute("class", "nels-transfer-progress");
+
+   d4 = document.createElement("div");
+   d4.setAttribute("id", "nels-transfer-progress-value-"+jobid);
+   d4.setAttribute("class", "nels-transfer-progress-value");
+   d4.style.width=progress+"%";
+
+   d5 = document.createElement("div");
+   d5.setAttribute("id", "nels-transfer-progress-text-"+jobid);
+   d5.setAttribute("class", "nels-transfer-progress-text");
+   d5.appendChild(document.createTextNode(message));
+
+   b1 = document.createElement("button");
+   b1.setAttribute("id", "nels-transfer-button-"+jobid);
+   b1.setAttribute("type", "button");
+   b1.setAttribute("class", "nels-transfer-button");
+
+   var barcolor="#C0D0FF;"; // default progressbar color is light blue
+        if (isErrorState(state)) barcolor="#FFC0C0"; // red
+   else if (state=="aborted") barcolor="#FFD666"; // orange
+   else if (state=="finished") barcolor="#A0FFA0";  // green
+   d4.style.backgroundColor = barcolor;
+
+   var buttonText="Cancel";
+   if (isErrorState(state)) {
+         if (allowRetry) buttonText="Retry";
+         else if (allowHide) buttonText="Hide";
+   } else if (state=="finished" || state=="aborted") buttonText="Hide";
+   b1.innerHTML = buttonText;
+   b1.onclick = function() {
+           if (buttonText=="Cancel") cancelHistoryTransferJob(jobid);
+      else if (buttonText=="Retry") retryHistoryTransferJob(jobid);
+      else if (buttonText=="Hide") hideHistoryTransferJob(jobid);
+   };
+
+   d1.appendChild(d2); //
+   d2.appendChild(d3); //
+   d3.appendChild(d4); // progress value (percentage)
+   d3.appendChild(d5); // progress message
+   if ((buttonText=="Cancel" && allowCancel) || (buttonText=="Hide" && allowHide) || (buttonText=="Retry" && allowRetry)) d2.appendChild(b1); // button
+   return d1;
+}
+
+function retryHistoryTransferJob(jobid) {
+   if (allowRetry) sendHistoryTransferAPIcall(jobid,"retry");
+}
+
+function cancelHistoryTransferJob(jobid) {
+   if (allowCancel) sendHistoryTransferAPIcall(jobid,"cancel");
+}
+
+function hideHistoryTransferJob(jobid) {
+   if (allowHide) {
+      d1 = document.getElementById("nels-transfer-job-"+jobid);
+      if (d1!=null) d1.style.display = "none"; // hide the job progress on the web page
+      if (!(hiddenTransferJobs.includes(jobid))) hiddenTransferJobs.push(jobid); // keep track internally so we do not display this job again (as long as page is not reloaded)
+      sendHistoryTransferAPIcall(jobid,"hide"); // tell History Transfer API to not send more updates regarding this job
+   }
+}
+
+// ----------------------- END: History import/export functionality --------------------
+
+		       
 /**
  *  This function should be run when the page has loaded to add additional elements to the page
  *  such as Server Alerts and Terms of Service popup
@@ -379,17 +618,25 @@ function getCookie(name) {
 function onStartUp() {
     displayQuota();
     server_alerts_url="https://galaxy-ntnu.bioinfo.no/nels/api/serveralerts/usegalaxy/active";
-    showServerAlerts(server_alerts_url,"server_alerts");
+    // showServerAlerts(server_alerts_url,"server_alerts");
     showServerAlerts("nels_server_alerts.json","local_server_alerts");// DEPRECATED
     alignNodeLogos();
     window.onresize = alignNodeLogos;
     checkTermsOfServiceAcceptance();
     getCookie('galaxysession');
+    console.log('poll history transfers');		       
+    pollHistoryTransferStatus(); // check status of history transfers when the page is first loaded...
+    setInterval(pollHistoryTransferStatus,historyPollingInterval); // ... then continue polling at regular intervals
 }
 
 window.onload = onStartUp;
 </script>
 
+</head>
+
+<body>
+		    
+		    
 <!---------------------------- beginning of page --------------------------------------->
 
 <div id="content-container" style="padding:10px 26px 0px 10px;"> <!-- This contains the whole page -->
@@ -422,7 +669,19 @@ window.onload = onStartUp;
         <!--<div id="server_alerts"></div>         These alerts are defined in a common database at https://galaxy-ntnu.bioinfo.no/nels  -->
 	   <div id="local_server_alerts"></div> <!--  Local alerts can be defined in JSON format (list of objects) in the file "nels_server_alerts.json" (in the same directory as this HTML page)  -->
 	</div>
-	<!-- End of introduction box -->
+
+       <!-- NeLS History export/import progress -->
+        <div id="nels_data_transfer" style="display:none;">
+          <div class="box-header">
+             NeLS Storage Data Transfer
+          </div>
+          <div id="nels_data_transfer_list" style="border:1px solid #E0E0E0;max-height:150px; overflow-y:scroll;">
+             <!-- contents here will be added dynamically -->
+          </div>
+        </div>
+       <!-- ----------------------------------- -->	     
+	     
+   <!-- End of introduction box -->
 
   </td>
   <td style="height:320px;max-width:520px;min-width:250px;border:0px;vertical-align:top;" >
