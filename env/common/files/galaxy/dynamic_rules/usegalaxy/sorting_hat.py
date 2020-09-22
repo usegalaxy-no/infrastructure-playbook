@@ -40,7 +40,8 @@ TOOL_DESTINATION_ALLOWED_KEYS = ['cores', 'env', 'gpus', 'mem', 'name', 'nativeS
 
 SPECIFICATION_ALLOWED_KEYS = ['env', 'limits', 'params', 'tags', 'nodes']
 
-FDID_PREFIX = 'sh_fdid_'
+#FDID_PREFIX = 'sh_fdid_'
+FDID_PREFIX = ''
 
 JOINT_DESTINATIONS_PATH = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'joint_destinations.yaml')
 with open(JOINT_DESTINATIONS_PATH, 'r') as handle:
@@ -155,12 +156,16 @@ def _weighted_random_sampling(destinations, dest_spec=SPECIFICATIONS):
 
 def build_spec(tool_spec, dest_spec=SPECIFICATIONS, runner_hint=None):
     destination = runner_hint if runner_hint else tool_spec.get('runner')
+    print("build_spec_1->destination: ", destination)
+    print("build_spec_1->dest_spec: ", dest_spec)
+    print("build_spec_1->JOINT_DESTINATIONS: ", JOINT_DESTINATIONS)
 
     if destination not in dest_spec:
         if destination in JOINT_DESTINATIONS:
             destination = _weighted_random_sampling(JOINT_DESTINATIONS[destination])
         else:
             destination = DEFAULT_DESTINATION
+    print("build_spec_2->destination: ", destination)
 
     env = dict(dest_spec.get(destination, {'env': {}})['env'])
     params = dict(dest_spec.get(destination, {'params': {}})['params'])
@@ -204,6 +209,8 @@ def build_spec(tool_spec, dest_spec=SPECIFICATIONS, runner_hint=None):
         params['nativeSpecification'] = params['nativeSpecification'].replace('\n', ' ').strip()
 
     # We have some destination specific kwargs. `nativeSpecExtra` and `tmp` are only defined for SGE
+    print("build_spec_2->destination: ", destination)
+    print("build_spec_3->params: ", params)
     if 'slurm' in destination:
         if 'cores' in tool_spec:
             # kwargs['PARALLELISATION'] = tool_cores
