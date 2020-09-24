@@ -1,4 +1,12 @@
 ---
+local:
+  limits:
+    cores: 4
+    mem: 1000
+  env: {}
+  params:
+    singularity_enabled: true  
+
 slurm:
   limits:
     cores: 40
