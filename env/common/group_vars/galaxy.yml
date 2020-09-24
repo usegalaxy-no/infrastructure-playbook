@@ -40,7 +40,8 @@ galaxy_config:
     galaxy_infrastructure_url: "https://{{ galaxy_host }}/"
     log_level: INFO
     allow_path_paste: true
-    #    require_login: true
+    require_login: true
+    allow_user_creation: false
     allow_user_impersonation: true
     smtp_server: "localhost"
     email_from: "galaxy-no-reply@{{ galaxy_host }}"
