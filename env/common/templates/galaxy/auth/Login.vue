@@ -6,62 +6,9 @@
                 <b-form id="login" @submit.prevent="submitGalaxyLogin()">
                     <b-card no-body header="Welcome to Galaxy, please log in">
                         <b-card-body>
-                            <div>
-                                <!-- standard internal galaxy login -->
-                                <b-form-group label="Public Name or Email Address">
-                                    <b-form-input name="login" type="text" v-model="login" />
-                                </b-form-group>
-                                <b-form-group label="Password">
-                                    <b-form-input name="password" type="password" v-model="password" />
-                                    <b-form-text>
-                                        Forgot password?
-                                        <a @click="reset" href="javascript:void(0)" role="button"
-                                            >Click here to reset your password.</a
-                                        >
-                                    </b-form-text>
-                                </b-form-group>
-                                <b-button name="login" type="submit">Login</b-button>
-                            </div>
                             <div v-if="enable_oidc">
                                 <!-- OIDC login-->
                                 <hr class="my-4" />
-                                <div class="cilogon" v-if="cilogonListShow">
-                                    <!--Only Display if CILogon/Custos is configured-->
-                                    <b-form-group label="Use existing institutional login">
-                                        <multiselect
-                                            placeholder="Select your institution"
-                                            v-model="selected"
-                                            :options="cilogon_idps"
-                                            label="DisplayName"
-                                            track-by="EntityID"
-                                        >
-                                        </multiselect>
-                                    </b-form-group>
-
-                                    <b-button
-                                        v-if="Object.prototype.hasOwnProperty.call(oidc_idps, 'cilogon')"
-                                        @click="submitCILogon('cilogon')"
-                                        :disabled="selected === null"
-                                        >Sign in with Institutional Credentials*</b-button
-                                    >
-                                    <!--convert to v-else-if to allow only one or the other. if both enabled, put the one that should be default first-->
-                                    <b-button
-                                        v-if="Object.prototype.hasOwnProperty.call(oidc_idps, 'custos')"
-                                        @click="submitCILogon('custos')"
-                                        :disabled="selected === null"
-                                        >Sign in with Custos *</b-button
-                                    >
-
-                                    <p class="mt-3">
-                                        <small class="text-muted">
-                                            * Galaxy uses CILogon via Custos to enable you to log in from this
-                                            organization. By clicking 'Sign In', you agree to the
-                                            <a href="https://ca.cilogon.org/policy/privacy">CILogon</a> privacy policy
-                                            and you agree to share your username, email address, and affiliation with
-                                            CILogon, Custos, and Galaxy.
-                                        </small>
-                                    </p>
-                                </div>
 
                                 <div v-for="(idp_info, idp) in filtered_oidc_idps" :key="idp" class="m-1">
                                     <span v-if="idp_info['icon']">
@@ -72,8 +19,7 @@
                                     <span v-else>
                                         <b-button class="d-block mt-3" @click="submitOIDCLogin(idp)">
                                             <i :class="oidc_idps[idp]" />
-                                            Sign in with
-                                            {{ idp.charAt(0).toUpperCase() + idp.slice(1) }}
+                                            <img src="/static/images/NeLS-logo.png"> sign in
                                         </b-button>
                                     </span>
                                 </div>
@@ -91,8 +37,7 @@
                                 >
                             </span>
                             <span v-else>
-                                Registration for this Galaxy instance is disabled. Please contact an administrator for
-                                assistance.
+                                Please contact an administrator for assistance.
                             </span>
                         </b-card-footer>
                     </b-card>

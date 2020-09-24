@@ -1,6 +1,7 @@
 ---
 
 - name: Add branding
+  tags: branding
   copy:
     src: templates/galaxy/static/
     dest: "{{ galaxy_root }}/server/static/"
@@ -10,6 +11,7 @@
 #    force: yes
 
 - name: Add welcome.html (a hack, as uses a template!)
+  tags: branding
   template:
     src: templates/galaxy/static/welcome.html.j2
     dest: "{{ galaxy_root }}/server/static/welcome.html"
@@ -20,6 +22,7 @@
 
 
 - name: add client scss
+  tags: branding
   copy:
     src: templates/galaxy/client/blue.scss
     dest: "{{ galaxy_root }}/server/client/galaxy/style/scss/theme/blue.scss"
@@ -72,16 +75,6 @@
     owner: root
     group: root
     mode: '0644'
-
-
-- name: rebuild client
-  make:
-    chdir: "{{ galaxy_server_dir }}"
-    target: "{{ galaxy_client_make_target }}"
-  environment:
-    PATH: "{{ galaxy_venv_dir }}/bin:{{ ansible_env.PATH }}"
-    VIRTUAL_ENV: "{{ galaxy_venv_dir }}"
-  when: scss_file.changed
 
 - name: Make sure compliance log exists
   file:
@@ -246,3 +239,24 @@
     owner: root
     group: root
     mode: '0644'
+
+- name: oidc login page
+  tags: auth
+  copy:
+    src: templates/galaxy/auth/Login.vue
+    dest: "{{ galaxy_server_dir }}/client/galaxy/scripts/components/login/"
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: rebuild client
+  tags:
+    - auth
+    - branding
+  make:
+    chdir: "{{ galaxy_server_dir }}"
+    target: "{{ galaxy_client_make_target }}"
+  environment:
+    PATH: "{{ galaxy_venv_dir }}/bin:{{ ansible_env.PATH }}"
+    VIRTUAL_ENV: "{{ galaxy_venv_dir }}"
+  when: scss_file.changed
