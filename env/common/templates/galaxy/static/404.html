@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Welcome to Usegalaxy.no</title>
+
+    <!-- --- -->
+
+    <link type="text/css" rel="stylesheet"
+          href="https://nels.bioinfo.no/javax.faces.resource/bootstrap-3.3.7.min.css.xhtml?ln=css"/>
+    <link type="text/css" rel="stylesheet"
+          href="https://nels.bioinfo.no/javax.faces.resource/bootstrap-theme-3.3.7.min.css.xhtml?ln=css"/>
+
+
+    <link type="text/css" rel="stylesheet" href="css/containers.css"/>
+    <link type="text/css" rel="stylesheet" href="css/welcome.css"/>
+
+    <style type="text/css">
+        .twitterbox {
+            -moz-box-shadow: 3px 3px 6px 2px #eee, inset 0 0 6px rgb(207, 216, 240);
+            -webkit-box-shadow: 3px 3px 6px 2px #eee, inset 0 0 6px rgb(207, 216, 240);
+            -moz-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.35);
+            -webkit-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.35);
+            box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.35);
+            border: 1px solid #cfcfcf;
+        }
+
+        .tosbox {
+            display: block;
+            position: fixed;
+            left: 0px;
+            bottom: -266px;
+            height: 250px;
+            width: 100%;
+            padding: 0px;
+            background-color: #E0E0E0;
+            box-shadow: 0px -0px 10px 6px #D0D0D0;
+            border-top: 1px solid #273F7B;
+        }
+
+        .tosboxinner {
+            position: relative;
+            margin-left: auto;
+            margin-right: auto;
+            border-radius: 10px;
+            border: 1px solid #B0B0E0;
+            background-color: #C0C0EE;
+            padding: 30px;
+            width: calc(100% - 150px);
+        / / height: 100 px;
+            top: 50px;
+            font-size: 11pt;
+        }
+
+        .showtos {
+            transform: translateY(-265px);
+            transition: transform 600ms ease-out 500ms;
+            transition-property: transform;
+            transition-duration: 600ms;
+            transition-timing-function: ease-out;
+            transition-delay: 300ms;
+        }
+
+        .acceptbutton {
+            border-radius: 3px;
+            border: none;
+        / / 1 px solid #5A60A0;
+            border-radius: 6px;
+            background-color: #175D91;
+            padding: 14px 20px;
+            font-size: 15px;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+        }
+
+        .acceptbutton:hover {
+            color: white;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+
+<!---------------------------- beginning of page --------------------------------------->
+
+<div id="content-container" style="padding:10px 26px 0px 10px;"> <!-- This contains the whole page -->
+
+    <!-- Header -->
+    <div class="box-header" id="topheader">
+        <a href="https://www.elixir-norway.org" target="_blank"><img src="images/elixir_no_logo.png"
+                                                                     style="height:50px;margin-top:0px;border:0;padding-right:16px;vertical-align:middle;"></a>
+
+        Welcome to usegalaxy.no
+
+    </div>
+    <!-- end header -->
+    <div>
+        <img src="images/not_found.png" width="400" >
+
+    </div>
+
+    <!--   Introduction -->
+    <div>
+        Not found, please try again or contact us with any questions:
+
+        <!-- support button -->
+        <a target="_top" href="mailto:contact@bioinfo.no" class="button3d" style="height:26px;width:170px;">
+                        <img src="images/mail-icon1.gif"
+                             style="height:20px;width:40px;margin-top:2px;border:0;padding-right:0px;"> Contact Support
+        </a>
+
+
+    </div>
+
+    <!-- Node logos -->
+    <div id="beforenodelogos" style="height:20px"></div>
+    <!-- This element serves as a fixed point before the node logos. The margin between this element and the logos below will be adjusted dynamically -->
+
+    <div class="box-body" id="nodelogos"
+         style="display:flex;flex-wrap:wrap;justify-content:space-around;align-content:strech;margin-top:0px;">
+        <div style="padding:14px;flex-grow:1;"><img height="40" src="images/uib-logo-and-name.png"></div>
+        <div style="padding:14px;flex-grow:1;"><img height="40" src="images/uio-logo-and-name.png"></div>
+        <div style="padding:14px;flex-grow:1;"><img height="43" src="images/ntnu-logo-and-name.png"></div>
+        <div style="padding:14px;flex-grow:1;"><img height="44" src="images/nmbu-logo-and-name.png"></div>
+        <div style="padding:14px;flex-grow:1;"><img height="40" src="images/uit-logo-and-name.png"></div>
+    </div>
+
+
+</div> <!-- end of: div id="content-container"-->
+
+<!-- end of page -->
+
+
+</body>
+</html>
