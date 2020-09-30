@@ -16,7 +16,7 @@ galaxy_ip: "{{ hostvars[galaxy_host].ansible_host }}"
 
 galaxy_admin_email_to: "admin@usegalaxy.no"
 galaxy_admin_email_from: "admin@usegalaxy.no"
-galaxy_admin: "admin@usegalaxy.no, torfinn.nome@nmbu.no"
+galaxy_admin: "torfinn.nome@nmbu.no, kjetikl@ntnu.no, kbr103@uib.no"
 
 db_host: "{{ groups['database'][0] }}"
 db_ip: "{{ hostvars[db_host].ansible_host }}"
