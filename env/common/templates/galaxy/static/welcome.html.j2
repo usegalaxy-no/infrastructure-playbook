@@ -242,6 +242,7 @@ function acceptTermsOfService() {
  */
 function createServerAlert(alert) { // alert is an object with required properties "title" and "text", and optional properties "show", "color", "from" and "to"
    if (alert.hasOwnProperty('show') && alert.show==false) return "";
+
    var title=alert.title;
    var text=alert.text;
    if (typeof title == 'undefined' || title=="" || typeof text == 'undefined' || text=="") return "";
@@ -295,7 +296,7 @@ function showServerAlerts(url,elementID) { //
     xhr.onreadystatechange=function()
     {
         if(xhr.readyState == 4 && xhr.status == 200) {
-            if (typeof xhr.responseText=='undefined' || xhr.responeText=="") return;
+            if (typeof xhr.responseText=='undefined' || xhr.responseText=="") return;
             try {
                var alerts=JSON.parse(xhr.responseText);
                processAllServerAlerts(alerts,elementID);
@@ -617,9 +618,9 @@ function hideHistoryTransferJob(jobid) {
  */
 function onStartUp() {
     displayQuota();
-    server_alerts_url="https://galaxy-ntnu.bioinfo.no/nels/api/serveralerts/usegalaxy/active";
-    // showServerAlerts(server_alerts_url,"server_alerts");
-    showServerAlerts("nels_server_alerts.json","local_server_alerts");// DEPRECATED
+    //server_alerts_url="https://galaxy-ntnu.bioinfo.no/nels/api/serveralerts/usegalaxy/active";
+    server_alerts_url="https://usegalaxy.no/static/server_alerts.json";
+    showServerAlerts(server_alerts_url,"server_alerts");
     alignNodeLogos();
     window.onresize = alignNodeLogos;
     checkTermsOfServiceAcceptance();
@@ -666,7 +667,7 @@ window.onload = onStartUp;
 	   Additional documentation and tutorials on using Galaxy can be found <a href="https://wiki.galaxyproject.org/Learn" target="_blank">here</a>.
 	   <br><br>
 	   <div id="display_quota"></div>
-        <!--<div id="server_alerts"></div>         These alerts are defined in a common database at https://galaxy-ntnu.bioinfo.no/nels  -->
+        <div id="server_alerts"></div>      <!--  alerts can be defined in JSON format in (/srv/galaxy/server/|https://)static/server_alerts.json  -->
 	   <div id="local_server_alerts"></div> <!--  Local alerts can be defined in JSON format (list of objects) in the file "nels_server_alerts.json" (in the same directory as this HTML page)  -->
 	</div>
 
@@ -751,11 +752,11 @@ window.onload = onStartUp;
 <div id="beforenodelogos" style="height:20px"></div> <!-- This element serves as a fixed point before the node logos. The margin between this element and the logos below will be adjusted dynamically -->
 
 <div class="box-body" id="nodelogos" style="display:flex;flex-wrap:wrap;justify-content:space-around;align-content:strech;visibility:hidden;margin-top:0px;">
-   <div style="padding:14px;flex-grow:1;"><img height="40" src="images/uio-logo-and-name.png"></div>
    <div style="padding:14px;flex-grow:1;"><img height="40" src="images/uib-logo-and-name.png"></div>
+   <div style="padding:14px;flex-grow:1;"><img height="40" src="images/uio-logo-and-name.png"></div>
    <div style="padding:14px;flex-grow:1;"><img height="43" src="images/ntnu-logo-and-name.png"></div>
-   <div style="padding:14px;flex-grow:1;"><img height="40" src="images/uit-logo-and-name.png"></div>
    <div style="padding:14px;flex-grow:1;"><img height="44" src="images/nmbu-logo-and-name.png"></div>
+   <div style="padding:14px;flex-grow:1;"><img height="40" src="images/uit-logo-and-name.png"></div>
 </div>
 
 
