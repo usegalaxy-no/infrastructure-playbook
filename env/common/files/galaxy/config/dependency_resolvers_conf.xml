@@ -1,21 +1,21 @@
 <dependency_resolvers>
-  <!-- the default configuration, first look for dependencies installed from the toolshed -->
-  <tool_shed_packages />
-  <!-- then look for env.sh files in directories according to the "galaxy packages" schema.
+     <!-- the default configuration, first look for dependencies installed from the toolshed -->
+     <tool_shed_packages />
+     <!-- then look for env.sh files in directories according to the "galaxy packages" schema.
        These resolvers can take a base_path attribute to specify where to look for
        package definitions, but by default look in the directory specified by tool_dependency_dir
        in Galaxy's config/galaxy.ini -->
-  <galaxy_packages />
-  <!-- check whether the correct version has been installed via conda -->
-  <!--<conda /> -->
-  <!-- look for a "default" symlink pointing to a directory containing an
+     <galaxy_packages />
+     <!-- check whether the correct version has been installed via conda -->
+     <conda />
+     <!-- look for a "default" symlink pointing to a directory containing an
        env.sh file for the package in the "galaxy packages" schema -->
-  <galaxy_packages versionless="true" />
-  <!-- look for any version of the dependency installed via conda -->
-  <!-- <conda versionless="true" /> -->
+     <galaxy_packages versionless="true" />
+     <!-- look for any version of the dependency installed via conda -->
+     <!-- <conda versionless="true" /> -->
 
-  <!-- LMOD dependency resolver (For the LMOD environment modules system - https://github.com/TACC/Lmod) -->
-  <!--
+     <!-- LMOD dependency resolver (For the LMOD environment modules system - https://github.com/TACC/Lmod) -->
+     <!--
   The LMOD dependency resolver attributes are:
   * lmodexec - Path to the lmod executable on your system - Default: value of the "LMOD_CMD" environment variable
   * settargexec - Path to the settarg executable on your system - Default: value of the "LMOD_SETTARG_CMD" environment variable
@@ -29,13 +29,13 @@
    - In versionless mode, only modules marked as Default will be listed by the "avail" command (The -d option is used)
    - If the config folder of your Galaxy instance contains a file called "lmod_modules_mapping.yml" (based on the lmod_modules_mapping.yml.sample file) it will be taken into consideration automatically
   -->
-  <!--
+     <!--
   <lmod />
   <lmod versionless="true" />
   -->
 
-  <!-- Example configuration of modules dependency resolver, uses Environment Modules -->
-  <!--
+     <!-- Example configuration of modules dependency resolver, uses Environment Modules -->
+     <!--
   <modules modulecmd="/opt/Modules/3.2.9/bin/modulecmd" />
   <modules modulecmd="/opt/Modules/3.2.9/bin/modulecmd" versionless="true" default_indicator="default" />
   Attributes are:
@@ -46,7 +46,7 @@
   * default_indicator - default: '(default)' - what indicate to the AvailModuleChecker that a module is the default version
   -->
 
-  <!-- other resolvers
+     <!-- other resolvers
   <tool_shed_tap />
   <homebrew />
   -->
