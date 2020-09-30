@@ -74,9 +74,9 @@
     - name: Install Singularity
       package:
         name: singularity
-    - name: Install the tos-api
-      include_role:
-        name: usegalaxy-no.tos-api
+#    - name: Install the tos-api
+#      include_role:
+#        name: usegalaxy-no.tos-api
     # TODO: This should not be needed, but...
     - name: galaxy need a compliance log for conda, will otherwise fail.
       file:
@@ -84,6 +84,14 @@
         state: file
         mode: "0644"
         owner: "{{ galaxy_user.name }}"
+
+    - name: galaxy dependencies dir (?)
+      file:
+        path: "{{ galaxy_root }}/server/dependencies"
+        state: directory
+        mode: "0644"
+        owner: "{{ galaxy_user.name }}"
+
     - name: galaxy root is readable for nginx
       file:
         path: "{{ galaxy_root }}"
@@ -91,6 +99,7 @@
         mode: "0755"
         owner: "{{ galaxy_user.name }}"
         group: "{{ galaxy_user.name }}"
+
     - name: Make sure galaxy owns tool-data
       file:
         path: "{{ galaxy_root }}/server/tool-data"
@@ -98,6 +107,7 @@
         recurse: yes
         mode: "0755"
         owner: "{{ galaxy_user.name }}"
+
     - name: Make sure galaxy owns /sanitize_whitelist.txt
       file:
         path: "{{ galaxy_mutable_config_dir }}/sanitize_whitelist.txt"
