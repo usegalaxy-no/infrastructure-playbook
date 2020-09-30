@@ -979,8 +979,10 @@ velveth:
   name: _velveth
 vsearch_search: {mem: 80}
 
-cat1: { runner: remote_cluster_mq_nmbu }
+#cat1: { runner: remote_cluster_mq_nmbu }
 
+galaxy-ntnu.bioinfo.no/toolshed_nels/repos/kjetil/minion_search_adapter/minion_search_adapter/1.0.2: { runner: slurm }
+galaxy-ntnu.bioinfo.no/toolshed_nels/repos/kjetil/featurecounts_nels/featurecounts/1.6.4+NeLS: { runner: slurm }
 
 # Some admin tools
 echo_main_env:
