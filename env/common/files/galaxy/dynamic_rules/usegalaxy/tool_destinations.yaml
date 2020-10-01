@@ -792,7 +792,7 @@ rgPicardMarkDups:
   env:
     _JAVA_OPTIONS: -Xmx12G -Xms1G
 rm_spurious_events.py: {mem: 4}
-rna_star: {cores: 10, mem: 140}
+rna_star: {cores: 6, mem: 60}
 rna_starsolo: {cores: 4, mem: 40}
 rna_star_index_builder_data_manager:
   cores: 10
@@ -983,6 +983,8 @@ vsearch_search: {mem: 80}
 
 galaxy-ntnu.bioinfo.no/toolshed_nels/repos/kjetil/minion_search_adapter/minion_search_adapter/1.0.2: { runner: slurm }
 galaxy-ntnu.bioinfo.no/toolshed_nels/repos/kjetil/featurecounts_nels/featurecounts/1.6.4+NeLS: { runner: slurm }
+toolshed.g2.bx.psu.edu/repos/shians/voom_rnaseq/diffexp/1.1.0: { runner: slurm }
+param_value_from_file: { runner: slurm }
 
 # Some admin tools
 echo_main_env:
