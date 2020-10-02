@@ -30,7 +30,7 @@ galaxy_config:
     file_path: "{{ galaxy_file_path }}"
     tool_data_path: "{{ galaxy_server_dir }}/tool-data"
     check_migrate_tools: false
-    tool_data_table_config_path: /cvmfs/data.galaxyproject.org/byhand/location/tool_data_table_conf.xml,/cvmfs/data.galaxyproject.org/managed/location/tool_data_table_conf.xml,/srv/local_refs/byhand/location/tool_data_table_conf.xml #,/cvmfs/data.{{ galaxy_host }}/byhand/location/tool_data_table_conf.xml
+    tool_data_table_config_path: /cvmfs/data.galaxyproject.org/byhand/location/tool_data_table_conf.xml,/cvmfs/data.galaxyproject.org/managed/location/tool_data_table_conf.xml,/cvmfs/data.{{ galaxy_host }}/byhand/location/tool_data_table_conf.xml
     tool_sheds_config_file: "{{ galaxy_config_dir }}/tool_sheds_conf.xml"
     job_config_file: "{{ galaxy_config_dir }}/job_conf.xml"
     job_metrics_config_file: "{{ galaxy_config_dir }}/job_metrics_conf.xml"
