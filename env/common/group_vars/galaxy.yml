@@ -74,7 +74,7 @@ galaxy_config:
     # Default values
     socket: 127.0.0.1:8080
     buffer-size: 16384
-    processes: 1
+    processes: 4
     threads: 4
     offload-threads: 2
     stats-push: statsd:127.0.0.1:8125
