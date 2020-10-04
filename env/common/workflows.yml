@@ -1,0 +1,40 @@
+- hosts: localhost
+  gather_facts: False
+  connection: local
+  vars_files:
+    - group_vars/global.yml
+    - secret_group_vars/global.vault
+  vars:
+    workflowdir: "files/galaxy/workflows"
+    tooldir: "files/galaxy/tools"
+    galaxy_tools_workflows: "{{ lookup('pipe', 'find {{ workflowdir }} -type f -name \\*.ga').split('\n')  }}"
+    galaxy_tools_data_managers_list: "files/galaxy/tools/dbkeys_list.yml"
+    galaxy_tools_install_tools: no
+    galaxy_tools_install_data_managers: yes
+    galaxy_tools_install_workflows: yes
+    galaxy_tools_galaxy_instance_url: "https://{{ galaxy_host }}/"
+    galaxy_tools_api_key: "{{galaxy_api_key}}"
+    #galaxy_tools_api_key: "{{ galaxy_master_api_key }}"
+
+  #  pre_tasks:
+  #    - name: Create Folder
+  #      file:
+  #        path: "{{ workflowdir }}"
+  #        mode: 0755
+  #        state: directory
+  #    - name: Create Folder
+  #      file:
+  #        path: "{{ tooldir }}"
+  #        mode: 0755
+  #        state: directory
+  #    - name: Copy workflows
+  #      synchronize:
+  #        src: "{{ workflowdir }}"
+  #        dest: "{{ workflowdir }}"
+  #    - name: Copy tools
+  #      synchronize:
+  #        src: "{{ tooldir }}"
+  #        dest: "{{ tooldir }}"
+
+  roles:
+    - usegalaxy.galaxy-tools

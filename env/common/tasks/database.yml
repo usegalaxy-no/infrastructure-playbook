@@ -51,3 +51,12 @@
     permissions: rx
     recursive: yes
     state: present
+
+- name: Apache, add ssl-redirect config file
+  tags: apache
+  template:
+    src: templates/apache/01-ssl-redirect.conf.j2
+    dest: "/etc/httpd/conf.d/01-ssl-redirect.conf"
+    owner: root
+    group: root
+    mode: '0644'

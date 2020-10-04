@@ -31,6 +31,7 @@ galaxy_config:
     tool_data_path: "{{ galaxy_server_dir }}/tool-data"
     check_migrate_tools: false
     tool_data_table_config_path: /cvmfs/data.galaxyproject.org/byhand/location/tool_data_table_conf.xml,/cvmfs/data.galaxyproject.org/managed/location/tool_data_table_conf.xml,/cvmfs/data.{{ galaxy_host }}/byhand/location/tool_data_table_conf.xml
+    tool_sheds_config_file: "{{ galaxy_config_dir }}/tool_sheds_conf.xml"
     job_config_file: "{{ galaxy_config_dir }}/job_conf.xml"
     job_metrics_config_file: "{{ galaxy_config_dir }}/job_metrics_conf.xml"
     sanitize_whitelist_file: "{{ galaxy_mutable_config_dir }}/sanitize_whitelist.txt"
@@ -67,12 +68,13 @@ galaxy_config:
     enable_mulled_containers: true
     containers_resolvers_config_file: "{{ galaxy_config_dir }}/container_resolvers_conf.xml"
     dependency_resolvers_config_file: "{{ galaxy_config_dir }}/dependency_resolvers_conf.xml"
+    conda_ensure_channels: iuc,conda-forge,bioconda,defaults,https://galaxy-ntnu.bioinfo.no/nelsconda/
 
   uwsgi:
     # Default values
     socket: 127.0.0.1:8080
     buffer-size: 16384
-    processes: 1
+    processes: 4
     threads: 4
     offload-threads: 2
     stats-push: statsd:127.0.0.1:8125
@@ -113,11 +115,13 @@ galaxy_config_files:
     dest: "{{ galaxy_server_dir }}/tools/interactive/interactivetool_jupyter_notebook.xml"
   - src: files/galaxy/config/dependency_resolvers_conf.xml
     dest: "{{ galaxy_config_dir }}/dependency_resolvers_conf.xml"
+  - src: files/galaxy/config/tool_sheds_conf.xml
+    dest: "{{ galaxy_config_dir }}/tool_sheds_conf.xml"
 
 galaxy_tool_config_files:
+  - "{{ galaxy_server_dir }}/config/nels_tool_conf.xml"
   - "{{ galaxy_config_dir }}/tool_conf.xml"
   - "{{ galaxy_config_dir }}/tool_conf_interactive.xml"
-  - "{{ galaxy_server_dir }}/config/nels_tool_conf.xml"
 
 galaxy_config_templates:
   - src: files/galaxy/config/tool_conf.xml

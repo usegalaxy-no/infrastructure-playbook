@@ -1,0 +1,16 @@
+<VirtualHost *:80>
+  RewriteEngine On
+  # This will enable the Rewrite capabilities
+
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{REQUEST_URI} !/cvmfs
+  # This checks to make sure the connection is not already HTTPS
+
+  RewriteRule ^/?(.*) https://%{SERVER_NAME}/$1 [R,L]
+
+## Logging
+  ErrorLog "/var/log/httpd/non-ssl_error.log"
+  ServerSignature Off
+  CustomLog "/var/log/httpd/non-ssl_access.log" combined
+
+</VirtualHost>
