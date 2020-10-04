@@ -1,30 +1,61 @@
 system_groups:
-  - { name: galaxy, gid: 1024, group_names: ['galaxyserver', 'slurm'] }
-  - { name: slurm, gid: 1025, group_names: ['galaxyserver', 'slurm'] }
-  - { name: galaxyadmin, gid: 1026, group_names: ['all']} #just for the sudoers file.
-  - { name: sysadmin, gid: 1027, group_names: ['all']}
-  - { name: docker, gid: 1028, group_names: ['galaxyserver', 'slurm']}
+  - { name: galaxy, gid: 1024, group_names: ["galaxyserver", "slurm"] }
+  - { name: slurm, gid: 1025, group_names: ["galaxyserver", "slurm"] }
+  - { name: galaxyadmin, gid: 1026, group_names: ["all"] } #just for the sudoers file.
+  - { name: sysadmin, gid: 1027, group_names: ["all"] }
+  - { name: docker, gid: 1028, group_names: ["galaxyserver", "slurm"] }
 
 system_users:
-  - { name: galaxy, uid: 1024, group: galaxy, shell: /bin/bash, create_home: yes, groups: ['docker'], group_names: ['galaxyserver', 'slurm'] }
-  - { name: slurm, uid: 1025, group: slurm, shell: /sbin/nologin, create_home: no, group_names: ['galaxyserver', 'slurm'] }
-  - { name: galaxyadmin, uid: 1026, group: galaxyadmin, shell: /bin/bash, create_home: yes, group_names: ['galaxyserver'] }
-  - { name: sysadmin, uid: 1027, group: sysadmin, shell: /bin/bash, create_home: yes, group_names: ['all'] }
-  
+  - {
+      name: galaxy,
+      uid: 1024,
+      group: galaxy,
+      shell: /bin/bash,
+      create_home: yes,
+      groups: ["docker"],
+      group_names: ["galaxyserver", "slurm"],
+    }
+  - {
+      name: slurm,
+      uid: 1025,
+      group: slurm,
+      shell: /sbin/nologin,
+      create_home: no,
+      group_names: ["galaxyserver", "slurm"],
+    }
+  - {
+      name: galaxyadmin,
+      uid: 1026,
+      group: galaxyadmin,
+      shell: /bin/bash,
+      create_home: yes,
+      group_names: ["galaxyserver"],
+    }
+  - {
+      name: sysadmin,
+      uid: 1027,
+      group: sysadmin,
+      shell: /bin/bash,
+      create_home: yes,
+      group_names: ["all"],
+    }
+
 galaxy_host: "{{ groups['galaxyserver'][0] }}"
 galaxy_ip: "{{ hostvars[galaxy_host].ansible_host }}"
 
 galaxy_admin_email_to: "admin@usegalaxy.no"
 galaxy_admin_email_from: "admin@usegalaxy.no"
 galaxy_admin: !vault |
-              $ANSIBLE_VAULT;1.1;AES256
-              38383439633634386530643334323461636562643438653862313136336436373239343334636638
-              6334373931623231333130623962643230626563623164340a636661613530303735646134666337
-              31363837363136346335393333383932633933343463646364356630656530316334333832346331
-              3164653461623535340a373335393862316136623637643939363334366331373861313332343130
-              38613466616463306435333737303832386365336634323264653233336239346537626366623535
-              66346135636566333534363435333632386334396562653364396366646463363666393831653936
-              363564353761383338393433313166623463
+  $ANSIBLE_VAULT;1.1;AES256
+  33336661353161666334356439623461386134373533656331616330616563623135363462636564
+  6666313136343831656234303132333734333633343061380a633637653538633636656131303566
+  33643931383034363632643261373130343535356461366265386330343432653261323362656436
+  6337393632383665610a313936613563613663393634393639643933316439666535323764366261
+  36626661343561623532393130316139343336363938363662333362326233383861333330646230
+  35663062303634306437363637656364653031636161366339666265613466383762366635636134
+  37343432326235313937383231653838383839646334333865333731613137366233386163383230
+  62326366343465643735303563656563623330373762323033346161313632353665386531313661
+  6333
 
 db_host: "{{ groups['database'][0] }}"
 db_ip: "{{ hostvars[db_host].ansible_host }}"
@@ -46,14 +77,15 @@ db_connection: "postgresql://{{galaxy_db_user}}:{{galaxy_db_passwd}}@{{db_host}}
 cvmfs0_host: "{{ groups['cvmfsstratum0servers'][0] }}"
 cvmfs0_ip: "{{ hostvars[cvmfs0_host].ansible_host }}"
 
-gpg_key_name: admin@usegalaxy.no
+gpg_key_name: "admin@usegalaxy.no"
 
-  # system.yml
+# system.yml
+
 dhclient_interface: "{{ ansible_default_ipv4.interface }}"
 dhclient_config:
   - "timeout 300;"
   - "retry 60;"
-  - "supersede domain-search \"usegalaxy.no\";"
+  - 'supersede domain-search "usegalaxy.no";'
 
 # Postfix
 postfix_relayhost: "{{ smtp_host }}" # TODO: Make sure this works
@@ -67,22 +99,19 @@ postfix_aliases:
   - user: abuse
     alias: root
 postfix_smtp:
-  tls_CApath: '/etc/pki/tls/certs'
-  tls_security_level: 'may'
-  tls_cert_file: '/etc/letsencrypt/live/{{ inventory_hostname }}/fullchain.pem'
-  tls_key_file: '/etc/letsencrypt/live/{{ inventory_hostname }}/privkey.pem'
-  tls_note_starttls_offer: 'yes'
-
+  tls_CApath: "/etc/pki/tls/certs"
+  tls_security_level: "may"
+  tls_cert_file: "/etc/letsencrypt/live/{{ inventory_hostname }}/fullchain.pem"
+  tls_key_file: "/etc/letsencrypt/live/{{ inventory_hostname }}/privkey.pem"
+  tls_note_starttls_offer: "yes"
 
 # Sudo access
 sudo_defaults:
   - name: telegraf
-    defaults: '!logfile, !syslog, !pam_session'
+    defaults: "!logfile, !syslog, !pam_session"
 sudo_users:
-      - name: telegraf
-        nopasswd: yes
-        commands:
-          - '/usr/bin/fail2ban-client status'
-          - '/usr/bin/fail2ban-client status *'
-
-
+  - name: telegraf
+    nopasswd: yes
+    commands:
+      - "/usr/bin/fail2ban-client status"
+      - "/usr/bin/fail2ban-client status *"
