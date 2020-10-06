@@ -157,15 +157,12 @@ def _weighted_random_sampling(destinations, dest_spec=SPECIFICATIONS):
 def build_spec(tool_spec, dest_spec=SPECIFICATIONS, runner_hint=None):
     destination = runner_hint if runner_hint else tool_spec.get('runner')
     print("build_spec_1->destination: ", destination)
-    print("build_spec_1->dest_spec: ", dest_spec)
-    print("build_spec_1->JOINT_DESTINATIONS: ", JOINT_DESTINATIONS)
-
+    
     if destination not in dest_spec:
         if destination in JOINT_DESTINATIONS:
             destination = _weighted_random_sampling(JOINT_DESTINATIONS[destination])
         else:
             destination = DEFAULT_DESTINATION
-    print("build_spec_2->destination: ", destination)
 
     env = dict(dest_spec.get(destination, {'env': {}})['env'])
     params = dict(dest_spec.get(destination, {'params': {}})['params'])
@@ -403,7 +400,7 @@ def gateway(tool_id, user, memory_scale=1.0, next_dest=None):
 
 
 def gateway_1x(tool_id, user):
-    return gateway(tool_id, user, memory_scale=1, next_dest='gateway_1_5x')
+    return gateway(tool_id, user, memory_scale=1, next_dest='gateway_2x')
 
 
 def gateway_1_5x(tool_id, user):
