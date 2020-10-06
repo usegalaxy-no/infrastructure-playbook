@@ -2,7 +2,7 @@ slurm_cgroup_config:
   CgroupMountpoint: "/sys/fs/cgroup"
   CgroupAutomount: yes
   ConstrainCores: yes
-  TaskAffinity: yes
+  TaskAffinity: no
   ConstrainRAMSpace: no
   ConstrainSwapSpace: no
   ConstrainDevices: no
@@ -85,12 +85,12 @@ cvmfs_server_urls:
   - domain: galaxyproject.org
     use_geoapi: yes
     urls:
-      - "http://invivo.hpc.uio.no/cvmfs/@fqrn@"
+      #- "http://invivo.hpc.uio.no/cvmfs/@fqrn@"
       - "http://cvmfs1-ufr0.galaxyproject.eu/cvmfs/@fqrn@"
       - "http://cvmfs1-psu0.galaxyproject.org/cvmfs/@fqrn@"
       - "http://cvmfs1-iu0.galaxyproject.org/cvmfs/@fqrn@"
       - "http://cvmfs1-tacc0.galaxyproject.org/cvmfs/@fqrn@"
-      - "http://cvmfs1-mel0.gvl.org.au/cvmfs/@fqrn@"
+      #- "http://cvmfs1-mel0.gvl.org.au/cvmfs/@fqrn@"
   - domain: "{{ galaxy_host }}"
     use_geoapi: no
     urls:
