@@ -98,7 +98,7 @@ galaxy_config:
       - lib/galaxy/main.py
     farm: job-handlers:1,2
 
-galaxy_systemd_zergling_env: "DRMAA_LIBRARY_PATH=/usr/lib64/libdrmaa.so.1 SINGULARITY_CACHEDIR={{ galaxy_root}}/containers"
+galaxy_systemd_zergling_env: "DRMAA_LIBRARY_PATH=/usr/lib64/libdrmaa.so.1"
 
 galaxy_singularity_images_cvmfs_path: "/cvmfs/singularity.galaxyproject.org/all/"
 galaxy_handler_count: "{{ galaxy_systemd_handlers }}"
