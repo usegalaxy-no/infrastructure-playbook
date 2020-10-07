@@ -400,7 +400,7 @@ def gateway(tool_id, user, memory_scale=1.0, next_dest=None):
 
 
 def gateway_1x(tool_id, user):
-    return gateway(tool_id, user, memory_scale=1, next_dest='gateway_2x')
+    return gateway(tool_id, user, memory_scale=1) #, next_dest='gateway_2x')
 
 
 def gateway_1_5x(tool_id, user):
