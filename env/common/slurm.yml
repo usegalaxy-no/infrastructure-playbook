@@ -4,6 +4,7 @@
     - secret_group_vars/global.vault
     - group_vars/global.yml
     - group_vars/galaxy.yml
+    - group_vars/slurm.yml
   tasks:
     - name: Create users and groups
       include: tasks/users_groups.yml

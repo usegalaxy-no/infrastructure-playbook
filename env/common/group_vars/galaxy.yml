@@ -207,9 +207,6 @@ nginx_ssl_role: usegalaxy_eu.certbot
 nginx_conf_ssl_certificate: /etc/letsencrypt/live/{{ galaxy_host }}/fullchain.pem
 nginx_conf_ssl_certificate_key: /etc/letsencrypt/live/{{ galaxy_host }}/privkey.pem
 
-cvmfs_role: client
-galaxy_cvmfs_repos_enabled: config-repo
-
 custom_telegraf_env: "/usr/bin/env GDPR_MODE=1 GALAXY_ROOT=/srv/galaxy/ GALAXY_CONFIG_FILE=/srv/galaxy/config/galaxy.yml PGDATABASE={{galaxy_database}} PGHOST={{db_host}}"
 custom_telegraf_gxadmin_bin: /usr/local/bin/gxadmin
 custom_telegraf_slurm_collect_bin: /usr/local/bin/slurm-collect

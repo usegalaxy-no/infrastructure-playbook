@@ -81,9 +81,11 @@ nfs_client_imports:
 
 cvmfs_role: client
 galaxy_cvmfs_repos_enabled: config-repo
+
 cvmfs_server_urls:
   - domain: galaxyproject.org
     use_geoapi: yes
+    #key_dir: "/cvmfs/cvmfs-config.galaxyproject.org/etc/cvmfs/keys/galaxyproject.org/"
     urls:
       #- "http://invivo.hpc.uio.no/cvmfs/@fqrn@"
       - "http://cvmfs1-ufr0.galaxyproject.eu/cvmfs/@fqrn@"
