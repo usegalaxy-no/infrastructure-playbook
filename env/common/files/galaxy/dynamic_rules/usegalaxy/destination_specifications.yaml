@@ -32,6 +32,7 @@ slurm_singularity:
   env:
     LC_ALL: C
     SINGULARITY_CACHEDIR: /tmp/containers
+    SINGULARITY_TMPDIR: /tmp
   params:
     priority: -{PRIORITY}
     request_cpus: "{PARALLELISATION}"
