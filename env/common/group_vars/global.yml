@@ -29,7 +29,7 @@ system_users:
       group: galaxyadmin,
       shell: /bin/bash,
       create_home: yes,
-      group_names: ["galaxyserver"],
+      group_names: ["galaxyserver", "systemd-journal"],
     }
   - {
       name: sysadmin,
@@ -37,7 +37,7 @@ system_users:
       group: sysadmin,
       shell: /bin/bash,
       create_home: yes,
-      group_names: ["all"],
+      group_names: ["all", "systemd-journal"],
     }
 
 galaxy_host: "{{ groups['galaxyserver'][0] }}"
