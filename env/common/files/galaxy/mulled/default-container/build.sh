@@ -1,4 +1,4 @@
-#!/bin/bash
+ung#!/bin/bash
 
 singularity build galaxy-python.sif galaxy-python.def
 
