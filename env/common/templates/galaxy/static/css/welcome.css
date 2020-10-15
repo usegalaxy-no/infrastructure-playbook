@@ -143,4 +143,37 @@ li.optional:before {
 }
 
 
+/* The following are used for NeLS Storage Data Transfers (added on 2020-05-05) */
 
+div.nels-transfer {
+   margin:6px 10px 20px 10px;
+}
+div.nels-transfer-inner {
+   display:grid;
+   grid-template-columns: 5fr 1fr;
+   grid-gap: 10px;
+}
+div.nels-transfer-progress {
+   border:1px solid #303030;
+   background-color:#F0F0F0;
+   margin-top:5px;
+   height:24px;
+}
+div.nels-transfer-progress-value {
+    position:relative;
+    top:0px;
+    left:0px;
+    height:100%;
+    width:0%;
+    background-color:#C0D0FF;
+}
+div.nels-transfer-progress-text {
+   position:relative;
+   top:-21px;
+   left:0px;
+   padding-left:8px;
+}
+button.nels-transfer-button {
+   height:24px;
+   margin-top:5px
+}
