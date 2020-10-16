@@ -1020,10 +1020,6 @@ vsearch_search: { mem: 80 }
 
 #cat1: { runner: remote_cluster_mq_nmbu }
 
-minion_search_adapter: { runner: slurm }
-featurecounts_nels: { runner: slurm }
-voom_rnaseq: { runner: slurm }
-param_value_from_file: { runner: slurm }
 nels_file_browser: { runner: local }
 nels_export: { runner: local }
 nels_exporter_hidden: { runner: local }
