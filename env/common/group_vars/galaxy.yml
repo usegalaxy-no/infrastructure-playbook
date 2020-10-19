@@ -46,6 +46,7 @@ galaxy_config:
     allow_user_impersonation: true
     smtp_server: "localhost"
     email_from: "galaxy-no-reply@{{ galaxy_host }}"
+    allow_user_impersonation: true
 
     enable_oidc: true
     oidc_config_file: "{{ galaxy_config_dir }}/oidc_config.xml"
