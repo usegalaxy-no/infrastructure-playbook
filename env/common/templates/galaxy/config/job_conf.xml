@@ -39,6 +39,8 @@
      </destinations>
     <tools>
         <tool id="upload1" destination="local" />
+        <tool id="__IMPORT_HISTORY__" destination="local" />
+        <tool id="__EXPORT_HISTORY__" destination="local" />
         <tool id="cat1" destination="pulsar_nmbu_orion_1c" />
         <!-- all fastqc jobs go to the nrec pulsar server -->
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.72+galaxy1" destination="pulsar_nrec"/>
