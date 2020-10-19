@@ -1024,6 +1024,9 @@ nels_file_browser: { runner: local }
 nels_export: { runner: local }
 nels_exporter_hidden: { runner: local }
 
+__IMPORT_HISTORY__: { runner: local }
+__EXPORT_HISTORY__: { runner: local }
+
 data_manager_metaphlan2_download: { runner: local }
 
 # Some admin tools
