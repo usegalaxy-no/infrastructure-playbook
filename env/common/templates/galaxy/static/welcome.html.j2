@@ -447,7 +447,7 @@ function pollHistoryTransferStatus() { //
                  var exports=JSON.parse(xhrE.responseText); // this should return an array with exports
                  if (Array.isArray(exports)) {
                       addJobType(exports,"export");
-                      if (filterHidden && hiddenTransferJobs.length>0) exports=filterHiddenJobs(exports); //
+                      if (filterHidden) exports=filterHiddenJobs(exports); //
                       currentExports=exports;
                       displayHistoryTransfers(currentExports,currentImports);
                   } else throw "ERROR: expected a JSON list from the history transfer API but got: "+response;
@@ -468,7 +468,7 @@ function pollHistoryTransferStatus() { //
                  var imports=JSON.parse(xhrI.responseText); // this should return an array with imports
                  if (Array.isArray(imports)) {
                       addJobType(imports,"import");
-                      if (filterHidden && hiddenTransferJobs.length>0) imports=filterHiddenJobs(imports); //
+                      if (filterHidden) imports=filterHiddenJobs(imports); //
                       currentImports=imports;
                       displayHistoryTransfers(currentExports,currentImports);
                   } else throw "ERROR: expected a JSON list from the history transfer API but got: "+response;
