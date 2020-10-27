@@ -34,6 +34,11 @@ server {
 
     }
 
+    location /_x_accel_redirect/ {
+        internal;
+        alias /;
+    }
+
     location @maintenance {
       root /srv/galaxy/server/static/;
       try_files $uri /maintenance.html =503;
