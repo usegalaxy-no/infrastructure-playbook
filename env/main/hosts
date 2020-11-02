@@ -9,3 +9,6 @@ slurm.usegalaxy.no ansible_host=158.37.7.54 ansible_user=sysadmin trusted_host=y
 
 [cvmfsstratum0servers]
 cvmfs0.usegalaxy.no ansible_host=158.37.7.53 ansible_user=sysadmin
+
+[ehos_server]
+nrec-ehos.usegalaxy.no ansible_host=158.39.201.158 ansible_user=sysadmin
