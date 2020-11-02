@@ -60,7 +60,7 @@ galaxy_admin: !vault |
 db_host: "{{ groups['database'][0] }}"
 db_ip: "{{ hostvars[db_host].ansible_host }}"
 galaxy_db_user: "galaxy"
-galaxy_database: "galaxy-test"
+# Database name is in all.yml
 
 slurm_host: "{{ groups['slurm'][0] }}"
 slurm_ip: "{{ hostvars[slurm_host].ansible_host }}"
