@@ -46,6 +46,7 @@ galaxy_config:
     allow_user_impersonation: true
     smtp_server: "localhost"
     email_from: "galaxy-no-reply@{{ galaxy_host }}"
+    error_email_to: admin@usegalaxy.no
     allow_user_impersonation: true
 
     enable_oidc: true
@@ -62,7 +63,7 @@ galaxy_config:
     statsd_prefix: "galaxy_page_timings"
     id_secret: "{{galaxy_id_secret}}"
 
-    message_box_visible: true
+    message_box_visible: false
     message_box_class: warning
     message_box_content: The usegalaxy.no is still undergoing testing but we will be live Oct 21st 2020.  Not for production use!
     container_image_cache_path: /srv/galaxy/containers
@@ -238,6 +239,8 @@ telegraf_plugins_extra:
       - timeout = "15s"
       - data_format = "influx"
       - interval = "1h"
+
+# This one does not work with gxadmin, and is impossible to fix. Hack for now, but will make better general solution
   galaxy_monthly_users_active:
     plugin: "exec"
     config:
@@ -246,10 +249,28 @@ telegraf_plugins_extra:
       - data_format = "influx"
       - interval = "1h"
 
+#does not work with gxadmin
   galaxy_monthly_jobs:
     plugin: "exec"
     config:
       - commands = ["{{ custom_telegraf_env }} {{ custom_telegraf_gxadmin_bin }} iquery monthly-jobs"]
+      - timeout = "15s"
+      - data_format = "influx"
+      - interval = "1h"
+
+  galaxy_total_jobs:
+    plugin: "exec"
+    config:
+      - commands = ["{{ custom_telegraf_env }} {{ custom_telegraf_gxadmin_bin }} iquery total-jobs"]
+      - timeout = "15s"
+      - data_format = "influx"
+      - interval = "1h"
+
+
+  galaxy_users_total:
+    plugin: "exec"
+    config:
+      - commands = ["{{ custom_telegraf_env }} {{ custom_telegraf_gxadmin_bin }} iquery users-total"]
       - timeout = "15s"
       - data_format = "influx"
       - interval = "1h"
