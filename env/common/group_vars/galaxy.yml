@@ -68,9 +68,12 @@ galaxy_config:
     message_box_content: The usegalaxy.no is still undergoing testing but we will be live Oct 21st 2020.  Not for production use!
     container_image_cache_path: /srv/galaxy/containers
     enable_mulled_containers: true
+    mulled_channels: conda-forge,iuc,bioconda,https://galaxy-ntnu.bioinfo.no/nelsconda/
     containers_resolvers_config_file: "{{ galaxy_config_dir }}/container_resolvers_conf.xml"
     dependency_resolvers_config_file: "{{ galaxy_config_dir }}/dependency_resolvers_conf.xml"
     conda_ensure_channels: iuc,conda-forge,bioconda,defaults,https://galaxy-ntnu.bioinfo.no/nelsconda/
+
+    nginx_x_accel_redirect_base: "/_x_accel_redirect"
 
   uwsgi:
     # Default values
@@ -100,7 +103,7 @@ galaxy_config:
       - lib/galaxy/main.py
     farm: job-handlers:1,2
 
-galaxy_systemd_zergling_env: "DRMAA_LIBRARY_PATH=/usr/lib64/libdrmaa.so.1 SINGULARITY_CACHEDIR={{ galaxy_root}}/containers"
+galaxy_systemd_zergling_env: "DRMAA_LIBRARY_PATH=/usr/lib64/libdrmaa.so.1"
 
 galaxy_singularity_images_cvmfs_path: "/cvmfs/singularity.galaxyproject.org/all/"
 galaxy_handler_count: "{{ galaxy_systemd_handlers }}"
@@ -208,9 +211,6 @@ nginx_conf_http:
 nginx_ssl_role: usegalaxy_eu.certbot
 nginx_conf_ssl_certificate: /etc/letsencrypt/live/{{ galaxy_host }}/fullchain.pem
 nginx_conf_ssl_certificate_key: /etc/letsencrypt/live/{{ galaxy_host }}/privkey.pem
-
-cvmfs_role: client
-galaxy_cvmfs_repos_enabled: config-repo
 
 custom_telegraf_env: "/usr/bin/env GDPR_MODE=1 GALAXY_ROOT=/srv/galaxy/ GALAXY_CONFIG_FILE=/srv/galaxy/config/galaxy.yml PGDATABASE={{galaxy_database}} PGHOST={{db_host}}"
 custom_telegraf_gxadmin_bin: /usr/local/bin/gxadmin

@@ -4,11 +4,15 @@
     - secret_group_vars/global.vault
     - group_vars/global.yml
     - group_vars/galaxy.yml
+    - group_vars/slurm.yml
   tasks:
     - name: Create users and groups
       include: tasks/users_groups.yml
     - name: Galaxy related tasks
       include: tasks/slurm.yml
+  roles:
+    - role: galaxyproject.cvmfs
+      tags: cvmfs
 
 - hosts: galaxyserver
   become: true
@@ -42,6 +46,7 @@
     - galaxyproject.repos
     - galaxyproject.slurm
     - indigo-dc.nfs
+
   post_tasks:
     - name: Install slurm-drmaa
       package:
@@ -67,8 +72,6 @@
     - geerlingguy.repo-epel
     - galaxyproject.repos
     - galaxyproject.slurm
-    - role: galaxyproject.cvmfs
-      tags: cvmfs
     - geerlingguy.docker
     - indigo-dc.nfs
   post_tasks:

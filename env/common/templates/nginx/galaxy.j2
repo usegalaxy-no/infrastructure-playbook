@@ -34,6 +34,11 @@ server {
 
     }
 
+    location /_x_accel_redirect/ {
+        internal;
+        alias /;
+    }
+
     location @maintenance {
       root /srv/galaxy/server/static/;
       try_files $uri /maintenance.html =503;
@@ -90,6 +95,8 @@ server {
         uwsgi_pass           127.0.0.1:9001;
         uwsgi_param          UWSGI_SCHEME $scheme;
         include              uwsgi_params;
+        auth_basic "Restricted Content";
+        auth_basic_user_file /etc/nginx/.htpasswd-reports;
     }
 
     location /galaxy-terms/ {
