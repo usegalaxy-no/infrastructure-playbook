@@ -21,7 +21,7 @@ galaxy_file_path: /data/part0/
 
 galaxy_config:
   galaxy:
-    brand: "/ NeLS"
+    brand: "Norway"
     admin_users: "{{ galaxy_admin }}"
     master_api: "{{ galaxy_master_api_key }}"
     enable_beta_gdpr: true
@@ -240,23 +240,14 @@ telegraf_plugins_extra:
       - data_format = "influx"
       - interval = "1h"
 
-# This one does not work with gxadmin, and is impossible to fix. Hack for now, but will make better general solution
-  galaxy_monthly_users_active:
+# Not all the gxadmin iqueries work eg: monthly_users_active. monthly_jobs
+  galaxy_misc_stats:
     plugin: "exec"
     config:
-      - commands = ["{{ custom_telegraf_env }} {{ custom_telegraf_gxadmin_bin }} iquery monthly-users-active"]
+      - commands = ["/srv/galaxy-admin/venv/bin/python3 /srv/galaxy-admin/bin/galaxy_stats.py -c /srv/galaxy/config/galaxy.yml stats"]
       - timeout = "15s"
       - data_format = "influx"
-      - interval = "1h"
-
-#does not work with gxadmin
-  galaxy_monthly_jobs:
-    plugin: "exec"
-    config:
-      - commands = ["{{ custom_telegraf_env }} {{ custom_telegraf_gxadmin_bin }} iquery monthly-jobs"]
-      - timeout = "15s"
-      - data_format = "influx"
-      - interval = "1h"
+      - interval = "1m"
 
   galaxy_total_jobs:
     plugin: "exec"
