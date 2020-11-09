@@ -2,7 +2,7 @@ domain: usegalaxy.no
 env: testing
 
 galaxy_commit_id: release_20.05
-galaxy_database: "galaxy-test"
+galaxy_database: "usegalaxy-test"
 
 
 telegraf_urls: ["https://maas-test.bioinfo.no/influx"]
