@@ -21,14 +21,6 @@
       package:
         name: ['python3', 'python-psycopg2']
 
-    - name: Create backup directory
-      file:
-        path: "{{ postgresql_backup_dir }}"
-        state: directory
-        mode: "0700"
-        owner: "postgres"
-        group: "postgres"
-
     - name: Open firewalld ports
       tags: firewall-setup
       become: true
@@ -38,12 +30,13 @@
   tasks:
     - name: Create users and groups
       include: tasks/users_groups.yml
+
     - name: setup rabbitmq certs, vhosts and users
       include: tasks/rabbitmq.yml
       tags:
         - rabbitmq
-    - name: database specific tasks
-      include: tasks/database.yml
+
+
 
   roles:
     - geerlingguy.repo-epel
@@ -51,11 +44,8 @@
     - role: natefoo.postgresql_objects
       become: true
       become_user: postgres
-    - role: geerlingguy.rabbitmq
-      tags:
-        - rabbitmq
-    - geerlingguy.apache
     - geerlingguy.certbot
+    - geerlingguy.apache
     - role: geerlingguy.mysql
       tags:
       - mysql
@@ -65,3 +55,12 @@
     - role: idiv-biodiversity.postfix
       tags:
         - postfix
+
+  post_tasks:
+    - name: Create backup directory
+      file:
+        path: "{{ postgresql_backup_dir }}"
+        state: directory
+        mode: "0700"
+        owner: "postgres"
+        group: "postgres"

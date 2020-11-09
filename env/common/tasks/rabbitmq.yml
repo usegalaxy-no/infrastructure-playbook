@@ -5,6 +5,75 @@
 
   block:
 
+  - name: Add IP address of all hosts to all hosts
+    lineinfile:
+      dest: /etc/hosts
+      regexp: '.*{{ inventory_hostname }}.*$'
+      line: "{{ ansible_default_ipv4['address']}} {{inventory_hostname_short}} {{inventory_hostname}} "
+      state: present
+
+  - name: Add packagecloud erlang GPG key.
+    rpm_key:
+      key: "https://packagecloud.io/rabbitmq/erlang/gpgkey"
+      state: present
+
+  - name: Add packagecloud GPG key.
+    rpm_key:
+      key: "https://packagecloud.io/gpg.key"
+      state: present
+
+  - name: add erlang repo
+    yum_repository:
+          name: rabbitmq_erlang
+          description: erlang for rabbitmq
+          file: rabbitmq_repos
+          baseurl: https://packagecloud.io/rabbitmq/erlang/el/{{ansible_distribution_major_version}}/$basearch
+          gpgcheck: yes
+          gpgkey: https://packagecloud.io/rabbitmq/erlang/gpgkey https://dl.bintray.com/rabbitmq/Keys/rabbitmq-release-signing-key.asc
+          repo_gpgcheck: yes
+
+  - name: add rabbitmq repo
+    yum_repository:
+      name: rabbitmq
+      description: rabbitmq-server repo
+      file: rabbitmq_repos
+      baseurl: https://dl.bintray.com/rabbitmq/rpm/rabbitmq-server/v3.8.x/el/{{ansible_distribution_major_version}}/
+      gpgcheck: yes
+      gpgkey: https://packagecloud.io/rabbitmq/erlang/gpgkey https://dl.bintray.com/rabbitmq/Keys/rabbitmq-release-signing-key.asc
+      repo_gpgcheck: yes
+
+  - name: install rabbitmq-server and friends
+    package:
+      name:
+        - 'rabbitmq-server'
+
+  - name: Copy rabbitmq file
+    template:
+      src: templates/rabbitmq/rabbitmq.j2
+      dest: /etc/rabbitmq/rabbitmq.conf
+    notify:
+      - restart rabbitmq
+#    when: rabbitmq_config.stat.exists == True
+#
+  - name: Copy cert files 
+    copy:
+      src: "/etc/letsencrypt/live/{{ inventory_hostname }}/{{ item }}"
+      dest: /etc/rabbitmq/
+      remote_src: yes
+      owner: rabbitmq
+      group: rabbitmq
+      mode: 0600
+    with_items:
+      - cert.pem
+      - fullchain.pem
+      - privkey.pem
+
+  - name: start rabbitmq
+    systemd:
+      name: rabbitmq-server
+      enabled: true
+      state: started
+
   - name: Remove default guest user
     rabbitmq_user: user=guest state=absent
 
@@ -28,23 +97,3 @@
 #      path: templates/rabbitmq/rabbitmq.j2
 #    register: rabbitmq_config
 
-  - name: Copy rabbitmq file
-    template:
-      src: templates/rabbitmq/rabbitmq.j2
-      dest: /etc/rabbitmq/rabbitmq.conf
-    notify:
-      - restart rabbitmq
-#    when: rabbitmq_config.stat.exists == True
-#
-  - name: Copy cert files 
-    copy:
-      src: "/etc/letsencrypt/live/{{ inventory_hostname }}/{{ item }}"
-      dest: /etc/rabbitmq/
-      remote_src: yes
-      owner: rabbitmq
-      group: rabbitmq
-      mode: 0600
-    with_items:
-      - cert.pem
-      - fullchain.pem
-      - privkey.pem
