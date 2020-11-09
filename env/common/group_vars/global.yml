@@ -65,7 +65,7 @@ galaxy_db_user: "galaxy"
 slurm_host: "{{ groups['slurm'][0] }}"
 slurm_ip: "{{ hostvars[slurm_host].ansible_host }}"
 
-smtp_host: "{{ db_host }}"
+smtp_host: "mail.usegalaxy.no"
 
 # variables generated based on the information above, should only need to edit in extreme cases
 db_connection: "postgresql://{{galaxy_db_user}}:{{galaxy_db_passwd}}@{{db_host}}/{{galaxy_database}}"
