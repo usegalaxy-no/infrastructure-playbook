@@ -18,6 +18,7 @@ miniconda_prefix: "{{ galaxy_tool_dependency_dir }}/_conda"
 miniconda_version: "4.6.14"
 galaxy_instance_codename: "{{ env }}"
 galaxy_file_path: /data/part0/
+__galaxy_dir_perms: '0755'
 
 galaxy_config:
   galaxy:
