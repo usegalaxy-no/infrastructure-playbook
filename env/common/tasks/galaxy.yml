@@ -1,5 +1,4 @@
 ---
-
 - name: Add branding
   tags: branding
   copy:
@@ -7,7 +6,7 @@
     dest: "{{ galaxy_root }}/server/static/"
     owner: root
     group: root
-    mode: '0644'
+    mode: "0644"
 #    force: yes
 
 - name: Add welcome.html (a hack, as uses a template!)
@@ -17,9 +16,8 @@
     dest: "{{ galaxy_root }}/server/static/welcome.html"
     owner: root
     group: root
-    mode: '0644'
+    mode: "0644"
 #    force: yes
-
 
 - name: add client scss
   tags: branding
@@ -28,10 +26,9 @@
     dest: "{{ galaxy_root }}/server/client/galaxy/style/scss/theme/blue.scss"
     owner: root
     group: root
-    mode: '0644'
-#    force: yes
+    mode: "0644"
+  #    force: yes
   register: scss_file
-
 
 - name: add client webhook patch file.
   copy:
@@ -39,25 +36,22 @@
     dest: "{{ galaxy_root }}/server/client/galaxy/scripts/mvc/history/options-menu.js"
     owner: root
     group: root
-    mode: '0644'
-
-
+    mode: "0644"
 
 - name: directory creation for nels_export_history webhook
   file:
     path: "{{ galaxy_root }}/server/config/plugins/webhooks/nels/"
     owner: root
     group: root
-    mode: '0755'
+    mode: "0755"
     state: directory
-
 
 - name: directory creation for nels_export_history webhook
   file:
     path: "{{ galaxy_root }}/server/config/plugins/webhooks/nels/nels_export_history"
     owner: root
     group: root
-    mode: '0755'
+    mode: "0755"
     state: directory
 
 - name: directory creation for nels_import_history webhook
@@ -65,7 +59,7 @@
     path: "{{ galaxy_root }}/server/config/plugins/webhooks/nels/nels_import_history"
     owner: root
     group: root
-    mode: '0755'
+    mode: "0755"
     state: directory
 
 - name: config file for nels history export
@@ -74,7 +68,7 @@
     dest: "{{ galaxy_root }}/server/config/plugins/webhooks/nels/nels_export_history/config.yml"
     owner: root
     group: root
-    mode: '0644'
+    mode: "0644"
 
 - name: Make sure compliance log exists
   file:
@@ -82,6 +76,14 @@
     state: touch
     mode: "0600"
     owner: "{{ galaxy_user.name }}"
+
+- name: Copy invfile.lua file
+  copy:
+    src: files/galaxy/mulled/invfile.lua
+    dest: "{{ galaxy_root }}/server/lib/galaxy/tool_util/deps/mulled/invfile.lua"
+    owner: root
+    group: root
+    mode: "0644"
 
 - name: Make sure pulsar directories exists
   file:
@@ -97,9 +99,9 @@
   file:
     path: "{{ galaxy_log_dir }}"
     state: directory
-    owner: "{{galaxy_user}}"
-    group: "{{galaxy_user}}"
-    mode: '0755'
+    owner: "{{ galaxy_user.name }}"
+    group: "{{ galaxy_user.name }}"
+    mode: "0755"
   when: no
 
 - name: Setup log-rotate
@@ -116,29 +118,29 @@
     line: "export {{ item.var }}={{ item.val }}"
   with_items:
     - var: GDPR_MODE
-      val: '$(openssl rand -hex 24 2>/dev/null)'
+      val: "$(openssl rand -hex 24 2>/dev/null)"
     - var: GALAXY_ROOT
-      val: '{{ galaxy_root }}'
+      val: "{{ galaxy_root }}"
     - var: GALAXY_CONFIG_DIR
-      val: '{{ galaxy_root }}/config'
+      val: "{{ galaxy_root }}/config"
     - var: GALAXY_CONFIG_FILE
-      val: '{{ galaxy_root }}/config/galaxy.yml'
+      val: "{{ galaxy_root }}/config/galaxy.yml"
     - var: GALAXY_LOG_DIR
-      val: '{{ galaxy_log_dir }}'
+      val: "{{ galaxy_log_dir }}"
     - var: PGUSER
-      val: '{{ galaxy_db_user }}'
+      val: "{{ galaxy_db_user }}"
     - var: PGHOST
       val: '{{ groups["database"][0] }}'
     - var: PGDATABASE
-      val: '{{ galaxy_database }}'
+      val: "{{ galaxy_database }}"
     - var: INFLUX_URL
-      val: '{{ telegraf_urls }}'
+      val: "{{ telegraf_urls }}"
     - var: INFLUX_PASS
-      val: '{{ telegraf_password }}'
+      val: "{{ telegraf_password }}"
     - var: INFLUX_USER
-      val: '{{ telegraf_username }}'
+      val: "{{ telegraf_username }}"
     - var: INFLUX_DB
-      val: '{{ telegraf_database }}'
+      val: "{{ telegraf_database }}"
 
 - name: Copy using the 'content' for inline data
   become: true
@@ -147,7 +149,7 @@
     content: |
       {{ groups['database'][0] }}:5432:*:{{ galaxy_db_user }}:{{ galaxy_db_passwd }}
     dest: "~/.pgpass"
-    mode: '0600'
+    mode: "0600"
 
 - name: Copy slurm telegraf plugin
   copy:
@@ -155,7 +157,7 @@
     dest: "{{ custom_telegraf_slurm_collect_bin }}"
     owner: root
     group: root
-    mode: '0755'
+    mode: "0755"
   tags:
     - telegraf
 
@@ -165,7 +167,7 @@
     dest: "{{ custom_telegraf_uwsgi_bin }}"
     owner: root
     group: root
-    mode: '0755'
+    mode: "0755"
   tags:
     - telegraf
 
@@ -201,6 +203,14 @@
     user: "{{ galaxy_user.name }}"
     job: "{{ custom_telegraf_gxadmin_bin}} galaxy cleanup 30"
 
+- name: Add tmpwatch cron job
+  cron:
+    name: "Remove old Galaxy tmp files"
+    minute: "30"
+    hour: "5"
+    user: "{{ galaxy_user.name }}"
+    job: "tmpwatch -m 3d /srv/galaxy/var/tmp"
+
 
 # oidc specific tasks.
 
@@ -211,7 +221,7 @@
     dest: "{{ galaxy_config_dir }}/oidc_config.xml"
     owner: root
     group: root
-    mode: '0644'
+    mode: "0644"
 
 - name: oidc backends config file
   tags: auth
@@ -220,7 +230,7 @@
     dest: "{{ galaxy_config_dir }}/oidc_backends.xml"
     owner: root
     group: root
-    mode: '0644'
+    mode: "0644"
 
 - name: psa_authnz file
   tags: auth
@@ -229,7 +239,7 @@
     dest: "{{ galaxy_server_dir }}/lib/galaxy/authnz/psa_authnz.py"
     owner: root
     group: root
-    mode: '0644'
+    mode: "0644"
 
 - name: NeLS oidc file
   tags: auth
@@ -238,7 +248,7 @@
     dest: "{{ galaxy_venv_dir }}/lib/python3.6/site-packages/social_core/backends/nels.py"
     owner: root
     group: root
-    mode: '0644'
+    mode: "0644"
 
 - name: oidc login page
   tags: auth
@@ -247,7 +257,7 @@
     dest: "{{ galaxy_server_dir }}/client/galaxy/scripts/components/login/"
     owner: root
     group: root
-    mode: '0644'
+    mode: "0644"
 
 - name: rebuild client
   tags:
