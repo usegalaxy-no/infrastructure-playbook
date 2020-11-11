@@ -1,7 +1,7 @@
 # Galaxy
 galaxy_create_user: true
 galaxy_separate_privileges: true
-galaxy_user: {name: galaxy, shell: /bin/bash}
+galaxy_user: { name: galaxy, shell: /bin/bash }
 
 galaxy_manage_paths: true
 galaxy_layout: root-dir
@@ -24,7 +24,7 @@ galaxy_config:
     brand: "NELS Galaxy"
     admin_users: "{{galaxy_admin}}"
     database_connection: "{{db_connection}}"
-#    database_connection: "postgresql:///galaxy?host=/var/run/postgresql"
+    #    database_connection: "postgresql:///galaxy?host=/var/run/postgresql"
     file_path: "{{ galaxy_file_path }}"
     check_migrate_tools: false
     shed_tool_data_dir: "{{ galaxy_mutable_data_dir }}/tool-data"
@@ -65,7 +65,6 @@ galaxy_config_files:
   - src: files/galaxy/config/job_conf.xml
     dest: "{{ galaxy_config['galaxy']['job_config_file'] }}"
 
-
 supervisor_programs:
   - name: galaxy
     state: present
@@ -80,12 +79,7 @@ supervisor_programs:
       directory={{ galaxy_server_dir }}
       environment=DRMAA_LIBRARY_PATH=/usr/lib64/libdrmaa.so,HOME={{ galaxy_mutable_data_dir }},VIRTUAL_ENV={{ galaxy_venv_dir }},PATH={{ galaxy_venv_dir }}/bin:%(ENV_PATH)s
 
-
-cvmfs_role: client
-galaxy_cvmfs_repos_enabled: true
-cvmfs_quota_limit: 6000
-
-# Telegraf 
+# Telegraf
 telegraf_plugins_extra:
   listen_galaxy_routes:
     plugin: "statsd"
