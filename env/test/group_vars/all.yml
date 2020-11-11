@@ -15,13 +15,13 @@ cvmfs_keys:
   - path: "/etc/cvmfs/keys/{{ galaxy_host }}/data.{{ galaxy_host }}.pub"
     key: |
       -----BEGIN PUBLIC KEY-----
-      MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAumGVOoY9O9B9J2A2n82A
-      OhewmxGt4JXOryMc2gIfjyb2K2hIxPxoDtqxaj4QZx4lLge+Y4WyCAiz/5v8m+Ef
-      Pprx+rxrXzuXAi0lfYNL1+1lUUrOPpRvn0fnzMC+2cb52gchVYjZEK0i5N1ctoV3
-      DjUol5rawBtAXZ1z8RF4352idAyt9D5KMZ13X12cxR2Rw8F/dQzL2MkuplvwQKpU
-      zNt0jbIlwbCWovkEKi5kaZIrn9d7yoIMIbabdOH4HtMxUX7wlH9Qlpr23Y1iVe5Y
-      8ZqKZKV/stlhgpGCsolyyg1GDcKL0H7ysk8J03cqIgznmfe+MdWo4oGU6wgvAq+B
-      oQIDAQAB
+      MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0JS5sGPBevbdDDN4/DtZ
+      erdlz/UctgnP66s87KCRkVHmkHXvVncTITXqcgcSmbMqkSlH6sM97XeSEk0soAQl
+      8r1Krafjnr5inr5AZtCLHr23H6x6CcBINeFnsoq/GtgnHQh9PSfMudRqlllCYYll
+      QRNAdmIJO3HZ6luSygqO+KBhxkJTTg6NyyqhX0kBgxvG5bXL7s+tuE6qp6x/qieU
+      jGqqDhVEFjVZRXHEI1URoiIjeTjhTb0p3lJB9PT1DpluBHg0ox8d+trdE51hhrnm
+      Twl3iX5LNt4CgwzkPz94tFOVxYg/lbhfry8UnmLjocfCvEFphPUDCm9y0b86FYxg
+      mQIDAQAB
       -----END PUBLIC KEY-----
 # Job Conf
 # Adding Pulsar hosts: https://pulsar-network.readthedocs.io/en/latest/galaxy.html
