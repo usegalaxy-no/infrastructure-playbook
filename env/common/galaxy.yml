@@ -34,8 +34,11 @@
       include: tasks/firewall.yml ports="['ssh', 'http', 'https']"
 
   tasks:
-    - name: Perform misc tasks
+    - name: Perform misc galaxy tasks
       include: tasks/galaxy.yml
+
+    - name: Perform misc system tasks
+      include: tasks/system.yml
 
   handlers:
     - name: Restart Galaxy
@@ -66,6 +69,8 @@
     - role: usegalaxy-no.nels_storage
       tags:
         - nels
+    - usegalaxy-no.galaxy-tools
+
 
   post_tasks:
     - name: Install slurm-drmaa
