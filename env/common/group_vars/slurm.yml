@@ -97,3 +97,12 @@ cvmfs_server_urls:
     use_geoapi: no
     urls:
       - "http://{{ cvmfs0_host }}/cvmfs/@fqrn@"
+
+telegraf_plugins_extra:
+  services:
+    plugin: "exec"
+    config:
+      - commands = ["/usr/local/bin/systemd_status.py -t fail2ban slurmd autofs"]
+      - timeout = "15s"
+      - data_format = "influx"
+      - interval = "1m"
