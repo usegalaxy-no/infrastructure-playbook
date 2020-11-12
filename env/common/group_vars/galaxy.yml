@@ -48,7 +48,6 @@ galaxy_config:
     smtp_server: "localhost"
     email_from: "galaxy-no-reply@{{ galaxy_host }}"
     error_email_to: admin@usegalaxy.no
-    allow_user_impersonation: true
 
     enable_oidc: true
     oidc_config_file: "{{ galaxy_config_dir }}/oidc_config.xml"
@@ -245,7 +244,7 @@ telegraf_plugins_extra:
   galaxy_misc_stats:
     plugin: "exec"
     config:
-      - commands = ["/srv/galaxy-admin/venv/bin/python3 /srv/galaxy-admin/bin/galaxy_stats.py -c /srv/galaxy/config/galaxy.yml stats"]
+      - commands = ["/srv/galaxy-tools/venv/bin/python3 /srv/galaxy-tools/bin/galaxy_stats.py -c /srv/galaxy/config/galaxy.yml stats"]
       - timeout = "15s"
       - data_format = "influx"
       - interval = "1m"
@@ -338,3 +337,11 @@ telegraf_plugins_extra:
       name: grok
       config:
         - patterns = ["%{COMBINED_LOG_FORMAT}"]
+
+  services:
+    plugin: "exec"
+    config:
+      - commands = ["/usr/local/bin/systemd_status.py -t galaxy nginx fail2ban slurmctld slurmdb autofs"]
+      - timeout = "15s"
+      - data_format = "influx"
+      - interval = "1m"
