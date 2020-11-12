@@ -10,6 +10,7 @@ import subprocess
 import argparse
 import shlex
 import json
+import sys
 import datetime
 
 states = {'active': 1,
@@ -62,8 +63,19 @@ def main():
 
     parser.add_argument('-t', '--telegraf', default=False, action="store_true",    help="telegraf compatible format")
     parser.add_argument('-j', '--json', default=False, action="store_true",    help="telegraf compatible format")
-    parser.add_argument('services', nargs='+', help="service(s) to check")
+    parser.add_argument('services', nargs='*', help="service(s) to check")
+    parser.add_argument('-s', '--states', default=False, action="store_true",    help="list states")
+
     args = parser.parse_args()
+
+    if args.states:
+        print( states.items(), headers = ["code", "status"] )
+        sys.exit()
+
+
+    if len(args.services) == 0:
+        print("No service(s) provided!")
+        sys.exit(1)
 
     statuses = []
 
@@ -75,20 +87,14 @@ def main():
                 line += f",uptime={status['uptime']}"
             print( line )
 
-        elif args.json:
-            statuses.append( status )
-
         else:
-
-            line = f"{service:20s} {status['status_code']}/{status['status']:15}"
-            if 'uptime' in status:
-                line += f" {status['uptime']}s"
-            print( line )
+            statuses.append( status )
 
 
     if args.json:
         print(json.dumps( statuses))
-
+    elif not args.telegraf:
+        print(statuses)
 
 
 
