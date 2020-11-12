@@ -32,6 +32,8 @@
     - name: Create users and groups
       include: tasks/users_groups.yml
       tags: 'users'
+    - name: Misc system tasks
+      include: tasks/system.yml
   roles:
     - role: geerlingguy.repo-epel
     - role: reallyenglish.dhclient
