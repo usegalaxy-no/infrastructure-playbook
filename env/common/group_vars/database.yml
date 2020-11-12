@@ -121,6 +121,15 @@ telegraf_plugins_extra:
   postfix:
     config:
       - queue_directory = "/var/spool/postfix"
+
+  services:
+    plugin: "exec"
+    config:
+      - commands = ["/usr/local/bin/systemd_status.py -t httpd mariadb postgresql-10 fail2ban"]
+      - timeout = "15s"
+      - data_format = "influx"
+      - interval = "1m"
+
   
 
 postfix_relayhost: ""
