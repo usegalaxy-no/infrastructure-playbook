@@ -23,6 +23,7 @@
           - "bzip2"
           - "postgresql"
           - "jq"
+          - "tmpwatch"
 
     - name: Create users and groups
       tags: create_users
