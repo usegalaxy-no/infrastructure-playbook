@@ -319,6 +319,25 @@ function showServerAlerts(url,elementID) { //
     xhr.send(null);
 }
 
+function showVersion() { //
+    var xhr = createXHR();
+    xhr.onreadystatechange=function()
+    {
+        if(xhr.readyState == 4 && xhr.status == 200) {
+            if (typeof xhr.responseText=='undefined' || xhr.responseText=="") return;
+            try {
+               var version=JSON.parse(xhr.responseText).version_major;
+               console.log("version response:", version)
+               document.getElementById('version').innerHTML = "galaxy version: ".concat( version )
+            } catch(err) {console.log(err);}
+        }
+    };
+    xhr.open("GET", '/api/version/' , true);
+    xhr.send(null);
+}
+
+
+
 /**
  * This function adds a dark translucent layer on top of another element, thereby blocking access to it
  */
@@ -704,6 +723,8 @@ function onStartUp() {
     // console.log('poll history transfers');		       
     pollHistoryTransferStatus(); // check status of history transfers when the page is first loaded...
     setInterval(pollHistoryTransferStatus,historyPollingInterval); // ... then continue polling at regular intervals
+    showVersion();
+
 }
 
 window.onload = onStartUp;
@@ -836,6 +857,8 @@ window.onload = onStartUp;
      <div style="padding:14px;flex-grow:1;"><img height="40" src="images/uit-logo-and-name.png"></div>
   </div>
 </footer>
+<div id=version></div>
+
 
 <!-- end of page -->
 
