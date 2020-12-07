@@ -6,11 +6,11 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
     <title>Welcome to Usegalaxy.no</title>
 
-	<!-- --- -->
+	<!-- ---
 
     <link type="text/css" rel="stylesheet" href="https://nels.bioinfo.no/javax.faces.resource/bootstrap-3.3.7.min.css.xhtml?ln=css" />
     <link type="text/css" rel="stylesheet" href="https://nels.bioinfo.no/javax.faces.resource/bootstrap-theme-3.3.7.min.css.xhtml?ln=css" />
-
+    -->
 
     <link type="text/css" rel="stylesheet" href="css/containers.css" />  
     <link type="text/css" rel="stylesheet" href="css/welcome.css" />
@@ -713,17 +713,18 @@ function hideHistoryTransferJob(jobid,jobtype) {
  *  such as Server Alerts and Terms of Service popup
  */
 function onStartUp() {
+    showVersion();
     displayQuota();
     //server_alerts_url="https://galaxy-ntnu.bioinfo.no/nels/api/serveralerts/usegalaxy/active";
-    server_alerts_url="https://usegalaxy.no/static/server_alerts.json";
+    server_alerts_url="/static/server_alerts.json";
     showServerAlerts(server_alerts_url,"server_alerts");
     checkTermsOfServiceAcceptance();
-    getCookie('galaxysession');
+    //getCookie('galaxysession');
     document.getElementById('toggleTransfers').textContent=((filterHidden)?"Show All":"Show Active");
     // console.log('poll history transfers');		       
     pollHistoryTransferStatus(); // check status of history transfers when the page is first loaded...
     setInterval(pollHistoryTransferStatus,historyPollingInterval); // ... then continue polling at regular intervals
-    showVersion();
+
 
 }
 
@@ -743,7 +744,11 @@ window.onload = onStartUp;
   <div class="box-header" id="topheader">
      <a href="https://www.elixir-norway.org" target="_blank"><img src="images/elixir_no_logo.png" style="height:50px;margin-top:0px;border:0;padding-right:16px;vertical-align:middle;"></a>
 
+    {% if env == 'testing' %}
+       Welcome to test.usegalaxy.no
+    {% else %}
        Welcome to usegalaxy.no
+    {% endif %}
 
  </div>
 <!-- end header -->
@@ -848,7 +853,7 @@ window.onload = onStartUp;
 
 </div> <!-- end of: div id="content-container"-->
 
-<footer class="footer>
+<footer class="footer">
   <div class="box-body" id="nodelogos" style="display:flex;flex-wrap:wrap;justify-content:space-around;align-content:strech;margin-top:0px;">
      <div style="padding:14px;flex-grow:1;"><img height="40" src="images/uib-logo-and-name.png"></div>
      <div style="padding:14px;flex-grow:1;"><img height="40" src="images/uio-logo-and-name.png"></div>
@@ -858,6 +863,9 @@ window.onload = onStartUp;
   </div>
 </footer>
 
+<version class="footer">
+  <div id=version class="box-body" style="padding:14px;flex-grow:1;"> </div>
+</version>
 <!-- end of page -->
 
 <!-- Accept Terms of Service popup. This will be hidden unless the user has not yet accepted the ToS --> 
