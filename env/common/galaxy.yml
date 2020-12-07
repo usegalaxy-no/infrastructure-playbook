@@ -5,6 +5,7 @@
   vars_files:
     - secret_group_vars/global.vault
     - group_vars/global.yml
+    - group_vars/env.yml
     - group_vars/galaxy.yml
     - group_vars/pulsar_nmbu_orion.yml
     #- group_vars/slurm.yml
