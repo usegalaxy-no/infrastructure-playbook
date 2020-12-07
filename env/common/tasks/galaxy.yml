@@ -23,7 +23,7 @@
   tags: branding
   copy:
     src: templates/galaxy/client/blue.scss
-    dest: "{{ galaxy_root }}/server/client/galaxy/style/scss/theme/blue.scss"
+    dest: "{{ galaxy_root }}/server/client/src/style/scss/theme/blue.scss"
     owner: root
     group: root
     mode: "0644"
@@ -33,7 +33,7 @@
 - name: add client webhook patch file.
   copy:
     src: files/galaxy/client/options-menu.js
-    dest: "{{ galaxy_root }}/server/client/galaxy/scripts/mvc/history/options-menu.js"
+    dest: "{{ galaxy_root }}/server/client/src/mvc/history/options-menu.js"
     owner: root
     group: root
     mode: "0644"
@@ -66,6 +66,14 @@
   template:
     src: templates/galaxy/webhooks/nels_export_history_config.yml.j2
     dest: "{{ galaxy_root }}/server/config/plugins/webhooks/nels/nels_export_history/config.yml"
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: config file for nels history export
+  template:
+    src: templates/galaxy/webhooks/nels_import_history_config.yml.j2
+    dest: "{{ galaxy_root }}/server/config/plugins/webhooks/nels/nels_import_history/config.yml"
     owner: root
     group: root
     mode: "0644"
@@ -254,7 +262,7 @@
   tags: auth
   copy:
     src: templates/galaxy/auth/Login.vue
-    dest: "{{ galaxy_server_dir }}/client/galaxy/scripts/components/login/"
+    dest: "{{ galaxy_server_dir }}/client/src/components/login/"
     owner: root
     group: root
     mode: "0644"
