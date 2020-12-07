@@ -6,6 +6,7 @@
   vars_files:
     - secret_group_vars/global.vault
     - group_vars/global.yml
+    - group_vars/env.yml
     - group_vars/telegraf.yml
     - group_vars/database.yml
     - group_vars/certbot.yml
