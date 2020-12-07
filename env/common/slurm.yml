@@ -3,6 +3,7 @@
   vars_files:
     - secret_group_vars/global.vault
     - group_vars/global.yml
+    - group_vars/env.yml
     - group_vars/galaxy.yml
     - group_vars/slurm.yml
   tasks:
@@ -19,6 +20,7 @@
   vars_files:
     - secret_group_vars/global.vault
     - group_vars/global.yml
+    - group_vars/env.yml
     - group_vars/slurm.yml
     - group_vars/galaxy.yml
   vars:
@@ -36,6 +38,14 @@
       with_items:
         - "{{ galaxy_file_path }}"
         - "{{ galaxy_root }}"
+
+    - name: make dir for slurm (should not be needed!)
+      file:
+        path: /etc/slurm/
+        state: directory
+        mode: "0755"
+        owner: root
+        group: root
 
     - name: Open firewalld ports
       tags: firewall-setup
