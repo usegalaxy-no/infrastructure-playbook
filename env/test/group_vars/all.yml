@@ -4,6 +4,7 @@ env: testing
 galaxy_commit_id: release_20.09
 galaxy_database: "usegalaxy-test"
 
+job_working_directory: "/data/part0/tmp/jobs"
 
 telegraf_urls: ["https://nels.bioinfo.no/maas-api/"]
 
