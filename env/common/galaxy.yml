@@ -5,10 +5,12 @@
   vars_files:
     - secret_group_vars/global.vault
     - group_vars/global.yml
+    - group_vars/env.yml
     - group_vars/galaxy.yml
     - group_vars/pulsar_nmbu_orion.yml
     #- group_vars/slurm.yml
     - group_vars/telegraf.yml
+#    - group_vars/nga.yml
 
   pre_tasks:
     - name: Install Dependencies
@@ -61,7 +63,7 @@
     - galaxyproject.nginx
     - galaxyproject.cvmfs
     - galaxyproject.repos
-    #- galaxyproject.slurm
+    - galaxyproject.slurm
     - role: dj-wasabi.telegraf
       tags:
         - telegraf
@@ -70,8 +72,8 @@
     - role: usegalaxy-no.nels_storage
       tags:
         - nels
-    - usegalaxy-no.galaxy-tools
-
+#    - usegalaxy-no.galaxy-tools
+#    - usegalaxy-no.nels-galaxy-api
 
   post_tasks:
     - name: Install slurm-drmaa

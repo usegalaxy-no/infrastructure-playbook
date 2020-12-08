@@ -1,0 +1,11 @@
+nga_master_galaxy_url: "https://{{galaxy_host}}/"
+nga_master_url: "https://{{galaxy_host}}/nga/"
+
+
+nga_rabbitmq_username: nels_galaxy
+nga_rabbitmq_vhost: nels_galaxy
+rabbitmq_proxy: "{{ groups['database'][0] }}"
+
+nga_rabbitmq: "amqps://{{nga_rabbitmq_username}}:{{rabbitmq_password_nga}}@{{ rabbitmq_proxy }}/{{nga_rabbitmq_vhost}}"
+
+nga_master_id: 18af382c5c

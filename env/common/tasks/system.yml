@@ -1,0 +1,17 @@
+- name: systemd status script
+  copy:
+    src: files/bin/systemd_status.py
+    dest: /usr/local/bin/systemd_status.py
+    mode: 0755
+    owner: root
+    group: root
+    backup: yes
+
+- name: httpd status script
+  copy:
+    src: files/bin/http_status.py
+    dest: /usr/local/bin/http_status.py
+    mode: 0755
+    owner: root
+    group: root
+    backup: yes
