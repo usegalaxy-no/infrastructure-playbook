@@ -28,6 +28,7 @@ server {
         uwsgi_param UWSGI_SCHEME $scheme;
         include uwsgi_params;
 
+        error_page 504 =200 @maintenance;
         error_page 502 =200 @maintenance;
         error_page 401 =200 @noaccess;
         error_page 404 =200 @notfound;
