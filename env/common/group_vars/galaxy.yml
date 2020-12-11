@@ -50,6 +50,7 @@ galaxy_config:
     smtp_server: "localhost"
     email_from: "galaxy-no-reply@{{ galaxy_host }}"
     error_email_to: admin@usegalaxy.no
+    upload_from_form_button: always-on
 
     enable_oidc: true
     oidc_config_file: "{{ galaxy_config_dir }}/oidc_config.xml"
@@ -126,7 +127,6 @@ galaxy_config_files:
     dest: "{{ galaxy_config_dir }}/tool_sheds_conf.xml"
 
 galaxy_tool_config_files:
-  - "{{ galaxy_server_dir }}/config/nels_tool_conf.xml"
   - "{{ galaxy_config_dir }}/tool_conf.xml"
   - "{{ galaxy_config_dir }}/tool_conf_interactive.xml"
 
