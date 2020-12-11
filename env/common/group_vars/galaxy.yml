@@ -343,7 +343,7 @@ telegraf_plugins_extra:
   services:
     plugin: "exec"
     config:
-      - commands = ["/usr/local/bin/systemd_status.py -t galaxy nginx fail2ban slurmctld slurmdb autofs"]
+      - commands = ["/usr/local/bin/systemd_status.py -t galaxy nginx fail2ban slurmctld slurmdbd autofs"]
       - timeout = "15s"
       - data_format = "influx"
       - interval = "1m"
