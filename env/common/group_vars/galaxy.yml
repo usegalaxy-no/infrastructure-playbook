@@ -49,7 +49,7 @@ galaxy_config:
     allow_user_impersonation: true
     smtp_server: "localhost"
     email_from: "galaxy-no-reply@{{ galaxy_host }}"
-    error_email_to: admin@usegalaxy.no
+    error_email_to: usegalaxy@usegalaxy.no
     upload_from_form_button: always-on
 
     enable_oidc: true
