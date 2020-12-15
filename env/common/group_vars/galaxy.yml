@@ -347,3 +347,13 @@ telegraf_plugins_extra:
       - timeout = "15s"
       - data_format = "influx"
       - interval = "1m"
+
+  services:
+    plugin: "exec"
+    config:
+      - commands = ["/usr/local/bin/dir_status.py /srv/galaxy/server/dependencies /srv/galaxy/server/tool-data /srv/galaxy /srv/galaxy/var/config/sanitize_whitelist.txt "]
+      - timeout = "15s"
+      - data_format = "influx"
+      - interval = "1m"
+
+

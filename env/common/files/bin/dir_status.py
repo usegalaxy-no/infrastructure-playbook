@@ -23,6 +23,8 @@ def main():
             #print(f"dir_permission,dir={dir} ")
             continue
         else:
+            dir = dir.strip("/")
+
             st = os.stat(dir)
             u,g,o = oct(st.st_mode)[-3:]
             perm = oct(st.st_mode)[-4:]
