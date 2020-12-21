@@ -49,7 +49,7 @@ galaxy_config:
     allow_user_impersonation: true
     smtp_server: "localhost"
     email_from: "galaxy-no-reply@{{ galaxy_host }}"
-    error_email_to: admin@usegalaxy.no
+    error_email_to: usegalaxy@usegalaxy.no
     upload_from_form_button: always-on
 
     enable_oidc: true
@@ -348,3 +348,13 @@ telegraf_plugins_extra:
       - timeout = "15s"
       - data_format = "influx"
       - interval = "1m"
+
+  services:
+    plugin: "exec"
+    config:
+      - commands = ["/usr/local/bin/dir_status.py /srv/galaxy/server/dependencies /srv/galaxy/server/tool-data /srv/galaxy /srv/galaxy/var/config/sanitize_whitelist.txt "]
+      - timeout = "15s"
+      - data_format = "influx"
+      - interval = "1m"
+
+

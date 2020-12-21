@@ -15,3 +15,12 @@
     owner: root
     group: root
     backup: yes
+
+- name: dir/file status script
+  copy:
+    src: files/bin/dir_status.py
+    dest: /usr/local/bin/dir_status.py
+    mode: 0755
+    owner: root
+    group: root
+    backup: yes
