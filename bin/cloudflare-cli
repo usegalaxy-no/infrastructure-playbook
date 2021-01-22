@@ -28,25 +28,28 @@ def list_records( args ):
     zone = zones[0]
     zone_id = zone['id']
 
-    # request the DNS records from that zone
-    try:
-        dns_records = cf.zones.dns_records.get(zone_id)
-    except CloudFlare.exceptions.CloudFlareAPIError as e:
-        exit('/zones/dns_records.get %d %s - api call failed' % (e, e))
-
-    # print the results - first the zone name
-    print( f"Domain: {zone_id}\t{zone_name}\tZone")
-
-    # then all the DNS records for that zone
+    page = 1
     table = []
-    for dns_record in dns_records:
-        r_name = dns_record['name']
-        r_type = dns_record['type']
-        r_value = dns_record['content']
-        r_id = dns_record['id']
+    while True:
+        # request the DNS records from that zone
+        try:
+            dns_records = cf.zones.dns_records.get(zone_id, params={'page':page, 'page_size':20})
+        except CloudFlare.exceptions.CloudFlareAPIError as e:
+            exit('/zones/dns_records.get %d %s - api call failed' % (e, e))
 
-        table.append([ r_id, r_name, r_value, r_type])
-        
+        if dns_records == [] or dns_records is None:
+            break
+
+        for dns_record in dns_records:
+            r_name = dns_record['name']
+            r_type = dns_record['type']
+            r_value = dns_record['content']
+            r_id = dns_record['id']
+
+            table.append([ r_id, r_name, r_value, r_type])
+
+        page += 1
+    print( f"Domain: {zone_name} ID:{zone_id}")
     print( tabulate(table, ['id', 'name','value', 'type'], tablefmt="psql"))
 
 
@@ -76,9 +79,6 @@ def add_record( args ) -> None:
 
 
     zone_name = DEFAULT_ZONE
-
-    
-
     
     if len( args.command) == 4 :
         r_type, r_name, r_value, r_ttl  = args.command
@@ -88,8 +88,14 @@ def add_record( args ) -> None:
     
     zone_info = cf.zones.get(params={'name': zone_name})[0]
     zone_id = zone_info['id']
-    
-    r = cf.zones.dns_records.post(zone_id, data={"type":r_type,"name":r_name,"content":r_value,"ttl":120})
+    data = {"type":r_type,"name":r_name,"content":r_value,"ttl":120}
+    if r_type == "MX":
+        data["priority"] = 10
+    try:
+
+        r = cf.zones.dns_records.post(zone_id, data=data)
+    except Exception as e:
+        print(e)
     exit(0)
     
 
