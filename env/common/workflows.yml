@@ -3,6 +3,7 @@
   connection: local
   vars_files:
     - group_vars/global.yml
+    - group_vars/env.yml
     - secret_group_vars/global.vault
   vars:
     workflowdir: "files/galaxy/workflows"
