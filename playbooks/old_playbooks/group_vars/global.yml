@@ -1,6 +1,0 @@
-admin_user: kim.brugger@uib.no
-admin_password: drengen04
-
-galaxy_root: /opt/galaxy_dist
-galaxy_server_dir: "{{ galaxy_root }}/server"
-

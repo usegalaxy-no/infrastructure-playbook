@@ -1,6 +1,0 @@
-apache_listen_ip: "*"
-apache_listen_port: 80
-apache_listen_port_ssl: 443
-apache_vhosts_filename: "galaxy.conf"
-apache_vhosts_template: "templates/apache/galaxy.conf.j2"
-apache_remove_default_vhost: true
