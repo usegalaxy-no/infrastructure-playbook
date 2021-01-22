@@ -4,6 +4,7 @@
   vars_files:
     - secret_group_vars/global.vault
     - group_vars/global.yml
+    - group_vars/env.yml
     - group_vars/telegraf.yml
   pre_tasks:
     - name: SELinux
