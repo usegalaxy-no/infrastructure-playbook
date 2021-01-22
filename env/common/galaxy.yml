@@ -8,7 +8,6 @@
     - group_vars/env.yml
     - group_vars/galaxy.yml
     - group_vars/pulsar_nmbu_orion.yml
-    #- group_vars/slurm.yml
     - group_vars/telegraf.yml
 #    - group_vars/nga.yml
 
@@ -63,7 +62,6 @@
     - galaxyproject.nginx
     - galaxyproject.cvmfs
     - galaxyproject.repos
-    - galaxyproject.slurm
     - role: dj-wasabi.telegraf
       tags:
         - telegraf
