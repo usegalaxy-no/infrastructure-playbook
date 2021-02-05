@@ -45,9 +45,11 @@ postgresql_pg_hba_conf:
   - host "{{galaxy_database}}" telegraf  127.0.0.1/32 md5
   - host "{{galaxy_database}}" telegraf "{{ galaxy_ip }}/32" trust
   - host "{{galaxy_database}}" telegraf  "{{ db_ip }}/32" md5
-postgresql_backup_dir: /backup
-postgresql_backup_hour: 03
-postgresql_backup_minute: 13
+ 
+# Backup (PITR) of Postgresql:
+#postgresql_backup_dir: /backup
+#postgresql_backup_hour: 03
+#postgresql_backup_minute: 13
 
 
 # MySQL (for Slurm)
