@@ -8,8 +8,8 @@
     - group_vars/global.yml
     - group_vars/env.yml
     - group_vars/telegraf.yml
+#    - group_vars/certbot.yml
     - group_vars/database.yml
-    - group_vars/certbot.yml
     - group_vars/rabbitmq.yml
     - group_vars/rabbitmq_proxy.yml
 
@@ -45,7 +45,9 @@
     - role: natefoo.postgresql_objects
       become: true
       become_user: postgres
-    - geerlingguy.certbot
+    - role: geerlingguy.certbot
+      tags:
+        - certbot
     - geerlingguy.apache
     - role: geerlingguy.mysql
       tags:
