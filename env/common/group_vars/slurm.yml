@@ -67,9 +67,11 @@ slurm_node_ips: "{{ groups['slurm'] | map('extract', hostvars, ['ansible_eth0', 
 # Will need to extend this when/if new drives come online
 nfs_exports:
   - path: "/srv/galaxy"
-    export: "{{ slurm_node_ips }}(rw,async,no_root_squash)"
+#    export: "{{ slurm_node_ips }}(rw,async,no_root_squash)"
+    export: "{{ groups['slurm'] | map('extract', hostvars, ['ansible_eth0', 'ipv4', 'address']) | join('(rw,async,no_root_squash) ') }}"
   - path: "/data/part0"
-    export: "{{ slurm_node_ips }}(rw,sync,no_root_squash)"
+#    export: "{{ slurm_node_ips }}(rw,sync,no_root_squash)"
+    export: "{{ groups['slurm'] | map('extract', hostvars, ['ansible_eth0', 'ipv4', 'address']) | join('(rw,sync,no_root_squash) ') }}"
 
 nfs_client_imports:
   - local: "/srv/galaxy"
