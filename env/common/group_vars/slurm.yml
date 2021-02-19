@@ -40,19 +40,23 @@ slurmdbd_config:
   StoragePass: "{{ mysql_slurm_password }}"
   StorageUser: "{{ mysql_slurm_username }}"
   StorageLoc: slurm_acct_db
-slurm_nodes:
-  - name: "{{ galaxy_host }}"
-    CoresPerSocket: "{{ hostvars[galaxy_host].ansible_processor_cores }}"
-    Sockets: "{{ hostvars[galaxy_host].ansible_processor_count }}"
-    ThreadsPerCore: "{{ hostvars[galaxy_host].ansible_processor_threads_per_core }}"
-    CPUs: "{{ hostvars[galaxy_host].ansible_processor_vcpus }}"
-    RealMemory: "{{ hostvars[galaxy_host].ansible_memtotal_mb }}"
+
+slurm_nodes_old:
   - name: "{{ slurm_host }}"
     CoresPerSocket: "{{ hostvars[slurm_host].ansible_processor_cores }}"
     Sockets: "{{ hostvars[slurm_host].ansible_processor_count }}"
     ThreadsPerCore: "{{ hostvars[slurm_host].ansible_processor_threads_per_core }}"
     CPUs: "{{ hostvars[slurm_host].ansible_processor_vcpus }}"
     RealMemory: "{{ hostvars[slurm_host].ansible_memtotal_mb }}"
+
+slurm_nodes:
+  - name: "{{ slurm_host }}"
+    CoresPerSocket: "{{ hostvars[slurm_host].ansible_processor_cores }}"
+    Sockets: "{{ hostvars[slurm_host].ansible_processor_count }}"
+    ThreadsPerCore: "{{ hostvars[slurm_host].ansible_processor_threads_per_core }}"
+    CPUs: "{{ hostvars[slurm_host].ansible_processor_vcpus }}"
+    RealMemory: "{{ hostvars[slurm_host].ansible_memtotal_mb }}"
+
 slurm_partitions:
   - name: "usegalaxy_{{ env }}"
     Default: YES
