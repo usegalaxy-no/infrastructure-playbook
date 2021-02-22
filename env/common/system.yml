@@ -1,5 +1,5 @@
 # first time: -e "ansible_user=centos"
-- hosts: ehos_servers #, galaxyserver, database, slurm
+- hosts: all #slurm  galaxyserver, database, slurm
   become: true
   vars_files:
     - secret_group_vars/global.vault
