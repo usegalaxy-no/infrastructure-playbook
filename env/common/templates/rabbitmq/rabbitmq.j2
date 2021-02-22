@@ -1,8 +1,14 @@
 listeners.ssl.default = 5671
 
-ssl_options.cacertfile = /etc/rabbitmq/fullchain.pem
-ssl_options.certfile   = /etc/rabbitmq/cert.pem
-ssl_options.keyfile    = /etc/rabbitmq/privkey.pem
+#ssl_options.cacertfile = /etc/rabbitmq/fullchain.pem
+#ssl_options.certfile   = /etc/rabbitmq/cert.pem
+#ssl_options.keyfile    = /etc/rabbitmq/privkey.pem
+
+ssl_options.cacertfile = /etc/letsencrypt/live/{{ inventory_hostname }}/fullchain.pem
+ssl_options.certfile   = /etc/letsencrypt/live/{{ inventory_hostname }}/cert.pem
+ssl_options.keyfile    = /etc/letsencrypt/live/{{ inventory_hostname }}/privkey.pem
+
+
 ssl_options.verify     = verify_peer
 ssl_options.fail_if_no_peer_cert = false
 ssl_options.versions.1 = tlsv1.2
