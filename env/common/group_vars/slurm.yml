@@ -53,7 +53,7 @@ slurm_partitions:
   - name: "usegalaxy_{{ env }}"
     Default: YES
     MaxTime: UNLIMITED
-    Nodes: "{{ slurm_host }}"
+    Nodes: "{{ groups[ 'slurm' ] | join(',') }}"
 
 slurm_munge_key: files/munge/munge.key
 

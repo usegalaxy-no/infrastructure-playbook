@@ -12,4 +12,37 @@
     name: "{{ item.name }}"
     key: "{{ item.key }}" # some key gibberish
     state: present
-  with_items: " {{ ssh_known_hosts }}"
+  with_items: "{{ ssh_known_hosts|default([]) }}"
+
+- name: set hostname
+  hostname:
+    name: "{{inventory_hostname}}"
+
+
+# Dont like this, but works for now
+#- name: create dynamic slurm node list (debug)
+#  debug:
+#    msg: "{{ item }}"
+#    msg: "{{ hostvars[ item ].ansible_processor_cores }}"
+#    msg: "{{ hostvars[ item ].ansible_processor_count }}"
+#    msg: "{{ hostvars[ item ].ansible_processor_threads_per_core }}"
+#    msg: "{{ hostvars[ item ].ansible_processor_vcpus }}"
+#    msg: "{{ hostvars[ item ].ansible_memtotal_mb }}"
+#  with_items: "{{ groups['slurm'] }}"
+
+
+# Dont like this, but works for now
+- name: create dynamic slurm node list
+  set_fact:
+    slurm_nodes: "{{ slurm_nodes|default([]) + [ {'name': item,
+                                                  'CoresPerSocket': hostvars[ item ].ansible_processor_cores,
+                                                  'Sockets': hostvars[ item ].ansible_processor_count,
+                                                  'ThreadsPerCore':  hostvars[ item ].ansible_processor_threads_per_core,
+                                                  'CPUs': hostvars[ item ].ansible_processor_vcpus,
+                                                  'RealMemory': hostvars[ item ].ansible_memtotal_mb} ] }}"
+
+  with_items: "{{ groups['slurm'] }}"
+
+# Hostname: item, ip addr: hostvars[item]['ansible_host']
+
+
