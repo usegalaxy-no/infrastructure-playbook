@@ -53,20 +53,12 @@
       dest: /etc/rabbitmq/rabbitmq.conf
     notify:
       - restart rabbitmq
-#    when: rabbitmq_config.stat.exists == True
-#
-  - name: Copy cert files 
-    copy:
-      src: "/etc/letsencrypt/live/{{ inventory_hostname }}/{{ item }}"
-      dest: /etc/rabbitmq/
-      remote_src: yes
-      owner: rabbitmq
-      group: rabbitmq
-      mode: 0600
-    with_items:
-      - cert.pem
-      - fullchain.pem
-      - privkey.pem
+
+  - name: allow rabbitmq access to lets encrypt certs 1/2
+    shell: setfacl -m u:rabbitmq:rX /etc/letsencrypt/{live,archive}/
+
+  - name: allow rabbitmq access to lets encrypt certs 2/2
+    shell: "setfacl -R -m u:rabbitmq:rX /etc/letsencrypt/{live,archive}/{{ inventory_hostname }}/"
 
   - name: start rabbitmq
     systemd:
@@ -96,4 +88,5 @@
 #    stat:
 #      path: templates/rabbitmq/rabbitmq.j2
 #    register: rabbitmq_config
+
 
