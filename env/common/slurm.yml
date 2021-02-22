@@ -1,19 +1,6 @@
+# this is needed otherwise not all information will be available for creating the slurm config for the controller.
 - hosts: galaxyserver, slurm
-  become: true
-  vars_files:
-    - secret_group_vars/global.vault
-    - group_vars/global.yml
-    - group_vars/env.yml
-    - group_vars/galaxy.yml
-    - group_vars/slurm.yml
-  tasks:
-    - name: Create users and groups
-      include: tasks/users_groups.yml
-    - name: Galaxy related tasks
-      include: tasks/slurm.yml
-  roles:
-    - role: galaxyproject.cvmfs
-      tags: cvmfs
+  gather_facts: yes
 
 - hosts: galaxyserver
   become: true
@@ -21,12 +8,15 @@
     - secret_group_vars/global.vault
     - group_vars/global.yml
     - group_vars/env.yml
-    - group_vars/slurm.yml
     - group_vars/galaxy.yml
+    - group_vars/slurm.yml
   vars:
     slurm_roles: ["controller", "dbd"]
     nfs_mode: server
   pre_tasks:
+    - name: Create users and groups
+      include: tasks/users_groups.yml
+
     - name: Add galaxy paths for nfs export
       become: true
       file:
@@ -52,6 +42,11 @@
       become: true
       include: tasks/firewall.yml ports="['ssh']"
 
+    - name: Slurm related tasks
+      include: tasks/slurm.yml
+
+  tasks:
+
   roles:
     - galaxyproject.repos
     - galaxyproject.slurm
@@ -64,8 +59,12 @@
 
 - hosts: slurm
   become: true
+  tags:
+    - testing
   vars_files:
     - group_vars/global.yml
+    - secret_group_vars/global.vault
+    - group_vars/env.yml
     - group_vars/slurm.yml
     - group_vars/galaxy.yml
   vars:
@@ -73,10 +72,15 @@
     nfs_mode: client
 
   pre_tasks:
+    - name: Create users and groups
+      include: tasks/users_groups.yml
+    - name: Slurm related tasks
+      include: tasks/slurm.yml
     - name: Open firewalld ports
       tags: firewall-setup
       become: true
       include: tasks/firewall.yml ports="['ssh']"
+
 
   roles:
     - geerlingguy.repo-epel
@@ -84,6 +88,7 @@
     - galaxyproject.slurm
     - geerlingguy.docker
     - indigo-dc.nfs
+    - galaxyproject.cvmfs
   post_tasks:
     - name: Install packages
       package:
@@ -94,3 +99,5 @@
           - "python36-virtualenv"
           - "bzip2"
           - "singularity"
+
+
