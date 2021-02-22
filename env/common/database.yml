@@ -58,12 +58,3 @@
     - role: idiv-biodiversity.postfix
       tags:
         - postfix
-
-  post_tasks:
-    - name: Create backup directory
-      file:
-        path: "{{ postgresql_backup_dir }}"
-        state: directory
-        mode: "0700"
-        owner: "postgres"
-        group: "postgres"

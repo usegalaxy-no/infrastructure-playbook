@@ -174,7 +174,7 @@ Webhooks.load({
 
         if (webhooks_menu.length > 0) {
             webhooks_menu.unshift({
-                html: _l("Nels storage"),
+                html: _l("NeLS storage"),
                 header: true
             });
             $.merge(menu, webhooks_menu);
