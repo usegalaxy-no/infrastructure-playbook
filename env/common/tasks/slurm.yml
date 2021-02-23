@@ -39,6 +39,7 @@
                                                   'Sockets': hostvars[ item ].ansible_processor_count,
                                                   'ThreadsPerCore':  hostvars[ item ].ansible_processor_threads_per_core,
                                                   'CPUs': hostvars[ item ].ansible_processor_vcpus,
+                                                  'NodeAddr': hostvars[ item ].ansible_host,
                                                   'RealMemory': hostvars[ item ].ansible_memtotal_mb} ] }}"
 
   with_items: "{{ groups['slurm'] }}"
