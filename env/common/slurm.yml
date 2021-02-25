@@ -57,6 +57,22 @@
       package:
         name: slurm-drmaa
 
+    - name: galaxy dependencies dir (?)
+      file:
+        path: "{{ galaxy_root }}/server/dependencies"
+        state: directory
+        mode: "0644"
+        owner: "{{ galaxy_user.name }}"
+
+    - name: galaxy root is readable for nginx
+      file:
+        path: "{{ galaxy_root }}"
+        state: directory
+        mode: "0755"
+        owner: "{{ galaxy_user.name }}"
+        group: "{{ galaxy_user.name }}"
+     
+
 - hosts: slurm
   become: true
   tags:
