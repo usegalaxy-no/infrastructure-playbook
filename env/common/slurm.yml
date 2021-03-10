@@ -64,6 +64,14 @@
         mode: "0644"
         owner: "{{ galaxy_user.name }}"
 
+    - name: slurmdbd permissions
+      file:
+        path: /etc/slurm/slurmdbd.conf
+        mode: "0600"
+        owner: slurm
+        group: root
+
+
     - name: galaxy root is readable for nginx
       file:
         path: "{{ galaxy_root }}"
@@ -75,8 +83,6 @@
 
 - hosts: slurm
   become: true
-  tags:
-    - testing
   vars_files:
     - group_vars/global.yml
     - secret_group_vars/global.vault
@@ -84,7 +90,6 @@
     - group_vars/slurm.yml
     - group_vars/galaxy.yml
   vars:
-    slurm_roles: ["exec"]
     nfs_mode: client
 
   pre_tasks:
@@ -99,21 +104,36 @@
 
 
   roles:
-    - geerlingguy.repo-epel
+    - role: geerlingguy.repo-epel
     - galaxyproject.repos
-    - galaxyproject.slurm
     - geerlingguy.docker
     - indigo-dc.nfs
     - galaxyproject.cvmfs
-  post_tasks:
+
+
+  tasks:
+
     - name: Install packages
       package:
         name:
-          - "slurm-drmaa"
           - "python3"
           - "git"
           - "python36-virtualenv"
           - "bzip2"
           - "singularity"
 
+- hosts: slurm
+  become: true
+  tags:
+    - testing
+  vars_files:
+    - group_vars/global.yml
+    - secret_group_vars/global.vault
+    - group_vars/env.yml
+    - group_vars/slurm.yml
+    - group_vars/galaxy.yml
+  vars:
+    slurm_roles: ["exec"]
 
+  roles:
+    - galaxyproject.slurm
