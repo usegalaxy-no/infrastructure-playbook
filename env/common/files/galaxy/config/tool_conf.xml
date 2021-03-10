@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <toolbox monitor="true">
   <section id="getext" name="Get Data">
+    <tool file="/srv/galaxy/server/tools/data_source/nels_importer.xml" />
     <tool file="data_source/upload.xml" />
     <tool file="data_source/ucsc_tablebrowser.xml" />
     <!-- <tool file="data_source/ucsc_tablebrowser_test.xml" /> -->
@@ -22,6 +23,8 @@
     <tool file="data_source/hbvar.xml" />
   </section>
   <section id="send" name="Send Data">
+    <tool file="/srv/galaxy/server/tools/data_destination/nels_exporter.xml" />
+    <tool file="/srv/galaxy/server/tools/data_destination/nels_exporter_hidden.xml" />
     <tool file="cloud/send.xml" />
   </section>
   <section id="collection_operations" name="Collection Operations">
@@ -42,9 +45,7 @@
   <section id="expression_tools" name="Expression Tools">
     <tool file="expression_tools/parse_values_from_file.xml"/>
   </section>
-  <section id="liftOver" name="Lift-Over">
-    <tool file="extract/liftOver_wrapper.xml" />
-  </section>
+  <label id="general_text_label" text="General Text Tools" />
   <section id="textutil" name="Text Manipulation">
     <tool file="filters/fixedValueColumn.xml" />
     <tool file="filters/catWrapper.xml" />
@@ -63,17 +64,7 @@
     <tool file="filters/wc_gnu.xml" />
     <tool file="filters/secure_hash_message_digest.xml" />
   </section>
-  <section id="convert" name="Convert Formats">
-    <tool file="filters/bed2gff.xml" />
-    <tool file="filters/gff2bed.xml" />
-    <tool file="maf/maf_to_bed.xml" />
-    <tool file="maf/maf_to_interval.xml" />
-    <tool file="maf/maf_to_fasta.xml" />
-    <tool file="filters/sff_extractor.xml" />
-    <tool file="filters/wig_to_bigwig.xml" />
-    <tool file="filters/bed_to_bigbed.xml" />
-  </section>
-  <section id="filter" name="Filter and Sort">
+  <section id="filter_and_sort" name="Filter and Sort">
     <tool file="stats/filtering.xml" />
     <tool file="filters/sorter.xml" />
     <tool file="filters/grep.xml" />
@@ -87,6 +78,42 @@
     <tool file="filters/joiner.xml" />
     <tool file="filters/compare.xml" />
     <tool file="stats/grouping.xml" />
+  </section>
+  <label id="genomic_manip_label" text="Genomic File Manipulation" />
+  <section id="convert" name="Convert Formats">
+    <tool file="filters/bed2gff.xml" />
+    <tool file="filters/gff2bed.xml" />
+    <tool file="maf/maf_to_bed.xml" />
+    <tool file="maf/maf_to_interval.xml" />
+    <tool file="maf/maf_to_fasta.xml" />
+    <tool file="filters/sff_extractor.xml" />
+    <tool file="filters/wig_to_bigwig.xml" />
+    <tool file="filters/bed_to_bigbed.xml" />
+    <tool file="extract/liftOver_wrapper.xml" />
+  </section>
+  <section id="fasta_fastq" name="FASTA/FASTQ" version="">
+  </section>
+  <section id="fastq_quality_control" name="FASTQ Quality Control" version="">
+  </section>
+  <section id="quality_control" name="Quality Control" version="">
+  </section>
+  <section id="sam_bam" name="SAM/BAM" version="">
+    <label id="bamtools_label" text="bamtools" />
+    <label id="samtools_label" text="samtools" />
+  </section>
+  <section id="bed" name="BED" version="">
+  </section>
+  <section id="vcf_bcf" name="VCF/BCF" version="">
+    <label id="vcflib_label" text="vcflib" />
+  </section>
+  <section id="nanopore" name="Nanopore" version="">
+    <label id="nanopore_label" text="poretools" />
+  </section>
+  <label id="genomics_label" text="Common Genomics Tools" />
+  <section id="bxops" name="Operate on Genomic Intervals" version="">
+    <tool file="filters/wiggle_to_simple.xml" />
+    <tool file="stats/aggregate_binned_scores_in_intervals.xml" />
+    <tool file="filters/ucsc_gene_bed_to_exon_bed.xml" />
   </section>
   <section id="fetchAlignSeq" name="Fetch Alignments/Sequences">
     <tool file="maf/interval2maf_pairwise.xml" />
@@ -102,36 +129,208 @@
     <tool file="maf/maf_reverse_complement.xml" />
     <tool file="maf/maf_filter.xml" />
   </section>
-  <section id="bxops" name="Operate on Genomic Intervals" version="">
-    <tool file="filters/wiggle_to_simple.xml" />
-    <tool file="stats/aggregate_binned_scores_in_intervals.xml" />
-    <tool file="filters/ucsc_gene_bed_to_exon_bed.xml" />
+
+
+
+
+
+  <label id="genomics_analysis_label" text="Genomics Analysis" />
+  <section id="annotation" name="Annotation" version="" />
+  <section id="multiple_alignments" name="Multiple Alignments" />
+  <section id="ontology" name="Ontology" />
+  <section id="assembly" name="Assembly" version="" />
+  <section id="mapping" name="Mapping" version="">
+    <tool file="sr_mapping/bfast_wrapper.xml" />
+    <tool file="sr_mapping/PerM.xml" />
+    <tool file="sr_mapping/srma_wrapper.xml" />
+    <tool file="sr_mapping/mosaik.xml" />
   </section>
-  <section id="stats" name="Statistics">
-    <tool file="stats/gsummary.xml" />
-    <tool file="filters/uniq.xml" />
+
+  <section id="variant_calling" name="Variant Calling">
+    <label id="snpeff_label" text="snpeff" />
+    <label id="snpsift_label" text="snpsift" />
   </section>
-  <section id="plots" name="Graph/Display Data">
-    <tool file="maf/vcf_to_maf_customtrack.xml" />
+  <section id="genome_editing" name="Genome editing">
   </section>
-  <section id="hgv" name="Phenotype Association">
+  <section id="rna_seq" name="RNA-Seq" />
+  <section id="rna_analysis" name="RNA Analysis" />
+  <section id="peak_calling" name="Peak Calling" />
+  <section id="epigenetics" name="Epigenetics" />
+  <section id="phylogenetics" name="Phylogenetics" />
+  <section id="phenotype_association" name="Phenotype Association">
     <tool file="evolution/codingSnps.xml" />
     <tool file="evolution/add_scores.xml" />
     <tool file="phenotype_association/sift.xml" />
     <tool file="phenotype_association/linkToGProfile.xml" />
     <tool file="phenotype_association/linkToDavid.xml" />
     <tool file="phenotype_association/ldtools.xml" />
+    <tool file="phenotype_association/pass.xml" />
+    <tool file="phenotype_association/gpass.xml" />
+    <tool file="phenotype_association/beam.xml" />
+    <tool file="phenotype_association/lps.xml" />
     <tool file="phenotype_association/master2pg.xml" />
   </section>
-  <!--section id="interactivetools" name="Interactive tools">
-    <tool file="interactive/codingSnps.xml" />
-    <tool file="interactive/interactivetool_askomics.xml" />
-    <tool file="interactive/interactivetool_bam_iobio.xml" />
-    <tool file="interactive/interactivetool_cellxgene.xml" />
-    <tool file="interactive/interactivetool_ethercalc.xml" />
-    <tool file="interactive/interactivetool_hicbrowser.xml" />
-    <tool file="interactive/interactivetool_jupyter_notebook.xml" />
-    <tool file="interactive/interactivetool_neo4j.xml" />
-    <tool file="interactive/interactivetool_phinch.xml" />
+  <section id="single-cell" name="Single-cell">
+  </section>
+  <!-- HCA Single Cell tools -->
+  <section id="hca_sc_get-scrna" name="Get scRNAseq data">
+  </section>
+  <section id="hca_sc_seurat_tools" name="Seurat">
+  </section>
+  <section id="hca_sc_sc3_tools" name="SC3">
+  </section>
+  <section id="hca_sc_scanpy_tools" name="Scanpy">
+  </section>
+  <section id="hca_sc_monocle3_tools" name="Monocle3">
+  </section>
+  <section id="hca_sc_scater_tools" name="Scater">
+  </section>
+  <section id="hca_sc_scmap_tools" name="SCMap - scRNAseq cell type classification">
+  </section>
+  <section id="hca_sc_scpred_tools" name="ScPred - scRNAseq cell type classification">
+  </section>
+  <section id="hca_sc_garnett_tools" name="Garnett - scRNAseq cell type classification">
+  </section>
+  <section id="hca_sc_label_analysis_tools" name="CellTypeScan - cell type classification analysis">
+  </section>
+  <section id="hca_sc_sccaf_tools" name="SCCAF">
+  </section>
+  <section id="hca_sc_utils_viz" name="Single Cell Utils and Viz">
+  </section>
+  <label id="genomics_toolkits_label" text="Genomics Toolkits"/>
+  <section id="picard" name="Picard" version="">
+  </section>
+  <section id="deeptools" name="deepTools">
+  </section>
+  <section id="gemini" name="Gemini">
+  </section>
+  <section id="emboss" name="EMBOSS">
+  </section>
+  <section id="gatk_tools" name="GATK Tools">
+  </section>
+  <section id="ncbi_blast" name="NCBI Blast">
+  </section>
+  <section id="hicexplorer" name="HiCExplorer">
+  </section>
+  <section id="rad_seq" name="RAD-seq">
+  </section>
+  <section id="graphclust" name="GraphClust">
+  </section>
+  <section id="mimodd" name="MiModD">
+  </section>
+
+  <label id="metagenomics_label" text="Metagenomics" />
+  <section id="metagenomic_analysis" name="Metagenomic Analysis" />
+  <section id="qiime" name="Qiime" />
+  <section id="mothur" name="Mothur" />
+  <section id="dna_metabarcoding" name="DNA Metabarcoding" />
+
+  <section id="virology" name="Virology" />
+
+  <label id="proteomics_metabolomics_chemistry_label" text="Proteomics, Metabolomics, Chemistry" />
+  <section id="proteomics" name="Proteomics" />
+  <section id="metabolomics" name="Metabolomics">
+    <label id="preprocessing_lcms" text="Preprocessing LCMS" />
+    <label id="preprocessing_fiams" text="Preprocessing FIAMS" />
+    <label id="preprocessing_gcms" text="Preprocessing GCMS" />
+    <label id="preprocessing_nmr" text="Preprocessing NMR" />
+    <label id="normalization_quality_lcms_fiams" text="Normalization quality LCMS FIAMS" />
+    <label id="normalization_quality_all" text="Normalization quality ALL" />
+    <label id="statistics_all" text="Statistics ALL" />
+    <label id="annotation_lcms_fiams" text="Annotation LCMS FIAMS" />
+    <label id="annotation_lcms" text="Annotation LCMS" />
+    <label id="annotation_gcms" text="Annotation GCMS" />
+    <label id="data_handling_all" text="Data handling ALL" />
+  </section>
+  <section id="chemicaltoolbox" name="ChemicalToolBox" version="" />
+
+  <label id="stats_viz" text="Statistics and Visualisation" />
+  <section id="statistics" name="Statistics">
+    <tool file="/opt/galaxy/custom-tools/test/statistical_hypothesis_testing.xml" />
+    <tool file="stats/gsummary.xml" />
+    <tool file="filters/uniq.xml" />
+    <!--tool file="regVariation/linear_regression.xml" />
+    <tool file="regVariation/logistic_regression_vif.xml" />
+    <tool file="regVariation/rcve.xml" />
+    <tool file="regVariation/partialR_square.xml" /-->
+  </section>
+  <section id="machine_learning" name="Machine Learning">
+  </section>
+  <section id="graph_display_data" name="Graph/Display Data">
+    <tool file="plotting/bar_chart.xml" />
+    <tool file="plotting/boxplot.xml" />
+    <tool file="visualization/LAJ.xml" />
+    <tool file="maf/vcf_to_maf_customtrack.xml" />
+    <tool file="chromatra/chromatral.xml" />
+    <tool file="chromatra/chromatrat.xml" />
+    <tool file="plotting/foldchanges_heatmap.xml" />
+  </section>
+
+  <label id="other_and_toolsuites_label" text="Miscellaneous Tools" />
+  <!--section id="regional_variation" name="Regional Variation">
+    <tool file="regVariation/windowSplitter.xml" />
+    <tool file="regVariation/featureCounter.xml" />
+    <tool file="regVariation/WeightedAverage.xml" />
+    <tool file="regVariation/quality_filter.xml" />
+    <tool file="regVariation/maf_cpg_filter.xml" />
+    <tool file="regVariation/getIndels_2way.xml" />
+    <tool file="regVariation/getIndelRates_3way.xml" />
+    <tool file="regVariation/substitutions.xml" />
+    <tool file="regVariation/substitution_rates.xml" />
+    <tool file="regVariation/microsats_alignment_level.xml" />
+    <tool file="regVariation/microsats_mutability.xml" />
   </section-->
+  <section id="evolution" name="Evolution">
+    <tool file="evolution/codingSnps.xml" />
+    <tool file="evolution/add_scores.xml" />
+  </section>
+  <section id="motif_tools" name="Motif Tools">
+    <tool file="meme/meme.xml" hidden="True" />
+    <tool file="meme/fimo.xml" hidden="True" />
+  </section>
+  <section id="test_tools" name="Test Tools">
+  </section>
+
+  <section id="gis_data_handling" name="GIS Data Handling" />
+  <section id="animal_detection_on_acoustic_recordings" name="Animal Detection on Acoustic Recordings" />
+  <section id="regional_variation" name="Regional Variation">
+  </section>
+  <section id="genome_diversity" name="Genome Diversity">
+  </section>
+
+  <!-- Hidden Tools + UNused Sections -->
+  <section id="deprecated" name="Deprecated" />
+
+  <section id="climate_analysis" name="Climate Analysis" />
+  <section id="apollo" name="Apollo" />
+  <section id="imaging" name="Imaging" />
+  <section id="species_abundance" name="Species abundance" />
+
+  <!--
+  <section id="interactivetools" name="Interactive tools">
+	<tool file="interactive/interactivetool_jupyter_notebook.xml" />
+	<tool file="interactive/interactivetool_ml_jupyter_notebook.xml" />
+	<tool file="interactive/interactivetool_climate_notebook.xml" />
+	<tool file="interactive/interactivetool_rstudio.xml" />
+	<tool file="interactive/interactivetool_pyiron.xml" />
+	<tool file="interactive/interactivetool_higlass.xml" /> 
+	<tool file="interactive/interactivetool_openrefine.xml" />
+	<tool file="interactive/interactivetool_guacamole_desktop.xml" />
+	<tool file="interactive/interactivetool_panoply.xml" />
+	<tool file="interactive/interactivetool_askomics.xml" />
+	<tool file="interactive/interactivetool_cellxgene.xml" />
+	<tool file="interactive/interactivetool_bam_iobio.xml" />
+	<tool file="interactive/interactivetool_vcf_iobio.xml" />	
+	<tool file="interactive/interactivetool_neo4j.xml" />
+	<tool file="interactive/interactivetool_phinch.xml" />
+	<tool file="interactive/interactivetool_paraview.xml" />
+	<tool file="interactive/interactivetool_askomics.xml" />
+	<tool file="interactive/interactivetool_wilson.xml" />
+	<tool file="interactive/interactivetool_wallace.xml" />
+	<tool file="interactive/interactivetool_geoexplorer.xml" />
+	<tool file="interactive/interactivetool_radiant.xml" />
+	<tool file="interactive/interactivetool_ethercalc.xml" />
+	</section> 
+  -->
+
 </toolbox>
