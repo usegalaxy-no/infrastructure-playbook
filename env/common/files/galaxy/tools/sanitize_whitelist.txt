@@ -4,3 +4,4 @@ toolshed.g2.bx.psu.edu/repos/iuc/snpeff/snpEff/3.4
 toolshed.g2.bx.psu.edu/repos/iuc/snpeff/snpEff/4.3+T.galaxy1
 toolshed.g2.bx.psu.edu/repos/iuc/snpeff_sars_cov_2/snpeff_sars_cov_2/4.5covid19
 toolshed.g2.bx.psu.edu/repos/saskia-hiltemann/krona_text/krona-text/1
+galaxy-ntnu.bioinfo.no/toolshed_nels/repos/hien/ggplot2_segment/ggplot2_segment/2.2.1+galaxy1
