@@ -245,7 +245,7 @@
   <section id="chemicaltoolbox" name="ChemicalToolBox" version="" />
 
   <label id="stats_viz" text="Statistics and Visualisation" />
-  <section id="statistics" name="Statistics">
+  <section id="stats" name="Statistics">
     <tool file="/opt/galaxy/custom-tools/test/statistical_hypothesis_testing.xml" />
     <tool file="stats/gsummary.xml" />
     <tool file="filters/uniq.xml" />
@@ -256,7 +256,7 @@
   </section>
   <section id="machine_learning" name="Machine Learning">
   </section>
-  <section id="graph_display_data" name="Graph/Display Data">
+  <section id="plots" name="Graph/Display Data">
     <tool file="plotting/bar_chart.xml" />
     <tool file="plotting/boxplot.xml" />
     <tool file="visualization/LAJ.xml" />
