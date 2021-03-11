@@ -129,6 +129,7 @@ galaxy_config_files:
 galaxy_tool_config_files:
   - "{{ galaxy_config_dir }}/tool_conf.xml"
   - "{{ galaxy_config_dir }}/tool_conf_interactive.xml"
+  - "{{ galaxy_mutable_config_dir }}/shed_tool_conf.xml"
 
 galaxy_config_templates:
   - src: files/galaxy/config/tool_conf.xml
