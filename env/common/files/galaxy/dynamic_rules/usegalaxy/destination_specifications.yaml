@@ -5,7 +5,7 @@ local:
     mem: 1000
   env: {}
   params:
-    singularity_enabled: true
+    singularity_enabled: false
 
 slurm:
   limits:
