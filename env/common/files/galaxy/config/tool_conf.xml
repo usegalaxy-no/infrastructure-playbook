@@ -64,11 +64,11 @@
     <tool file="filters/wc_gnu.xml" />
     <tool file="filters/secure_hash_message_digest.xml" />
   </section>
-  <section id="filter_and_sort" name="Filter and Sort">
+  <section id="filter" name="Filter and Sort">
     <tool file="stats/filtering.xml" />
     <tool file="filters/sorter.xml" />
     <tool file="filters/grep.xml" />
-    <label id="gff" text="GFF" />
+    <!-- <label id="gff" text="GFF" /> -->
     <tool file="filters/gff/extract_GFF_Features.xml" />
     <tool file="filters/gff/gff_filter_by_attribute.xml" />
     <tool file="filters/gff/gff_filter_by_feature_count.xml" />
@@ -98,8 +98,6 @@
   <section id="quality_control" name="Quality Control" version="">
   </section>
   <section id="sam_bam" name="SAM/BAM" version="">
-    <label id="bamtools_label" text="bamtools" />
-    <label id="samtools_label" text="samtools" />
   </section>
   <section id="bed" name="BED" version="">
   </section>
@@ -152,10 +150,16 @@
   </section>
   <section id="genome_editing" name="Genome editing">
   </section>
+  <section id="genome_diversity" name="Genome Diversity">
+  </section>
   <section id="rna_seq" name="RNA-Seq" />
   <section id="rna_analysis" name="RNA Analysis" />
   <section id="peak_calling" name="Peak Calling" />
   <section id="epigenetics" name="Epigenetics" />
+  <section id="motif_tools" name="Motif Tools">
+    <tool file="meme/meme.xml" hidden="True" />
+    <tool file="meme/fimo.xml" hidden="True" />
+  </section>
   <section id="phylogenetics" name="Phylogenetics" />
   <section id="phenotype_association" name="Phenotype Association">
     <tool file="evolution/codingSnps.xml" />
@@ -170,6 +174,7 @@
     <tool file="phenotype_association/lps.xml" />
     <tool file="phenotype_association/master2pg.xml" />
   </section>
+  <section id="regional_variation" name="Regional Variation" />
   <section id="single-cell" name="Single-cell">
   </section>
   <!-- HCA Single Cell tools -->
@@ -212,7 +217,7 @@
   </section>
   <section id="hicexplorer" name="HiCExplorer">
   </section>
-  <section id="rad_seq" name="RAD-seq">
+  <section id="rad-seq" name="RAD-seq">
   </section>
   <section id="graphclust" name="GraphClust">
   </section>
@@ -293,10 +298,6 @@
 
   <section id="gis_data_handling" name="GIS Data Handling" />
   <section id="animal_detection_on_acoustic_recordings" name="Animal Detection on Acoustic Recordings" />
-  <section id="regional_variation" name="Regional Variation">
-  </section>
-  <section id="genome_diversity" name="Genome Diversity">
-  </section>
 
   <!-- Hidden Tools + UNused Sections -->
   <section id="deprecated" name="Deprecated" />
