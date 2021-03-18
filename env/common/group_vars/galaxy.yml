@@ -56,7 +56,7 @@ galaxy_config:
     oidc_config_file: "{{ galaxy_config_dir }}/oidc_config.xml"
     oidc_backends_config_file: "{{ galaxy_config_dir }}/oidc_backends.xml"
     # This is a hack, for some reason uwsgi cannot read from /srv/galaxy/config/plugins/webhooks/nels/, suspect chroot
-    webhooks_dir: "config/plugins/webhooks/nels/"
+    webhooks_dir: "config/plugins/webhooks/nels/,config/plugins/webhooks"
 
     welcome_url: static/welcome.html
     support_url: https://elixir.no/helpdesk
