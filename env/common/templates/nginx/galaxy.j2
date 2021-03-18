@@ -92,6 +92,11 @@ server {
                   $vis_d/static/$static_file =404;
     }
 
+    # https://docs.galaxyproject.org/en/master/admin/special_topics/gtn.html
+    location /training-material/ {
+      proxy_pass https://training.galaxyproject.org/training-material/;
+    }
+
     location /reports/ {
         uwsgi_pass           127.0.0.1:9001;
         uwsgi_param          UWSGI_SCHEME $scheme;
