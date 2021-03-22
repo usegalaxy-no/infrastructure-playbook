@@ -23,6 +23,15 @@
         path: "{{galaxy_root}}"
       register: galaxy_installation
 
+    - name: "copy logrotate.conf"
+      template:
+        src: files/system/logrotate.conf
+        dest: /etc/logrotate.conf
+        mode: 0644
+        owner: root
+        group: root
+        backup: yes
+      when: galaxy_installation.stat.isdir
 
     - name: "messages logrotate"
       template:
