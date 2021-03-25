@@ -157,7 +157,7 @@ def _weighted_random_sampling(destinations, dest_spec=SPECIFICATIONS):
 def build_spec(tool_spec, dest_spec=SPECIFICATIONS, runner_hint=None):
     destination = runner_hint if runner_hint else tool_spec.get('runner')
     print("build_spec_1->destination: ", destination)
-    
+
     if destination not in dest_spec:
         if destination in JOINT_DESTINATIONS:
             destination = _weighted_random_sampling(JOINT_DESTINATIONS[destination])
@@ -316,6 +316,9 @@ def _finalize_tool_spec(tool_id, user_roles, tools_spec=TOOL_DESTINATIONS, memor
     elif 'interactive_tool_' in tool_id:
         tool_spec['requirements'] = 'GalaxyDockerHack == True'
 
+    print("_finalize_tool_spec->tool: ", tool)
+    print("_finalize_tool_spec->tool_spec: ", tool_spec)
+
     return tool_spec
 
 
@@ -400,7 +403,7 @@ def gateway(tool_id, user, memory_scale=1.0, next_dest=None):
 
 
 def gateway_1x(tool_id, user):
-    return gateway(tool_id, user, memory_scale=1) #, next_dest='gateway_2x')
+    return gateway(tool_id, user, memory_scale=1)  # , next_dest='gateway_2x')
 
 
 def gateway_1_5x(tool_id, user):
