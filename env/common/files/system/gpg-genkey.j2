@@ -7,7 +7,7 @@ Name-Real: Sys Admin
 Name-Comment: logfile encryption key
 Name-Email: sysadmin@usegalaxy.no
 Expire-Date: 0
-Passphrase: pass123
+Passphrase: {{ gpg_key_logfiles }}
 %pubring logs.pub
 %secring logs.sec
 %commit

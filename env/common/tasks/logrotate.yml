@@ -7,13 +7,11 @@
       package_facts:
         manager: "auto"
     
-    - name: install gpg packages
+    - name: install gpg package
       yum:
-        name: "{{item}}"
+        name: gnupg2
         state: present
         update_cache: yes
-      with_items:
-        - gnupg2
     
     - name: copy gpg keygen file
       template:
