@@ -6,6 +6,27 @@
     - name: "collect host information"
       package_facts:
         manager: "auto"
+    
+    - name: install gpg packages
+      yum:
+        name: "{{item}}"
+        state: present
+        update_cache: yes
+      with_items:
+        - gnupg2
+    
+    - name: copy gpg keygen file
+      template:
+        src: files/system/gpg-genkey.j2
+        dest: /root/gpg-genkey
+    
+    - name: create gpg key
+      command: gpg2 --batch --gen-key /root/gpg-genkey
+    
+    - name: delete gpg genkey file
+      file:
+        path: /root/gpg-genkey
+        state: absent
 
     - name: "nginx logrotate"
       template:
