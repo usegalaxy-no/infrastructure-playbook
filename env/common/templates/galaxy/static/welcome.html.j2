@@ -6,12 +6,11 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
     <title>Welcome to Usegalaxy.no</title>
 
-	<!-- ---
+	<!-- --- -->
 
     <link type="text/css" rel="stylesheet" href="https://nels.bioinfo.no/javax.faces.resource/bootstrap-3.3.7.min.css.xhtml?ln=css" />
     <link type="text/css" rel="stylesheet" href="https://nels.bioinfo.no/javax.faces.resource/bootstrap-theme-3.3.7.min.css.xhtml?ln=css" />
-    -->
-
+    
     <link type="text/css" rel="stylesheet" href="css/containers.css" />  
     <link type="text/css" rel="stylesheet" href="css/welcome.css" />
 
@@ -422,6 +421,7 @@ var exportStateValues = {
   'error' : ['ERROR: an error occured during history file preparation',25],
   'fetch-error' : ['ERROR: an error occurred while fetching history file',55],
   'nels-transfer-error' : ['ERROR: an error occurred while transferring history file to NeLS Storage',90],
+  'disk-space-error' : ['ERROR: Disk space error',15],
 
   'aborted' : ['ABORTED: export was aborted by user',100]
 };
@@ -440,7 +440,7 @@ var importStateValues = {
 };
 
 function isErrorState(state) {
-   return (state=="error" || state=="fetch-error" || state=="nels-transfer-error" || state=="history-import-error");
+   return (state=="error" || state=="fetch-error" || state=="nels-transfer-error" || state=="history-import-error" || state=="disk-space-error");
 }
 
 // - - - - - - - - - -
