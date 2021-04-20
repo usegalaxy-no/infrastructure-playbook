@@ -49,3 +49,18 @@
     name: postfix
     state: restarted
     enabled: yes
+
+- name: increase number of nfs server processes
+  when: ansible_nodename == 'usegalaxy.no'
+  lineinfile:
+    state: present
+    path: /etc/sysconfig/nfs
+    regexp: '(.*RPCNFSDCOUNT=.*)'
+    line: RPCNFSDCOUNT=64
+
+- name: restart nfsd
+  when: ansible_nodename == 'usegalaxy.no'
+  service:
+    name: nfs-server
+    state: restarted
+    enabled: yes
