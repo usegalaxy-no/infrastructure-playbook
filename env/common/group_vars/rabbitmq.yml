@@ -3,6 +3,7 @@ rabbitmq_vhosts:
   - pulsar_nmbu_orion
   - test
   - nels_galaxy
+  - nvi_iridia
 
 rabbitmq_users:
   - {name: admin,  vhost: '', 
@@ -19,4 +20,6 @@ rabbitmq_users:
      passwd: "{{telegraf_rabbitmq_password}}", tags: monitoring }
   - {name: nels_galaxy, vhost: 'nels_galaxy',
      passwd: '{{rabbitmq_password_nels_galaxy_api}}'}
+  - {name: nvi_iridia, vhost: 'nvi_iridia',
+     passwd: '{{rabbitmq_password_nvi_iridia}}'}
 
