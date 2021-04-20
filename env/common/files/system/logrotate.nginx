@@ -5,6 +5,11 @@
   rotate 1
   missingok
   notifempty
+  compress
+  compresscmd /usr/bin/gpg2
+  compressoptions --encrypt -r "Sys Admin" --homedir /root/.gnupg
+  compressext .gpg
+
   postrotate
   /bin/kill -USR1 `cat /run/nginx.pid 2>/dev/null` 2>/dev/null || true
   endscript
