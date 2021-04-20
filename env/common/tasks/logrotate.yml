@@ -6,6 +6,25 @@
     - name: "collect host information"
       package_facts:
         manager: "auto"
+    
+    - name: install gpg package
+      yum:
+        name: gnupg2
+        state: present
+        update_cache: yes
+    
+    - name: copy gpg keygen file
+      template:
+        src: files/system/gpg-genkey.j2
+        dest: /root/gpg-genkey
+    
+    - name: create gpg key
+      command: gpg2 --batch --gen-key /root/gpg-genkey
+    
+    - name: delete gpg genkey file
+      file:
+        path: /root/gpg-genkey
+        state: absent
 
     - name: "nginx logrotate"
       template:
@@ -23,6 +42,15 @@
         path: "{{galaxy_root}}"
       register: galaxy_installation
 
+    - name: "copy logrotate.conf"
+      template:
+        src: files/system/logrotate.conf
+        dest: /etc/logrotate.conf
+        mode: 0644
+        owner: root
+        group: root
+        backup: yes
+      when: galaxy_installation.stat.isdir
 
     - name: "messages logrotate"
       template:
@@ -34,12 +62,3 @@
         backup: yes
       when: galaxy_installation.stat.isdir
 
-    - name: uwsgi log stripper script
-      copy:
-        src: files/bin/log_strip_out_uwsgi.py
-        dest: /usr/local/bin/log_strip_out_uwsgi.py
-        mode: 0755
-        owner: root
-        group: root
-        backup: yes
-      when: galaxy_installation.stat.isdir
