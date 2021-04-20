@@ -2,7 +2,7 @@
   copy:
     src: files/bin/systemd_status.py
     dest: /usr/local/bin/systemd_status.py
-    mode: 0755
+    mode: '0755'
     owner: root
     group: root
     backup: yes
@@ -11,7 +11,7 @@
   copy:
     src: files/bin/http_status.py
     dest: /usr/local/bin/http_status.py
-    mode: 0755
+    mode: '0755'
     owner: root
     group: root
     backup: yes
@@ -20,7 +20,32 @@
   copy:
     src: files/bin/dir_status.py
     dest: /usr/local/bin/dir_status.py
-    mode: 0755
+    mode: '0755'
     owner: root
     group: root
     backup: yes
+
+- name: copy postfix main.cf
+  when: ansible_nodename == 'db.usegalaxy.no'
+  template:
+    src: files/system/postfix_main.cf.j2
+    dest: /etc/postfix/main.cf
+    mode: '0644'
+    owner: root
+    group: root
+
+- name: set mailname
+  when: ansible_nodename == 'db.usegalaxy.no'
+  lineinfile:
+    path: /etc/mailname
+    line: usegalaxy.no
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: restart postfix
+  when: ansible_nodename == 'db.usegalaxy.no'
+  service:
+    name: postfix
+    state: restarted
+    enabled: yes
