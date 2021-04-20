@@ -62,12 +62,3 @@
         backup: yes
       when: galaxy_installation.stat.isdir
 
-    - name: uwsgi log stripper script
-      copy:
-        src: files/bin/log_strip_out_uwsgi.py
-        dest: /usr/local/bin/log_strip_out_uwsgi.py
-        mode: 0755
-        owner: root
-        group: root
-        backup: yes
-      when: galaxy_installation.stat.isdir
