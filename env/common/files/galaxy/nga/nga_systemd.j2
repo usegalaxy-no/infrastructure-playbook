@@ -1,0 +1,17 @@
+[Unit]
+Description=NGA Service
+After=network.target
+After=galaxy
+
+[Service]
+Type=simple
+User={{ nga_user }}
+Group={{ nga_group }}
+WorkingDirectory=/srv/nels-galaxy-api
+TimeoutStartSec=10
+ExecStartPre=source venv/bin/activate
+ExecStart=bin/python3 /srv/nels-galaxy-api/bin/nels-galaxy-api.py -c nga-prod-server.json -l nga.log -vvvEnvironment=HOME=/srv/nels-galaxy-api VIRTUAL_ENV=/srv/nels-galaxy-api/venv
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

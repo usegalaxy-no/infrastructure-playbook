@@ -357,4 +357,6 @@ telegraf_plugins_extra:
       - data_format = "influx"
       - interval = "1m"
 
-
+# NGA
+nga_user: root
+nga_group: root

@@ -287,3 +287,21 @@
     PATH: "{{ galaxy_venv_dir }}/bin:{{ ansible_env.PATH }}"
     VIRTUAL_ENV: "{{ galaxy_venv_dir }}"
   when: scss_file.changed
+
+- name: copy nga systemd unit files
+  template:
+    src: files/nga/nga_systemd.j2
+    dest: /etc/systemd/system/nga.service
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: re-read systemd units
+  systemd:
+    daemon_reload: yes
+
+- name: start and enable nga
+  service:
+    name: nga
+    enabled: yes
+    state: started
