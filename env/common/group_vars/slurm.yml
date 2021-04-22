@@ -27,6 +27,7 @@ slurm_config:
   SlurmdLogFile: /var/log/slurm/slurmd.log
   SlurmdDebug: 3
   DefMemPerCPU: 1000
+  SrunPortRange: "60001-60100"
 slurmdbd_config:
   AuthType: auth/munge
   DbdAddr: "{{ galaxy_host }}"
