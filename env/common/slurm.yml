@@ -108,7 +108,7 @@
     - galaxyproject.repos
     - geerlingguy.docker
     - indigo-dc.nfs
-    - galaxyproject.cvmfs
+    #- galaxyproject.cvmfs
 
 
   tasks:

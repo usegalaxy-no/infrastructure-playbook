@@ -27,7 +27,7 @@ slurm_config:
   SlurmdLogFile: /var/log/slurm/slurmd.log
   SlurmdDebug: 3
   DefMemPerCPU: 1000
-  SrunPortRange: "60001-60100"
+  SrunPortRange: "{{ slurm_SrunPortRange }}"
 slurmdbd_config:
   AuthType: auth/munge
   DbdAddr: "{{ galaxy_host }}"
@@ -69,6 +69,10 @@ nfs_exports:
   - path: "/data/part0"
 #    export: "{{ slurm_node_ips }}(rw,sync,no_root_squash)"
     export: "{{ groups['slurm'] | map('extract', hostvars, ['ansible_eth0', 'ipv4', 'address']) | join('(rw,sync,no_root_squash) ')}}(rw,sync,no_root_squash)"
+  - path: "/cvmfs/data.galaxyproject.org"
+    export: "*(ro,sync,no_root_squash,no_subtree_check,fsid=101)"
+  - path: "/cvmfs/data.usegalaxy.no"
+    export: "*(ro,sync,no_root_squash,no_subtree_check,fsid=102)"
 
 nfs_client_imports:
   - local: "/srv/galaxy"
@@ -76,6 +80,12 @@ nfs_client_imports:
     server_host: "{{ galaxy_host }}"
   - local: "/data/part0"
     remote: "/data/part0"
+    server_host: "{{ galaxy_host }}"
+  - local: "/cvmfs/data.galaxyproject.org"
+    remote: "/cvmfs/data.galaxyproject.org"
+    server_host: "{{ galaxy_host }}"
+  - local: "/cvmfs/data.usegalaxy.no"
+    remote: "/cvmfs/data.usegalaxy.no"
     server_host: "{{ galaxy_host }}"
 
 cvmfs_role: client

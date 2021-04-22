@@ -124,3 +124,7 @@ sudo_users:
     commands:
       - "/usr/bin/fail2ban-client status"
       - "/usr/bin/fail2ban-client status *"
+
+# Slurm ports:
+slurm_SrunPortRange: "60001-60100"
+
