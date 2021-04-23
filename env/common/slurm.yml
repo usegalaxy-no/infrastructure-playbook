@@ -137,3 +137,52 @@
 
   roles:
     - galaxyproject.slurm
+
+- hosts: slurm
+  become: true
+  vars_files:
+    - secret_group_vars/global.vault
+    - group_vars/global.yml
+    - group_vars/env.yml
+    - group_vars/telegraf.yml
+  pre_tasks:
+    - name: SELinux
+      selinux:
+        policy: targeted
+        state: permissive
+      tags:
+        - selinux
+    - name: Disable ipv6
+      sysctl:
+        name: net.ipv6.conf.eth0.disable_ipv6
+        value: '1'
+        state: present
+    - name: Install Dependencies
+      package:
+        name:
+          - 'mailx'
+          - 'vim'
+          - 'mlocate'
+    - name: set hostname
+      hostname:
+        name: "{{inventory_hostname}}"
+  tasks:
+    - name: Set timezone to Europe/Oslo
+      timezone:
+        name: Europe/Oslo
+    - name: Create users and groups
+      include: tasks/users_groups.yml
+      tags: 'users'
+    - name: Misc system tasks
+      include: tasks/system.yml
+  roles:
+    - role: geerlingguy.repo-epel
+    - role: reallyenglish.dhclient
+      when: "env != 'production'"
+    - role: nbigot.ansible-fail2ban
+      tags: fail2ban
+    - role: weareinteractive.sudo
+      tags: ['sudo']
+    - role: dj-wasabi.telegraf
+      tags: ['telegraf']
+    - role: idiv-biodiversity.postfix
