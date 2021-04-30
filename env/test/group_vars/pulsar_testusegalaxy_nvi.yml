@@ -55,8 +55,8 @@ pulsar_drmaa_library_path: /usr/lib64/libdrmaa.so
 
 pulsar_yaml_config:
   dependency_resolvers_config_file: dependency_resolvers_conf.xml
-  conda_auto_init: True
-  conda_auto_install: True
+  conda_auto_init: False
+  conda_auto_install: False
   staging_directory: "{{ pulsar_staging_dir }}"
   message_queue_url: "{{ pulsar_message_queue }}"
   managers:
@@ -64,8 +64,8 @@ pulsar_yaml_config:
       type: queued_drmaa
       native_specification: "--nodes=1 --partition=usegalaxy_testing"
 
-pulsar_dependency_resolvers:
-  - name: singularity
+#pulsar_dependency_resolvers:
+#  - name: singularity
 #  - name: conda
 #    args:
 #      - name: auto_init
