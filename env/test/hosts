@@ -10,9 +10,8 @@ cvmfs0.test.usegalaxy.no ansible_host=158.39.201.33 ansible_user=sysadmin
 [slurm]
 slurm.test.usegalaxy.no ansible_host=158.39.201.147 ansible_user=sysadmin trusted_host=yes
 
-
-#[pulsar_nmbu_orion]
-#10.219.0.102 ansible_user=rundeck
+[pulsar_testusegalaxy_nvi]
+slurm.test.usegalaxy.no ansible_user=sysadmin
 
 [jenkins]
 db.test.usegalaxy.no ansible_host=158.39.201.33 ansible_user=sysadmin

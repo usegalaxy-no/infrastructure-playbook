@@ -1,0 +1,72 @@
+pulsar_virtualenv_command: virtualenv-3
+
+pulsar_root: /home/pulsar_nvi/pulsar
+
+pulsar_pip_install: true
+pulsar_pycurl_ssl_library: openssl
+pulsar_systemd: true
+pulsar_systemd_runner: webless
+
+pulsar_user: pulsar_nvi
+pulsar_group: pulsar_nvi
+
+pulsar_data_path: /home/pulsar_nvi/pulsar
+pulsar_server_dir: '{{ pulsar_data_path }}/server'
+pulsar_venv_dir: '{{ pulsar_data_path }}/venv'
+pulsar_config_dir: '{{ pulsar_data_path }}/config'
+pulsar_staging_dir: '{{ pulsar_data_path }}/staging'
+pulsar_cache_dir: '{{ pulsar_data_path }}/cache'
+
+pulsar_rabbitmq_username: nvi_iridia
+pulsar_rabbitmq_password: "{{ rabbitmq_password_nvi_iridia }}"
+pulsar_rabbitmq_vhost: nvi_iridia
+#pulsar_private_token: "{{ pulsar_nmbu_private_token }}"
+pulsar_rabbitmq_proxy: "{{ groups['database'][0] }}"
+
+pulsar_create_user: false
+
+#pulsar_message_queue: "amqps://{{ pulsar_rabbitmq_username}}:{{ pulsar_rabbitmq_password}}@{{ pulsar_rabbitmq_proxy }}/%2F{{ pulsar_rabbitmq_vhost }}"
+pulsar_message_queue: "pyamqp://{{ pulsar_rabbitmq_username }}:{{ pulsar_rabbitmq_password }}@{{ pulsar_rabbitmq_proxy }}/{{ pulsar_rabbitmq_vhost }}?ssl=1"
+
+# FIXME: Need a URL from NVI
+galaxy_server_url: https://test.usegalaxy.no/
+
+pulsar_optional_dependencies:
+  #- pyOpenSSL
+  # For remote transfers initiated on the Pulsar end rather than the Galaxy end
+  # Does not work, needs to be installed with --install-option="--with-nss"
+  #- pycurl
+  # uwsgi used for more robust deployment than paste
+  #- uwsgi
+  # drmaa required if connecting to an external DRM using it.
+  - drmaa
+  # kombu needed if using a message queue
+  - kombu
+  - 'amqp==5.0.2'
+  # requests and requests_toolbelt for remote staging and pycurl is unavailable, poster is not working for python3
+  - requests
+  - requests_toolbelt
+  # psutil and pylockfile are optional dependencies but can make Pulsar
+  # more robust in small ways.
+  - psutil
+  - pylockfile
+
+pulsar_drmaa_library_path: /usr/lib64/libdrmaa.so
+
+pulsar_yaml_config:
+  dependency_resolvers_config_file: dependency_resolvers_conf.xml
+  conda_auto_init: True
+  conda_auto_install: True
+  staging_directory: "{{ pulsar_staging_dir }}"
+  message_queue_url: "{{ pulsar_message_queue }}"
+  managers:
+    _default_:
+      type: queued_drmaa
+      native_specification: "--nodes=1 --partition=usegalaxy_testing"
+
+pulsar_dependency_resolvers:
+  - name: singularity
+#  - name: conda
+#    args:
+#      - name: auto_init
+#        value: true

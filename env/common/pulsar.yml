@@ -1,8 +1,8 @@
-- hosts: pulsar_nmbu_orion
+- hosts: pulsar_testusegalaxy_nvi
   become: true
   vars_files:
     - secret_group_vars/global.vault
-    - group_vars/pulsar_nmbu_orion.yml
+    - group_vars/pulsar_testusegalaxy_nvi.yml
   pre_tasks:
     - name: Install some packages
       package:
