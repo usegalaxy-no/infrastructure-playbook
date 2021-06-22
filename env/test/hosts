@@ -1,19 +1,19 @@
 [galaxyserver]
-test.usegalaxy.no ansible_host=158.39.201.116 ansible_user=sysadmin trusted_host=yes aliases=test-www.usegalaxy.no
+test.usegalaxy.no ansible_host=158.39.48.214 ansible_user=sysadmin trusted_host=yes aliases=test-www.usegalaxy.no
 
 [database]
-db.test.usegalaxy.no ansible_host=158.39.201.33 ansible_user=sysadmin trusted_host=yes
+db.test.usegalaxy.no ansible_host=158.39.48.214 ansible_user=sysadmin trusted_host=yes
 
 [cvmfsstratum0servers]
-cvmfs0.test.usegalaxy.no ansible_host=158.39.201.33 ansible_user=sysadmin
+cvmfs0.test.usegalaxy.no ansible_host=158.39.48.214 ansible_user=sysadmin
 
 [slurm]
-slurm.test.usegalaxy.no ansible_host=158.39.201.147 ansible_user=sysadmin trusted_host=yes
+slurm.test.usegalaxy.no ansible_host=158.39.48.214 ansible_user=sysadmin trusted_host=yes
 
 [pulsar_testusegalaxy_nvi]
-slurm.test.usegalaxy.no ansible_user=sysadmin
+slurm.test.usegalaxy.no ansible_host=158.39.48.214 ansible_user=sysadmin
 
 [jenkins]
-db.test.usegalaxy.no ansible_host=158.39.201.33 ansible_user=sysadmin
+db.test.usegalaxy.no ansible_host=158.39.48.214 ansible_user=sysadmin
 
 
