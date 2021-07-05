@@ -77,4 +77,5 @@
   name: usegalaxy-no.tos-api
 - src: https://github.com/usegalaxy-no/ansible-role-galaxy-tools.git
   name: usegalaxy-no.galaxy-tools
-
+- src: https://github.com/usegalaxy-no/ansible-role-nels-galaxy-api.git
+  name: usegalaxy-no.nels-galaxy-api
