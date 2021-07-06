@@ -46,6 +46,13 @@
       include: tasks/slurm.yml
 
   tasks:
+    - name: copy limits.conf
+      copy:
+        src: system/99-usegalaxy.conf
+        dest: /etc/security/limits.d/99-usegalaxy.conf
+        owner: root
+        group: root
+        mode: '0644'
 
   roles:
     - galaxyproject.repos
@@ -121,6 +128,16 @@
           - "python36-virtualenv"
           - "bzip2"
           - "singularity"
+
+    - name: copy limits.conf
+      copy:
+        src: system/99-usegalaxy.conf
+        dest: /etc/security/limits.d/99-usegalaxy.conf
+        owner: root
+        group: root
+        mode: '0644'
+
+
 
 - hosts: slurm
   become: true
