@@ -1,8 +1,8 @@
 [galaxyserver]
-test.usegalaxy.no ansible_host=158.39.48.214 ansible_user=sysadmin trusted_host=yes aliases=test-www.usegalaxy.no
+test.usegalaxy.no ansible_host=158.39.201.116 ansible_user=sysadmin trusted_host=yes aliases=test-www.usegalaxy.no
 
 [database]
-db.test.usegalaxy.no ansible_host=158.39.48.214 ansible_user=sysadmin trusted_host=yes
+db.test.usegalaxy.no ansible_host=158.39.201.33 ansible_user=sysadmin trusted_host=yes
 
 [cvmfsstratum0servers]
 cvmfs0.test.usegalaxy.no ansible_host=158.39.48.214 ansible_user=sysadmin
