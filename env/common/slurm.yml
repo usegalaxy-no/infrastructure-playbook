@@ -79,7 +79,7 @@
         mode: "0755"
         owner: "{{ galaxy_user.name }}"
         group: "{{ galaxy_user.name }}"
-     
+
 
 - hosts: slurm
   become: true
