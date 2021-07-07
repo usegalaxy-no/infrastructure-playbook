@@ -21,7 +21,7 @@
       state: stopped
 
   - name: Move old data dir to new location
-    command: mv /var/lib/pgsql/10/data/ {{postgresql_data_directory}}/
+    command: mv /var/lib/pgsql/10/data/ {{ postgresql_data_directory }}/
 
   - name: Drop old data dir
     file:
