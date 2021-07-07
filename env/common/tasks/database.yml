@@ -62,7 +62,9 @@
     mode: '0644'
 
 - name: copy certboot hook scripts
-  tags: letsencrypt
+  tags:
+    - letsencrypt
+    - certbot
   copy:
     src: "{{ item }}"
     dest: "/opt/certbot/bin/"
