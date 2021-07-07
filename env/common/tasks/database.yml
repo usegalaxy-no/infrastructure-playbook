@@ -61,16 +61,4 @@
     group: root
     mode: '0644'
 
-- name: copy certboot hook scripts
-  tags:
-    - letsencrypt
-    - certbot
-  copy:
-    src: "{{ item }}"
-    dest: "/opt/certbot/bin/"
-    owner: root
-    group: root
-    mode: '0755'
-  with_items:
-    - letsencrypt/post-hook.sh
-    - letsencrypt/pre-hook.sh
+
