@@ -64,7 +64,7 @@
 - name: copy certboot hook scripts
   tags: letsencrypt
   copy:
-    src: {{ item }}
+    src: "{{ item }}"
     dest: "/opt/certbot/bin/"
     owner: root
     group: root
