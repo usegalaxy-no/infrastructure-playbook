@@ -1,7 +1,8 @@
+---
 # Python 3 support
-pip_virtualenv_command: /usr/bin/python3 -m virtualenv # usegalaxy_eu.certbot, usegalaxy_eu.tiaas2, galaxyproject.galaxy
-certbot_virtualenv_package_name: python36-virtualenv # usegalaxy_eu.certbot
-pip_package: python3-pip # geerlingguy.pip
+pip_virtualenv_command: /usr/bin/python3 -m virtualenv  # usegalaxy_eu.certbot, usegalaxy_eu.tiaas2, galaxyproject.galaxy
+certbot_virtualenv_package_name: python36-virtualenv  # usegalaxy_eu.certbot
+pip_package: python3-pip  # geerlingguy.pip
 
 # Galaxy
 galaxy_create_user: false
@@ -11,7 +12,7 @@ galaxy_layout: root-dir
 galaxy_root: /srv/galaxy
 galaxy_log_dir: /var/log/galaxy
 
-galaxy_user: { name: galaxy }
+galaxy_user: {name: galaxy}
 galaxy_config_style: yaml
 galaxy_force_checkout: true
 miniconda_prefix: "{{ galaxy_tool_dependency_dir }}/_conda"
@@ -42,7 +43,7 @@ galaxy_config:
     refgenie_config_file: "/cvmfs/refgenomes-databio.galaxyproject.org/genomes_config.yaml"
     interactivetools_enable: "True"
     interactivetools_map: "{{ gie_proxy_sessions_path }}"
-    outputs_to_working_directory: True
+    outputs_to_working_directory: true
     galaxy_infrastructure_url: "https://{{ galaxy_host }}/"
     log_level: INFO
     allow_path_paste: true
@@ -249,7 +250,7 @@ telegraf_plugins_extra:
       - data_format = "influx"
       - interval = "1h"
 
-# Not all the gxadmin iqueries work eg: monthly_users_active. monthly_jobs
+  # Not all the gxadmin iqueries work eg: monthly_users_active. monthly_jobs
   galaxy_misc_stats:
     plugin: "exec"
     config:
@@ -362,5 +363,3 @@ telegraf_plugins_extra:
       - timeout = "15s"
       - data_format = "influx"
       - interval = "1m"
-
-
