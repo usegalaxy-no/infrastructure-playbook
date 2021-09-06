@@ -1,0 +1,9 @@
+- hosts: galaxyserver
+  vars_files:
+    - secret_group_vars/global.vault
+    - group_vars/global.yml
+    - group_vars/env.yml
+  become: true
+  vars:
+  roles:
+    - usegalaxy-no.ecc
