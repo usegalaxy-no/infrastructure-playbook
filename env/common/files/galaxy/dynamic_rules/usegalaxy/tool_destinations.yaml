@@ -986,7 +986,7 @@ trimmomatic:
     _JAVA_OPTIONS: -XX:MaxPermSize=2G -Xmx6G -Xms1G -Djava.io.tmpdir=/tmp -Duser.home=/tmp
 trinity:
   cores: 4
-  mem: 512
+  mem: 170
   env:
     _JAVA_OPTIONS: -XX:MaxPermSize=2G -Xmx170G -Xms1G -Djava.io.tmpdir=/tmp -Duser.home=/tmp
   name: special
