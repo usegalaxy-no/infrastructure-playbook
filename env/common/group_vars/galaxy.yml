@@ -1,7 +1,8 @@
+---
 # Python 3 support
-pip_virtualenv_command: /usr/bin/python3 -m virtualenv # usegalaxy_eu.certbot, usegalaxy_eu.tiaas2, galaxyproject.galaxy
-certbot_virtualenv_package_name: python36-virtualenv # usegalaxy_eu.certbot
-pip_package: python3-pip # geerlingguy.pip
+pip_virtualenv_command: /usr/bin/python3 -m virtualenv  # usegalaxy_eu.certbot, usegalaxy_eu.tiaas2, galaxyproject.galaxy
+certbot_virtualenv_package_name: python36-virtualenv  # usegalaxy_eu.certbot
+pip_package: python3-pip  # geerlingguy.pip
 
 # Galaxy
 galaxy_create_user: false
@@ -11,7 +12,7 @@ galaxy_layout: root-dir
 galaxy_root: /srv/galaxy
 galaxy_log_dir: /var/log/galaxy
 
-galaxy_user: { name: galaxy }
+galaxy_user: {name: galaxy}
 galaxy_config_style: yaml
 galaxy_force_checkout: true
 miniconda_prefix: "{{ galaxy_tool_dependency_dir }}/_conda"
@@ -35,12 +36,14 @@ galaxy_config:
     tool_sheds_config_file: "{{ galaxy_config_dir }}/tool_sheds_conf.xml"
     job_config_file: "{{ galaxy_config_dir }}/job_conf.xml"
     job_metrics_config_file: "{{ galaxy_config_dir }}/job_metrics_conf.xml"
+    file_sources_config_file: "{{ galaxy_config_dir }}/file_sources_conf.yml"
+    user_preferences_extra_conf_path: "{{ galaxy_config_dir }}/user_preferences_extra_conf.yml"
     sanitize_whitelist_file: "{{ galaxy_mutable_config_dir }}/sanitize_whitelist.txt"
     job_working_directory: "{{ job_working_directory }}"
     refgenie_config_file: "/cvmfs/refgenomes-databio.galaxyproject.org/genomes_config.yaml"
     interactivetools_enable: "True"
     interactivetools_map: "{{ gie_proxy_sessions_path }}"
-    outputs_to_working_directory: True
+    outputs_to_working_directory: true
     galaxy_infrastructure_url: "https://{{ galaxy_host }}/"
     log_level: INFO
     allow_path_paste: true
@@ -125,6 +128,10 @@ galaxy_config_files:
     dest: "{{ galaxy_config_dir }}/dependency_resolvers_conf.xml"
   - src: files/galaxy/config/tool_sheds_conf.xml
     dest: "{{ galaxy_config_dir }}/tool_sheds_conf.xml"
+  - src: files/galaxy/config/file_sources_conf.yml
+    dest: "{{ galaxy_config_dir }}/file_sources_conf.yml"
+  - src: files/galaxy/config/user_preferences_extra_conf.yml
+    dest: "{{ galaxy_config_dir }}/user_preferences_extra_conf.yml"
 
 galaxy_tool_config_files:
   - "{{ galaxy_config_dir }}/tool_conf.xml"
@@ -243,7 +250,7 @@ telegraf_plugins_extra:
       - data_format = "influx"
       - interval = "1h"
 
-# Not all the gxadmin iqueries work eg: monthly_users_active. monthly_jobs
+  # Not all the gxadmin iqueries work eg: monthly_users_active. monthly_jobs
   galaxy_misc_stats:
     plugin: "exec"
     config:
@@ -356,5 +363,3 @@ telegraf_plugins_extra:
       - timeout = "15s"
       - data_format = "influx"
       - interval = "1m"
-
-

@@ -86,24 +86,6 @@
         }
 	</style>
 
-    {% if matomo_host and matomo_id %}
-    <!-- Matomo -->
-    <script type="text/javascript">
-        var _paq = window._paq || [];
-        /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
-        _paq.push(['trackPageView']);
-        _paq.push(['enableLinkTracking']);
-        (function() {
-            var u="{{matomo_host}}";
-            _paq.push(['setTrackerUrl', u+'matomo.php']);
-            _paq.push(['setSiteId', '{{matomo_id}}']);
-            var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-            g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
-        })();
-    </script>
-    <!-- End Matomo Code -->
-    {% endif %}
-
 </head>
 
 <body>
@@ -164,12 +146,15 @@ function checkTermsOfServiceAcceptance() {
             var response=JSON.parse(xhr.responseText);
             //console.log( "TOS-API request" + response);
             // response="grace:666 days"; // HARD-CODED VALUE FOR TESTING ONLY!
-            //console.log("ToS RESPONSE: "+response.status);
-            if (response.status == "accepted") {
+            //console.log("ToS RESPONSE STATUS: "+response.status);
+            if (xhr.status>=400 || response.status == "undefined") { // something went wrong when contacting the NGA server. To minimize the inconvenience to the user, we do nothing
+                console.error("NGA ToS response error!  HTTP status="+xhr.status+", response='"+xhr.responseText+"'");
+            }
+            else if (response.status == "accepted") {
                 // The user has accepted the ToS. Do nothing!
             } 
             else if (response.status == 'grace') {
-                console.log('in grace period');
+               console.log('in grace period');
                var message = "<p style='font-size:10pt;'>If you do not accept, you will still be able to use the service for a limited grace period to download any data you have already stored on the server <nobr>("+response.grace_period+" remaining).</nobr></p>";
                document.getElementById('tosmessage').innerHTML+=message;
                document.getElementById('tosaccept').classList.add("showtos"); // show ToS popup
@@ -621,7 +606,7 @@ function createNeLSdataTransferElement(job, jobtype) {
          const file   = str.substring(str.lastIndexOf("/") + 1, str.length);		    
          tooltip+="\nImporting history file '"+file+"' from NeLS Storage folder '"+folder+"'. ";
          var groups=file.match(/(.+?)-\d+T\d+.tgz/);
-         if (groups.length==2) historyname=groups[1];
+         if (!(groups===null) && groups.length==2) historyname=groups[1];
       }
       if (createTime!="") tooltip+="\nJob started: "+createTime;
       tooltip+="\nState: "+state;
@@ -715,8 +700,7 @@ function hideHistoryTransferJob(jobid,jobtype) {
 function onStartUp() {
     showVersion();
     displayQuota();
-    //server_alerts_url="https://galaxy-ntnu.bioinfo.no/nels/api/serveralerts/usegalaxy/active";
-    server_alerts_url="/static/server_alerts.json";
+    server_alerts_url="/static/server_alerts.json"+"?v"+Math.random(); // add random number to avoid caching;
     showServerAlerts(server_alerts_url,"server_alerts");
     checkTermsOfServiceAcceptance();
     //getCookie('galaxysession');
@@ -791,8 +775,8 @@ window.onload = onStartUp;
   <td style="height:320px;max-width:520px;min-width:250px;border:0px;vertical-align:top;" >
 
     <!-- Twitter feed box -->
-   <div class="col-sm-6 text-center twitterbox" style="height:736px;width:520px;max-width:520px;padding:10px;" id="twitter">
-      <a class="twitter-timeline" href="https://twitter.com/elixirnorway?ref_src=twsrc%5Etfw" height="720" width="500">Tweets by elixirnorway</a>
+    <div class="col-sm-6 text-center twitterbox" style="height:425px;width:416px;max-width:520px;padding:10px;" id="twitter">
+      <a class="twitter-timeline" data-width="400" data-height="410" href="https://twitter.com/elixirnorway?ref_src=twsrc%5Etfw"> </a>
       <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
    </div>
 
@@ -834,8 +818,6 @@ window.onload = onStartUp;
    and help-desk users in Norway and also toward ELIXIR internationally.
    To see a list of analysis workflows available on this Galaxy server, click the &ldquo;<a href="" onClick="clickSharedData();return false;">Shared Data</a>&rdquo; menu at
    the top of the page and select &ldquo;<a href="../workflows/list_published" id="published_workflows" target="_parent">Workflows</a>&rdquo;.
-   Visit&nbsp;the&nbsp;<a href="https://nels.bioinfo.no" target="_blank" >NeLS Portal</a> to
-   see the full list of available <a href="https://galaxy-ntnu.bioinfo.no/www/nels_pipelines.html">analysis workflows</a>.
   </div>
    
   </td> <!-- end of Row 2 Column 1 -->
