@@ -146,12 +146,15 @@ function checkTermsOfServiceAcceptance() {
             var response=JSON.parse(xhr.responseText);
             //console.log( "TOS-API request" + response);
             // response="grace:666 days"; // HARD-CODED VALUE FOR TESTING ONLY!
-            //console.log("ToS RESPONSE: "+response.status);
-            if (response.status == "accepted") {
+            //console.log("ToS RESPONSE STATUS: "+response.status);
+            if (xhr.status>=400 || response.status == "undefined") { // something went wrong when contacting the NGA server. To minimize the inconvenience to the user, we do nothing
+                console.error("NGA ToS response error!  HTTP status="+xhr.status+", response='"+xhr.responseText+"'");
+            }
+            else if (response.status == "accepted") {
                 // The user has accepted the ToS. Do nothing!
             } 
             else if (response.status == 'grace') {
-                console.log('in grace period');
+               console.log('in grace period');
                var message = "<p style='font-size:10pt;'>If you do not accept, you will still be able to use the service for a limited grace period to download any data you have already stored on the server <nobr>("+response.grace_period+" remaining).</nobr></p>";
                document.getElementById('tosmessage').innerHTML+=message;
                document.getElementById('tosaccept').classList.add("showtos"); // show ToS popup
@@ -815,8 +818,6 @@ window.onload = onStartUp;
    and help-desk users in Norway and also toward ELIXIR internationally.
    To see a list of analysis workflows available on this Galaxy server, click the &ldquo;<a href="" onClick="clickSharedData();return false;">Shared Data</a>&rdquo; menu at
    the top of the page and select &ldquo;<a href="../workflows/list_published" id="published_workflows" target="_parent">Workflows</a>&rdquo;.
-   Visit&nbsp;the&nbsp;<a href="https://nels.bioinfo.no" target="_blank" >NeLS Portal</a> to
-   see the full list of available <a href="https://galaxy-ntnu.bioinfo.no/www/nels_pipelines.html">analysis workflows</a>.
   </div>
    
   </td> <!-- end of Row 2 Column 1 -->

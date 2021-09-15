@@ -10,15 +10,15 @@ preferences:
               # type of input field that will be displayed to the user
               # can be string or password
               type: text
-              # by defaul all inputs are required
-              required: True
+              # by default all inputs are required
+              required: False
             - name: apollo_text
               label: Apollo Text
               # type of input field that will be displayed to the user
               # can be string or password
               type: text
-              # by defaul all inputs are required
-              required: True
+              # by default all inputs are required
+              required: False
 
     openstack_account:
         description: Your own Open Stack account
@@ -30,7 +30,7 @@ preferences:
             - name: url
               label: Open Stack URL
               type: text
-              required: True
+              required: False
 
     webhook_overlay_search:
         description: Configuration option for your search results
