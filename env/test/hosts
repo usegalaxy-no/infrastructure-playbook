@@ -16,4 +16,6 @@ slurm.test.usegalaxy.no ansible_host=158.39.48.214 ansible_user=sysadmin
 [jenkins]
 db.test.usegalaxy.no ansible_host=158.39.48.214 ansible_user=sysadmin
 
-
+[cvmfsproxy]
+cvmfsproxy01.test.usegalaxy.no ansible_host=158.39.77.37 ansible_user=sysadmin
+cvmfsproxy02.test.usegalaxy.no ansible_host=158.39.77.129 ansible_user=sysadmin

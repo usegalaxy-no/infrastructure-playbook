@@ -81,3 +81,5 @@
   name: usegalaxy-no.nels-galaxy-api
 - src: https://github.com/usegalaxy-no/ansible-role-ecc
   name: usegalaxy-no.ecc
+- src: https://github.com/usegalaxy-no/ansible-role-cvmfs-proxy
+  name: usegalaxy-no.cvmfsproxy
