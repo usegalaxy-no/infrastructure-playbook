@@ -1028,6 +1028,7 @@ nels_exporter_hidden: { runner: local }
 
 __IMPORT_HISTORY__: { runner: local }
 __EXPORT_HISTORY__: { runner: local }
+__EXPORT_HISTORY_TO_URI__: { runner: local }
 __SET_METADATA__: { runner: local }
 
 data_manager_metaphlan2_download: { runner: local }
