@@ -8,10 +8,10 @@ db.test.usegalaxy.no ansible_host=158.39.201.33 ansible_user=sysadmin trusted_ho
 cvmfs0.test.usegalaxy.no ansible_host=158.39.48.214 ansible_user=sysadmin
 
 [slurm]
-slurm.test.usegalaxy.no ansible_host=158.39.48.214 ansible_user=sysadmin trusted_host=yes
+slurm.test.usegalaxy.no ansible_host=158.39.201.147 ansible_user=sysadmin trusted_host=yes
 
 [pulsar_testusegalaxy_nvi]
-slurm.test.usegalaxy.no ansible_host=158.39.48.214 ansible_user=sysadmin
+slurm.test.usegalaxy.no ansible_host=158.39.201.147 ansible_user=sysadmin
 
 [jenkins]
 db.test.usegalaxy.no ansible_host=158.39.48.214 ansible_user=sysadmin
