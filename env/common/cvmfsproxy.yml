@@ -224,7 +224,7 @@
     - name: touch cvmfs.local
       file:
         path: /etc/cvmfs/default.local
-        state: touched
+        state: touch
         mode: '0644'
       tags:
         - change_clients
