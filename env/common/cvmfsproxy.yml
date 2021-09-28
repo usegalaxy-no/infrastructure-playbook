@@ -121,7 +121,7 @@
         regexp: '^CVMFS_HTTP_PROXY'
         backup: yes
       tags:
-        - clients
+        - change_clients
 
     - name: add proxy to cvmfs config
       lineinfile:
@@ -130,4 +130,59 @@
       notify:
         - restart autofs
       tags:
-        - clients
+        - change_clients
+
+- hosts: slurm
+  gather_facts: yes
+  become: true
+
+  vars_files:
+    - secret_group_vars/global.vault
+    - group_vars/global.yml
+    - group_vars/env.yml
+    - group_vars/cvmfsproxy.yml
+
+  handlers:
+
+    - name: restart autofs
+      service:
+        name: autofs
+        state: restarted
+
+  tasks:
+
+    - name: remove any old cvmfs fstab lines if exists
+      lineinfile:
+        path: /etc/fstab
+        state: absent
+        regexp: '^{{ fstab_pattern }}'
+        backup: yes
+      tags:
+        - change_clients
+
+    - name: add proxy to cvmfs config
+      lineinfile:
+        path: /etc/cvmfs/default.local
+        line: CVMFS_HTTP_PROXY="{{ cvmfs_proxy }}"
+      notify:
+        - restart autofs
+      tags:
+        - change_clients
+    
+    - name: umount nfs cvmfs
+      mount:
+        src: '{{ item }}'
+        state: unmounted
+      with_tems:
+        - " {{ fstab_pattern }}/data.galaxyproject.org"
+        - "{{ fstab_pattern }}/data.usegalaxy.no"
+      tags:
+        - change_clients
+   
+    - name: enable autofs
+      service:
+        name: autofs
+        state: started
+        enabled: true
+      tags:
+        - change_clients
