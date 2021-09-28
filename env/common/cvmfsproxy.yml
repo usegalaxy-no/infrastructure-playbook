@@ -152,6 +152,17 @@
 
   tasks:
 
+    - name: add pub key
+      copy:
+        src: cvmfs/data.galaxyproject.org.pub
+        dest: /etc/cvmfs/keys/galaxyproject.org/data.galaxyproject.org.pub
+        mode: '0644'
+        ower: root
+        group: root
+      tags:
+        - change_clients
+
+
     - name: remove any old cvmfs fstab lines if exists
       lineinfile:
         path: /etc/fstab
