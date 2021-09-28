@@ -157,7 +157,7 @@
         src: cvmfs/data.galaxyproject.org.pub
         dest: /etc/cvmfs/keys/galaxyproject.org/data.galaxyproject.org.pub
         mode: '0644'
-        ower: root
+        owner: root
         group: root
       tags:
         - change_clients
