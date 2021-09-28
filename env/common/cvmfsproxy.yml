@@ -58,6 +58,7 @@
     - name: refresh squid cache
       command: /sbin/squid -z
       notify: restart squid
+      changed_when: false
       tags:
         - server
 
