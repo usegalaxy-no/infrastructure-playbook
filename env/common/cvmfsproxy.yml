@@ -152,6 +152,15 @@
 
   tasks:
 
+    - name: install packages
+      package:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - autofs
+      tags:
+        - change_clients
+  
     - name: create key dir
       file:
         path: /etc/cvmfs/keys/galaxyproject.org
@@ -213,6 +222,12 @@
       with_items:
         - "/cvmfs/data.galaxyproject.org"
         - "/cvmfs/data.usegalaxy.no"
+      tags:
+        - change_clients
+
+    - name: add cvmfs to autofs
+      command: cvmfs_config setup
+      changed_when: false
       tags:
         - change_clients
 
