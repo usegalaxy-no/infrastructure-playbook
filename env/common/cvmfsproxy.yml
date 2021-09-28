@@ -168,7 +168,7 @@
         - restart autofs
       tags:
         - change_clients
-    
+
     - name: umount nfs cvmfs
       mount:
         src: '{{ item }}'
@@ -178,7 +178,7 @@
         - "{{ fstab_pattern }}/data.usegalaxy.no"
       tags:
         - change_clients
-   
+
     - name: enable autofs
       service:
         name: autofs
