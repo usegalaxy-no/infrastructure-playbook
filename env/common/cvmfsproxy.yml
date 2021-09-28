@@ -174,8 +174,8 @@
       mount:
         src: '{{ item }}'
         state: unmounted
-      with_tems:
-        - " {{ fstab_pattern }}/data.galaxyproject.org"
+      with_items:
+        - "{{ fstab_pattern }}/data.galaxyproject.org"
         - "{{ fstab_pattern }}/data.usegalaxy.no"
       tags:
         - change_clients
