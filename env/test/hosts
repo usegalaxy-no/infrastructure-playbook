@@ -9,8 +9,8 @@ cvmfs0.test.usegalaxy.no ansible_host=158.39.48.214 ansible_user=sysadmin
 
 [slurm]
 slurm.test.usegalaxy.no ansible_host=158.39.201.147 ansible_user=sysadmin trusted_host=yes
-ecc1.test.usegalaxy.no ansible_host=158.39.77.155 ansible_user=sysadmin trusted_host=yes
-ecc2.test.usegalaxy.no ansible_host=158.39.77.63 ansible_user=sysadmin trusted_host=yes
+#ecc1.test.usegalaxy.no ansible_host=158.39.77.155 ansible_user=sysadmin trusted_host=yes
+#ecc2.test.usegalaxy.no ansible_host=158.39.77.63 ansible_user=sysadmin trusted_host=yes
 
 
 
