@@ -221,6 +221,14 @@
 
   tasks:
 
+    - name: touch cvmfs.local
+      file:
+        path: /etc/cvmfs/default.local
+        state: touched
+        mode: '0644'
+      tags:
+        - change_clients
+
     - name: add proxy to cvmfs config
       lineinfile:
         path: /etc/cvmfs/default.local
