@@ -172,11 +172,11 @@
 
     - name: umount nfs cvmfs
       mount:
-        src: '{{ item }}'
+        path: '{{ item }}'
         state: unmounted
       with_items:
-        - "{{ fstab_pattern }}/data.galaxyproject.org"
-        - "{{ fstab_pattern }}/data.usegalaxy.no"
+        - "/cvmfs/data.galaxyproject.org"
+        - "/cvmfs/data.usegalaxy.no"
       tags:
         - change_clients
 
