@@ -209,6 +209,35 @@
       tags:
         - change_clients
 
+- hosts: database
+  gather_facts: yes
+  become: true
+
+  vars_files:
+    - secret_group_vars/global.vault
+    - group_vars/global.yml
+    - group_vars/env.yml
+    - group_vars/cvmfsproxy.yml
+
+  tasks:
+
+    - name: add proxy to cvmfs config
+      lineinfile:
+        path: /etc/cvmfs/default.local
+        line: CVMFS_HTTP_PROXY="{{ cvmfs_proxy }}"
+      tags:
+        - change_clients
+
+    - name: remount  cvmfs
+      mount:
+        path: '{{ item }}'
+        state: remounted
+      with_items:
+        - "/var/spool/cvmfs/{{ datausegalaxy }}/rdonly"
+        - "/cvmfs/{{ datausegalaxy }}"
+      tags:
+        - change_clients
+
 - hosts: galaxyserver, slurm
   gather_facts: yes
   become: true
