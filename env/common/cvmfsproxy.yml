@@ -170,6 +170,15 @@
       tags:
         - change_clients
 
+    - name: add proxy to cvmfs config
+      lineinfile:
+        path: /etc/cvmfs/default.local
+        line: CVMFS_HTTP_PROXY="{{ cvmfs_proxy }}"
+      notify:
+        - restart autofs
+      tags:
+        - change_clients
+
     - name: umount nfs cvmfs
       mount:
         path: '{{ item }}'
