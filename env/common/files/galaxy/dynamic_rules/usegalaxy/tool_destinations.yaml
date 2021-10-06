@@ -1026,6 +1026,9 @@ nels_file_browser: { runner: local }
 nels_export: { runner: local }
 nels_exporter_hidden: { runner: local }
 
+param_value_from_file: { runner: local }
+pick_value: { runner: local }
+
 __IMPORT_HISTORY__: { runner: local }
 __EXPORT_HISTORY__: { runner: local }
 __EXPORT_HISTORY_TO_URI__: { runner: local }
