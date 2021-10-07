@@ -87,7 +87,7 @@
         owner: "{{ galaxy_user.name }}"
         group: "{{ galaxy_user.name }}"
 
-- hosts: ecc\*
+- hosts: slurm:!slurm.test.usegalaxy.no:!slurm.usegalaxy.no
   become: true
   vars_files:
     - group_vars/global.yml
