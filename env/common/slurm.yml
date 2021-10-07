@@ -87,6 +87,21 @@
         owner: "{{ galaxy_user.name }}"
         group: "{{ galaxy_user.name }}"
 
+- hosts: ecc\*
+  become: true
+  vars_files:
+    - group_vars/global.yml
+    - secret_group_vars/global.vault
+    - group_vars/env.yml
+    - group_vars/slurm.yml
+    - group_vars/galaxy.yml
+  vars:
+    nfs_mode: client
+
+  pre_tasks:
+
+  roles:
+    - galaxyproject.cvmfs
 
 - hosts: slurm
   become: true
