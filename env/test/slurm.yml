@@ -91,6 +91,13 @@
 
 - hosts: slurm:!slurm.test.usegalaxy.no:!slurm.usegalaxy.no
   become: true
+  handlers:
+
+    - name: restart autofs
+      service:
+        name: autofs
+        state: restarted
+        enabled: yes
   vars_files:
     - group_vars/global.yml
     - secret_group_vars/global.vault
