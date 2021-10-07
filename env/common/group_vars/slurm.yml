@@ -81,12 +81,12 @@ nfs_client_imports:
   - local: "/data/part0"
     remote: "/data/part0"
     server_host: "{{ galaxy_host }}"
-  - local: "/cvmfs/data.galaxyproject.org"
-    remote: "/cvmfs/data.galaxyproject.org"
-    server_host: "{{ galaxy_host }}"
-  - local: "/cvmfs/data.usegalaxy.no"
-    remote: "/cvmfs/data.usegalaxy.no"
-    server_host: "{{ galaxy_host }}"
+#  - local: "/cvmfs/data.galaxyproject.org"
+#   remote: "/cvmfs/data.galaxyproject.org"
+#   server_host: "{{ galaxy_host }}"
+#  - local: "/cvmfs/data.usegalaxy.no"
+#   remote: "/cvmfs/data.usegalaxy.no"
+#   server_host: "{{ galaxy_host }}"
 
 cvmfs_role: client
 galaxy_cvmfs_repos_enabled: config-repo
