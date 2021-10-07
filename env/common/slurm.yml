@@ -103,6 +103,52 @@
   roles:
     - galaxyproject.cvmfs
 
+  post_tasks:
+
+    - name: create key dir
+      file:
+        path: /etc/cvmfs/keys/galaxyproject.org
+        state: directory
+        mode: '0755'
+
+    - name: add pub key
+      copy:
+        src: cvmfs/data.galaxyproject.org.pub
+        dest: /etc/cvmfs/keys/galaxyproject.org/data.galaxyproject.org.pub
+        mode: '0644'
+        owner: root
+        group: root
+
+    - name: touch cvmfs.local
+      file:
+        path: /etc/cvmfs/default.local
+        state: touch
+        mode: '0644'
+
+    - name: remove any old cvmfs proxy lines if exists
+      lineinfile:
+        path: /etc/cvmfs/default.local
+        state: absent
+        regexp: '^CVMFS_HTTP_PROXY'
+        backup: yes
+
+    - name: add proxy to cvmfs config
+      lineinfile:
+        path: /etc/cvmfs/default.local
+        line: CVMFS_HTTP_PROXY="{{ cvmfs_proxy }}"
+      notify:
+        - restart autofs
+
+    - name: add cvmfs to autofs
+      command: cvmfs_config setup
+      changed_when: false
+
+    - name: enable autofs
+      service:
+        name: autofs
+        state: started
+        enabled: true
+
 - hosts: slurm
   become: true
   vars_files:
