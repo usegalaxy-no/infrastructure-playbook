@@ -120,3 +120,11 @@
         state: file
         mode: "0755"
         owner: "{{ galaxy_user.name }}"
+
+    - name: Make sure cvmfs owns local folder
+      file:
+        path: "{{ galaxy_file_path }}/cvmfs"
+        state: directory
+        mode: "0755"
+        owner: cvmfs
+
