@@ -128,3 +128,10 @@
         mode: "0755"
         owner: cvmfs
 
+    - name: make sure 0775 permissions on the dependencies folder
+      file:
+        path: "{{ galaxy_root }}/server/dependencies"
+        state: directory
+        mode: "0755"
+        owner: galaxy
+        group: root
