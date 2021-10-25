@@ -1,1 +1,117 @@
-../../common/group_vars/slurm.yml
+slurm_cgroup_config:
+  CgroupMountpoint: "/sys/fs/cgroup"
+  CgroupAutomount: yes
+  ConstrainCores: yes
+  TaskAffinity: no
+  ConstrainRAMSpace: no
+  ConstrainSwapSpace: no
+  ConstrainDevices: no
+  AllowedRamSpace: 99.5
+  AllowedSwapSpace: 0
+  MaxRAMPercent: 99.5
+  MaxSwapPercent: 100
+  MinRAMSpace: 30
+slurm_config:
+  ClusterName: usegalaxy
+  SchedulerType: sched/backfill
+  TaskPlugin: task/cgroup #,task/affinity
+  #TaskPluginParam: Sched
+  SelectType: select/cons_res
+  ProctrackType: proctrack/cgroup
+  JobAcctGatherType: jobacct_gather/cgroup
+  AccountingStorageType: accounting_storage/slurmdbd
+  AccountingStorageHost: "{{ galaxy_host }}"
+  SelectTypeParameters: CR_Core_Memory
+  ControlMachine: "{{ galaxy_host }}"
+  SlurmctldLogFile: /var/log/slurm/slurmctld.log
+  SlurmdLogFile: /var/log/slurm/slurmd.log
+  SlurmdDebug: 3
+  DefMemPerCPU: 1000
+  SrunPortRange: "{{ slurm_SrunPortRange }}"
+slurmdbd_config:
+  AuthType: auth/munge
+  DbdAddr: "{{ galaxy_host }}"
+  DbdHost: "{{ galaxy_host }}"
+  SlurmUser: slurm
+  LogFile: /var/log/slurm/slurmdbd.log
+  PidFile: /var/run/slurmdbd.pid
+  StorageType: accounting_storage/mysql
+  StorageHost: " {{ db_host }}"
+  StoragePort: 3306
+  StoragePass: "{{ mysql_slurm_password }}"
+  StorageUser: "{{ mysql_slurm_username }}"
+  StorageLoc: slurm_acct_db
+
+slurm_nodes_old:
+  - name: "{{ slurm_host }}"
+    CoresPerSocket: "{{ hostvars[slurm_host].ansible_processor_cores }}"
+    Sockets: "{{ hostvars[slurm_host].ansible_processor_count }}"
+    ThreadsPerCore: "{{ hostvars[slurm_host].ansible_processor_threads_per_core }}"
+    CPUs: "{{ hostvars[slurm_host].ansible_processor_vcpus }}"
+    RealMemory: "{{ hostvars[slurm_host].ansible_memtotal_mb }}"
+
+slurm_partitions:
+  - name: "usegalaxy_{{ env }}"
+    Default: YES
+    MaxTime: UNLIMITED
+    Nodes: "{{ groups[ 'slurm' ] | join(',') }}"
+
+slurm_munge_key: files/munge/munge.key
+
+slurm_node_ips: "{{ groups['slurm'] | map('extract', hostvars, ['ansible_eth0', 'ipv4', 'address']) | join(',') }}"
+
+# Needs to be /data/part0 as it is not possible to share a drive with a mounted drive in it
+# Will need to extend this when/if new drives come online
+nfs_exports:
+  - path: "/srv/galaxy"
+#    export: "{{ slurm_node_ips }}(rw,async,no_root_squash)"
+    export: "{{ groups['slurm'] | map('extract', hostvars, ['ansible_eth0', 'ipv4', 'address']) | join('(rw,async,no_root_squash) ')}}(rw,async,no_root_squash)"
+  - path: "/data/part0"
+#    export: "{{ slurm_node_ips }}(rw,sync,no_root_squash)"
+    export: "{{ groups['slurm'] | map('extract', hostvars, ['ansible_eth0', 'ipv4', 'address']) | join('(rw,sync,no_root_squash) ')}}(rw,sync,no_root_squash)"
+  - path: "/cvmfs/data.galaxyproject.org"
+    export: "*(ro,sync,no_root_squash,no_subtree_check,fsid=101)"
+  - path: "/cvmfs/data.usegalaxy.no"
+    export: "*(ro,sync,no_root_squash,no_subtree_check,fsid=102)"
+
+nfs_client_imports:
+  - local: "/srv/galaxy"
+    remote: "/srv/galaxy"
+    server_host: "{{ galaxy_host }}"
+  - local: "/data/part0"
+    remote: "/data/part0"
+    server_host: "{{ galaxy_host }}"
+  - local: "/cvmfs/data.galaxyproject.org"
+    remote: "/cvmfs/data.galaxyproject.org"
+    server_host: "{{ galaxy_host }}"
+  - local: "/cvmfs/data.usegalaxy.no"
+    remote: "/cvmfs/data.usegalaxy.no"
+    server_host: "{{ galaxy_host }}"
+
+cvmfs_role: client
+galaxy_cvmfs_repos_enabled: config-repo
+
+cvmfs_server_urls:
+  - domain: galaxyproject.org
+    use_geoapi: yes
+    #key_dir: "/cvmfs/cvmfs-config.galaxyproject.org/etc/cvmfs/keys/galaxyproject.org/"
+    urls:
+      #- "http://invivo.hpc.uio.no/cvmfs/@fqrn@"
+      - "http://cvmfs1-ufr0.galaxyproject.eu/cvmfs/@fqrn@"
+      - "http://cvmfs1-psu0.galaxyproject.org/cvmfs/@fqrn@"
+      - "http://cvmfs1-iu0.galaxyproject.org/cvmfs/@fqrn@"
+      - "http://cvmfs1-tacc0.galaxyproject.org/cvmfs/@fqrn@"
+      #- "http://cvmfs1-mel0.gvl.org.au/cvmfs/@fqrn@"
+  - domain: "{{ galaxy_host }}"
+    use_geoapi: no
+    urls:
+      - "http://{{ cvmfs0_host }}/cvmfs/@fqrn@"
+
+telegraf_plugins_extra:
+  services:
+    plugin: "exec"
+    config:
+      - commands = ["/usr/local/bin/systemd_status.py -t fail2ban slurmd autofs"]
+      - timeout = "15s"
+      - data_format = "influx"
+      - interval = "1m"
