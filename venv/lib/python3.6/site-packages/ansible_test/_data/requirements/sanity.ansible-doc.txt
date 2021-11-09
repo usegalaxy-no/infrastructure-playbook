@@ -1,3 +1,0 @@
-jinja2  # ansible-core requirement
-pyyaml  # ansible-core requirement
-packaging  # ansible-doc requirement

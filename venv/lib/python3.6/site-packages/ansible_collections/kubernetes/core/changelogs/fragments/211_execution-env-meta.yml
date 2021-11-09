@@ -1,3 +1,0 @@
----
-minor_changes:
-  - Add execution environment metadata (https://github.com/ansible-collections/kubernetes.core/pull/211).

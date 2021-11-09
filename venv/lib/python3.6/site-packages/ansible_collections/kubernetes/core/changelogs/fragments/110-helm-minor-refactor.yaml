@@ -1,3 +1,0 @@
----
-minor_changes:
-  - helm - minor code refactoring (https://github.com/ansible-collections/kubernetes.core/pull/110).

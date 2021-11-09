@@ -1,3 +1,0 @@
----
-bugfixes:
-  - raw - handle condition when definition is none (https://github.com/ansible-collections/kubernetes.core/pull/139).

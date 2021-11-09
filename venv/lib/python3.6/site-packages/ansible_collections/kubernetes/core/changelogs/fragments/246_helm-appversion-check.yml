@@ -1,3 +1,0 @@
----
-minor_changes:
-  - helm - Add appVersion idempotence check to Helm (https://github.com/ansible-collections/kubernetes.core/pull/246).

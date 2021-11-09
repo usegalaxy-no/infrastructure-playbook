@@ -1,3 +1,0 @@
----
-minor_changes:
-  - helm - Support for single or multiple values files (https://github.com/ansible-collections/kubernetes.core/pull/93).
