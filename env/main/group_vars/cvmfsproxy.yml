@@ -1,0 +1,7 @@
+public_ports: "['ssh']"
+proxy_ports: "['squid']" 
+cvmfs_clients: "['158.38.0.0/16', '158.39.0.0/16', '158.37.7.0/24', '127.0.0.1']"
+cache_dir: /var/spool/squid
+cvmfs_proxy: "http://cvmfsproxy01.usegalaxy.no:3128|http://cvmfsproxy02.usegalaxy.no:3128"
+fstab_pattern: "usegalaxy.no:/cvmfs"
+datausegalaxy: data.usegalaxy.no

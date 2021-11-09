@@ -1,0 +1,35 @@
+{
+ "collection_info": {
+  "namespace": "netapp",
+  "name": "aws",
+  "version": "21.6.0",
+  "authors": [
+   "NetApp Ansible Team <ng-ansibleteam@netapp.com>"
+  ],
+  "readme": "README.md",
+  "tags": [
+   "storage",
+   "cloud",
+   "netapp",
+   "cvs",
+   "amazon",
+   "aws"
+  ],
+  "description": "Cloud Volumes Service (CVS) for AWS",
+  "license": [],
+  "license_file": "COPYING",
+  "dependencies": {},
+  "repository": "https://github.com/ansible-collections/netapp.aws",
+  "documentation": null,
+  "homepage": "https://netapp.io/configuration-management-and-automation/",
+  "issues": null
+ },
+ "file_manifest_file": {
+  "name": "FILES.json",
+  "ftype": "file",
+  "chksum_type": "sha256",
+  "chksum_sha256": "44f3eabc3dbe5bd03b974a3b951fe5f3f91860836c854286c4d0833bf17e7699",
+  "format": 1
+ },
+ "format": 1
+}

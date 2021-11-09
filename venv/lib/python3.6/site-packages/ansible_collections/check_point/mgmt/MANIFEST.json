@@ -1,0 +1,32 @@
+{
+ "collection_info": {
+  "description": "Check Point collection for the Management Server", 
+  "repository": "https://github.com/CheckPointSW/CheckPointAnsibleMgmtCollection", 
+  "tags": [
+   "security"
+  ], 
+  "dependencies": {}, 
+  "authors": [
+   "Or Soffer <orso@checkpoint.com>"
+  ], 
+  "issues": "https://github.com/CheckPointSW/CheckPointAnsibleMgmtCollection/issues", 
+  "name": "mgmt", 
+  "license": [
+   "GPL-2.0-or-later"
+  ], 
+  "documentation": "https://docs.ansible.com/ansible/latest/modules/list_of_network_modules.html#check-point", 
+  "namespace": "check_point", 
+  "version": "2.1.1", 
+  "readme": "README.md", 
+  "license_file": null, 
+  "homepage": "https://github.com/CheckPointSW/CheckPointAnsibleMgmtCollection"
+ }, 
+ "file_manifest_file": {
+  "format": 1, 
+  "ftype": "file", 
+  "chksum_sha256": "e06b8ce68b9dcde0b0c82bbb47fbd0ae0b20a24391c3c50a0ee50770546af26d", 
+  "name": "FILES.json", 
+  "chksum_type": "sha256"
+ }, 
+ "format": 1
+}

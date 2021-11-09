@@ -1,0 +1,101 @@
+Metadata-Version: 2.1
+Name: galaxy-util
+Version: 21.9.0
+Summary: Galaxy Generic Utilities
+Home-page: https://github.com/galaxyproject/galaxy
+Author: Galaxy Project and Community
+Author-email: galaxy-committers@lists.galaxyproject.org
+License: AFL
+Keywords: galaxy
+Platform: UNKNOWN
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: Environment :: Console
+Classifier: License :: OSI Approved :: Academic Free License (AFL)
+Classifier: Operating System :: POSIX
+Classifier: Topic :: Software Development
+Classifier: Topic :: Software Development :: Code Generators
+Classifier: Topic :: Software Development :: Testing
+Classifier: Natural Language :: English
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Description-Content-Type: text/x-rst
+Requires-Dist: bleach
+Requires-Dist: boltons
+Requires-Dist: docutils
+Requires-Dist: markupsafe
+Requires-Dist: packaging
+Requires-Dist: pycryptodome
+Requires-Dist: pyyaml
+Requires-Dist: requests
+Requires-Dist: routes
+Requires-Dist: six (>=1.9.0)
+Requires-Dist: zipstream-new
+Provides-Extra: jstree
+Requires-Dist: dictobj ; extra == 'jstree'
+Provides-Extra: template
+Requires-Dist: future ; extra == 'template'
+Requires-Dist: Cheetah3 ; extra == 'template'
+
+
+.. image:: https://badge.fury.io/py/galaxy-util.svg
+   :target: https://pypi.org/project/galaxy-util/
+
+
+Overview
+--------
+
+The Galaxy_ utilities module.
+
+* Free software: Academic Free License version 3.0
+* Code: https://github.com/galaxyproject/galaxy
+
+.. _Galaxy: http://galaxyproject.org/
+
+
+
+
+History
+-------
+
+.. to_doc
+
+---------------------
+21.1.1.dev0
+---------------------
+
+
+
+---------------------
+21.1.0 (2021-03-19)
+---------------------
+
+* First release from the 21.01 branch of Galaxy.
+
+---------------------
+20.9.1 (2020-10-28)
+---------------------
+
+
+---------------------
+20.9.0 (2020-10-15)
+---------------------
+
+* First release from the 20.09 branch of Galaxy.
+
+---------------------
+20.5.0 (2020-07-03)
+---------------------
+
+* First release from 20.05 branch of Galaxy.
+
+---------------------
+19.9.0 (2019-11-21)
+---------------------
+
+* Initial import from dev branch of Galaxy during 19.09 development cycle.
+
+

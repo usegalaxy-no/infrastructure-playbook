@@ -1,0 +1,691 @@
+{
+ "files": [
+  {
+   "name": ".",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "requirements.txt",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "3fc6781dfd99664ea3df19e10ff3fd4cb5fcb9a1ffab3974bf29a072688fac2b",
+   "format": 1
+  },
+  {
+   "name": "plugins",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "plugins/doc_fragments",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "plugins/doc_fragments/netapp.py",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "05eeac3f09944a70935c66674fecd48fc0992c2706bc4168b10f54dff6517b6e",
+   "format": 1
+  },
+  {
+   "name": "plugins/doc_fragments/azure.py",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "e2fddafaafe92473737d8a9b23ad23ce82703b0144a9930f8ace78f7138144f9",
+   "format": 1
+  },
+  {
+   "name": "plugins/doc_fragments/azure_tags.py",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "e8c9d720dbc7605d3ee66799e8e81d0886e404c9a07b6b9b8edc844e0646de64",
+   "format": 1
+  },
+  {
+   "name": "plugins/module_utils",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "plugins/module_utils/azure_rm_netapp_common.py",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "3a8acc239e2f4de911aa713133cb75e69c61c09292d4de9d19c52ce3a90e18d7",
+   "format": 1
+  },
+  {
+   "name": "plugins/module_utils/netapp_module.py",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "44ebf2058eef2cc291d84bda55a9d22745a54ea08244d2c3fa498c835a60412f",
+   "format": 1
+  },
+  {
+   "name": "plugins/modules",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "plugins/modules/azure_rm_netapp_volume.py",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "57f7917d51e630e28625b9aed1e055fc993912079ec84066b9b4dc00a79fc076",
+   "format": 1
+  },
+  {
+   "name": "plugins/modules/azure_rm_netapp_snapshot.py",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "cb97e5fe758ded5c061c587caa4b5ece7e5093aa8735d28b5915b8ffae10493d",
+   "format": 1
+  },
+  {
+   "name": "plugins/modules/azure_rm_netapp_account.py",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "371e98c5eb914d5b5b29d5a38a0128a473a56503b24a0117cad094cd35fa4f68",
+   "format": 1
+  },
+  {
+   "name": "plugins/modules/azure_rm_netapp_capacity_pool.py",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "45ae9bf9be901a5744da83e0476439cc4afc583f996b5116e63a3ff1388789aa",
+   "format": 1
+  },
+  {
+   "name": "tests",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "tests/unit",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "tests/unit/compat",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "tests/unit/compat/unittest.py",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "cba95d18c5b39c6f49714eacf1ac77452c2e32fa087c03cf01aacd19ae597b0f",
+   "format": 1
+  },
+  {
+   "name": "tests/unit/compat/builtins.py",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "0ca4cac919e166b25e601e11acb01f6957dddd574ff0a62569cb994a5ecb63e1",
+   "format": 1
+  },
+  {
+   "name": "tests/unit/compat/__init__.py",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "format": 1
+  },
+  {
+   "name": "tests/unit/compat/mock.py",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "0af958450cf6de3fbafe94b1111eae8ba5a8dbe1d785ffbb9df81f26e4946d99",
+   "format": 1
+  },
+  {
+   "name": "tests/unit/requirements.txt",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "9bc7b3292d206bad4d2b172dcda75d02bdc25ddb7ee90939de082570e665ba94",
+   "format": 1
+  },
+  {
+   "name": "tests/unit/plugins",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "tests/unit/plugins/module_utils",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "tests/unit/plugins/module_utils/test_netapp_module.py",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "26d17aa4e1be7ddd99dd8150f3f72726693835df4480f09f63d665ba4568054d",
+   "format": 1
+  },
+  {
+   "name": "tests/unit/plugins/modules",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "tests/unit/plugins/modules/test_azure_rm_netapp_volume_import.py",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "6fb1715ddd3de877a50b0f8dd97d5b7e4518ca309f81f188eeedf0da7bd8ed6d",
+   "format": 1
+  },
+  {
+   "name": "tests/unit/plugins/modules/test_azure_rm_netapp_capacity_pool.py",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "b11cda78979b02f959d49bf229ede93a4bbad15efd7f7edb947d74fce9efd4a5",
+   "format": 1
+  },
+  {
+   "name": "tests/unit/plugins/modules/test_azure_rm_netapp_snapshot.py",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "44f19939f7317533c3dbfa08e52f775a315c14ca27126613a539f030219e0c81",
+   "format": 1
+  },
+  {
+   "name": "tests/unit/plugins/modules/test_azure_rm_netapp_volume.py",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "566f3f0d230bf17b23e84991916e8b2129436fcbaea739bc4d965ae72d9c40d5",
+   "format": 1
+  },
+  {
+   "name": "tests/unit/plugins/modules/test_azure_rm_netapp_account.py",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "199b50bd1d282f7c80ecaba75e3693ac0459511dbfa813bf38d3c0ace6a53baf",
+   "format": 1
+  },
+  {
+   "name": "tests/integration",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "tests/integration/targets",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "tests/integration/targets/azure_rm_netapp_volume",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "tests/integration/targets/azure_rm_netapp_volume/tasks",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "tests/integration/targets/azure_rm_netapp_volume/tasks/main.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "37ecd68e07721ba9b164a9cf650354e65d9b522a8fa80ee5dd0a0f85ecbbb82c",
+   "format": 1
+  },
+  {
+   "name": "tests/integration/targets/azure_rm_netapp_volume/meta",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "tests/integration/targets/azure_rm_netapp_volume/meta/main.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "d00bd90476595ae7d97d3ca8f8aa7ff475ebc3dd87d7d12e862bf0527f7bd81f",
+   "format": 1
+  },
+  {
+   "name": "tests/integration/targets/azure_rm_netapp_volume/aliases",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "262ad6ab8a8087f2f21d4f26a2c2d02c347a7edf0fb1af8fdb931ab1c1087bbb",
+   "format": 1
+  },
+  {
+   "name": "tests/integration/targets/azure_rm_netapp_capacity_pool",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "tests/integration/targets/azure_rm_netapp_capacity_pool/tasks",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "tests/integration/targets/azure_rm_netapp_capacity_pool/tasks/main.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "725cf3d8200cc95ad524962e33008627f642ac6cb17daee6d833d7ad4990c904",
+   "format": 1
+  },
+  {
+   "name": "tests/integration/targets/azure_rm_netapp_capacity_pool/meta",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "tests/integration/targets/azure_rm_netapp_capacity_pool/meta/main.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "86ade1ce7ec530fef84440672efaf3b60c253946bb82f5f0a134a9691bc6ffad",
+   "format": 1
+  },
+  {
+   "name": "tests/integration/targets/azure_rm_netapp_capacity_pool/aliases",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "6d10b8feb73c18dc63753fe195137e2505f925ba1cbcdf5df43f67ad8c93f7a3",
+   "format": 1
+  },
+  {
+   "name": "tests/integration/targets/azure_rm_netapp_snapshot",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "tests/integration/targets/azure_rm_netapp_snapshot/tasks",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "tests/integration/targets/azure_rm_netapp_snapshot/tasks/main.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "2c1ad3044c2063456e66ffca7f717b0d5b01561685df50819b3ddab8f256f1e3",
+   "format": 1
+  },
+  {
+   "name": "tests/integration/targets/azure_rm_netapp_snapshot/meta",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "tests/integration/targets/azure_rm_netapp_snapshot/meta/main.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "d00bd90476595ae7d97d3ca8f8aa7ff475ebc3dd87d7d12e862bf0527f7bd81f",
+   "format": 1
+  },
+  {
+   "name": "tests/integration/targets/azure_rm_netapp_snapshot/aliases",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "262ad6ab8a8087f2f21d4f26a2c2d02c347a7edf0fb1af8fdb931ab1c1087bbb",
+   "format": 1
+  },
+  {
+   "name": "tests/integration/targets/azure_rm_netapp_account",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "tests/integration/targets/azure_rm_netapp_account/tasks",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "tests/integration/targets/azure_rm_netapp_account/tasks/main.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "af6c1c6108bde6652e3e6c3fa84bbf33b9e8e8d214fd5e6e2096d8a900993adb",
+   "format": 1
+  },
+  {
+   "name": "tests/integration/targets/azure_rm_netapp_account/meta",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "tests/integration/targets/azure_rm_netapp_account/meta/main.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "d00bd90476595ae7d97d3ca8f8aa7ff475ebc3dd87d7d12e862bf0527f7bd81f",
+   "format": 1
+  },
+  {
+   "name": "tests/integration/targets/azure_rm_netapp_account/aliases",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "262ad6ab8a8087f2f21d4f26a2c2d02c347a7edf0fb1af8fdb931ab1c1087bbb",
+   "format": 1
+  },
+  {
+   "name": "tests/runner",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "tests/runner/requirements",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "tests/runner/requirements/integration.cloud.azure.txt",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "48edd11776e45cc283be0d76efed83271645ff082d0d22c23d8a16ede3f13104",
+   "format": 1
+  },
+  {
+   "name": "tests/runner/requirements/unit.cloud.azure.txt",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "48edd11776e45cc283be0d76efed83271645ff082d0d22c23d8a16ede3f13104",
+   "format": 1
+  },
+  {
+   "name": "tests/runner/requirements/requirements-azure.txt",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "be5c6dc9b1fe6ffbec88625d6c225df060724e678bf4b179ee4acb6ba18a9fe2",
+   "format": 1
+  },
+  {
+   "name": "tests/runner/requirements/units.txt",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "48edd11776e45cc283be0d76efed83271645ff082d0d22c23d8a16ede3f13104",
+   "format": 1
+  },
+  {
+   "name": "meta",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "meta/runtime.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "df18179bb2f5447a56ac92261a911649b96821c0b2c08eea62d5cc6b0195203f",
+   "format": 1
+  },
+  {
+   "name": "changelogs",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "changelogs/fragments",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "changelogs/fragments/DEVOPS-3935.yaml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "275e9147e14cace400fea4ad8d2d88e2a3c41daa65545cf5ade52ffac5bea3be",
+   "format": 1
+  },
+  {
+   "name": "changelogs/fragments/20.5.0.yaml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "e801f1b985b89427664b5bbc3e86c7f94e0515fe71584171438bdd2e6423f802",
+   "format": 1
+  },
+  {
+   "name": "changelogs/fragments/DEVOPS-3704.yaml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "7f7bf4dd5809a694c63075c88409b71d97b3c636fb4c60883e23e1d9c6acf256",
+   "format": 1
+  },
+  {
+   "name": "changelogs/fragments/DEVOPS-3505.yaml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "2117a356f790e63f26cbe90c1b8cbc8e66bc4ba44a3cec0d0f219bb3dee6a663",
+   "format": 1
+  },
+  {
+   "name": "changelogs/fragments/DEVOPS-3949.yaml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "46256df687411ac1d89895e32713a4830ccffcf1bb823fbf88597481881aa67f",
+   "format": 1
+  },
+  {
+   "name": "changelogs/fragments/20.7.0.yaml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "95ad8a5b1d71afce933fdd69b3116309a6d9a559416d8ab3641470eb5286ee9f",
+   "format": 1
+  },
+  {
+   "name": "changelogs/fragments/DEVOPS-3663.yaml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "ede05991f45025041ce7305e06f27f7c7747b0a5e3c61d11e5775796315ad801",
+   "format": 1
+  },
+  {
+   "name": "changelogs/fragments/20.2.0.yaml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "91918f48a406834778ff7163c92c12dd1802c0620cb681ee66f8a4709444cf5e",
+   "format": 1
+  },
+  {
+   "name": "changelogs/fragments/DEVOPS-4001.yaml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "c9b63b1230f04b472b8d55d5bd616c1687972ec14126e643de62788c9788708a",
+   "format": 1
+  },
+  {
+   "name": "changelogs/fragments/DEVOPS-3526.yaml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "61cb464ce2c8e6aaf9a74beca5e246e4010ee68f2632eba0347e5cf3267e9510",
+   "format": 1
+  },
+  {
+   "name": "changelogs/fragments/DEVOPS-4246.yaml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "87733f8557c5f0c13302e47e18712cc094f8e1cf63665519a340c74baee95e1b",
+   "format": 1
+  },
+  {
+   "name": "changelogs/fragments/20.4.0.yaml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "c4fd861b273aceb9ec0a456ddbae2a6f82bdd6a2244b81e9b1e903a59eaa83bf",
+   "format": 1
+  },
+  {
+   "name": "changelogs/fragments/20.8.0.yaml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "266926d348a95b55d65ff99683f9bdfe7ad1302731c08964bb86ce714272d86c",
+   "format": 1
+  },
+  {
+   "name": "changelogs/fragments/DEVOPS-4135.yaml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "3b73cac3f25ff245e6156120be0b828339193515410dfe1746e9fe58b2fc5d1a",
+   "format": 1
+  },
+  {
+   "name": "changelogs/fragments/DEVOPS-4070.yaml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "ef62606cf209269c701e931090525e063781b9990853a20f718f250bbccd182d",
+   "format": 1
+  },
+  {
+   "name": "changelogs/fragments/20.6.0.yaml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "b5988b539e04f6be548b4f07142e208adc5974ed6d67511f2efcd5f721598124",
+   "format": 1
+  },
+  {
+   "name": "changelogs/fragments/DEVOPS-3849.yaml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "cfaa25e04a5dcb6f13b27a52d79dd1ee8a06002d028a86a09184b58c431fc5fd",
+   "format": 1
+  },
+  {
+   "name": "changelogs/config.yaml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "fdb1023b66dee056bc12c35cf7326a01c0ce7a8c1eceea032270fd24db9e1467",
+   "format": 1
+  },
+  {
+   "name": "changelogs/.plugin-cache.yaml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "5297a0a490809a3f9e664aebea58cf1b7c48af79e7ac4a9e1be5845359d7d016",
+   "format": 1
+  },
+  {
+   "name": "changelogs/changelog.yaml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "2fe25bf558de3b829d778d1a4c068c3884d9d24746ab64c96e6630b043d03ed6",
+   "format": 1
+  },
+  {
+   "name": "README.md",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "4e23d6af09fbd8f6ce66c1bed3f0ea45099dba4083e27220a9ba60f8277defd9",
+   "format": 1
+  },
+  {
+   "name": "COPYING",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903",
+   "format": 1
+  },
+  {
+   "name": ".github",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": ".github/workflows",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": ".github/workflows/main.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "62b4ef47e710c6a132acdaec097d19dc9d31d704763840ae5f3aae19a4ab1b84",
+   "format": 1
+  },
+  {
+   "name": ".github/ISSUE_TEMPLATE",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": ".github/ISSUE_TEMPLATE/feature_request.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "4ad81e92ae7b1fbef37afde2fc57466d3d7dd20d5ab9bba1e01e0faac83228cf",
+   "format": 1
+  },
+  {
+   "name": ".github/ISSUE_TEMPLATE/bug_report.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "ef5f731a1c7790ce52a685a93370a5d0a5523bf75b9b0a0f0d9cc50171c60ac0",
+   "format": 1
+  },
+  {
+   "name": "CHANGELOG.rst",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "bf567ab4dade7c7700a4ed6c6b33599ab98282fa2ad72ce8189c5090ac9823bd",
+   "format": 1
+  },
+  {
+   "name": "HACK.md",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "0757d4b54e08f27761851d37143cbe15d58c324db2968fe157546992592bb382",
+   "format": 1
+  }
+ ],
+ "format": 1
+}

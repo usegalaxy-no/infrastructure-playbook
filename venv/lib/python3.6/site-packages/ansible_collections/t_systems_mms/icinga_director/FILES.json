@@ -1,0 +1,852 @@
+{
+ "files": [
+  {
+   "name": ".",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": ".gitattributes",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "b2deb48e94193846f3933845436e4b28bd819b7e54f87f713c4e45925e84d645",
+   "format": 1
+  },
+  {
+   "name": "CONTRIBUTING.md",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "3ba2c6dac30b65769fbc827285993aa5fdebd4aca3f5a9ba26d1a3269a8a0cce",
+   "format": 1
+  },
+  {
+   "name": "changelogs",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "changelogs/config.yaml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "533b067a4ca460ac9d8d401689b78360b8cb325ec06af332acc7e90a23517247",
+   "format": 1
+  },
+  {
+   "name": "changelogs/.plugin-cache.yaml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "3d42c1b39504d906a805d3693e1b59341bb210cff7e5dfb2b2cb32e425959a1d",
+   "format": 1
+  },
+  {
+   "name": "changelogs/changelog.yaml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "dd425a69507ab3030653e46f753cda7a2a763e377bad9fcd173a791b070b1a27",
+   "format": 1
+  },
+  {
+   "name": "examples",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "examples/icinga_notification_template.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "8a762878c4507d37acaad9b7747f553bb2a9c8d62fd6c801a92fa3751df60113",
+   "format": 1
+  },
+  {
+   "name": "examples/icinga_timeperiod_template_info.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "b727f5520baccc05780a18a68932c4f1d0df6225f8d8bb7c846cca8f4f8d3569",
+   "format": 1
+  },
+  {
+   "name": "examples/icinga_notification_template_info.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "2cec40152c403178b9160c94582f6b6bd95480dc190b121dc2c74a87c6036a96",
+   "format": 1
+  },
+  {
+   "name": "examples/icinga_user.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "9ff8135a1dc9119186cd5b04d918d1e5b0c16bb31b9112f061be4a21d942d025",
+   "format": 1
+  },
+  {
+   "name": "examples/icinga_timeperiod_info.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "72d8aa80de89baf1469f8b2092709816eeb20d53da11542a74a07765d18cc398",
+   "format": 1
+  },
+  {
+   "name": "examples/icinga_service.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "9b6e7343c83ede9a7db5cfed39d2dc0ffbf6a276137c3055dacf10d8424b0696",
+   "format": 1
+  },
+  {
+   "name": "examples/icinga_command_info.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "cb2ee5ce04d79208fd18ccea639f0bba1dfec1572fdfa0da713e404ec1e7dad2",
+   "format": 1
+  },
+  {
+   "name": "examples/icinga_command_template.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "9eed844fc072fe5f9ab9e6147b45c52b12b6abfdb01b531f3f16097859bd216f",
+   "format": 1
+  },
+  {
+   "name": "examples/icinga_command.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "ebe920822dcc13a5238f2b93988ff590cdf64badaefe643890daa10a71eac975",
+   "format": 1
+  },
+  {
+   "name": "examples/icinga_service_apply.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "4969eaa061d13a06c0e85d3a050d8ebb187c85ff9bc14ee14ad0f003021a07a7",
+   "format": 1
+  },
+  {
+   "name": "examples/icinga_zone_info.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "b452657b89bc0f8a64efb44ff5abf745a140c3c110e763490faec07b8453cf90",
+   "format": 1
+  },
+  {
+   "name": "examples/icinga_host_info.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "cea113a474d0dcafbc19e0932873b965ae3719072f5ce4d85ce3c82b9cf1a730",
+   "format": 1
+  },
+  {
+   "name": "examples/icinga_host_template_info.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "441341d80fe2703c0be2a529072b30252164133b9af9e70db4fddf8b726ef36a",
+   "format": 1
+  },
+  {
+   "name": "examples/icinga_user_template_info.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "1c7951a4d17f9a64f9416d21101966f3bf571da02a936b266239a2e89ea40ff2",
+   "format": 1
+  },
+  {
+   "name": "examples/icinga_timeperiod_template.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "68e6811ddc2479f09b7604e9046d5e6e0e54b807609b3184cb18aea0fd80af01",
+   "format": 1
+  },
+  {
+   "name": "examples/icinga_endpoint_info.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "4be975be198bee1295143d018ba75ad3f3eed8100739ee682fc73223f78fa986",
+   "format": 1
+  },
+  {
+   "name": "examples/icinga_notification.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "9fae846dfeaa9c98fbf912b5653e881b70409b66abbf6aac96d6d15bb4f8bc66",
+   "format": 1
+  },
+  {
+   "name": "examples/icinga_servicegroup_info.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "b34f0040ed5e1dacdbd6bfb6c16ceba94b8bb418b927f493e9e9bf88ebf12fe9",
+   "format": 1
+  },
+  {
+   "name": "examples/icinga_timeperiod.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "7d94a544bfe6bce3ba642d2913c8bca39e0051065bf926997ed8aa665ce19cdf",
+   "format": 1
+  },
+  {
+   "name": "examples/icinga_service_apply_info.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "92bc47cd164d3589016b8aa91632cdef7ca4ea6556d96276fc8e5243d7a07b20",
+   "format": 1
+  },
+  {
+   "name": "examples/icinga_host.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "ccbe91b620046acc3f085de44c1eb0f46d4c77d3e20debf394cd9c0b2972d80f",
+   "format": 1
+  },
+  {
+   "name": "examples/icinga_endpoint.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "65abd614d809ef3650aedc0b79a1e3df0595988d24a1d0bf26bf7bdd2693dc61",
+   "format": 1
+  },
+  {
+   "name": "examples/icinga_servicegroup.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "ccad7e8d731f3145737213a88e238e8d138c15a737d2aafa783675b719063e04",
+   "format": 1
+  },
+  {
+   "name": "examples/icinga_notification_info.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "da8a188dfe62b5afb5208cea0a0b147f934d6e28c720a07a2719c2f95dfdd0a6",
+   "format": 1
+  },
+  {
+   "name": "examples/icinga_user_group.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "cf2c04d23c6d5dab41bd903452190f5b9db6a51f572976313e4f324921175651",
+   "format": 1
+  },
+  {
+   "name": "examples/icinga_user_template.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "368d4ec9b3f16ef2478e5a58909a0a691f57cd7114e7ab310bbf7e6e89474b69",
+   "format": 1
+  },
+  {
+   "name": "examples/icinga_hostgroup.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "1501ecc37cd3cb0f11cfad1f537581bcb058fb5c582afbc4590098778d23a0aa",
+   "format": 1
+  },
+  {
+   "name": "examples/icinga_hostgroup_info.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "59834f05b1059d25503081eac4a9fc04340eb05be49daa2f091c57c1517196da",
+   "format": 1
+  },
+  {
+   "name": "examples/icinga_user_info.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "e8b33a987d52a95953397a2ca2d18400287bf34fff70729341da937b47a35593",
+   "format": 1
+  },
+  {
+   "name": "examples/icinga_zone.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "5557474755129d702ea75ace545a55467ed438457c2f2a733d2fe856071ded92",
+   "format": 1
+  },
+  {
+   "name": "examples/icinga_service_template.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "8fc75c70ee48f062b61415e991edf563d6e8681ac4e683ba81b315e44b53719e",
+   "format": 1
+  },
+  {
+   "name": "examples/icinga_service_template_info.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "36cc569afd00a513c2919aacd2d0a9991205d149a93701ff54da21d282f0d5bb",
+   "format": 1
+  },
+  {
+   "name": "examples/icinga_host_template.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "8f6b787ff3f65dd205f506785fd457ec04e46ce7485a4614723f339f5a9cf5df",
+   "format": 1
+  },
+  {
+   "name": "examples/icinga_service_info.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "f64b725f3b36a8ebc84549982c7d451eaf7ccbd2dd564654e788c1093c9ef868",
+   "format": 1
+  },
+  {
+   "name": "examples/icinga_user_group_info.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "6e03996b374ca3272b16ffa95eccab306c3936807c02aade2d33fbb12fb4bd9a",
+   "format": 1
+  },
+  {
+   "name": "examples/icinga_command_template_info.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "d3a9dbb74bb1263f63fffd6a369cd4ad7118ee3c10e5eee5fa3c63dc90c6285a",
+   "format": 1
+  },
+  {
+   "name": "plugins",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "plugins/module_utils",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "plugins/module_utils/icinga.py",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "5e4e24ade7d4d1201488c14aae1d42c8a46c3cded9b3c79f98858c98ab4a7817",
+   "format": 1
+  },
+  {
+   "name": "plugins/modules",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "plugins/modules/icinga_notification_template_info.py",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "187779076601e25a00eb081e33a243f29cc2203eed8a51baf91b6c95b965c69e",
+   "format": 1
+  },
+  {
+   "name": "plugins/modules/icinga_timeperiod_info.py",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "167928807fc61d35bd77560814c0b5c32c84d1a463d1e07ec605f1fb4418a0fa",
+   "format": 1
+  },
+  {
+   "name": "plugins/modules/icinga_servicegroup_info.py",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "5b30671ccb9a746a87cfc3a6c6cda24aef29a73bb0004c00e8f34abb70932d0d",
+   "format": 1
+  },
+  {
+   "name": "plugins/modules/icinga_host_template.py",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "ba9e29ce32ef42ca61e1fecf018afd72554abdcd6cbcd3d46b49c436e5cb47ab",
+   "format": 1
+  },
+  {
+   "name": "plugins/modules/icinga_timeperiod_template.py",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "f561227bce36fb366469af5c87610d7b9f61f7bb278c068a8e7c18557f1532a7",
+   "format": 1
+  },
+  {
+   "name": "plugins/modules/icinga_notification_template.py",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "e9f05a9fd0714a38b970cb63d77a80d78209cd94317be159df3485b199ff5a32",
+   "format": 1
+  },
+  {
+   "name": "plugins/modules/icinga_servicegroup.py",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "18ca65e5c5de1fa9ea6c4176a0e172131de25925668b9af0c4a6428856a730cf",
+   "format": 1
+  },
+  {
+   "name": "plugins/modules/icinga_hostgroup_info.py",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "923da3a8a4c7f286d65cd23d2ac2482fc6bb3016b3627cf07a1370e144724f36",
+   "format": 1
+  },
+  {
+   "name": "plugins/modules/icinga_host_template_info.py",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "af9ee410428ddff66cea4e88cfc85c02701b824194e846b78fa890873c4366d0",
+   "format": 1
+  },
+  {
+   "name": "plugins/modules/icinga_host.py",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "770f8631c3b36af2e46b5d16d13c0bcc869cedf8c16f5adfa5267cca9e3d7418",
+   "format": 1
+  },
+  {
+   "name": "plugins/modules/icinga_command_info.py",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "840c63508c44f117184a2fa0fedff99fabd7c11b728f2ed50eb740b139c395dc",
+   "format": 1
+  },
+  {
+   "name": "plugins/modules/icinga_user_group.py",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "5e8eb3e754768924aaec9acdb922740f7ce2df222301ce17a2c984cf7582bc48",
+   "format": 1
+  },
+  {
+   "name": "plugins/modules/icinga_service_apply_info.py",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "750100a6006eba98972b743a1f241c3f7d3645ffdec2e7814e5d9239f23147cf",
+   "format": 1
+  },
+  {
+   "name": "plugins/modules/icinga_command_template.py",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "e584b178317a1f9d33d4580d9ad3feeb45c4be613973d56d389faf0a0bf46733",
+   "format": 1
+  },
+  {
+   "name": "plugins/modules/icinga_service_template_info.py",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "601a4ba8f4bff9a56691c46a7658340d5965b6abb89f5f2ddae45fec22d94735",
+   "format": 1
+  },
+  {
+   "name": "plugins/modules/icinga_zone_info.py",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "04e4d64ebdac3b0d933c7912fb27fa687d57c9501ee7cdbc3533090d13e8d7e4",
+   "format": 1
+  },
+  {
+   "name": "plugins/modules/icinga_user_info.py",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "8b35d5de99f3b9d63919cf3f8ba49fa656b2a72b84c8550faab6af72cd3b26d2",
+   "format": 1
+  },
+  {
+   "name": "plugins/modules/icinga_host_info.py",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "1deeb1be8c987fc05cc78f0fbbca7bc7b5f36c428deb72ea0e16288db5599dde",
+   "format": 1
+  },
+  {
+   "name": "plugins/modules/icinga_service_template.py",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "dd28aa7bd12e2fd694860543a20e75675a6ff83c9f9949fefbb27e1a77e91d6e",
+   "format": 1
+  },
+  {
+   "name": "plugins/modules/icinga_command_template_info.py",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "d960c455cca1daaabc4d9a28c2bf6a3df9d530cf258fa771c22e9a23c64333c2",
+   "format": 1
+  },
+  {
+   "name": "plugins/modules/icinga_service.py",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "489e64ad316d5fee8caf0512253a5a991fed59caf6d6191e61bfdff9d349a24e",
+   "format": 1
+  },
+  {
+   "name": "plugins/modules/icinga_service_info.py",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "324151e5b99ca61f4fbf674820bca889716afe2e3a722ba3cfd478bb6bf95e2f",
+   "format": 1
+  },
+  {
+   "name": "plugins/modules/icinga_timeperiod_template_info.py",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "e21418bf32a70e12ea5fe907b06dd7a24110419746cda5f856a53fe8a1be7a92",
+   "format": 1
+  },
+  {
+   "name": "plugins/modules/icinga_service_apply.py",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "2928b5ed5d0d97c27cba327c2ce47db29f840e94085fcc109c25313d6df5f515",
+   "format": 1
+  },
+  {
+   "name": "plugins/modules/icinga_hostgroup.py",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "0c2c2c4c2bde76b0779af28e6639c9038e5bdccf93c2fb156069dc3a3713c84e",
+   "format": 1
+  },
+  {
+   "name": "plugins/modules/icinga_endpoint_info.py",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "d64af474ca481043bcad8dc3dd89e18e75d9aa15c86a48d6e2c6cca30169bfbd",
+   "format": 1
+  },
+  {
+   "name": "plugins/modules/icinga_notification.py",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "e944881d86b3917083b46c46f23454e5c6f2042961094691ff1e1bba096dd31e",
+   "format": 1
+  },
+  {
+   "name": "plugins/modules/icinga_notification_info.py",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "609d1bc10614de150e79542f94211148f7243e824b6a86e63bc98c65fcf36547",
+   "format": 1
+  },
+  {
+   "name": "plugins/modules/icinga_endpoint.py",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "e1161582c47c1603bbe8937b3abc0a903884bc9eb0592364a1350a410cd4ad35",
+   "format": 1
+  },
+  {
+   "name": "plugins/modules/icinga_user.py",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "9f6ce64fb62f4183f03635db9de0bf39be7986da3aff7bf6bd53d04375ede4c8",
+   "format": 1
+  },
+  {
+   "name": "plugins/modules/icinga_user_template_info.py",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "9e8c6eed2217f9c0652994031c10359c765f796d4276996357b46493aa84454c",
+   "format": 1
+  },
+  {
+   "name": "plugins/modules/icinga_timeperiod.py",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "6832df0bbfe174c96d2808556600c9bbefca2a416c337eada13b995aa70d5289",
+   "format": 1
+  },
+  {
+   "name": "plugins/modules/icinga_command.py",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "4472677400efc7f88d287bd4721c738173521e5a5ea8ee19980470c54880782b",
+   "format": 1
+  },
+  {
+   "name": "plugins/modules/icinga_user_group_info.py",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "359cd0061f5e96496d3bc3c89dc65faa8d38e99a3c09a68ac3e9c3b22a02e81f",
+   "format": 1
+  },
+  {
+   "name": "plugins/modules/icinga_zone.py",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "aff6e9a5b75a54b40dac5af1d8fbe6e942be230a5c248d7b1d1eebbec7f0cc3f",
+   "format": 1
+  },
+  {
+   "name": "plugins/modules/icinga_user_template.py",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "e414facd4b908c5d6ac76fb4a88f3f27cf5425e7bb6532a6bfc6cecb7461e778",
+   "format": 1
+  },
+  {
+   "name": "plugins/doc_fragments",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "plugins/doc_fragments/common_options.py",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "4636a41b3a10c7786474a983e2e95c4098b9134c4ea779322639c4907380714e",
+   "format": 1
+  },
+  {
+   "name": "plugins/inventory",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "plugins/inventory/icinga_director_inventory.py",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "7b7e4cd7aa7f1fad0762dbaa23fc58bed2ed71417f795f52236154bdc037aef3",
+   "format": 1
+  },
+  {
+   "name": "CHANGELOG.md",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "960db400eee30beeefb2a48697c753b36514a80faa9becd3ee5aaaead8e7f215",
+   "format": 1
+  },
+  {
+   "name": "LICENSE",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+   "format": 1
+  },
+  {
+   "name": "CODE_OF_CONDUCT.md",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "14ec928234a7ed52bf8b458d31e4862335111e477e4dbe7fb543686c24115140",
+   "format": 1
+  },
+  {
+   "name": "CHANGELOG.rst",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "5f77d0e9114da70e8914336cb9abd2cdd568df703bdb75541baccbf7603e723e",
+   "format": 1
+  },
+  {
+   "name": ".gitignore",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "d436832b9c66cf8900c0bf4dbb2a8cab546be0f22f7d62f6db8eb5f3835b1877",
+   "format": 1
+  },
+  {
+   "name": "roles",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "roles/ansible_icinga",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "roles/ansible_icinga/defaults",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "roles/ansible_icinga/defaults/main.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "6cba98ae0d9ba1b6e0ae61d4ab925dcbdbda0679c2125ae0fb21285004cfdf76",
+   "format": 1
+  },
+  {
+   "name": "roles/ansible_icinga/README.md",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "9708b19bafb27235bc9f1c578a362fe99aa1942de69b94d8426c173adaeda264",
+   "format": 1
+  },
+  {
+   "name": "roles/ansible_icinga/meta",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "roles/ansible_icinga/meta/main.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "780a4de8019cec4270f3d69ea9b72cb2198e19efc1a1e48bf0a82306f1b6055c",
+   "format": 1
+  },
+  {
+   "name": "roles/ansible_icinga/tasks",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "roles/ansible_icinga/tasks/icinga_notification_template.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "3d929dfad0a6c938c36c93c79a494299f6695b6c83d61b31cc302fc3daa257e2",
+   "format": 1
+  },
+  {
+   "name": "roles/ansible_icinga/tasks/main.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "4dfde3ae612920fa197f1127be6fac0c160ac09c5e420686393e2493539492d0",
+   "format": 1
+  },
+  {
+   "name": "roles/ansible_icinga/tasks/icinga_user.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "d022532b4c2c51f269eb6534d950e0ee4165aba672670d84452bb84b2f867a33",
+   "format": 1
+  },
+  {
+   "name": "roles/ansible_icinga/tasks/icinga_service.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "bc8ebd28c7bbe2a77dfc973b387a2137aef4dccbad60dde01fc4412e9a71da64",
+   "format": 1
+  },
+  {
+   "name": "roles/ansible_icinga/tasks/icinga_command_template.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "9b3d7df685329cc97f8fcb8992fb24bc41a76b8e6da64ee2cea7dbdebb389a75",
+   "format": 1
+  },
+  {
+   "name": "roles/ansible_icinga/tasks/icinga_command.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "f5ce6bcd0409b2269381f85ec876c106f6f21d711ee68b47ff61105a7c16bd3e",
+   "format": 1
+  },
+  {
+   "name": "roles/ansible_icinga/tasks/icinga_service_apply.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "a74e7c581387bce953e67d9de9719ee4c083587e471253bc89e30c1ab77b44cc",
+   "format": 1
+  },
+  {
+   "name": "roles/ansible_icinga/tasks/icinga_notification.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "257301ea36c3d5eb0bd15b549409702756a1a605fcc4e87547e40248fbb73925",
+   "format": 1
+  },
+  {
+   "name": "roles/ansible_icinga/tasks/icinga_timeperiod.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "4752f5ee9a067ec4c7b67c9d8134661ffb23c77381875bd158d3d20c8f66ac87",
+   "format": 1
+  },
+  {
+   "name": "roles/ansible_icinga/tasks/icinga_host.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "c25ec6ecef0c9872857667b7e77322f3025c6d9c962f1abbb6b1098318109c0a",
+   "format": 1
+  },
+  {
+   "name": "roles/ansible_icinga/tasks/icinga_endpoint.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "9f806d4cb642d37aee834eace8123c66b0d30ea5963caf600ced4af670662e67",
+   "format": 1
+  },
+  {
+   "name": "roles/ansible_icinga/tasks/icinga_servicegroup.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "5c08edfaffbe25fc71767b02945619b6f377d8019e29db2edeacce677eafdce1",
+   "format": 1
+  },
+  {
+   "name": "roles/ansible_icinga/tasks/icinga_user_template.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "02bfdc8ce7d7da3d131d5d3410de84effa3dde5533833869086ca08c25b6cf66",
+   "format": 1
+  },
+  {
+   "name": "roles/ansible_icinga/tasks/icinga_hostgroup.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "6c0f2e9c63f76fd4a12835208e9d16bf822b3fdf984480ee79095a6f1fc9afc8",
+   "format": 1
+  },
+  {
+   "name": "roles/ansible_icinga/tasks/icinga_zone.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "9459779a5cc5b1a9711e4db6349bdc76565406e302e300ce9b763f5b94356fbf",
+   "format": 1
+  },
+  {
+   "name": "roles/ansible_icinga/tasks/icinga_service_template.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "c5ed1e484daf856fb174e325e011c1e1dcd5ecbd3594d4e4d3370bd1158958df",
+   "format": 1
+  },
+  {
+   "name": "roles/ansible_icinga/tasks/icinga_host_template.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "7aba68b29c28c144b028f8ff1a0c82dae4d5dadb558c078364a0e0a04dd4c9ea",
+   "format": 1
+  },
+  {
+   "name": "README.md",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "96c7cea73a121a7c6ccb51fc16419ec5a417dc484d79523e7d2cea9690026057",
+   "format": 1
+  },
+  {
+   "name": "meta",
+   "ftype": "dir",
+   "chksum_type": null,
+   "chksum_sha256": null,
+   "format": 1
+  },
+  {
+   "name": "meta/runtime.yml",
+   "ftype": "file",
+   "chksum_type": "sha256",
+   "chksum_sha256": "df18179bb2f5447a56ac92261a911649b96821c0b2c08eea62d5cc6b0195203f",
+   "format": 1
+  }
+ ],
+ "format": 1
+}

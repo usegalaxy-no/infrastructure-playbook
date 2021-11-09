@@ -1,0 +1,129 @@
+Metadata-Version: 2.1
+Name: galaxy-tool-util
+Version: 21.9.1
+Summary: Galaxy Tool and Tool Dependency Utilities
+Home-page: https://github.com/galaxyproject/galaxy
+Author: Galaxy Project and Community
+Author-email: galaxy-committers@lists.galaxyproject.org
+License: AFL
+Keywords: galaxy
+Platform: UNKNOWN
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: Environment :: Console
+Classifier: License :: OSI Approved :: Academic Free License (AFL)
+Classifier: Operating System :: POSIX
+Classifier: Topic :: Software Development
+Classifier: Topic :: Software Development :: Code Generators
+Classifier: Topic :: Software Development :: Testing
+Classifier: Natural Language :: English
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Description-Content-Type: text/x-rst
+Requires-Dist: galaxy-util (>=20.1.0.dev0)
+Requires-Dist: galaxy-containers
+Requires-Dist: lxml
+Requires-Dist: sortedcontainers
+Requires-Dist: pydantic
+Requires-Dist: typing-extensions
+Provides-Extra: edam
+Requires-Dist: edam-ontology ; extra == 'edam'
+Provides-Extra: mulled
+Requires-Dist: conda ; extra == 'mulled'
+Requires-Dist: cytoolz ; extra == 'mulled'
+Requires-Dist: jinja2 ; extra == 'mulled'
+Requires-Dist: Whoosh ; extra == 'mulled'
+
+
+.. image:: https://badge.fury.io/py/galaxy-tool-util.svg
+   :target: https://pypi.org/project/galaxy-tool-util/
+
+
+Overview
+--------
+
+The Galaxy_ tool utilities.
+
+* Free software: Academic Free License version 3.0
+* Code: https://github.com/galaxyproject/galaxy
+
+.. _Galaxy: http://galaxyproject.org/
+
+
+
+
+History
+-------
+
+.. to_doc
+
+---------------------
+21.9.1 (2021-11-03)
+---------------------
+
+* Fix tool linting.
+
+---------------------
+21.9.0 (2021-11-03)
+---------------------
+
+* First release from the 21.09 branch of Galaxy.
+
+---------------------
+21.1.2 (2021-06-23)
+---------------------
+
+
+
+---------------------
+21.1.1 (2021-05-21)
+---------------------
+
+
+
+---------------------
+21.1.0 (2021-03-19)
+---------------------
+
+* First release from the 21.01 branch of Galaxy.
+
+---------------------
+20.9.1 (2020-10-28)
+---------------------
+
+* Bugfixes to work around & annotate expected tool test failures.
+
+---------------------
+20.9.0.dev2
+---------------------
+
+* First release from the 20.09 branch of Galaxy.
+
+---------------------
+20.5.0 (2020-07-04)
+---------------------
+
+* First release from the 20.05 branch of Galaxy.
+
+---------------------
+20.1.0 (2020-07-04)
+---------------------
+
+* First release from the 20.01 branch of Galaxy.
+
+---------------------
+19.9.1 (2019-12-28)
+---------------------
+
+* Fix declared dependency problem with package.
+
+---------------------
+19.9.0 (2019-12-16)
+---------------------
+
+* Initial import from dev branch of Galaxy during 19.09 development cycle.
+
+
