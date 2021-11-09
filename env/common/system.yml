@@ -1,5 +1,5 @@
 # first time: -e "ansible_user=centos"
-- hosts: all #slurm  galaxyserver, database, slurm
+- hosts: all #slurm  galaxyserver, database, slurm, cvmfs proxy
   become: true
   vars_files:
     - secret_group_vars/global.vault
