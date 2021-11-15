@@ -371,4 +371,3 @@ telegraf_plugins_extra:
       - timeout = "30s"
       - data_format = "influx"
       - interval = "2m"
-        u
