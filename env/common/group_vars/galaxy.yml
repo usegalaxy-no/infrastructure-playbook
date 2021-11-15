@@ -363,3 +363,12 @@ telegraf_plugins_extra:
       - timeout = "15s"
       - data_format = "influx"
       - interval = "1m"
+  
+  ecc_status:
+    plugin: "exec"
+    config:
+      - commands = ["/home/sysadmin/ecc_wrapper_stats.sh"]
+      - timeout = "30s"
+      - data_format = "influx"
+      - interval = "2m"
+        u
