@@ -1,14 +1,36 @@
 <template>
     <div class="container">
         <div class="row justify-content-md-center">
+
+            <div class="col">
+               <h1>Welcome to <b>UseGalaxy.no</b> - a data analysis platform for life science data</h1>
+
+               <p style="margin-top:20px">
+                  This service is maintained by Elixir Norway and is for users from both the academia and industry sectors.
+                  Extensive use from the industrial sector will have to be charged based on CPU hours - This model is under construction.
+               </p>
+               <p>
+                  The service can be accessed using FEIDE login if your institution is FEIDE connected to the NeLS portal.
+                  Users from the industry sector and international research collaborators that don't have FEIDE access can apply for a NeLS ID to get access.
+               </p>
+	       <p>
+	       Questions can be directed to our <a href="https://elixir.no/helpdesk" target="_blank">helpdesk</a>.
+	       </p>
+
+               <a href="https://nels.bioinfo.no" target="_blank"><img src="/static/images/nels_logo_old.png" style="width:240px;margin-top:16px;"></a>
+               <a href="https://galaxyproject.org" target="_blank"><img src="/static/images/galaxy_logo.png" style="width:292px;margin-top:16px;"></a>
+               <a href="https://elixir.no" target="_blank"><img src="/static/images/elixir_no_logo.png" style="width:200px;margin-top:16px;"></a>
+            </div>
+
             <template v-if="!confirmURL">
                 <div class="col col-lg-6">
                     <b-alert :show="messageShow" :variant="messageVariant" v-html="messageText" />
                     <b-form id="login" @submit.prevent="submitGalaxyLogin()">
-                        <b-card no-body header="Welcome to Galaxy, please log in">
+                        <b-card no-body header="Please log in with one of the options below">
                             <b-card-body>
-                                <div>
-                                    <!-- standard internal galaxy login -->
+			        <!-- standard internal galaxy login -->
+				<!--
+                                <div>                                    
                                     <b-form-group label="Public Name or Email Address">
                                         <b-form-input name="login" type="text" v-model="login" />
                                     </b-form-group>
@@ -23,26 +45,15 @@
                                     </b-form-group>
                                     <b-button name="login" type="submit">Login</b-button>
                                 </div>
+				-->
                                 <div v-if="enable_oidc">
                                     <!-- OIDC login-->
                                     <external-login :login_page="true" />
                                 </div>
                             </b-card-body>
                             <b-card-footer>
-                                Don't have an account?
-                                <span v-if="allowUserCreation">
-                                    <a
-                                        id="register-toggle"
-                                        href="javascript:void(0)"
-                                        role="button"
-                                        @click.prevent="toggleLogin"
-                                        >Register here.</a
-                                    >
-                                </span>
-                                <span v-else>
-                                    Registration for this Galaxy instance is disabled. Please contact an administrator
-                                    for assistance.
-                                </span>
+                                Don't have a FEIDE account? Apply for a NeLS ID by first clicking on "FEIDE or NeLS ID" above,
+				then "Login with NeLS Identity" and finally "Apply for a NeLS Account"
                             </b-card-footer>
                         </b-card>
                     </b-form>
