@@ -1,4 +1,34 @@
 ---
+- type: nels
+  id: nels_storage_personal
+  label: "NeLS Storage"
+  doc: "Your personal folder in NeLS Storage"
+  nels_config: "{{ nels_storage_config_dir }}/nels_storage_config.loc"
+  writable: true
+  userid: ${user.email}
+  homedir: "/elixir-chr/nels/users/<user>/Personal"
+  ignore_hidden: true
+
+- type: nels
+  id: nels_storage_projects
+  label: "NeLS Storage Projects"
+  doc: "Your projects folder in NeLS Storage"
+  nels_config: "{{ nels_storage_config_dir }}/nels_storage_config.loc"
+  writable: true
+  userid: ${user.email}
+  homedir: "/elixir-chr/nels/users/<user>/Projects"
+  ignore_hidden: true
+
+- type: ssh
+  id: configurable_ssh_storage
+  label: "Configurable SSH storage"
+  doc: "configure access in user preferences"
+  writable: true
+  host: ${user.preferences['configurable_ssh_storage|host']}
+  user: ${user.preferences['configurable_ssh_storage|user']}
+  passwd: ${user.preferences['configurable_ssh_storage|passwd']}
+  path: ${user.preferences['configurable_ssh_storage|home']}
+
 - type: dropbox
   id: dropbox
   label: Dropbox

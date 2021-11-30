@@ -94,3 +94,23 @@ preferences:
               label: Password
               type:  password
               required: False
+
+    configurable_ssh_storage:
+        description: Configurable SSH storage
+        inputs:
+            - name: host
+              label: Host address
+              type: text
+              required: False
+            - name: user
+              label: Username
+              type: text
+              required: False
+            - name: passwd
+              label: Password
+              type: password
+              required: False
+            - name: home
+              label: Path to user's home directory
+              type: text
+              required: False

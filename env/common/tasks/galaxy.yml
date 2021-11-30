@@ -276,6 +276,26 @@
     group: root
     mode: "0644"
 
+# NeLS Storage plugin tasks
+
+- name: NeLS Storage remote file storage plugin
+  copy:
+    src: files/galaxy/nels_storage/nels.py
+    dest: "{{ galaxy_root }}/server/lib/galaxy/files/sources/nels.py"
+    owner: root
+    group: root
+    mode: "0644"
+
+
+- name: Add export_remote tool (remove this with Galaxy v21.09+ since it is already included there)
+  copy:
+    src: files/galaxy/tools/data_export
+    dest: "{{ galaxy_root }}/server/tools/"
+    owner: root
+    group: root
+    mode: "0644"
+
+
 - name: rebuild client
   tags:
     - auth
