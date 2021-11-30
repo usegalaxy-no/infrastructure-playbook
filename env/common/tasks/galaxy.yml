@@ -276,6 +276,16 @@
     group: root
     mode: "0644"
 
+# NeLS Storage plugin tasks
+
+- name: NeLS Storage remote file storage plugin
+  copy:
+    src: files/galaxy/nels_storage/nels.py
+    dest: "{{ galaxy_root }}/server/lib/galaxy/files/sources/nels.py"
+    owner: root
+    group: root
+    mode: "0644"
+
 - name: rebuild client
   tags:
     - auth
