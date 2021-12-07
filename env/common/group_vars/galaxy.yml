@@ -30,6 +30,7 @@ galaxy_config:
     enable_quotas: true
     database_connection: "{{ db_connection }}"
     file_path: "{{ galaxy_file_path }}"
+    galaxy_data_manager_data_path: "{{ galaxy_file_path }}/data_manager_reference_data"
     tool_data_path: "{{ galaxy_server_dir }}/tool-data"
     check_migrate_tools: false
     tool_data_table_config_path: /cvmfs/data.galaxyproject.org/byhand/location/tool_data_table_conf.xml,/cvmfs/data.galaxyproject.org/managed/location/tool_data_table_conf.xml,/cvmfs/data.{{ galaxy_host }}/byhand/location/tool_data_table_conf.xml
