@@ -11,7 +11,7 @@ import os
 import yaml
 
 # Maximum resources
-SLURM_MAX_CORES = 40
+SLURM_MAX_CORES = 30
 SLURM_MAX_MEM = 1000
 
 # The default / base specification for the different environments.
