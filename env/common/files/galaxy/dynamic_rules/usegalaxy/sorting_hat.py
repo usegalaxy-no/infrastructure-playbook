@@ -11,7 +11,7 @@ import os
 import yaml
 
 # Maximum resources
-SLURM_MAX_CORES = 30
+SLURM_MAX_CORES = 40
 SLURM_MAX_MEM = 1000
 
 # The default / base specification for the different environments.
@@ -113,6 +113,11 @@ def get_tool_id(tool_id):
     # what about odd ones.
     if tool_id.count('/') == 5:
         (server, _, owner, repo, name, version) = tool_id.split('/')
+        return name
+
+    # if the tool shed is served from subdir (like the NeLS Tool Shed)
+    if tool_id.count('/') == 6:
+        (server, subdir, _, owner, repo, name, version) = tool_id.split('/')
         return name
 
     return tool_id
