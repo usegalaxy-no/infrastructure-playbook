@@ -219,7 +219,8 @@ function buildMenu(isAnon, purgeAllowed, urlRoot) {
             menuOption.href = urlRoot + menuOption.href;
             menuOption.target = menuOption.target || "galaxy_main";
         }
-
+        menuOption.title = menuOption.html;
+	
         if (menuOption.confirm) {
             menuOption.func = () => {
                 const galaxy_main = window.parent.document.getElementById("galaxy_main");
