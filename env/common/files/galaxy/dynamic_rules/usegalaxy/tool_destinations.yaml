@@ -968,6 +968,7 @@ spades: { cores: 10, mem: 120 }
 sshmm: { mem: 16 }
 structurefold: { mem: 12 }
 rnaspades: { cores: 10, mem: 90 }
+stained_glass: {cores: 8, mem: 30}
 stringtie: { mem: 25 }
 t_coffee:
   env:
