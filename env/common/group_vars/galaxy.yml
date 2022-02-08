@@ -76,7 +76,7 @@ galaxy_config:
     container_image_cache_path: /srv/galaxy/containers
     enable_mulled_containers: true
     mulled_channels: conda-forge,bioconda,https://galaxy-ntnu.bioinfo.no/nelsconda/
-    containers_resolvers_config_file: "{{ galaxy_config_dir }}/container_resolvers_conf.xml"
+    container_resolvers_config_file: "{{ galaxy_config_dir }}/container_resolvers_conf.xml"
     dependency_resolvers_config_file: "{{ galaxy_config_dir }}/dependency_resolvers_conf.xml"
     conda_ensure_channels: conda-forge,bioconda,defaults,https://galaxy-ntnu.bioinfo.no/nelsconda/
 

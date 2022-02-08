@@ -287,15 +287,6 @@
     mode: "0644"
 
 
-- name: Add export_remote tool (remove this with Galaxy v21.09+ since it is already included there)
-  copy:
-    src: files/galaxy/tools/data_export
-    dest: "{{ galaxy_root }}/server/tools/"
-    owner: root
-    group: root
-    mode: "0644"
-
-
 - name: rebuild client
   tags:
     - auth

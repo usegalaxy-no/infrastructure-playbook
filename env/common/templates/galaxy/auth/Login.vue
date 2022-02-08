@@ -71,6 +71,14 @@
                         </p>
                         -->
                     </b-modal>
+
+                  <p style="margin-top:30px">
+                    Please acknowledge or cite Elixir Norway in any research that uses UseGalaxy.no
+                    <br>
+                    See the <a href="https://nels-docs.readthedocs.io/en/latest/about.html#how-to-cite-us" target=_blank>Elixir Norway wiki</a>
+                    for more description and examples for citing ELXIR Norway.
+                  </p>
+
                 </div>
             </template>
 
