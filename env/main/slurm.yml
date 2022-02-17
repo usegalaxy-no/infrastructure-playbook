@@ -10,6 +10,7 @@
     - group_vars/env.yml
     - group_vars/galaxy.yml
     - group_vars/slurm.yml
+    - group_vars/cvmfsproxy.yml
 
   vars:
     slurm_roles: ["controller", "dbd"]
@@ -116,6 +117,7 @@
     - geerlingguy.docker
     - indigo-dc.nfs
     #- galaxyproject.cvmfs
+    - usegalaxy-no.cvmfsproxy
 
 
   tasks:
