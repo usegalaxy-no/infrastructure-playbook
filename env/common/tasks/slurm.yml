@@ -13,6 +13,7 @@
     key: "{{ item.key }}" # some key gibberish
     state: present
   with_items: "{{ ssh_known_hosts|default([]) }}"
+  ignore_errors: True
 
 - name: set hostname
   hostname:
