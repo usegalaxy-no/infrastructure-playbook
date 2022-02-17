@@ -1,1 +1,27 @@
-/Users/torfn/code/GitHub/usegalaxy-no/ecc/ecc.yaml
+openstack:
+    auth_url: https://api.nrec.no:5000/v3
+    image: 578114a1-3b45-4367-8130-b46fdea32820
+    project_domain_name: dataporten
+    project_name: uib-ii-usegalaxy
+    region_name: bgo
+    user_domain_name: dataporten
+    username: "torfinn.nome@nmbu.no"
+    password: "xHIWgID0uR1Rwecp"
+
+ecc:
+    log: ecc.log
+    nodes_max: 2
+    nodes_min: 1
+    nodes_spare: 1
+    sleep: 30
+    flavor: m1.xlarge
+    image: GOLD CentOS 7
+    key: usegalaxy-test
+    network: dualStack
+    security_groups: slurm-node
+    name_template: ecc{}.test.usegalaxy.no
+    cloudflare_apikey: "7153e51688f5ef7a73115aea756e50b3b6eef" 
+    cloudflare_email: "dnsadmin@ii.uib.no"
+    cloud_init: /srv/ecc/ecc_node.yaml
+    ansible_cmd: "/srv/ecc/venv/bin/ansible-playbook -i '/srv/ecc/bin/ecc_nodes.py' slurm.yml -e'ansible_user=centos'"
+    ansible_dir: /srv/ecc/infrastructure-playbook/env/test
