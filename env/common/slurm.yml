@@ -1,0 +1,207 @@
+# this is needed otherwise not all information will be available for creating the slurm config for the controller.
+- hosts: galaxyserver, slurm
+  gather_facts: yes
+
+- hosts: galaxyserver
+  become: true
+  vars_files:
+    - secret_group_vars/global.vault
+    - group_vars/global.yml
+    - group_vars/env.yml
+    - group_vars/galaxy.yml
+    - group_vars/slurm.yml
+    - group_vars/cvmfsproxy.yml
+
+  vars:
+    slurm_roles: ["controller", "dbd"]
+    nfs_mode: server
+  pre_tasks:
+    - name: Create users and groups
+      include: tasks/users_groups.yml
+
+    - name: Add galaxy paths for nfs export
+      become: true
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: "0750"
+        owner: "{{ galaxy_user.name }}"
+        group: "{{ galaxy_user.name }}"
+      with_items:
+        - "{{ galaxy_file_path }}"
+        - "{{ galaxy_root }}"
+
+    - name: make dir for slurm (should not be needed!)
+      file:
+        path: /etc/slurm/
+        state: directory
+        mode: "0755"
+        owner: root
+        group: root
+
+    - name: Open firewalld ports
+      tags: firewall-setup
+      become: true
+      include: tasks/firewall.yml ports="['ssh']"
+
+    - name: Slurm related tasks
+      include: tasks/slurm.yml
+
+  tasks:
+    - name: copy limits.conf
+      copy:
+        src: system/99-usegalaxy.conf
+        dest: /etc/security/limits.d/99-usegalaxy.conf
+        owner: root
+        group: root
+        mode: '0644'
+
+  roles:
+    - galaxyproject.repos
+    - galaxyproject.slurm
+    - indigo-dc.nfs
+
+  post_tasks:
+    - name: Install slurm-drmaa
+      package:
+        name: slurm-drmaa
+
+    - name: galaxy dependencies dir (?)
+      file:
+        path: "{{ galaxy_root }}/server/dependencies"
+        state: directory
+        mode: "0644"
+        owner: "{{ galaxy_user.name }}"
+
+    - name: slurmdbd permissions
+      file:
+        path: /etc/slurm/slurmdbd.conf
+        mode: "0600"
+        owner: slurm
+        group: root
+
+
+    - name: galaxy root is readable for nginx
+      file:
+        path: "{{ galaxy_root }}"
+        state: directory
+        mode: "0755"
+        owner: "{{ galaxy_user.name }}"
+        group: "{{ galaxy_user.name }}"
+
+- hosts: slurm
+  become: true
+  vars_files:
+    - group_vars/global.yml
+    - secret_group_vars/global.vault
+    - group_vars/env.yml
+    - group_vars/slurm.yml
+    - group_vars/galaxy.yml
+  vars:
+    nfs_mode: client
+
+  pre_tasks:
+    - name: Create users and groups
+      include: tasks/users_groups.yml
+    - name: Slurm related tasks
+      include: tasks/slurm.yml
+    - name: Open firewalld ports
+      tags: firewall-setup
+      become: true
+      include: tasks/firewall.yml ports="['ssh']"
+
+
+  roles:
+    - role: geerlingguy.repo-epel
+    - galaxyproject.repos
+    - geerlingguy.docker
+    - indigo-dc.nfs
+    #- galaxyproject.cvmfs
+    - usegalaxy-no.cvmfsproxy
+
+
+  tasks:
+
+    - name: Install packages
+      package:
+        name:
+          - "python3"
+          - "git"
+          - "python36-virtualenv"
+          - "bzip2"
+          - "singularity"
+
+    - name: copy limits.conf
+      copy:
+        src: system/99-usegalaxy.conf
+        dest: /etc/security/limits.d/99-usegalaxy.conf
+        owner: root
+        group: root
+        mode: '0644'
+
+
+
+- hosts: slurm
+  become: true
+  tags:
+    - testing
+  vars_files:
+    - group_vars/global.yml
+    - secret_group_vars/global.vault
+    - group_vars/env.yml
+    - group_vars/slurm.yml
+    - group_vars/galaxy.yml
+  vars:
+    slurm_roles: ["exec"]
+
+  roles:
+    - galaxyproject.slurm
+
+- hosts: slurm
+  become: true
+  vars_files:
+    - secret_group_vars/global.vault
+    - group_vars/global.yml
+    - group_vars/env.yml
+    - group_vars/telegraf.yml
+  pre_tasks:
+    - name: SELinux
+      selinux:
+        policy: targeted
+        state: permissive
+      tags:
+        - selinux
+    - name: Disable ipv6
+      sysctl:
+        name: net.ipv6.conf.eth0.disable_ipv6
+        value: '1'
+        state: present
+    - name: Install Dependencies
+      package:
+        name:
+          - 'mailx'
+          - 'vim'
+          - 'mlocate'
+    - name: set hostname
+      hostname:
+        name: "{{inventory_hostname}}"
+  tasks:
+    - name: Set timezone to Europe/Oslo
+      timezone:
+        name: Europe/Oslo
+    - name: Create users and groups
+      include: tasks/users_groups.yml
+      tags: 'users'
+    - name: Misc system tasks
+      include: tasks/system.yml
+  roles:
+    - role: geerlingguy.repo-epel
+    - role: reallyenglish.dhclient
+      when: "env != 'production'"
+    - role: nbigot.ansible-fail2ban
+      tags: fail2ban
+    - role: weareinteractive.sudo
+      tags: ['sudo']
+    - role: dj-wasabi.telegraf
+      tags: ['telegraf']
+    - role: idiv-biodiversity.postfix
