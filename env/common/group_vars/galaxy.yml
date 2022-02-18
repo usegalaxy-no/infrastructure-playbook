@@ -236,22 +236,22 @@ nginx_conf_ssl_ciphers:
   - DHE-RSA-AES256-SHA
   - DHE-RSA-AES128-SHA
   - ECDHE-RSA-DES-CBC3-SHA
-  - !EDH-RSA-DES-CBC3-SHA
+  - \!EDH-RSA-DES-CBC3-SHA
   - AES256-GCM-SHA384
   - AES128-GCM-SHA256
   - AES256-SHA256
   - AES128-SHA256
   - AES256-SHA
   - AES128-SHA
-  - !DES-CBC3-SHA
+  - \!DES-CBC3-SHA
   - HIGH
-  - !aNULL
-  - !eNULL
-  - !EXPORT
-  - !DES
-  - !MD5
-  - !PSK
-  - !RC4
+  - \!aNULL
+  - \!eNULL
+  - \!EXPORT
+  - \!DES
+  - \!MD5
+  - \!PSK
+  - \!RC4
 
 custom_telegraf_env: "/usr/bin/env GDPR_MODE=1 GALAXY_ROOT=/srv/galaxy/ GALAXY_CONFIG_FILE=/srv/galaxy/config/galaxy.yml PGDATABASE={{galaxy_database}} PGHOST={{db_host}}"
 custom_telegraf_gxadmin_bin: /usr/local/bin/gxadmin
