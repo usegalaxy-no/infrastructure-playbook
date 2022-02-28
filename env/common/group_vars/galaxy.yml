@@ -243,6 +243,7 @@ nginx_conf_ssl_ciphers:
   - AES256-SHA
   - AES128-SHA
   - \!DES-CBC3-SHA
+  - \!ECDHE-RSA-DES-CBC3-SHA
   - HIGH
   - \!aNULL
   - \!eNULL
