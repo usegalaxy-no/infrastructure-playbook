@@ -1,11 +1,20 @@
-nga_master_galaxy_url: "https://{{galaxy_host}}/"
-nga_master_url: "https://{{galaxy_host}}/nga/"
 
+nga_master_url: "https://{{galaxy_host}}/nga/"
+nga_local_port: "8080"
+nga_master_id: 18af382c5c
+nga_name: "test.usegalaxy"
+nga_api_token: "9e895ca6769294f76926f0a015f4b006"
+#nga_tmp_dir: "/srv/tmp/"
+nga_master_galaxy_url: "https://{{galaxy_host}}"
+#galaxy_config_file: "/srv/galaxy/config/galaxy.yml"
 
 nga_rabbitmq_username: nels_galaxy
 nga_rabbitmq_vhost: nels_galaxy
 rabbitmq_proxy: "{{ groups['database'][0] }}"
+mq_uri: "amqps://{{nga_rabbitmq_username}}:{{rabbitmq_password_nga}}@{{ rabbitmq_proxy }}/{{nga_rabbitmq_vhost}}"
 
-nga_rabbitmq: "amqps://{{nga_rabbitmq_username}}:{{rabbitmq_password_nga}}@{{ rabbitmq_proxy }}/{{nga_rabbitmq_vhost}}"
+nga_contact_email: "carlos.horros@uib.no"
 
-nga_master_id: 18af382c5c
+
+nga_max_exports: "5"
+nga_min_free_space: "10"
