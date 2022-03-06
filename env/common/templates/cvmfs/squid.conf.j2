@@ -2,6 +2,7 @@ max_filedesc 8192
 maximum_object_size 1024 MB
 cache_mem 128 MB
 maximum_object_size_in_memory 128 KB
+dns_v4_first on
 # 50 GB disk cache
 cache_dir ufs {{ cache_dir }} 50000 16 256
 coredump_dir {{ cache_dir }}
