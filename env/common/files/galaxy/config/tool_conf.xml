@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <toolbox monitor="true">
   <section id="getext" name="Get Data">
-    <tool file="/srv/galaxy/server/tools/data_source/nels_importer.xml" />
+    <!-- <tool file="/srv/galaxy/server/tools/data_source/nels_importer.xml" /> -->
     <tool file="data_source/upload.xml" />
     <tool file="data_source/ucsc_tablebrowser.xml" />
     <!-- <tool file="data_source/ucsc_tablebrowser_test.xml" /> -->
@@ -24,8 +24,10 @@
     <tool file="data_source/hbvar.xml" />
   </section>
   <section id="send" name="Send Data">
+    <!--
     <tool file="/srv/galaxy/server/tools/data_destination/nels_exporter.xml" />
     <tool file="/srv/galaxy/server/tools/data_destination/nels_exporter_hidden.xml" />
+    -->
     <tool file="data_export/send.xml" />
     <tool file="data_export/export_remote.xml" />
   </section>
