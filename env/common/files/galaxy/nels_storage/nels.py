@@ -87,9 +87,12 @@ class NeLSFilesSource(PyFilesystem2FilesSource):
         is_link = (resource_info.type==ResourceType.symlink)
         
         if is_link: 
-            link_info = h.getinfo(path, namespaces=['details','access','link']) # get info about symlink to determine whether it points to a directory
-            is_dir = link_info.is_dir
-            size = link_info.size # return size of target file and not of the symlink itself
+            try:
+                link_info = h.getinfo(path, namespaces=['details','access','link']) # get info about symlink to determine whether it points to a directory
+                is_dir = link_info.is_dir
+                size = link_info.size # return size of target file and not of the symlink itself
+            except: # Errors can stem from symlinks pointing to non-existent files/directories. Ignore the error here and treat these as regular files
+                pass
            
         if is_dir:
             return {"class": "Directory", "name": name, "uri": uri, "path": path}
