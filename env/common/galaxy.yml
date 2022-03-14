@@ -66,7 +66,7 @@
       tags:
         - telegraf
     - usegalaxy_eu.gie_proxy
-    - usegalaxy_eu.gxadmin
+#    - usegalaxy_eu.gxadmin
     - role: usegalaxy-no.nels_storage
       tags:
         - nels
@@ -95,7 +95,7 @@
       file:
         path: "{{ galaxy_root }}/server/dependencies"
         state: directory
-        mode: "0644"
+        mode: "0755"
         owner: "{{ galaxy_user.name }}"
 
     - name: galaxy root is readable for nginx

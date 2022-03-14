@@ -223,36 +223,39 @@ nginx_conf_http:
 nginx_ssl_role: usegalaxy_eu.certbot
 nginx_conf_ssl_certificate: /etc/letsencrypt/live/{{ galaxy_host }}/fullchain.pem
 nginx_conf_ssl_certificate_key: /etc/letsencrypt/live/{{ galaxy_host }}/privkey.pem
-#nginx_conf_ssl_ciphers:
-#  - ECDHE-RSA-AES256-GCM-SHA384
-#  - ECDHE-RSA-AES128-GCM-SHA256
-#  - DHE-RSA-AES256-GCM-SHA384
-#  - DHE-RSA-AES128-GCM-SHA256
-#  - ECDHE-RSA-AES256-SHA384
-#  - ECDHE-RSA-AES128-SHA256
-#  - ECDHE-RSA-AES256-SHA
-#  - ECDHE-RSA-AES128-SHA
-#  - DHE-RSA-AES256-SHA256
-#  - DHE-RSA-AES128-SHA256
-#  - DHE-RSA-AES256-SHA
-#  - DHE-RSA-AES128-SHA
-#  - \!EDH-RSA-DES-CBC3-SHA
-#  - AES256-GCM-SHA384
-#  - AES128-GCM-SHA256
-#  - AES256-SHA256
-#  - AES128-SHA256
-#  - AES256-SHA
-#  - AES128-SHA
-#  - \!DES-CBC3-SHA
-#  - \!ECDHE-RSA-DES-CBC3-SHA
-#  - HIGH
-#  - \!aNULL
-#  - \!eNULL
-#  - \!EXPORT
-#  - \!DES
-#  - \!MD5
-#  - \!PSK
-#  - \!RC4
+nginx_conf_ssl_protocols:
+  - TLSv1.2
+  - TLSv1.3
+nginx_conf_ssl_ciphers:
+  - ECDHE-RSA-AES256-GCM-SHA384
+  - ECDHE-RSA-AES128-GCM-SHA256
+  - DHE-RSA-AES256-GCM-SHA384
+  - DHE-RSA-AES128-GCM-SHA256
+  - ECDHE-RSA-AES256-SHA384
+  - ECDHE-RSA-AES128-SHA256
+  - ECDHE-RSA-AES256-SHA
+  - ECDHE-RSA-AES128-SHA
+  - DHE-RSA-AES256-SHA256
+  - DHE-RSA-AES128-SHA256
+  - DHE-RSA-AES256-SHA
+  - DHE-RSA-AES128-SHA
+  - AES256-GCM-SHA384
+  - AES128-GCM-SHA256
+  - AES256-SHA256
+  - AES128-SHA256
+  - AES256-SHA
+  - AES128-SHA
+  - HIGH
+  - "!DES-CBC3-SHA"
+  - "!ECDHE-RSA-DES-CBC3-SHA"
+  - "!EDH-RSA-DES-CBC3-SHA"
+  - "!aNULL"
+  - "!eNULL"
+  - "!EXPORT"
+  - "!DES"
+  - "!MD5"
+  - "!PSK"
+  - "!RC4"
 
 custom_telegraf_env: "/usr/bin/env GDPR_MODE=1 GALAXY_ROOT=/srv/galaxy/ GALAXY_CONFIG_FILE=/srv/galaxy/config/galaxy.yml PGDATABASE={{galaxy_database}} PGHOST={{db_host}}"
 custom_telegraf_gxadmin_bin: /usr/local/bin/gxadmin
