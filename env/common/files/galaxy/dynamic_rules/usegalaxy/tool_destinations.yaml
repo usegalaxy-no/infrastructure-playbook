@@ -97,11 +97,13 @@ interactive_tool_wallace:
 interactive_tool_paraview:
   { mem: 4, runner: slurm_docker_ie, force_destination_id: True }
 
-transdecoder: { cores: 8, mem: 8, runner: slurm }
-zerone: { runner: slurm }
-basil: { runner: slurm }
-goenrichment: { runner: slurm }
-circos: { mem: 10, runner: slurm }
+transdecoder: { cores: 8, mem: 8 }
+# transdecoder: { cores: 8, mem: 8, runner: slurm }
+# zerone: { runner: slurm }
+# basil: { runner: slurm }
+# goenrichment: { runner: slurm }
+# circos: { mem: 10, runner: slurm }
+circos: { mem: 10 }
 
 # docking: {runner: slurm}
 # prepare_ligands_for_docking: {runner: slurm}
