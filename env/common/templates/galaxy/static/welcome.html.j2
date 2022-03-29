@@ -395,14 +395,13 @@ var exportStateValues = {
   'queued' : ['Queued',8],
   'running' : ['Preparing history export file',10],
   'ok' : ['Finished preparing history file',30],
-  'fetch-queue' : ['Waiting to fetch history file',35],
   'fetch-running' : ['Fetching history file',40],
   'fetch-ok': ['Finished fetching history file',60],
-  'nels-transfer-queue': ['Waiting to transfer history file',65],
   'nels-transfer-running' : ['Transferring history file to NeLS Storage',70],
   'nels-transfer-ok': ['History file transfer completed',95],
   'finished' : ['Done',100],
 
+  'bioblend-error' : ['ERROR: an error occurred while trying to connect or export to Galaxy',3],
   'error' : ['ERROR: an error occured during history file preparation',25],
   'fetch-error' : ['ERROR: an error occurred while fetching history file',55],
   'nels-transfer-error' : ['ERROR: an error occurred while transferring history file to NeLS Storage',90],
@@ -414,7 +413,8 @@ var exportStateValues = {
 var importStateValues = {
   'pre-fetch' : ['Queueing',5],
   'nels-transfer-running' : ['Transferring history file from NeLS Storage',10],
-  'nels-transfer-ok' : ['History transfer completed',50],		       
+  'nels-transfer-ok' : ['History transfer completed',40],
+  'pre-history-import' : ['Preparing history import',50],
   'history-import-triggered' : ['Importing history into Galaxy',60],
   'finished' : ['Done',100],
 
@@ -425,7 +425,7 @@ var importStateValues = {
 };
 
 function isErrorState(state) {
-   return (state=="error" || state=="fetch-error" || state=="nels-transfer-error" || state=="history-import-error" || state=="disk-space-error");
+   return (state=="error" || state=="fetch-error" || state=="nels-transfer-error" || state=="history-import-error" || state=="disk-space-error" || state=="bioblend-error");
 }
 
 // - - - - - - - - - -
