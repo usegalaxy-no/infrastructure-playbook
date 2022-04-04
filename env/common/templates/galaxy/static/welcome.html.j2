@@ -605,8 +605,9 @@ function createNeLSdataTransferElement(job, jobtype) {
          const folder = str.substring(0, str.lastIndexOf("/"));
          const file   = str.substring(str.lastIndexOf("/") + 1, str.length);		    
          tooltip+="\nImporting history file '"+file+"' from NeLS Storage folder '"+folder+"'. ";
-         var groups=file.match(/(.+?)-\d+T\d+.tgz/);
+         var groups=file.match(/(.+?)-\d+[T_]\d+.tgz/);
          if (!(groups===null) && groups.length==2) historyname=groups[1];
+         else historyname=file.replace('.tgz','').replace('.tar.gz','');
       }
       if (createTime!="") tooltip+="\nJob started: "+createTime;
       tooltip+="\nState: "+state;
