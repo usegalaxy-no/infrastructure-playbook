@@ -1,0 +1,4 @@
+requests
+pyyaml
+jsonlines
+beautifulsoup4
