@@ -1,6 +1,6 @@
 
 nga_master_url: "https://{{galaxy_host}}/nga/"
-nga_local_port: "80088"
+nga_local_port: "8888"
 nga_master_id: 18af382c5c
 nga_name: "test.usegalaxy"
 nga_api_token: "9e895ca6769294f76926f0a015f4b006"
