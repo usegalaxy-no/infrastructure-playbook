@@ -13,7 +13,7 @@ nga_rabbitmq_vhost: nels_galaxy
 rabbitmq_proxy: "{{ groups['database'][0] }}"
 mq_uri: "amqps://{{nga_rabbitmq_username}}:{{rabbitmq_password_nga}}@{{ rabbitmq_proxy }}/{{nga_rabbitmq_vhost}}"
 
-nga_contact_email: "carlos.horros@uib.no"
+nga_contact_email: "carlos.horro@uib.no"
 
 
 nga_max_exports: "5"
