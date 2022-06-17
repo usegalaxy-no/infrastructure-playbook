@@ -49,6 +49,7 @@ slurm_nodes_old:
     ThreadsPerCore: "{{ hostvars[slurm_host].ansible_processor_threads_per_core }}"
     CPUs: "{{ hostvars[slurm_host].ansible_processor_vcpus }}"
     RealMemory: "{{ hostvars[slurm_host].ansible_memtotal_mb }}"
+    Features: "{{ slurm_host }}"
 
 slurm_partitions:
   - name: "usegalaxy_{{ env }}"
