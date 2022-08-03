@@ -826,7 +826,7 @@ reactome_pathwaymatcher:
   mem: 20
   env:
     _JAVA_OPTIONS: -XX:MaxPermSize=2G -Xmx17G -Xms1G -Djava.io.tmpdir=/tmp
-repeat_masker: { cores: 16, mem: 10 }
+repeatmasker_wrapper: { cores: 16, mem: 10 }
 rgEstLibComp: { mem: 12 }
 rgPicFixMate: { mem: 12 }
 rgPicardMarkDups:
