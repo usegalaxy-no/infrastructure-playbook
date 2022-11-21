@@ -33,6 +33,8 @@ slurm_singularity:
     LC_ALL: C
     SINGULARITY_CACHEDIR: /var/tmp/containers
     SINGULARITY_TMPDIR: /var/tmp
+    APPTAINER_CACHEDIR: /var/tmp/containers
+    APPTAINER_TMPDIR: /var/tmp
   params:
     priority: -{PRIORITY}
     request_cpus: "{PARALLELISATION}"
@@ -58,6 +60,8 @@ slurm_node:
     LC_ALL: C
     SINGULARITY_CACHEDIR: /var/tmp/containers
     SINGULARITY_TMPDIR: /var/tmp
+    APPTAINER_CACHEDIR: /var/tmp/containers
+    APPTAINER_TMPDIR: /var/tmp
   params:
     priority: -{PRIORITY}
     request_cpus: "{PARALLELISATION}"
