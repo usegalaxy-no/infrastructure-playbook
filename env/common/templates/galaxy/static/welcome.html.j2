@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
-    <title>Welcome to Usegalaxy.no</title>
+    <title>Welcome to UseGalaxy.no</title>
 
 	<!-- --- -->
 
@@ -128,8 +128,8 @@ function displayQuota() { //
     var quota=(parent.Galaxy)?parent.Galaxy.user.attributes.quota:null;
     var usage=(parent.Galaxy)?parent.Galaxy.user.attributes.nice_total_disk_usage:null;
     if (quota===undefined || quota===null || quota=="unlimited") return;    
-    var quotaText="This Galaxy server has limitations on disc usage, and you have currently used <strong>"+usage+"</strong> of your total quota of <strong>"+quota+"</strong>. "+
-                  "To free up disc space, please move your files to the NeLS Storage after you are finished with them. If you require a larger disc quota, contact the <a href=\"mailto:contact@bioinfo.no\">Help Desk</a>.";
+    var quotaText="This Galaxy server has limitations on disk usage, and you have currently used <strong>"+usage+"</strong> of your total quota of <strong>"+quota+"</strong>. "+
+                  "To free up disk space, please move your files to the <span style='font-weight:bold;color:#175d91'><a href='https://nels.bioinfo.no' target='_blank'>NeLS Storage</a></span> after you are finished with them, as <a href=\"https://usegalaxy.no/static/nels_tutorials/nels_storage_plugin.html\">described here</a>. If you require a larger disc quota to perform your analyses, contact the <a href=\"mailto:david.dolan@uib.no\">Help Desk</a>.";
     document.getElementById("display_quota").innerHTML = quotaText;
 }
 
@@ -349,7 +349,11 @@ function blockPanel(element) {
 function clickSharedData() {
     var doc = (parent!=null)?parent.document:null;
     var menu = (doc!=null)?doc.querySelector("#shared > a:first-of-type"):null;
-    if (menu!=null) menu.click();
+    if (menu!=null) {
+        menu.click();
+        // var shared = doc.querySelector("#shared > ul:first-of-type > li:nth-of-type(3) > a:first-of-type");
+        // shared.focus(); // Unfortunately, this has no effect
+    }
 }
 
 function getCookie(name) {
@@ -438,9 +442,9 @@ var hiddenTransferJobs=[]; // list of jobs that should not be displayed
  *  Contact the history transfer API to query the status of ongoing history export/imports
  */
 function pollHistoryTransferStatus() { //
-    var GALAXY_URL=parent.location.href; // base URL for Galaxy server. This could include subdirectory
+    var GALAXY_URL=window.location.protocol + "//" + window.location.host;
+    // var GALAXY_URL=parent.location.href; // base URL for Galaxy server. This could include subdirectory
     if (GALAXY_URL.endsWith("/")) GALAXY_URL=GALAXY_URL.replace(/\/$/, ""); // remove trailing slash
-    
     var xhrE = createXHR();
     xhrE.onreadystatechange=function()
     {
@@ -533,7 +537,8 @@ function compareJobDates(a,b) {
  * Sends API control calls to the history transfer API (for instance to CANCEL or HIDE a job)
  */
 function sendHistoryTransferAPIcall(jobid,type,command) { //
-    var GALAXY_URL=parent.location.href; // base URL for Galaxy server. This could include subdirectory
+    var GALAXY_URL=window.location.protocol + "//" + window.location.host;
+    // var GALAXY_URL=parent.location.href; // base URL for Galaxy server. This could include subdirectory
     if (GALAXY_URL.endsWith("/")) GALAXY_URL=GALAXY_URL.replace(/\/$/, ""); // remove trailing slash
     var url=GALAXY_URL;
          if (command == "hide" && type == "export") url+="/nga/user/export/"+jobid+"/?show=false";
@@ -749,13 +754,12 @@ window.onload = onStartUp;
 	   users with a unified, easy-to-use graphical interface to a host of different analysis tools.
 	   These tools can be run interactively, one by one, or combined into multi-step workflows that can be executed as a single analysis.
 	   <br><br>
-	   If this is your first time using Galaxy, you might want to have a look at this
-	   <a href="https://galaxy-ntnu.bioinfo.no/www/userguide" class="smallbutton button3d" style="">Quick Start Guide</a><br>
-	   Additional documentation and tutorials on using Galaxy can be found <a href="https://wiki.galaxyproject.org/Learn" target="_blank">here</a>.
+	   If this is your first time using Galaxy, you may want to have a look at this
+	   <a href="userguide/quickstartguide.html" class="smallbutton button3d" style="">Quick Start Guide</a><br>
+	   Additional documentation and tutorials on using Galaxy can be found by clicking the <i>graduation cap</i> button in the menu bar.
 	   <br><br>
 	   <div id="display_quota"></div>
-        <div id="server_alerts"></div>      <!--  alerts can be defined in JSON format in (/srv/galaxy/server/|https://)static/server_alerts.json  -->
-	   <div id="local_server_alerts"></div> <!--  Local alerts can be defined in JSON format (list of objects) in the file "nels_server_alerts.json" (in the same directory as this HTML page)  -->
+           <div id="server_alerts"></div>      <!--  alerts can be defined in JSON format in '/srv/galaxy/server/static/server_alerts.json'  -->
 	</div>
 
        <!-- NeLS History export/import progress -->
@@ -796,7 +800,7 @@ window.onload = onStartUp;
    <td>
      <div>
         <!-- support button -->
-        <a target="_top" href="mailto:contact@bioinfo.no" class="button3d" style="height:36px;width:170px;">
+        <a target="_top" href="mailto:david.dolan@uib.no" class="button3d" style="height:36px;width:170px;">
           <table style="padding:0;margin:0;">
             <tr style="padding:0;">
               <td style="padding:0;margin:0;vertical-align:top">
@@ -815,10 +819,20 @@ window.onload = onStartUp;
 </table>
 
    <div class="box-body" style="margin-top:8px;padding-right:40px;">
+   <p>
+   UseGalaxy.no offers nearly 2000 different bioinformatics tools.
+   However, not all of them have been thoroughly tested, and some may fail for various reasons.
+   If you find a tool that is not working properly, please report this to our Galaxy administrators
+   by pressing the <b>Bug Report</b>
+   <img src="data:image/jpeg;charset=utf-8;base64,iVBORw0KGgoAAAANSUhEUgAAABcAAAAWCAIAAACkFJBSAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAIgSURBVDhPY/z////Bgwd//WP5y8DIQDrgZPptb2/PeODAASBHSlqGnY0VIkE8+P3n770nL9n+/2T6/o9VRlaODCOAgJWFWUlGHGgCE4QDEcUKfn0Bgl9QDgaA6AWZghO8ONaR7usWEOIT4OdTt/URTqPwmfJyU2vTjru/IZwvxyaXzbmOyxxMU16eWrv1wjsGhnd3r/1SUlFGIJ7rNx4BhS9uXbP/MZpxLFAaDl5cWjZ98oUtN1raiytmWkEFYeDLxRlZxRseyaabOcrKQcVAgHH7vqNayjJQHhhAlXLLqEiwQYWg4NeLu0++yLoCLbCRgAoBwbW7T7CEC49+RlEQA8PXJ3fu3gOiF7+AukGMO0AjGBjMIhKRjYAAdFPA8frlF8Lfxjm90yZkGUN5QAW/3mNGPaopX451gOI1pGwLVAATXJiYDVTgU3cAGAFwgGoKj0lab3FORJiTJlQAE0iYeEVF5HYVWAlBBUAAzUdsEvquISlJIbhN0fJNSkvxNkMNeCyhCwQSmpZQFjrQMFDmgTKRABZTfj3a2tF1HMpBBzem1M+7hpGEMUwBBnD65FMMxkUzFs6pDrBRFgJZzSOkYhVQN2PNilJjhrursoq3voAohgGMVPfr7pqWVWwpxX5yaEkOCl4cnTTrhXdFsDJcGpjqsKRdUgE07QKLLAifDADRywQsOIGl3s9f0BKAJAApMYEmwErvvyx/Gcktve3tAe/j6on8yG4IAAAAAElFTkSuQmCC">
+   button for the failed job in the history panel.
+   </p>
+   <p>
   <a href="https://www.elixir-norway.org" target="_blank">ELIXIR Norway</a> aims to develop tools and workflows for specific data analysis tasks, based on input from large user groups
    and help-desk users in Norway and also toward ELIXIR internationally.
    To see a list of analysis workflows available on this Galaxy server, click the &ldquo;<a href="" onClick="clickSharedData();return false;">Shared Data</a>&rdquo; menu at
    the top of the page and select &ldquo;<a href="../workflows/list_published" id="published_workflows" target="_parent">Workflows</a>&rdquo;.
+   </p>
   </div>
    
   </td> <!-- end of Row 2 Column 1 -->
