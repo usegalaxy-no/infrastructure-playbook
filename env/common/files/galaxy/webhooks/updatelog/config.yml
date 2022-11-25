@@ -1,0 +1,7 @@
+id: updatelog
+type:
+  - masthead
+activate: true
+
+icon: fa-calendar
+tooltip: See list of recent updates on UseGalaxy.no

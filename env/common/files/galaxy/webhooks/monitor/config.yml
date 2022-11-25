@@ -1,0 +1,7 @@
+id: monitor
+type:
+  - masthead
+activate: true
+
+icon: fa-heartbeat
+tooltip: See status of compute backend

@@ -31,6 +31,7 @@
   register: scss_file
 
 - name: add client webhook patch file.
+  tags: webhooks
   copy:
     src: files/galaxy/client/options-menu.js
     dest: "{{ galaxy_root }}/server/client/src/mvc/history/options-menu.js"
@@ -38,7 +39,8 @@
     group: root
     mode: "0644"
 
-- name: directory creation for nels_export_history webhook
+- name: directory creation for NeLS webhooks
+  tags: webhooks
   file:
     path: "{{ galaxy_root }}/server/config/plugins/webhooks/nels/"
     owner: root
@@ -46,34 +48,11 @@
     mode: "0755"
     state: directory
 
-- name: directory creation for nels_export_history webhook
-  file:
-    path: "{{ galaxy_root }}/server/config/plugins/webhooks/nels/nels_export_history"
-    owner: root
-    group: root
-    mode: "0755"
-    state: directory
-
-- name: directory creation for nels_import_history webhook
-  file:
-    path: "{{ galaxy_root }}/server/config/plugins/webhooks/nels/nels_import_history"
-    owner: root
-    group: root
-    mode: "0755"
-    state: directory
-
-- name: config file for nels history export
-  template:
-    src: templates/galaxy/webhooks/nels_export_history_config.yml.j2
-    dest: "{{ galaxy_root }}/server/config/plugins/webhooks/nels/nels_export_history/config.yml"
-    owner: root
-    group: root
-    mode: "0644"
-
-- name: config file for nels history export
-  template:
-    src: templates/galaxy/webhooks/nels_import_history_config.yml.j2
-    dest: "{{ galaxy_root }}/server/config/plugins/webhooks/nels/nels_import_history/config.yml"
+- name: Add webhooks
+  tags: webhooks
+  copy:
+    src: files/galaxy/webhooks/
+    dest: "{{ galaxy_root }}/server/config/plugins/webhooks/nels/"
     owner: root
     group: root
     mode: "0644"
