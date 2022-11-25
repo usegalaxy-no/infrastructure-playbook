@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+
+<link type="text/css" rel="stylesheet" href="userguide.css" />
+
+
+</head>
+<body>
+<div class="navbar-top">
+  <a class="previouspage" href="datasetcollections.html">Dataset collections</a>
+  <a class="contentpage" href="quickstartguide.html">Contents</a>
+  <a class="nextpage" href="workflows.html">Workflows</a>
+</div>
+
+
+<div id="content-container" style="padding:20px;padding-bottom:0px;"> <!-- begin outer container -->
+
+<div class="header">Running tools</div>
+  <div class="box-body">
+<p style="margin-top:0px;">
+Galaxy provides users with a selection of <i>tools</i> that they can use to manipulate datasets and analyze data.
+These tools are not necessarily a part of Galaxy <i>per se</i> but might have been developed by other researchers for the benefit of the scientific community
+and then later on made available for use through Galaxy.
+Basically any tool that can normally be run from a Unix/Linux command-line can be fitted with a graphical interface in Galaxy,
+which makes Galaxy an easily extendable analysis platform. Different Galaxy servers may thus offer different types of tools depending on their focus and intended audience.
+</p> 
+<p>
+Galaxy tools can broadly be divided into two groups: those that manipulate a dataset to change it into something else &mdash;
+for instance by filtering out certain rows or columns, transforming the values or converting a dataset into an entirely different format &mdash;
+and those tools that merely examine and analyze the data to produce new results.
+In both cases it is important to remember that a dataset is never actually changed by any tool. If you run a tool to convert a certain
+dataset from GFF-format to BED-format, for instance, the results will always be output to a new dataset in your history.
+This way, the original dataset will be kept intact so that you can perform other operations on it later on, but it also means that your
+dataset history will contain an anti-chronological overview of all your data and you can go through the history to examine the datasets
+at different stages of the analysis.
+</p>
+
+  <br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="running_tools.png" style="border:1px solid black;box-shadow: 0px 0px 10px 6px #C0C0C0;height:100%;width:100%;max-height:504px;max-width:826px;"><br>
+  <br>
+
+<ol>
+<li>All the tools available on the particular Galaxy server are listed in the Tools panel on the left-hand side. 
+  The tools are grouped into <i>sections</i> (categories) and
+  you can click on a section header to show which tools it contains. You can also search for tools by name or keywords using the search box at the top of the panel. 
+  To select a specific tool, simply click on the underlined tool link and the tool form will appear in the middle panel. 
+ </li>
+<li>
+  Once you have selected a tool, you can specify the settings of different execution parameters to control its behaviour.<br>
+    Depending on your choices, the options available to you for other parameters might change and some parameters may even disappear
+    or reappear depending on their current relevance.
+  Each parameter is usually accompanied by a short description, and many tools also include more extensive documentation at the bottom of the page.
+  <br><br>
+      The most important parameters are the <i>input data parameters</i> that allow you to select which dataset(s) from your history to apply the tool to.
+      (These are usually, but not always, located near the top of the form).
+      Input data parameters are preceeded by buttons (explained below) which let you choose if you want to run with a single input dataset,
+      multiple inputs selected individually, or a <a href="datasetcollections.html">collection</a> of input datasets.
+      Note that only datasets that have the correct data format will be displayed in the form, so if a particular input parameter appears empty,
+      it probably means that your history contains no datasets or collections of the required type.
+  <br><br>
+  <table style="border:0px;align:left;margin-left:30px;margin-right:30px;">
+  <tr><td style="white-space:nowrap;vertical-align:top;"><img src="input_dataset_single.png" style="height:18px;vertical-align:middle;margin:0px 9px 0px 3px;"><b>Single dataset</b></td><td>
+     This is the default option for parameters that take a single dataset as input. The tool will be run once on the selected dataset and produce one set of results.
+  </td></tr>
+  <tr><td style="white-space:nowrap;vertical-align:top;"><img src="input_dataset_two.png" style="height:18px;vertical-align:middle;margin:0px 7px 0px 1px;"><b>Multiple datasets</b></td><td>
+	Some tools are able to take multiple datasets as input, process all of them simultaneously in the same analysis and produce one output as a result.
+	In this mode, the eligible datasets from the history are presented as a list, and you can choose several datasets by holding down the SHIFT or CONTROL keys
+	(COMMAND on Mac) while selecting. 
+        The option to select multiple input datasets will still be available even for tools that can only process a single dataset at a time,
+	but the tool will then be executed in <i>batch mode</i>. Batch mode means that the tool is automatically run multiple times in parallel.
+	Each execution runs with one of the selected input datasets and produces a separate output from that input.
+	This is equivalent to manually running the tool multiple times with a different dataset as (single) input each time.     
+  </td></tr>
+  <tr><td style="white-space:nowrap;vertical-align:top;"><img src="input_dataset_collection.png" style="height:18px;vertical-align:middle;margin:0px 8px 0px 2px;"><b>Dataset collection</b></td><td>
+	Tools that can take multiple datasets as input may allow you to specify these as a
+	<a href="datasetcollections.html">collection</a> instead of individually selected datasets.
+	Some tools might even require you to use collections. Even if a tool can only process a single input dataset at a time,
+	you may still be able to provide it with a <i>list collection</i> to run the tool in <i>batch mode</i> (see above). 
+  </td></tr>
+  </table>
+</li>
+<li>After you have set all the required parameters to your liking, press the "<b>Execute</b>" button to start running the tool.</li>
+<li>When you press the Execute button, all the result datasets that the tool will
+produce will be added to your history on the right. These datasets will at
+first appear as gray boxes, which means that the job has been queued and is
+awaiting execution. Galaxy is only able to run a certain number of concurrent jobs at the
+same time, and if there are other jobs in front of you in the queue you will have to wait your turn.
+When your time comes, the boxes turn orange which means that the job is now running. 
+Eventually, the job completes execution and the orange boxes will turn green to signal that
+the results are finished (or, if something went wrong, the boxes will turn red). To view the results, click the eye icon <img src="eye-icon.png" style="vertical-align:middle;"> behind the name of the dataset.
+
+</li>
+</ol>
+
+<br><br>
+</div>
+
+<div class="header">Tool versions</div>
+  <div class="box-body">
+<i>Reproducibility</i> is an important aspect of scientific research. If you have run an
+analysis on a dataset at one time, you should be able
+to run the same analysis on the same data at a later date and get exactly the
+same results as the first time, and other researchers should be able to do the same as well.
+
+Unfortunately, as tools are updated and newer software versions are released, 
+this reproducibility could be compromised by modifications to the underlying computational algorithms. 
+Even slight changes to external libraries and dependencies utilized by the tools could lead
+to differences in the eventual outcome of an analysis. To support
+reproducibility as software is being continuously updated, Galaxy allows different
+(legacy) versions of the same tool to be installed, and users can
+decide for themselves which version they would like to use for their analyses.
+When you select a tool from the Tools panel, its version number
+will be displayed behind the tool name in the header at the top of the tool form page,
+as seen in the image below. If there are multiple versions of the tool available,
+an icon resembling "stacked cubes" will appear to the right, and you can click on
+this to bring up a menu which allows you to select a different version.
+Be aware, however, that the version numbers shown are internal to Galaxy, and these might not necessarily
+correspond directly to the numbering used by the original developers of the tool. 
+  <br><br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="tool_versions.png"><br>
+</div>
+
+<br>
+</div> <!-- end outer container -->
+
+<div class="navbar-bottom">
+  <a class="previouspage" href="datasetcollections.html">Dataset collections</a>
+  <a class="contentpage" href="quickstartguide.html">Contents</a>
+  <a class="nextpage" href="workflows.html">Workflows</a>
+</div>
+
+</body>
+</html>

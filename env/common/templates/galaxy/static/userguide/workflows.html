@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+
+<link type="text/css" rel="stylesheet" href="userguide.css" />
+
+</head>
+<body>
+<div class="navbar-bottom">
+  <a class="previouspage" href="runningtools.html">Running tools</a>
+  <a class="contentpage" href="quickstartguide.html">Contents</a>
+</div>
+
+
+<div id="content-container" style="padding:20px;padding-bottom:0px;">
+
+  <div class="header">Workflows</div>
+  <div class="box-body">
+A <i>workflow</i> (also called <i>pipeline</i>) is a string of tools connected such that the output from one tool functions as the input for another,
+thus allowing multi-step analyses to be executed as a single unit. UseGalaxy.no offers several ready-made workflows that researchers can
+use to analyse their data. Click on "Shared Data" in the top menu bar and select "Workflows" to see a list.
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<div style="position:relative;">
+<img src="workflow_example.png" style="width:90%;border:1px solid black;box-shadow: 0px 0px 10px 6px #C0C0C0;">
+<span style="position:absolute; bottom:8px; left:8px;font-style:italic;">Example of a NeLS Galaxy workflow</span></div>
+
+  </div>
+<br><br><br/>
+
+  <div class="header">Importing published workflows</div>
+  <div class="box-body">
+
+Before you can use a workflow for the first time you must <i><b>import</b></i> it to your own workspace.
+<ol>
+<li>Click on "Shared Data" in the menubar at the top of the screen</li>
+<li>Select "Workflows" from the menu to bring up an overview of all the published workflows available on that server</li>
+<li>Find the workflow you want to use and click the down-arrow near the right edge of the button. Then select "import" from the context-menu</li>
+</ol>
+
+<img src="workflows_import.png" style="border:1px solid black;box-shadow: 0px 0px 10px 6px #C0C0C0;">
+<br/><br/>
+
+
+After you have imported a workflow, you can access it by clicking on "<a href="/workflow">Workflow</a>" in the menubar at the top of the screen
+or clicking "<a href="/workflow">All workflows</a>" at the bottom of the tools panel. 
+You can also make the workflow directly available from the Workflows section at the bottom of the Tools panel by checking off the "bookmarked"
+box in the fifth column of the workflows list (see image below).
+<br/><br/>
+<br/><br/>
+
+<!--
+  <div class="header">Workflow instructions</div>
+  <div class="box-body">
+All NeLS curated workflows should have an associated "Galaxy Page" describing the workflow, its individual tools and how to configure the various parameters.
+You can access this page by clicking the "Workflow Instructions" button which appears in the upper right corner when you run a workflow (see image under "<a href="#running_workflows">Running workflows</a>").
+You will also be directed to the workflow's instructions page when you click on a workflow in the <a href="https://galaxy-ntnu.bioinfo.no/www/nels_pipelines.html">NeLS pipelines overview</a>.
+If you have not already imported the workflow, you can import it directly from this page by pressing the green plus icon <img src="plus-icon.png"> in the orange box as seen in the example below.
+<br/><br>
+<img src="workflows_pages.png" style="border:0px solid black;box-shadow: 0px 0px 10px 6px #C0C0C0;">
+</div>
+<br><br>
+-->
+
+    <div class="header"><a name="running_workflows">Running workflows</a></div>
+  <div class="box-body">
+    <ol>
+      <li>To run a workflow you have imported or created, select "<a href="/workflow">Workflow</a>" in the menu bar
+	at the top of the screen to show all your available workflows</li>
+      <li>Find the workflow in the list and press the corresponding "play" button in the last column.
+    Alternatively, if you have included the workflow in your personal workflows menu, you can click on the workflow in the Tools panel.
+  </li>
+</ol>
+<img src="workflows_list.png" style="border:1px solid black;box-shadow: 0px 0px 10px 6px #C0C0C0;">
+<br><br>
+  
+    Selecting to run a workflow will bring up the workflow execution form where you can choose the input datasets and set other parameters.
+    Depending on how the workflow is designed, many of the parameters may have been set in advance.
+    By default, only the values that are required to be set by the user (such as the input dataset) are shown in the form.
+    However, you can click the "Expand to full workflow form" link at the bottom of the page to show all the steps of the workflow
+    and tinker with individual parameter settings for each tool, as shown in the image below.
+
+<br><br>
+<img src="workflows_run.png" style="border:1px solid black;box-shadow: 0px 0px 10px 6px #C0C0C0;">
+<br><br>
+
+  
+<ol start="3">
+<li>Steps that require input from the user will be expanded in this view. This will always include the input datasets which must be specified before the workflow can be executed.
+Other steps will be collapsed but you can expand them by clicking on the title of the step.</li>
+<li>To adjust a parameter value that has already been set in advance by the workflow designer,
+  click on the small box with the downward triangle in front of the parameter name to make the value editable.</li>
+<li>The datasets created when running the workflow will normally be added to your current history, but if you select "Send results to a new history",
+  the datasets will be added to a new history that you can name yourself</li>
+<li>After you have specified all the required (and possibly optional) parameters, press the "Run Workflow" button to start executing the workflow</li>
+</ol>
+
+<br/>
+
+</div>
+
+
+<!--
+  <div class="header">Creating your own workflow</div>
+  <div class="box-body">
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+incididunt ut labore et dolore magna aliqua.
+</div>
+-->
+
+<br>
+
+</div> <!-- end outer container -->
+<div class="navbar-bottom">
+  <a class="previouspage" href="runningtools.html">Running tools</a>
+  <a class="contentpage" href="quickstartguide.html">Contents</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+
+<link type="text/css" rel="stylesheet" href="userguide.css" />
+
+
+</head>
+<body>
+<div class="navbar-top">
+   <a class="previouspage" href="importexport.html">NeLS Storage</a>
+   <a class="contentpage" href="quickstartguide.html">Contents</a>
+   <a class="nextpage" href="runningtools.html">Running tools</a>
+</div>
+
+
+<div id="content-container" style="padding:20px;padding-bottom:0px;">
+
+  <div class="header">Dataset Collections</div>
+  <div class="box-body">
+
+<p style="padding-top:0px;margin-top:0px;">
+Dataset Collections allow you to group together related datasets into collections that can be processed in batch.
+Many of the NeLS workflows require input in the form of dataset collections.
+</p>
+<p>
+Galaxy currently supports two different types of basic collections: <i><b>pairs</b></i> and <i><b>lists</b></i>.
+The <i>pair</i> collection type is used to represent the two ends of paired-end sequences, and hence such collections consist of exactly two datasets,
+one representing the forward sequence and the other representing the reverse.
+<i>List</i> type collections, on the other hand, can contain any number of datasets.
+
+It is also possible to nest these two basic collection types to create <i><b>list of pairs</b></i> collections which consist of any number of pairs.
+</p>
+To create a new collection, follow these steps:
+
+<ol>
+<li>If you have not already done so, you must first press the checkbox icon <img src="checkbox-icon.png" style="vertical-align:middle;"> located above the datatsets in the History panel.</li>
+<li>A few new buttons should now appear, along with checkboxes in front of every dataset in your history. Check off the datasets that you want to include in the collection.</li>
+<li>Press the "For all selected..." button to bring up a context menu and select either "Build Dataset List", "Build Dataset Pair" or "Build List of Dataset Pairs" depending on what type of collection you want to create.</li>
+<li>A dialog will now pop up to allow you to configure your collection. The appearance of this dialog will depend on the chosen collection type (see below). After you click the "Create list" button in this dialog, the new collection will be added to the top of your history. </li>
+</ol>
+
+<table style="border:0px;">
+<tr>
+<td style="vertical-align:top;padding-right:24px;"><img src="datasetCollections_history1m.png" style="box-shadow: 0px 0px 8px 4px #D0D0D0;width:100%;max-width:250px;min-width:150px;"></td>
+<td style="vertical-align:top;padding-right:24px;"><img src="datasetCollections_history2m.png" style="box-shadow: 0px 0px 8px 4px #D0D0D0;width:100%;max-width:250px;min-width:150px;"></td>
+<td style="vertical-align:top;padding-right:24px;"><img src="datasetCollections_history3m.png" style="box-shadow: 0px 0px 8px 4px #D0D0D0;width:100%;max-width:250px;min-width:150px;"></td>
+<td style="vertical-align:top"><img src="datasetCollections_history4.png" style="box-shadow: 0px 0px 8px 4px #D0D0D0;width:100%;max-width:250px;min-width:150px;"></td>
+</tr>
+</table>
+<br><br>
+<b>Creating <i>list</i> collections</b><br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="collections_list.png" style="border:1px solid black; box-shadow: 0px 0px 10px 6px #C0C0C0;width:100%;max-width:774px;min-width:150px;"><br>
+<ol>
+<li>
+All the datasets you selected from your history will appear beneath each other in the dialog. You can <i>discard</i> datasets from the list by pressing buttons on the right, but if you want to add more datasets to the collection you will have to start all over again.
+The order of the datasets in the list is usually important, so you can rearrange the list by clicking on a dataset and dragging it up or down. You can also select multiple datasets and drag them together.
+It is possible to rename a dataset in the list by clicking on the name. 
+</li>
+
+<li>Before you can create the collection you must provide a name for it!</li>
+<li>Finally, press the "Create collection" button to create the new collection and add it to your history.</li>
+</ol>
+
+<br/>
+<br/>
+
+<b>Creating <i>pair</i> collections</b><br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="collections_pair.png" style="border:1px solid black;box-shadow: 0px 0px 10px 6px #C0C0C0;width:100%;max-width:774px;min-width:150px;"><br>
+<ol>
+<li>
+The two datasets you selected from your history will appear beneath each other in the dialog. Galaxy will automatically nominate one of the datasets as "forward" and the other as "reverse".
+If the suggested assignment is incorrect, just click the "<u>Swap</u>" link above the two datasets to reverse it.
+</li>
+
+<li>Before you can create the collection you must provide a name for it!</li>
+<li>Finally, press the "Create collection" button to create the new pair collection and add it to your history.</li>
+</ol>
+
+<br/>
+<br/>
+
+<b>Creating <i>list of pairs</i> collections</b><br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="collections_dialog.png" style="border:1px solid black;box-shadow: 0px 0px 10px 6px #C0C0C0;width:100%;max-width:774px;min-width:150px;"><br>
+<ol>
+<li>Your unpaired datasets will appear in two lists: "unpaired forward" on the left and "unpaired reverse" on the right. Normally, both lists will contain all of the datasets, but you can also specify filters so that e.g. the list on the
+left will only display datasets whose names end in "_1" and the list on the right only displays datasets ending in "_2" (or containing some other specified text).
+If all your datasets appear in just one of the lists, click the "Clear filters" link in the middle to disable the current filtering. This should make all datasets appear in both lists. 
+To pair up two datasets, simply click on one dataset from the list on the left (this will be the <i>forward</i> element) and one other dataset to pair it with from the list on the right (<i>reverse element</i>). 
+If the lists are filtered and the two datasets you want to pair are already lined up next to each other in the two lists, you can also press the "Pair these datasets" button between them to pair them up.
+If you press the "Auto-pair" link, Galaxy will attempt to make pairs automatically based on the names of the datasets (in fact, Galaxy will always attempt to make the pairs automatically when you first bring up the dialog).
+</li>
+
+<li>The datasets that have been paired will appear in green with the forward dataset in the left column, the reverse to the right and the name of the pair in the middle.
+The name of the pair will be based on the similarity between the names of the two datasets, but you can click on the name to change it if you want. 
+You can discard a pair and return the two datasets to the unpaired pile by clicking the "break link" icon to the right of the pair. Click the "Unpair all" link to return all paired datasets to the pile. 
+You can also reorder pairs by selecting one or more pairs and dragging them up and down in the list.
+</li>
+
+<li>Before you can create the collection you must provide a name for it!</li>
+<li>Finally, press the "Create collection" button to create the new collection based on your chosen pairs and add it to your history.</li>
+</ol>
+
+</div>
+
+<br><br><br>
+
+</div> <!-- end outer container -->
+<div class="navbar-bottom">
+   <a class="previouspage" href="importexport.html">NeLS Storage</a>
+   <a class="contentpage" href="quickstartguide.html">Contents</a>
+   <a class="nextpage" href="runningtools.html">Running tools</a>
+</div>
+</body>
+</html>

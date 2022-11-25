@@ -1,0 +1,540 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NeLS Storage Data Source for UseGalaxy.no</title>
+
+  <style type="text/css">
+
+
+* {box-sizing:border-box}
+
+/* Slideshow container */
+.slideshow-container {
+  max-width: 1000px;
+  position: relative;
+  margin: auto;
+}
+
+/* Hide the images by default */
+.slides {
+  display: none;
+}
+
+.slides>img {
+  width:100%
+}
+
+/* Next & previous buttons */
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  margin-top: -22px;
+  padding: 16px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+}
+
+/* Position the "next button" to the right */
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover, .next:hover {
+  background-color: rgba(0,0,0,0.8);
+}
+
+/* Caption text */
+.captiontext {
+  color: #f2f2f2;
+  font-size: 16px;
+  font-family: sans-serif;
+  padding: 8px 12px;
+  //position: absolute;
+  display: inline-block;
+  background:#000000;
+  //bottom: -22px;
+  width: 100%;
+  margin-top:-4px;
+  text-align: center;
+}
+
+/* Header Text */
+.headertextcontainer {
+  position: absolute;
+  top: 2px;
+  width:100%;
+  text-align:center;
+}
+
+/* Header Text */
+.headertext {
+  display: inline-block;
+  color: #f2f2f2;
+  font-family: sans-serif;
+  font-size: 20px;
+  font-weight:600;
+  padding: 6px 8px;
+  background:#000000;
+  //border-radius: 10px;
+  //top: 2px;
+  width:100%;
+  margin:auto;
+  text-align:center;
+}
+
+/* Number text (1/3 etc) */
+.numbertext {
+  color: #f2f2f2;
+  font-size: 15px;
+  padding: 6px 8px;
+  position: absolute;
+  background:#000000;
+  border-radius: 10px;
+  top: 2px;
+  left: 2px;
+}
+
+/* The dots/bullets/indicators */
+.dot {
+  cursor: pointer;
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+
+.active, .dot:hover {
+  background-color: #717171;
+}
+
+/* Fading animation */
+.fade {
+  -webkit-animation-name: fade;
+  -webkit-animation-duration: 1;
+  animation-name: fade;
+  animation-duration: 1s;
+}
+
+@-webkit-keyframes fade {
+  from {opacity: .4}
+  to {opacity: 1}
+}
+
+@keyframes fade {
+  from {opacity: .4}
+  to {opacity: 1}
+}
+
+/* Style the tab */
+.tab {
+  overflow: hidden;
+  // border: 1px solid #ccc;
+  background-color: #E8E8E8;
+}
+
+/* Style the buttons that are used to open the tab content */
+.tab button {
+  background-color: #ccc; // inherit;
+  float: left;
+  outline: none;
+  cursor: pointer;
+  padding: 10px 16px;
+  margin:10px 0px 0px 4px ;
+  transition: 0.3s;
+  border: 1px solid #aaa;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  border-bottom: none;
+  font-weight:bold;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #eee;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #fff;
+  border-bottom: none;
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+  padding-top:20px;
+}
+
+.footnote {
+  color: #000000;
+  font-family: sans-serif;
+  font-size: 16px;
+  margin: 10px 10px;
+}
+
+  </style>
+
+
+</head>
+
+<body>
+
+<div id="outer">
+
+<div class="tab">
+  <button class="tablinks" onclick="openTab(event, 'ImpData')" id="defaultTab">Import Files</button>
+  <button class="tablinks" onclick="openTab(event, 'ExpData')">Export Files</button>
+  <button class="tablinks" onclick="openTab(event, 'ImpHis')">Import History</button>
+  <button class="tablinks" onclick="openTab(event, 'ExpHis')">Export History</button>
+  <button class="tablinks" onclick="openTab(event, 'Configurable')">Configurable SSH storage</button>
+</div>
+
+
+<div id="ImpData" class="tabcontent">
+
+	<!-- Slideshow container -->
+	<div class="slideshow-container">
+
+      <div class="headertext">Importing files from NeLS Storage</div>
+
+	  <!-- Full-width images with number and caption text -->
+	  <div class="slides deck1 fade">
+		<div class="numbertext">1 / 5</div>
+		<img src="nels_storage_plugin_DataImp1.png" >
+		<div class="captiontext">Import files from NeLS Storage by clicking the "Upload Data" button or select the "Upload File" tool.</div>
+	  </div>
+
+	  <div class="slides deck1 fade">
+		<div class="numbertext">2 / 5</div>
+		<img src="nels_storage_plugin_DataImp2.png" >
+		<div class="captiontext">Press the "Choose remote files" button at the bottom of the popup dialog</div>
+	  </div>
+
+	  <div class="slides deck1 fade">
+		<div class="numbertext">3 / 5</div>
+		<img src="nels_storage_plugin_DataImp3.png" >
+		<div class="captiontext">Select "NeLS Storage" or "NeLS Storage Projects" to import files from either your <i>Personal</i> folder or your <i>Projects</i> folder in NeLS</div>
+	  </div>
+
+	  <div class="slides deck1 fade">
+		<div class="numbertext">4 / 5</div>
+		<img src="nels_storage_plugin_DataImp4.png" >
+		<div class="captiontext">Choose which files you want to import (shown in green) and then press "OK"</div>
+	  </div>
+
+	  <div class="slides deck1 fade">
+		<div class="numbertext">5 / 5</div>
+		<img src="nels_storage_plugin_DataImp5.png" >
+		<div class="captiontext">Finally, press the "Start" button to import the selected files into your history</div>
+	  </div>
+
+	  <!-- Next and previous buttons -->
+	  <a class="prev" onclick="plusSlides(-1,0)">&#10094;</a>
+	  <a class="next" onclick="plusSlides(1,0)">&#10095;</a>
+	</div>
+	<br>
+
+	<!-- The dots/circles -->
+	<div style="text-align:center">
+	  <span class="dot deck1dot" onclick="currentSlide(1,0)"></span>
+	  <span class="dot deck1dot" onclick="currentSlide(2,0)"></span>
+	  <span class="dot deck1dot" onclick="currentSlide(3,0)"></span>
+	  <span class="dot deck1dot" onclick="currentSlide(4,0)"></span>
+	  <span class="dot deck1dot" onclick="currentSlide(5,0)"></span>
+	</div>
+
+</div>
+
+<div id="ExpData" class="tabcontent">
+
+	<div class="slideshow-container">
+      <div class="headertext">Exporting files to NeLS Storage</div>
+	  <!-- Full-width images with number and caption text -->
+	  <div class="slides deck2 fade">
+		<div class="numbertext">1 / 5</div>
+		<img src="nels_storage_plugin_DataExp1.png" >
+		<div class="captiontext">To export individual datasets from your current Galaxy history into the NeLS Storage, select the "<b>Export datasets</b> to remote files source" tool under the "Send Data" section in the Tools Panel</div>
+	  </div>
+
+	  <div class="slides deck2 fade">
+		<div class="numbertext">2 / 5</div>
+		<img src="nels_storage_plugin_DataExp2.png" >
+		<div class="captiontext">Choose which datasets to export from the list and then press the "Select" button under "Directory URI"</div>
+	  </div>
+
+	  <div class="slides deck2 fade">
+		<div class="numbertext">3 / 5</div>
+		<img src="nels_storage_plugin_DataExp3.png" >
+		<div class="captiontext">A popup dialog will display the available <i>remote data storages</i>.<br>Select "NeLS Storage" or "NeLS Storage Projects" to export files to either your <i>Personal</i> folder or your <i>Projects</i> folder in NeLS</div>
+	  </div>
+
+	  <div class="slides deck2 fade">
+		<div class="numbertext">4 / 5</div>
+		<img src="nels_storage_plugin_DataExp4.png" >
+		<div class="captiontext">Navigate into the folder where you want to store the files and then press the "Select this folder" button</div>
+	  </div>
+
+	  <div class="slides deck2 fade">
+		<div class="numbertext">5 / 5</div>
+		<img src="nels_storage_plugin_DataExp5.png" >
+		<div class="captiontext">After you have selected the destination, press the "Execute" button to start the export job</div>
+	  </div>
+
+	  <!-- Next and previous buttons -->
+	  <a class="prev" onclick="plusSlides(-1,1)">&#10094;</a>
+	  <a class="next" onclick="plusSlides(1,1)">&#10095;</a>
+	</div>
+	<br>
+
+	<!-- The dots/circles -->
+	<div style="text-align:center">
+	  <span class="dot deck2dot" onclick="currentSlide(1,1)"></span>
+	  <span class="dot deck2dot" onclick="currentSlide(2,1)"></span>
+	  <span class="dot deck2dot" onclick="currentSlide(3,1)"></span>
+	  <span class="dot deck2dot" onclick="currentSlide(4,1)"></span>
+	  <span class="dot deck2dot" onclick="currentSlide(5,1)"></span>
+	</div>
+
+</div>
+
+<div id="ExpHis" class="tabcontent">
+
+	<div class="slideshow-container">
+      <div class="headertext">Exporting histories to NeLS Storage</div>
+	  <!-- Full-width images with number and caption text -->
+	  <div class="slides deck3 fade">
+		<div class="numbertext">1 / 5</div>
+		<img src="nels_storage_plugin_HisExp1.png" >
+		<div class="captiontext">To export your current history to NeLS Storage, press the cogwheel button in the top right corner of the history panel to bring up the History Options menu, and then select "Export History to File"</div>
+	  </div>
+
+	  <div class="slides deck3 fade">
+		<div class="numbertext">2 / 5</div>
+		<img src="nels_storage_plugin_HisExp2.png" >
+		<div class="captiontext">Click on "to a remote file" in the left column and then click on the first of the two text fields to select a destination for the history</div>
+	  </div>
+
+	  <div class="slides deck3 fade">
+		<div class="numbertext">3 / 5</div>
+		<img src="nels_storage_plugin_HisExp3.png" >
+		<div class="captiontext">A popup dialog will display the available <i>remote data storages</i>.<br>Select "NeLS Storage" or "NeLS Storage Projects" to export the history to either your <i>Personal</i> folder or your <i>Projects</i> folder in NeLS</div>
+	  </div>
+
+	  <div class="slides deck3 fade">
+		<div class="numbertext">4 / 5</div>
+		<img src="nels_storage_plugin_HisExp4.png" >
+		<div class="captiontext">Navigate into the folder where you want to store the history file and then press the "Select this folder" button</div>
+	  </div>
+
+	  <div class="slides deck3 fade">
+		<div class="numbertext">5 / 5</div>
+		<img src="nels_storage_plugin_HisExp5.png" >
+		<div class="captiontext">Enter a filename for the history in the bottom textfield and then press "Export" to start the export job in the background</div>
+	  </div>
+
+	  <!-- Next and previous buttons -->
+	  <a class="prev" onclick="plusSlides(-1,2)">&#10094;</a>
+	  <a class="next" onclick="plusSlides(1,2)">&#10095;</a>
+	</div>
+	<br>
+
+	<!-- The dots/circles -->
+	<div style="text-align:center">
+	  <span class="dot deck3dot" onclick="currentSlide(1,2)"></span>
+	  <span class="dot deck3dot" onclick="currentSlide(2,2)"></span>
+	  <span class="dot deck3dot" onclick="currentSlide(3,2)"></span>
+	  <span class="dot deck3dot" onclick="currentSlide(4,2)"></span>
+	  <span class="dot deck3dot" onclick="currentSlide(5,2)"></span>
+	</div>
+
+</div>
+
+<div id="ImpHis" class="tabcontent">
+
+	<div class="slideshow-container">
+      <div class="headertext">Importing histories from NeLS Storage</div>
+	  <!-- Full-width images with number and caption text -->
+	  <div class="slides deck4 fade">
+		<div class="numbertext">1 / 6</div>
+		<img src="nels_storage_plugin_HisImp1.png" >
+		<div class="captiontext">To import a history file from NeLS Storage into Galaxy, select "Histories" from the "User" menu at the top of the page</div>
+	  </div>
+
+	  <div class="slides deck4 fade">
+		<div class="numbertext">2 / 6</div>
+		<img src="nels_storage_plugin_HisImp2.png" >
+		<div class="captiontext">On the "Saved Histories" page, press the "Import from file" button in the upper-right corner</div>
+	  </div>
+
+	  <div class="slides deck4 fade">
+		<div class="numbertext">3 / 6</div>
+		<img src="nels_storage_plugin_HisImp3.png" >
+		<div class="captiontext">Choose the "select a remote file" option in order to import from a remote data storage</div>
+	  </div>
+
+	  <div class="slides deck4 fade">
+		<div class="numbertext">4 / 6</div>
+		<img src="nels_storage_plugin_HisImp4.png" >
+		<div class="captiontext">Select "NeLS Storage" or "NeLS Storage Projects" to import a history from either your <i>Personal</i> folder or your <i>Projects</i> folder</div>
+	  </div>
+
+	  <div class="slides deck4 fade">
+		<div class="numbertext">5 / 6</div>
+		<img src="nels_storage_plugin_HisImp5.png" >
+		<div class="captiontext">Click on a folder to navigate into it or click on a history file to select it. (Selecting a file will immediately close the dialog)</div>
+	  </div>
+
+	  <div class="slides deck4 fade">
+		<div class="numbertext">6 / 6</div>
+		<img src="nels_storage_plugin_HisImp6.png" >
+		<div class="captiontext">Press the "Import history" button to start importing the history in the background. Note that Galaxy will not switch to this history or notify you when the import is completed, but you can select which history to use from the "Saved Histories" page afterwards.</div>
+	  </div>
+
+	  <!-- Next and previous buttons -->
+	  <a class="prev" onclick="plusSlides(-1,3)">&#10094;</a>
+	  <a class="next" onclick="plusSlides(1,3)">&#10095;</a>
+	</div>
+	<br>
+
+	<!-- The dots/circles -->
+	<div style="text-align:center">
+	  <span class="dot deck4dot" onclick="currentSlide(1,3)"></span>
+	  <span class="dot deck4dot" onclick="currentSlide(2,3)"></span>
+	  <span class="dot deck4dot" onclick="currentSlide(3,3)"></span>
+	  <span class="dot deck4dot" onclick="currentSlide(4,3)"></span>
+	  <span class="dot deck4dot" onclick="currentSlide(5,3)"></span>
+	  <span class="dot deck4dot" onclick="currentSlide(6,3)"></span>
+	</div>
+
+</div>
+
+<div id="Configurable" class="tabcontent">
+
+	<!-- Slideshow container -->
+	<div class="slideshow-container">
+
+      <div class="headertext">Configurable SSH storage</div>
+
+	  <!-- Full-width images with number and caption text -->
+	  <div class="slides deck5 fade">
+		<div class="numbertext">1 / 4</div>
+		<img src="configurable_storage1.png" >
+		<div class="captiontext">If you have your own server with SSH access, you can configure that as an additional <i>remote storage server</i> under "Preferences" in the "User" menu</div>
+	  </div>
+
+	  <div class="slides deck5 fade">
+		<div class="numbertext">2 / 4</div>
+		<img src="configurable_storage2.png" >
+		<div class="captiontext">Click on "Manage Information" at the top of the User Preferences page</div>
+	  </div>
+
+	  <div class="slides deck5 fade">
+		<div class="numbertext">3 / 4</div>
+		<img src="configurable_storage3.png" >
+		<div class="captiontext">Enter the address of the server, plus your username, password and path to your home directory in the "Configurable SSH storage" block on the Manage Information page. Press the "Save" button afterwards.</div>
+	  </div>
+
+	  <div class="slides deck5 fade">
+		<div class="numbertext">4 / 4</div>
+		<img src="configurable_storage4.png" >
+		<div class="captiontext">The storage will be named "Configurable SSH storage", and you can import and export files and histories to this server the same way you do with NeLS Storage</div>
+	  </div>
+
+	  <!-- Next and previous buttons -->
+	  <a class="prev" onclick="plusSlides(-1,4)">&#10094;</a>
+	  <a class="next" onclick="plusSlides(1,4)">&#10095;</a>
+	</div>
+	<br>
+
+	<!-- The dots/circles -->
+	<div style="text-align:center">
+	  <span class="dot deck5dot" onclick="currentSlide(1,4)"></span>
+	  <span class="dot deck5dot" onclick="currentSlide(2,4)"></span>
+	  <span class="dot deck5dot" onclick="currentSlide(3,4)"></span>
+	  <span class="dot deck5dot" onclick="currentSlide(4,4)"></span>
+	</div>
+
+</div>
+
+<div class="footnote">
+<b>Note:</b> If you don't have a NeLS Storage account already, you must first log in to <a href="https://nels.bioinfo.no" target="_blank">nels.bioinfo.no</a> to create one automatically!
+</div>
+
+</div> <!-- end: outer -->
+
+<script type="text/javascript">
+var slideIndex = [1,1,1,1,1]; // slides are numbered starting at 1
+var slideId = ["deck1", "deck2", "deck3", "deck4", "deck5"]
+showSlides(1, 0);
+showSlides(1, 1);
+showSlides(1, 2);
+showSlides(1, 3);
+showSlides(1, 4);
+
+function plusSlides(n, no) {
+  showSlides(slideIndex[no] += n, no);
+}
+
+function currentSlide(n,no) {
+  showSlides(slideIndex[no] = n, no);
+}
+
+function showSlides(n, no) {
+  var i;
+  //console.log("Show Slide. n="+n+", no="+no+", slideId="+slideId[no]);
+  var x = document.getElementsByClassName(slideId[no]);
+  var dots = document.getElementsByClassName(slideId[no]+"dot");
+  if (n > x.length) {slideIndex[no] = 1}
+  if (n < 1) {slideIndex[no] = x.length}
+  for (i = 0; i < x.length; i++) {
+     x[i].style.display = "none";
+     dots[i].classList.remove("active");
+  }
+  x[slideIndex[no]-1].style.display = "block"; // adjust with -1 to make slide numbered 0-indexed
+  dots[slideIndex[no]-1].classList.add("active");
+}
+
+function openTab(evt, tabName) {
+  // Declare all variables
+  var i, tabcontent, tablinks;
+
+  // Get all elements with class="tabcontent" and hide them
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+
+  // Get all elements with class="tablinks" and remove the class "active"
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].classList.remove("active");
+  }
+
+  // Show the current tab, and add an "active" class to the button that opened the tab
+  document.getElementById(tabName).style.display = "block";
+  evt.currentTarget.classList.add("active");
+}
+
+document.getElementById("defaultTab").click();
+
+</script>
+
+</body>
+</html>
