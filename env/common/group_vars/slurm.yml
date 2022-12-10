@@ -21,6 +21,7 @@ slurm_config:
   JobAcctGatherType: jobacct_gather/cgroup
   AccountingStorageType: accounting_storage/slurmdbd
   AccountingStorageHost: "{{ galaxy_host }}"
+  ReturnToService: 1
   SelectTypeParameters: CR_Core_Memory
   ControlMachine: "{{ galaxy_host }}"
   SlurmctldLogFile: /var/log/slurm/slurmctld.log
