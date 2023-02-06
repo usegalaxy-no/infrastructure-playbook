@@ -72,6 +72,24 @@
     group: root
     mode: "0644"
 
+- name: Copy compute backend monitoring script
+  copy:
+    src: files/bin/get_slurm_stats.py
+    dest: "/usr/local/bin/get_slurm_stats.py"
+    owner: root
+    group: root
+    mode: "0755"
+  tags:
+    - slurm_stats
+
+- name: Make sure output file for compute backend monitoring script has correct access rights
+  file:
+    path: "{{ galaxy_server_dir }}/static/slurm_stats.json"
+    state: touch
+    mode: "0755"
+  tags:
+    - slurm_stats
+
 - name: Make sure pulsar directories exists
   file:
     path: "{{ galaxy_root }}/server/database/{{ item }}"
@@ -206,6 +224,15 @@
     hour: "5"
     user: "{{ galaxy_user.name }}"
     job: "tmpwatch -m 3d /srv/galaxy/var/tmp"
+
+- name: Cron job for compute backend monitoring script
+  cron:
+    name: "Schedule compute backend monitoring script"
+    minute: "*"
+    hour: "*"
+    job: "python3 /usr/local/bin/get_slurm_stats.py > {{ galaxy_server_dir }}/static/slurm_stats.json"
+  tags:
+    - slurm_stats
 
 
 # oidc specific tasks.
