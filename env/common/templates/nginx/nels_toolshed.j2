@@ -1,0 +1,20 @@
+    location /{{ toolshed_path }}/ {
+        uwsgi_pass           127.0.0.1:{{ toolshed_port }};
+        uwsgi_param          UWSGI_SCHEME $scheme;
+        include              uwsgi_params;
+    }
+
+    location /{{ toolshed_path }}/static {
+        alias {{ galaxy_server_dir }}/static;
+        expires 24h;
+    }
+
+    location /{{ toolshed_path }}/static/style {
+        alias {{ galaxy_server_dir }}/static/style;
+        expires 24h;
+     }
+
+    location /{{ toolshed_path }}/static/scripts/bundled {
+        alias {{ galaxy_server_dir }}/static/dist;
+        expires 24h;
+    }

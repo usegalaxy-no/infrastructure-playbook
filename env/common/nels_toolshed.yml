@@ -1,0 +1,71 @@
+- name: Tool Shed installation (get layout variables from Galaxy role) 
+  hosts: toolshed
+  vars_files:
+    - group_vars/galaxy.yml
+    - group_vars/global.yml
+    - group_vars/env.yml
+    - secret_group_vars/global.vault
+    - group_vars/nels_toolshed.yml
+  tasks:
+    - include_role:
+        name: galaxyproject.galaxy
+        tasks_from: layout
+
+
+- name: Tool Shed code and eggs, manage static configs
+  hosts: toolshed
+  become: true
+  tags:
+    - toolshed
+  vars_files:
+    - group_vars/galaxy.yml
+    - group_vars/nels_toolshed.yml
+    - group_vars/global.yml
+    - group_vars/env.yml
+    - secret_group_vars/global.vault
+
+  vars:
+    galaxy_toolshed_server_dir: "{{ galaxy_server_dir }}"
+    galaxy_toolshed_venv_dir: "{{ galaxy_venv_dir }}"
+    galaxy_toolshed_config_dir: "{{ galaxy_config_dir }}"
+    galaxy_toolshed_config_file: "{{ galaxy_toolshed_config_dir }}/tool_shed.yml"
+    galaxy_toolshed_config_style: yaml
+    galaxy_toolshed_mutable_config_dir: "{{ galaxy_mutable_config_dir }}"
+    galaxy_toolshed_mutable_data_dir: "{{ galaxy_mutable_data_dir }}"
+    galaxy_host: "{{ groups['toolshed'][0] }}"
+    galaxy_user_group: "{{ __galaxy_user_group | default(galaxy_user.name) }}"
+    # Remove 'module' and 'http' settings from the uwsgi defaults. If they are needed, they should be set explicitly
+    uwsgi_defaults: "{% set copy=galaxy_toolshed_uwsgi_config_default.copy() %}{% set _=copy.pop('module') %}{% set _=copy.pop('http') %}{{ copy }}"
+    galaxy_toolshed_config:
+        {
+            uwsgi: "{{ uwsgi_defaults | combine(nels_toolshed_config.uwsgi) }}",
+            tool_shed: "{{ nels_toolshed_config.tool_shed }}"
+        }
+
+  roles:
+    - role: galaxyproject.galaxy_toolshed
+      galaxy_toolshed_manage_static_setup: yes
+      galaxy_toolshed_manage_database: no
+
+  handlers:
+    - name: toolshed reload
+      systemd:
+        daemon_reload: true
+
+  tasks:
+    - debug:
+        msg: "galaxy_toolshed_mutable_config_dir = {{ galaxy_toolshed_mutable_config_dir }}"
+    - name: Tool Shed make sure NGINX configuration directory exists
+      file:
+          path: /etc/nginx/locations
+          state: directory
+          mode: '0755'	  
+    - name: Tool Shed NGINX configuration
+      template:
+
+
+          src: templates/nginx/nels_toolshed.j2
+          dest: /etc/nginx/locations/nels_toolshed.location
+          mode: '0644'
+    - name: Configure NeLS Tool Shed as SystemD service
+      include_tasks: tasks/nels_toolshed.yml

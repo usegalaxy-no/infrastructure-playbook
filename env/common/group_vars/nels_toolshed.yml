@@ -1,0 +1,36 @@
+toolshed_path: toolshed_nels
+toolshed_port: 9009
+
+toolshed_db_user: "{{ galaxy_db_user }}"
+toolshed_db_passwd: "{{ galaxy_db_passwd }}"
+toolshed_db_name: "toolshed_nels"
+toolshed_db_host: "{{ db_host }}"
+
+tool_shed_directory: "{{ galaxy_mutable_data_dir }}/nels_toolshed"
+
+galaxy_systemd_memory_limit_toolshed: 5
+
+galaxy_user_name: "{{ galaxy_user.name }}"
+
+nels_toolshed_config:
+    uwsgi:
+        socket: 127.0.0.1:{{ toolshed_port }}
+        mount: /{{ toolshed_path }}=tool_shed.webapp.buildapp:uwsgi_app()
+        manage-script-name: true
+    tool_shed:
+        database_connection: "postgresql://{{toolshed_db_user}}:{{toolshed_db_passwd}}@{{toolshed_db_host}}/{{toolshed_db_name}}"
+        file_path: "{{ tool_shed_directory }}/repositories"
+        new_file_path: "{{ tool_shed_directory }}/tool_shed_tmp"
+        tool_data_path: "{{ tool_shed_directory }}/tool_data"
+        hgweb_config_dir: "{{ tool_shed_directory }}/hgweb_config_dir"
+        template_cache_path: "{{ tool_shed_directory }}/tool_shed_template_cache"
+        whoosh_index_dir: "{{ tool_shed_directory }}/tool_shed_whoosh_cache"
+        citation_cache_data_dir: "{{ tool_shed_directory }}/tool_shed_citations/data"
+        citation_cache_lock_dir: "{{ tool_shed_directory }}/tool_shed_citations/locks"
+        openid_consumer_cache_path: "{{ tool_shed_directory }}/tool_shed_openid_consumer_cache"
+        static_enabled: false
+        use_interactive: false
+        require_login: true
+        smtp_server: "localhost"
+        email_from: "nels_toolshed@{{ galaxy_host }}"
+        brand: NeLS

@@ -36,6 +36,7 @@ server {
     }
 
     location /_x_accel_redirect/ {
+        add_header Access-Control-Allow-Origin $upstream_http_access_control_allow_origin;
         internal;
         alias /;
     }
@@ -121,8 +122,6 @@ server {
         proxy_pass http://127.0.0.1:8888/;
     }
 
-
-
     location /robots.txt {
         alias {{ galaxy_server_dir }}/static/robots.txt;
     }
@@ -130,7 +129,7 @@ server {
     location /favicon.ico {
         alias {{ galaxy_server_dir }}/static/favicon.ico;
     }
-    
+
     location /jenkins {
         proxy_set_header        Host $host:$server_port;
         proxy_set_header        X-Real-IP $remote_addr;
@@ -150,4 +149,8 @@ server {
         allow {{ galaxy_ip }};
         deny all;
     }
+
+    # Add other locations defined in separate files
+    include /etc/nginx/locations/*.location;
+
 }

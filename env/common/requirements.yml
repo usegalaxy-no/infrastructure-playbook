@@ -67,6 +67,8 @@
 #  version: 0.0.5
 - src: usegalaxy_eu.gie_proxy
   version: 0.0.1
+- src: galaxyproject.galaxy_toolshed
+  version: 0.2.3
 
 # usegalaxy roles
 - src: https://github.com/usegalaxy-no/ansible-nels_storage
