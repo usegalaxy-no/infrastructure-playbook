@@ -7,6 +7,7 @@
     - group_vars/global.yml
     - group_vars/env.yml
     - group_vars/galaxy.yml
+    - group_vars/nels_toolshed.yml
     - group_vars/pulsar_nmbu_orion.yml
     - group_vars/telegraf.yml
 #    - group_vars/nga.yml
