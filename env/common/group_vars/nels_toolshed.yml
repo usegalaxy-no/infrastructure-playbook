@@ -1,33 +1,80 @@
-toolshed_path: toolshed_nels
+# Server
+toolshed_name: "NeLS Tool Shed"
+toolshed_url_path: toolshed_nels
 toolshed_port: 9009
 
+# Toolshed database
+toolshed_db_name: "toolshed_nels"
 toolshed_db_user: "{{ galaxy_db_user }}"
 toolshed_db_passwd: "{{ galaxy_db_passwd }}"
-toolshed_db_name: "toolshed_nels"
 toolshed_db_host: "{{ db_host }}"
 
-tool_shed_directory: "{{ galaxy_mutable_data_dir }}/nels_toolshed"
+# Directories
+galaxy_toolshed_server_dir: "{{ galaxy_server_dir }}"
+galaxy_toolshed_venv_dir: "{{ galaxy_venv_dir }}"
+galaxy_toolshed_config_dir: "{{ galaxy_config_dir }}"
+galaxy_toolshed_config_file: "{{ galaxy_toolshed_config_dir }}/nels_toolshed.yml"
+galaxy_toolshed_mutable_config_dir: "{{ galaxy_mutable_config_dir }}"
+galaxy_toolshed_mutable_data_dir: "{{ galaxy_mutable_data_dir }}"
 
+# Parent directory of tool shed files, including repositories and temporary files
+toolshed_data_directory: "{{ galaxy_mutable_data_dir }}/nels_toolshed"
+
+
+# Various variables
+galaxy_toolshed_uwsgi_yaml_parser: "internal"
 galaxy_systemd_memory_limit_toolshed: 5
+toolshed_user_name: "{{ galaxy_user.name | default('galaxy') }}"
+toolshed_user_group: "{{ __galaxy_user_group | default(toolshed_user_name) }}"
 
-galaxy_user_name: "{{ galaxy_user.name }}"
 
-nels_toolshed_config:
+# Extra configuration files
+# Automatically instantiate mutable config files if they don't exist
+# (dest will not be overwritten if it exists)
+galaxy_toolshed_mutable_configs: []
+
+# These are lists of hashes in the same format as galaxy_mutable_configs that can
+# be used to cause extra files and templates to be installed on the managed host
+galaxy_toolshed_config_files: []
+galaxy_toolshed_config_templates: []
+
+
+# Content of Tool Shed main configuration file
+galaxy_toolshed_config:
     uwsgi:
         socket: 127.0.0.1:{{ toolshed_port }}
-        mount: /{{ toolshed_path }}=tool_shed.webapp.buildapp:uwsgi_app()
+        # module: galaxy.webapps.tool_shed.buildapp:uwsgi_app()
+        mount: /{{ toolshed_url_path }}=tool_shed.webapp.buildapp:uwsgi_app()
+        buffer-size: 16384
+        processes: 1
+        threads: 4
+        offload-threads: 2
         manage-script-name: true
+        static-map:
+          - /static/style={{ galaxy_toolshed_server_dir }}/static/style/blue
+          - /static={{ galaxy_toolshed_server_dir }}/static
+        master: true
+        virtualenv: "{{ galaxy_toolshed_venv_dir }}"
+        pythonpath: "{{ galaxy_toolshed_server_dir }}/lib"
+        thunder-lock: true
+        die-on-term: true
+        hook-master-start:
+          - unix_signal:2 gracefully_kill_them_all
+          - unix_signal:15 gracefully_kill_them_all
+        py-call-osafterfork: true
+        enable-threads: true
     tool_shed:
-        database_connection: "postgresql://{{toolshed_db_user}}:{{toolshed_db_passwd}}@{{toolshed_db_host}}/{{toolshed_db_name}}"
-        file_path: "{{ tool_shed_directory }}/repositories"
-        new_file_path: "{{ tool_shed_directory }}/tool_shed_tmp"
-        tool_data_path: "{{ tool_shed_directory }}/tool_data"
-        hgweb_config_dir: "{{ tool_shed_directory }}/hgweb_config_dir"
-        template_cache_path: "{{ tool_shed_directory }}/tool_shed_template_cache"
-        whoosh_index_dir: "{{ tool_shed_directory }}/tool_shed_whoosh_cache"
-        citation_cache_data_dir: "{{ tool_shed_directory }}/tool_shed_citations/data"
-        citation_cache_lock_dir: "{{ tool_shed_directory }}/tool_shed_citations/locks"
-        openid_consumer_cache_path: "{{ tool_shed_directory }}/tool_shed_openid_consumer_cache"
+        # database_connection: "postgresql://{{toolshed_db_user}}:{{toolshed_db_passwd}}@{{toolshed_db_host}}/{{toolshed_db_name}}"
+        database_connection: postgresql://galaxy:E1l1i2x3i5r7@galaxy-ntnu.bioinfo.no:5432/toolshed_nels
+        file_path: "{{ toolshed_data_directory }}/repositories"
+        new_file_path: "{{ toolshed_data_directory }}/tool_shed_tmp"
+        tool_data_path: "{{ toolshed_data_directory }}/tool_data"
+        hgweb_config_dir: "{{ toolshed_data_directory }}/hgweb_config_dir"
+        template_cache_path: "{{ toolshed_data_directory }}/tool_shed_template_cache"
+        whoosh_index_dir: "{{ toolshed_data_directory }}/tool_shed_whoosh_cache"
+        citation_cache_data_dir: "{{ toolshed_data_directory }}/tool_shed_citations/data"
+        citation_cache_lock_dir: "{{ toolshed_data_directory }}/tool_shed_citations/locks"
+        openid_consumer_cache_path: "{{ toolshed_data_directory }}/tool_shed_openid_consumer_cache"
         static_enabled: false
         use_interactive: false
         require_login: true

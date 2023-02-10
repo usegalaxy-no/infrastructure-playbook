@@ -1,5 +1,7 @@
-- name: Tool Shed installation (get layout variables from Galaxy role) 
+- name: Tool Shed installation (get layout variables from Galaxy role)
   hosts: toolshed
+  tags:
+    - toolshed
   vars_files:
     - group_vars/galaxy.yml
     - group_vars/global.yml
@@ -11,8 +13,7 @@
         name: galaxyproject.galaxy
         tasks_from: layout
 
-
-- name: Tool Shed code and eggs, manage static configs
+- name: Tool Shed files and configurations
   hosts: toolshed
   become: true
   tags:
@@ -24,48 +25,74 @@
     - group_vars/env.yml
     - secret_group_vars/global.vault
 
-  vars:
-    galaxy_toolshed_server_dir: "{{ galaxy_server_dir }}"
-    galaxy_toolshed_venv_dir: "{{ galaxy_venv_dir }}"
-    galaxy_toolshed_config_dir: "{{ galaxy_config_dir }}"
-    galaxy_toolshed_config_file: "{{ galaxy_toolshed_config_dir }}/tool_shed.yml"
-    galaxy_toolshed_config_style: yaml
-    galaxy_toolshed_mutable_config_dir: "{{ galaxy_mutable_config_dir }}"
-    galaxy_toolshed_mutable_data_dir: "{{ galaxy_mutable_data_dir }}"
-    galaxy_host: "{{ groups['toolshed'][0] }}"
-    galaxy_user_group: "{{ __galaxy_user_group | default(galaxy_user.name) }}"
-    # Remove 'module' and 'http' settings from the uwsgi defaults. If they are needed, they should be set explicitly
-    uwsgi_defaults: "{% set copy=galaxy_toolshed_uwsgi_config_default.copy() %}{% set _=copy.pop('module') %}{% set _=copy.pop('http') %}{{ copy }}"
-    galaxy_toolshed_config:
-        {
-            uwsgi: "{{ uwsgi_defaults | combine(nels_toolshed_config.uwsgi) }}",
-            tool_shed: "{{ nels_toolshed_config.tool_shed }}"
-        }
-
-  roles:
-    - role: galaxyproject.galaxy_toolshed
-      galaxy_toolshed_manage_static_setup: yes
-      galaxy_toolshed_manage_database: no
-
   handlers:
-    - name: toolshed reload
+    - name: toolshed restart
       systemd:
         daemon_reload: true
+    - name: nginx reload
+      systemd:
+        name: nginx.service
+        state: reloaded
+
 
   tasks:
-    - debug:
-        msg: "galaxy_toolshed_mutable_config_dir = {{ galaxy_toolshed_mutable_config_dir }}"
-    - name: Tool Shed make sure NGINX configuration directory exists
+    # Manage static Tool Shed configuration files
+    - name: Create Tool Shed config dir
       file:
-          path: /etc/nginx/locations
-          state: directory
-          mode: '0755'	  
+        state: directory
+        path: "{{ galaxy_toolshed_config_dir }}"
+
+    - name: Install additional Tool Shed config files (static)
+      copy:
+        src: "{{ item.src }}"
+        dest: "{{ item.dest }}"
+        mode: "{{ galaxy_toolshed_config_file_mode | default(omit) }}"
+        backup: yes
+      with_items: "{{ galaxy_toolshed_config_files }}"
+
+    - name: Install additional Tool Shed config files (template)
+      template:
+        src: "{{ item.src }}"
+        dest: "{{ item.dest }}"
+        mode: "{{ galaxy_toolshed_config_file_mode | default(omit) }}"
+        backup: yes
+      with_items: "{{ galaxy_toolshed_config_templates }}"
+
+    - name: Create Tool Shed configuration file
+      template:
+        src: templates/toolshed/tool_shed.yml.j2
+        dest: "{{ galaxy_toolshed_config_file }}"
+        mode: "{{ galaxy_toolshed_config_file_mode | default(omit) }}"
+        backup: yes
+      notify:
+        - toolshed restart
+
+    # NGINX setup for NeLS Tool Shed
+    - name: Make sure NGINX configuration directory exists for Tool Shed setup
+      file:
+        path: /etc/nginx/locations
+        state: directory
+        mode: '0755'
     - name: Tool Shed NGINX configuration
       template:
+        src: templates/toolshed/nginx_toolshed.j2
+        dest: /etc/nginx/locations/nels_toolshed.location
+        mode: '0644'
+      notify: nginx reload
 
 
-          src: templates/nginx/nels_toolshed.j2
-          dest: /etc/nginx/locations/nels_toolshed.location
-          mode: '0644'
     - name: Configure NeLS Tool Shed as SystemD service
-      include_tasks: tasks/nels_toolshed.yml
+      template:
+        owner: root
+        group: root
+        mode: 0644
+        src: templates/toolshed/nels-toolshed.service.j2
+        dest: /etc/systemd/system/nels-toolshed.service
+      notify: toolshed restart
+
+    - name: Enable NeLS Tool Shed and ensure the service is running
+      systemd:
+        name: nels-toolshed.service
+        enabled: yes
+        state: started
+        daemon_reload: true
