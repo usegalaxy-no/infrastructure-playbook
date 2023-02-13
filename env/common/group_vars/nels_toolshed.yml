@@ -64,8 +64,7 @@ galaxy_toolshed_config:
         py-call-osafterfork: true
         enable-threads: true
     tool_shed:
-        # database_connection: "postgresql://{{toolshed_db_user}}:{{toolshed_db_passwd}}@{{toolshed_db_host}}/{{toolshed_db_name}}"
-        database_connection: postgresql://galaxy:E1l1i2x3i5r7@galaxy-ntnu.bioinfo.no:5432/toolshed_nels
+        database_connection: "postgresql://{{toolshed_db_user}}:{{toolshed_db_passwd}}@{{toolshed_db_host}}/{{toolshed_db_name}}"
         file_path: "{{ toolshed_data_directory }}/repositories"
         new_file_path: "{{ toolshed_data_directory }}/tool_shed_tmp"
         tool_data_path: "{{ toolshed_data_directory }}/tool_data"
