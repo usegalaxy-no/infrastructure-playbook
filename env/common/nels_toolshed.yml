@@ -96,3 +96,12 @@
         enabled: yes
         state: started
         daemon_reload: true
+
+    - name: Configure Mercurial to allow toolshed repositories to be exported as ZIP, GZIP and B22 archives
+      community.general.ini_file:
+        path: /etc/mercurial/hgrc
+        section: web
+        option: allow_archive
+        value: 'gz, zip, bz2'
+        mode: '0644'
+        backup: true
