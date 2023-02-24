@@ -103,6 +103,7 @@ transdecoder: { cores: 8, mem: 8 }
 #basil: { runner: slurm }
 #goenrichment: { runner: slurm }
 #circos: { mem: 10, runner: slurm }
+cactus_cactus: {cores: 32, mem: 32}
 circos: { mem: 10 }
 
 # docking: {runner: slurm}
