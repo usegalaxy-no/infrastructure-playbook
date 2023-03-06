@@ -147,7 +147,7 @@ cds_essential_variability:
   env:
     COPERNICUS_CDSAPIRC_KEY_FILE: /data/db/data_managers/COPERNICUS_CDSAPIRC_KEY_FILE
 
-kraken: { mem: 128 }
+kraken: { mem: 120 }
 
 viz_overlay_moving_and_fixed_image: { mem: 12 }
 ip_projective_transformation: { mem: 24 }
