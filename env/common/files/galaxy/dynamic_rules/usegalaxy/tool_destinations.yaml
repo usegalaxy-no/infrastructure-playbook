@@ -228,13 +228,13 @@ MRMPairFinder: { cores: 4, mem: 8 }
 msgfplus:
   cores: 10
   env:
-    _JAVA_OPTIONS: -XX:MaxPermSize=2G -Xmx6G -Xms1G -Djava.io.tmpdir=/tmp -Duser.home=/tmp
+    _JAVA_OPTIONS: -XX:MaxPermSize=2G -Xmx6G -Xms1G -Djava.io.tmpdir=/data/part0/tmp -Duser.home=/data/part0/tmp
   mem: 12
   name: special
 MSGFPlusAdapter:
   cores: 10
   env:
-    _JAVA_OPTIONS: -XX:MaxPermSize=2G -Xmx6G -Xms1G -Djava.io.tmpdir=/tmp -Duser.home=/tmp
+    _JAVA_OPTIONS: -XX:MaxPermSize=2G -Xmx6G -Xms1G -Djava.io.tmpdir=/data/part0/tmp -Duser.home=/data/part0/tmp
   mem: 12
   name: special
 maker: {cores: 12, mem: 12}
@@ -466,7 +466,7 @@ antismash:
   cores: 10
   mem: 120
   env:
-    _JAVA_OPTIONS: -XX:MaxPermSize=2G -Xmx96G -Xms1G -Djava.io.tmpdir=/tmp
+    _JAVA_OPTIONS: -XX:MaxPermSize=2G -Xmx96G -Xms1G -Djava.io.tmpdir=/data/part0/tmp
 bam-to-wig: { mem: 20 }
 bamCompare_deepTools: { mem: 10 }
 bamCorrelate_deepTools: { cores: 10, mem: 120 }
@@ -522,7 +522,7 @@ ctb_online_data_fetch: { mem: 10 }
 ctb_openmg:
   mem: 20
   env:
-    _JAVA_OPTIONS: -XX:MaxPermSize=2G -Xmx15G -Xms1G -Djava.io.tmpdir=/tmp
+    _JAVA_OPTIONS: -XX:MaxPermSize=2G -Xmx15G -Xms1G -Djava.io.tmpdir=/data/part0/tmp
 ctb_pubchem_download_as_smiles: { cores: 10, mem: 20 }
 cuffcompare: { mem: 10 }
 cuffdiff: { cores: 6, mem: 40 }
@@ -563,7 +563,7 @@ deeptools_plot_profile: { mem: 20 }
 deeptools_profiler: { mem: 20 }
 demo2D00:
   env:
-    HOME: /tmp
+    HOME: /data/part0/tmp
   mem: 20
   name: matlab
   nativeSpecExtra: -l lic_matlab=1
@@ -588,7 +588,7 @@ freebayes: { cores: 10, mem: 120 }
 gatk2_base_recalibrator:
   cores: 10
   env:
-    _JAVA_OPTIONS: -XX:MaxPermSize=2G -Xmx8G -Xms1G -Djava.io.tmpdir=/tmp
+    _JAVA_OPTIONS: -XX:MaxPermSize=2G -Xmx8G -Xms1G -Djava.io.tmpdir=/data/part0/tmp
   mem: 24
   name: _special
 gatk2_depth_of_coverage: { cores: 10, mem: 24 }
@@ -599,7 +599,7 @@ gatk2_realigner_target_creator: { cores: 10, mem: 24 }
 gatk2_reduce_reads:
   cores: 10
   env:
-    _JAVA_OPTIONS: -XX:MaxPermSize=2G -Xmx8G -Xms1G -Djava.io.tmpdir=/tmp
+    _JAVA_OPTIONS: -XX:MaxPermSize=2G -Xmx8G -Xms1G -Djava.io.tmpdir=/data/part0/tmp
   mem: 24
   name: _special
 gatk2_unified_genotyper: { cores: 10, mem: 24 }
@@ -628,7 +628,7 @@ graphprot_predict_profile: { mem: 16 }
 # goenrichment: {runner: slurm}
 hammock_1.0:
   env:
-    _JAVA_OPTIONS: -XX:MaxPermSize=2G -Xmx15G -Xms1G -Djava.io.tmpdir=/tmp
+    _JAVA_OPTIONS: -XX:MaxPermSize=2G -Xmx15G -Xms1G -Djava.io.tmpdir=/data/part0/tmp
   mem: 20
   name: java_temp
 heatmapper: { mem: 25 }
@@ -729,26 +729,26 @@ mimodd_varcall: { cores: 6 }
 minced: { mem: 10 }
 migmap:
   env:
-    _JAVA_OPTIONS: -XX:MaxPermSize=6G -Xmx90G -Xms1G -Djava.io.tmpdir=/tmp
+    _JAVA_OPTIONS: -XX:MaxPermSize=6G -Xmx90G -Xms1G -Djava.io.tmpdir=/data/part0/tmp
   mem: 96
   name: java_temp
 proteomics_moff: { mem: 20, cores: 6 }
 metagene_annotator: { mem: 16 }
 mmbios01:
   env:
-    HOME: /tmp
+    HOME: /data/part0/tmp
   mem: 20
   name: matlab
   nativeSpecExtra: -l lic_matlab=1
 mmbios02:
   env:
-    HOME: /tmp
+    HOME: /data/part0/tmp
   mem: 20
   name: matlab
   nativeSpecExtra: -l lic_matlab=1
 mmbios03:
   env:
-    HOME: /tmp
+    HOME: /data/part0/tmp
   mem: 20
   name: matlab
   nativeSpecExtra: -l lic_matlab=1
@@ -774,7 +774,7 @@ peakachu: { mem: 16 }
 peptide_shaker:
   cores: 10
   env:
-    _JAVA_OPTIONS: -XX:MaxPermSize=4G -Xmx120G -Xms4G -Djava.io.tmpdir=/tmp
+    _JAVA_OPTIONS: -XX:MaxPermSize=4G -Xmx120G -Xms4G -Djava.io.tmpdir=/data/part0/tmp
   mem: 128
   name: _special
 picard_ARRG: { mem: 12 }
@@ -795,7 +795,7 @@ picard_FixMateInformation: { mem: 12 }
 picard_FastqToSam: { mem: 12 }
 picard_MarkDuplicates:
   env:
-    _JAVA_OPTIONS: -Xmx12G -Xms1G -Djava.io.tmpdir=/tmp
+    _JAVA_OPTIONS: -Xmx12G -Xms1G -Djava.io.tmpdir=/data/part0/tmp
   mem: 12
   name: java_temp
 picard_MergeSamFiles: { mem: 12 }
@@ -805,7 +805,7 @@ picard_ReplaceSamHeader: { mem: 12 }
 picard_SamToFastq: { mem: 12 }
 picard_SortSam:
   env:
-    _JAVA_OPTIONS: -Xmx4G -Xms1G -Djava.io.tmpdir=/tmp
+    _JAVA_OPTIONS: -Xmx4G -Xms1G -Djava.io.tmpdir=/data/part0/tmp
   mem: 10
   name: java_temp
 picard_index_builder_data_manager: { mem: 12 }
@@ -816,7 +816,7 @@ preproc: { mem: 10 }
 prokaryotic_ncbi_submission: { cores: 24, mem: 24 }
 prokka:
   env:
-    _JAVA_OPTIONS: -XX:MaxPermSize=2G -Xmx15G -Xms1G -Djava.io.tmpdir=/tmp
+    _JAVA_OPTIONS: -XX:MaxPermSize=2G -Xmx15G -Xms1G -Djava.io.tmpdir=/data/part0/tmp
   mem: 20
 proteomics_search_msgfplus_1: { mem: 10 }
 pyprophet_score: { mem: 800, cores: 1 }
@@ -829,7 +829,7 @@ rcas: { cores: 4, mem: 16 }
 reactome_pathwaymatcher:
   mem: 20
   env:
-    _JAVA_OPTIONS: -XX:MaxPermSize=2G -Xmx17G -Xms1G -Djava.io.tmpdir=/tmp
+    _JAVA_OPTIONS: -XX:MaxPermSize=2G -Xmx17G -Xms1G -Djava.io.tmpdir=/data/part0/tmp
 repeatmasker_wrapper: { cores: 16, mem: 10 }
 rgEstLibComp: { mem: 12 }
 rgPicFixMate: { mem: 12 }
@@ -853,7 +853,7 @@ salmon: { cores: 6, mem: 70 }
 scanpy_cluster_reduce_dimension:
   cores: 4
   env:
-    NUMBA_CACHE_DIR: /tmp
+    NUMBA_CACHE_DIR: /data/part0/tmp
     OMP_NUM_THREADS: 4
     OPENBLAS_NUM_THREADS: 4
     MKL_NUM_THREADS: 4
@@ -864,7 +864,7 @@ scanpy_cluster_reduce_dimension:
 scanpy_filter:
   cores: 4
   env:
-    NUMBA_CACHE_DIR: /tmp
+    NUMBA_CACHE_DIR: /data/part0/tmp
     OMP_NUM_THREADS: 4
     OPENBLAS_NUM_THREADS: 4
     MKL_NUM_THREADS: 4
@@ -875,7 +875,7 @@ scanpy_filter:
 scanpy_inspect:
   cores: 4
   env:
-    NUMBA_CACHE_DIR: /tmp
+    NUMBA_CACHE_DIR: /data/part0/tmp
     OMP_NUM_THREADS: 4
     OPENBLAS_NUM_THREADS: 4
     MKL_NUM_THREADS: 4
@@ -886,7 +886,7 @@ scanpy_inspect:
 scanpy_normalize:
   cores: 4
   env:
-    NUMBA_CACHE_DIR: /tmp
+    NUMBA_CACHE_DIR: /data/part0/tmp
     OMP_NUM_THREADS: 4
     OPENBLAS_NUM_THREADS: 4
     MKL_NUM_THREADS: 4
@@ -897,7 +897,7 @@ scanpy_normalize:
 scanpy_remove_confounders:
   cores: 4
   env:
-    NUMBA_CACHE_DIR: /tmp
+    NUMBA_CACHE_DIR: /data/part0/tmp
     OMP_NUM_THREADS: 4
     OPENBLAS_NUM_THREADS: 4
     MKL_NUM_THREADS: 4
@@ -908,7 +908,7 @@ scanpy_remove_confounders:
 scanpy_plot:
   cores: 4
   env:
-    NUMBA_CACHE_DIR: /tmp
+    NUMBA_CACHE_DIR: /data/part0/tmp
     OMP_NUM_THREADS: 4
     OPENBLAS_NUM_THREADS: 4
     MKL_NUM_THREADS: 4
@@ -918,14 +918,14 @@ scanpy_plot:
 
 sam_merge2:
   env:
-    _JAVA_OPTIONS: -XX:MaxPermSize=2G -Xmx15G -Xms1G -Djava.io.tmpdir=/tmp
+    _JAVA_OPTIONS: -XX:MaxPermSize=2G -Xmx15G -Xms1G -Djava.io.tmpdir=/data/part0/tmp
     JAVA_JAR_PATH: /usr/local/share/picard-1.56-1
   mem: 32
 # samtools_stats: {runner: slurm}
 search_gui:
   cores: 10
   env:
-    _JAVA_OPTIONS: -XX:MaxPermSize=2G -Xmx6G -Xms1G -Djava.io.tmpdir=/tmp -Duser.home=/tmp
+    _JAVA_OPTIONS: -XX:MaxPermSize=2G -Xmx6G -Xms1G -Djava.io.tmpdir=/data/part0/tmp -Duser.home=/data/part0/tmp
   mem: 12
   name: special
 secretbt2test: { cores: 10, mem: 20 }
@@ -938,19 +938,19 @@ shovill:
     SHOVILL_RAM: 50
 show_2D_image_reshape:
   env:
-    HOME: /tmp
+    HOME: /data/part0/tmp
   mem: 20
   name: matlab
   nativeSpecExtra: -l lic_matlab=1
 show_3D_image_reshape:
   env:
-    HOME: /tmp
+    HOME: /data/part0/tmp
   mem: 20
   name: matlab
   nativeSpecExtra: -l lic_matlab=1
 show_3D_surface_plot:
   env:
-    HOME: /tmp
+    HOME: /data/part0/tmp
   mem: 20
   name: matlab
   nativeSpecExtra: -l lic_matlab=1
@@ -990,12 +990,12 @@ trimmomatic:
   mem: 12
   name: special
   env:
-    _JAVA_OPTIONS: -XX:MaxPermSize=2G -Xmx6G -Xms1G -Djava.io.tmpdir=/tmp -Duser.home=/tmp
+    _JAVA_OPTIONS: -XX:MaxPermSize=2G -Xmx6G -Xms1G -Djava.io.tmpdir=/data/part0/tmp -Duser.home=/data/part0/tmp
 trinity:
   cores: 4
   mem: 170
   env:
-    _JAVA_OPTIONS: -XX:MaxPermSize=2G -Xmx170G -Xms1G -Djava.io.tmpdir=/tmp -Duser.home=/tmp
+    _JAVA_OPTIONS: -XX:MaxPermSize=2G -Xmx170G -Xms1G -Djava.io.tmpdir=/data/part0/tmp -Duser.home=/data/part0/tmp
   name: special
 umi_tools_group: { mem: 12 }
 umi_tools_dedup: { mem: 12 }
@@ -1003,7 +1003,7 @@ umi_tools_extract: { mem: 4 }
 unicycler:
   cores: 10
   env:
-    _JAVA_OPTIONS: -XX:MaxPermSize=2G -Xmx6G -Xms1G -Djava.io.tmpdir=/tmp -Duser.home=/tmp
+    _JAVA_OPTIONS: -XX:MaxPermSize=2G -Xmx6G -Xms1G -Djava.io.tmpdir=/data/part0/tmp -Duser.home=/data/part0/tmp
     TERM: vt100
   mem: 80
   name: special
