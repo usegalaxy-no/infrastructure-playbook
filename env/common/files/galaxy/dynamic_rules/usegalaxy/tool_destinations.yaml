@@ -149,6 +149,8 @@ cds_essential_variability:
 
 kraken: {mem: 90}
 kraken2: {mem: 64}
+amrplusplus: { cores: 4, mem: 12 }
+amrplusplus_v2: { cores: 4, mem: 12 }
 
 viz_overlay_moving_and_fixed_image: { mem: 12 }
 ip_projective_transformation: { mem: 24 }
