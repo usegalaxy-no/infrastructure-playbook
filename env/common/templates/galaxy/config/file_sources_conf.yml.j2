@@ -6,7 +6,7 @@
   nels_config: "{{ nels_storage_config_dir }}/nels_storage_config.loc"
   writable: true
   userid: ${user.email}
-  homedir: "/elixir-chr/nels/users/<user>/Personal"
+  homedir: "/nels/users/<user>/Personal"
   ignore_hidden: true
 
 - type: nels
@@ -16,7 +16,7 @@
   nels_config: "{{ nels_storage_config_dir }}/nels_storage_config.loc"
   writable: true
   userid: ${user.email}
-  homedir: "/elixir-chr/nels/users/<user>/Projects"
+  homedir: "/nels/users/<user>/Projects"
   ignore_hidden: true
 
 - type: ssh
