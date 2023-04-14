@@ -41,7 +41,7 @@ from fs.enums import ResourceType
 #   writable: true
 #   nels_config: "/srv/galaxy/server/tool-data/nels_storage_config.loc"
 #   userid: ${user.email}
-#   homedir: "/elixir-chr/nels/users/<user>"
+#   homedir: "/nels/users/<user>"
 #   ignore_hidden: true
 
 
@@ -74,7 +74,8 @@ class NeLSFilesSource(PyFilesystem2FilesSource):
                         result = list(filter(lambda x: not x['name'].startswith('.'), result)) # skip files whose names start with a dot
                     return result
         finally:
-            self._cleanup(h)
+            if (h):
+                self._cleanup(h)
 
             
     def _resource_info_to_dict(self, dir_path, h, resource_info):
@@ -113,7 +114,8 @@ class NeLSFilesSource(PyFilesystem2FilesSource):
                 h = self._open_fs(user_context=user_context)
                 h.download(source_path, write_file)
             finally:
-                self._cleanup(h)
+                if (h):
+                    self._cleanup(h)
 
             
     def _write_from(self, target_path, native_path, user_context=None):
@@ -122,7 +124,8 @@ class NeLSFilesSource(PyFilesystem2FilesSource):
                 h = self._open_fs(user_context=user_context)
                 h.upload(target_path, read_file)
             finally:
-                self._cleanup(h)
+                if (h):
+                    self._cleanup(h)
 
             
             
