@@ -1055,15 +1055,15 @@ rename_tiff_channels: {cores: 1, mem: 4}
 nels_file_browser: { runner: local }
 nels_export: { runner: local }
 nels_exporter_hidden: { runner: local }
-directory_uri: { runner: local }
-export_remote: { runner: local }
+# directory_uri: { runner: local }
+# export_remote: { runner: local }
 
 param_value_from_file: { runner: local }
 pick_value: { runner: local }
 
-__IMPORT_HISTORY__: { runner: local }
-__EXPORT_HISTORY__: { runner: local }
-__EXPORT_HISTORY_TO_URI__: { runner: local }
+# __IMPORT_HISTORY__: { runner: local }
+# __EXPORT_HISTORY__: { runner: local }
+# __EXPORT_HISTORY_TO_URI__: { runner: local }
 __SET_METADATA__: { runner: local }
 
 data_manager_metaphlan2_download: { runner: local }
