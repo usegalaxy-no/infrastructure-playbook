@@ -19,9 +19,9 @@ billiard==3.6.4.0; python_version >= "3.6"
 bioblend==0.15.0; python_version >= "3.6"
 bleach==3.3.0; (python_version >= "2.7" and python_full_version < "3.0.0") or (python_full_version >= "3.5.0")
 boltons==20.2.1
-boto3==1.16.63
+# boto3==1.16.63
 boto==2.49.0
-botocore==1.19.63
+# botocore==1.19.63
 bx-python==0.8.11; python_version >= "3.6"
 cachecontrol==0.11.7; python_version >= "3.6" and python_version < "4"
 cached-property==1.5.2; python_version < "3.8" and python_version >= "3.6"
@@ -55,9 +55,11 @@ docopt==0.6.2
 docutils==0.16; (python_version >= "2.7" and python_full_version < "3.0.0") or (python_full_version >= "3.5.0")
 dogpile.cache==1.1.2; python_version >= "3.6"
 ecdsa==0.14.1; python_version >= "2.6" and python_full_version < "3.0.0" or python_full_version >= "3.3.0"
+edam-ontology==1.25.2
 fabric3==1.14.post1
 fastapi-utils==0.2.1; python_version >= "3.6" and python_version < "4.0"
-fastapi==0.63.0; python_version >= "3.6"
+fastapi==0.65.2; python_version >= "3.6"
+fs==2.4.13
 funcsigs==1.0.2
 future==0.18.2; (python_version >= "2.6" and python_full_version < "3.0.0") or (python_full_version >= "3.3.0")
 galaxy-sequence-utils==1.1.5
@@ -66,6 +68,7 @@ google-api-python-client==1.12.8; python_version >= "2.7" and python_full_versio
 google-auth-httplib2==0.1.0; python_version >= "2.7" and python_full_version < "3.0.0" or python_full_version >= "3.4.0"
 google-auth==1.30.0; python_version >= "2.7" and python_full_version < "3.0.0" or python_full_version >= "3.6.0"
 googleapis-common-protos==1.53.0; python_version >= "3.6" and python_full_version < "3.0.0" or python_full_version >= "3.6.0" and python_version >= "3.6"
+greenlet==1.0.0; python_version >= "3.6" and python_full_version < "3.0.0" and python_version < "4.0" or python_full_version >= "3.6.0" and python_version >= "3.6" and python_version < "4.0"
 gxformat2==0.15.0
 h11==0.12.0; python_version >= "3.6"
 h5py==3.1.0; python_version >= "3.6"
@@ -89,7 +92,7 @@ lockfile==0.12.2; python_version >= "3.6" and python_version < "4"
 lxml==4.6.3; (python_version >= "2.7" and python_full_version < "3.0.0") or (python_full_version >= "3.5.0")
 mako==1.1.4; (python_version >= "2.7" and python_full_version < "3.0.0") or (python_full_version >= "3.4.0")
 markdown==3.3.4; python_version >= "3.6"
-#markupsafe==1.1.1; (python_version >= "2.7" and python_full_version < "3.0.0") or (python_full_version >= "3.4.0")
+markupsafe==1.1.1; (python_version >= "2.7" and python_full_version < "3.0.0") or (python_full_version >= "3.4.0")
 mercurial==5.7.1
 mistune==0.8.4; python_version >= "3.6" and python_version < "4"
 mrcfile==1.3.0
@@ -132,7 +135,7 @@ pyasn1-modules==0.2.8; python_version >= "2.7" and python_full_version < "3.0.0"
 pyasn1==0.4.8; python_version >= "3.5" and python_version < "4"
 pycparser==2.20; python_version >= "3.6" and python_full_version < "3.0.0" and implementation_name == "pypy" or implementation_name == "pypy" and python_version >= "3.6" and python_full_version >= "3.4.0"
 pycryptodome==3.10.1; (python_version >= "2.7" and python_full_version < "3.0.0") or (python_full_version >= "3.5.0")
-pydantic==1.7.3; python_version >= "3.6" and python_version < "4.0"
+pydantic==1.8.2; python_version >= "3.6" and python_version < "4.0"
 pydot==1.4.2; python_version >= "3.6" and python_full_version < "3.0.0" and python_version < "4" or python_version >= "3.6" and python_version < "4" and python_full_version >= "3.4.0"
 pyeventsystem==0.1.0
 pyfaidx==0.5.9.5
@@ -159,13 +162,14 @@ pyyaml==5.4.1; (python_version >= "2.7" and python_full_version < "3.0.0") or (p
 pyzmq==22.0.3; python_version >= "3.6"
 rdflib-jsonld==0.5.0; python_version >= "3.6" and python_version < "4"
 rdflib==4.2.2; python_version >= "3.6" and python_version < "4"
-refgenconf==0.9.3
+refgenconf==0.12.0
 repoze.lru==0.7
 requests-oauthlib==1.3.0; python_version >= "2.7" and python_full_version < "3.0.0" or python_full_version >= "3.4.0"
 requests-toolbelt==0.9.1; python_version >= "3.6"
 requests==2.25.1; (python_version >= "2.7" and python_full_version < "3.0.0") or (python_full_version >= "3.5.0")
 requestsexceptions==1.4.0; python_version >= "3.6"
 rfc3986==1.4.0; python_version >= "3.6"
+rich==11.1.0; python_full_version >= "3.6.2" and python_full_version < "4.0.0" # from galaxy 22.01
 routes==2.5.1
 rsa==4.7.2; python_version >= "3.5" and python_version < "4" and (python_version >= "3.6" and python_full_version < "3.0.0" or python_full_version >= "3.6.0" and python_version >= "3.6")
 ruamel.yaml.clib==0.2.2; platform_python_implementation == "CPython" and python_version < "3.8" and python_version >= "3.6"
@@ -176,14 +180,14 @@ setuptools-scm==5.0.2; python_version >= "2.7" and python_full_version < "3.0.0"
 shellescape==3.4.1; python_version >= "3.6" and python_version < "4"
 simplejson==3.17.2; python_version >= "3.6" and python_full_version < "3.0.0" or python_full_version >= "3.3.0" and python_version >= "3.6"
 six==1.15.0; python_version >= "3.6" and python_full_version < "3.0.0" and python_version < "4" or python_full_version >= "3.6.0" and python_version >= "3.6" and python_version < "4"
-social-auth-core==3.3.0
+social-auth-core==4.0.3
 sortedcontainers==2.3.0
 sqlalchemy-migrate==0.13.0
-sqlalchemy==1.3.24; (python_version >= "2.7" and python_full_version < "3.0.0") or (python_full_version >= "3.4.0")
+sqlalchemy==1.4.20
 sqlitedict==1.7.0
-sqlparse==0.4.1; python_version >= "3.5"
+sqlparse==0.4.2; python_version >= "3.5"
 starlette-context==0.3.2; python_version >= "3.7"
-starlette==0.13.6; python_version >= "3.6"
+starlette==0.14.2; python_version >= "3.6"
 stevedore==3.3.0; python_version >= "3.6"
 svgwrite==1.4.1; python_version >= "3.6"
 tempita==0.5.2
@@ -191,7 +195,7 @@ tenacity==7.0.0
 tifffile==2020.9.3; python_version >= "3.6"
 tornado==6.1; python_version >= "3.5"
 tqdm==4.60.0; python_version >= "2.7" and python_full_version < "3.0.0" or python_full_version >= "3.4.0"
-typing-extensions==3.7.4.3; python_version >= "3.6" and python_version < "3.8"
+typing-extensions==4.0.1; python_version >= "3.6" # from Galaxy 22.01
 tzlocal==2.1; python_version >= "2.7" and python_full_version < "3.0.0" or python_full_version >= "3.5.0" and python_version < "4"
 ubiquerg==0.6.1
 unidecode==1.2.0; python_version >= "3.0" and python_full_version < "3.0.0" or python_full_version >= "3.4.0" and python_version >= "3.0"
@@ -204,7 +208,7 @@ webencodings==0.5.1; python_version >= "2.7" and python_full_version < "3.0.0" o
 webob==1.8.7; (python_version >= "2.7" and python_full_version < "3.0.0") or (python_full_version >= "3.3.0")
 whoosh==2.7.4
 wrapt==1.12.1; python_version >= "3.6"
-yacman==0.8.1
+yacman==0.8.2
 zipp==3.4.1; python_version < "3.7" and python_version >= "3.6"
 zipstream-new==1.1.8
 
@@ -213,7 +217,7 @@ zipstream-new==1.1.8
 
 
 # These dependencies are only required when certain config options are set
-psycopg2-binary==2.8.4
+psycopg2-binary==2.9.1
 #mysqlclient
 #fluent-logger
 #raven
@@ -233,7 +237,7 @@ fs.dropboxfs  # type: dropbox
 fs.sshfs  # type: ssh
 fs-s3fs  # type: s3
 s3fs  # type: s3fs
-fs.anvilfs # type: anvil
+# fs.anvilfs # type: anvil  # <= ERROR: Could not find a version that satisfies the requirement getm<0.1.0,>=0.0.4 (from fs.anvilfs->-r requirements.txt ...
 
 # Chronos client
 #chronos-python==1.2.1
@@ -252,5 +256,4 @@ fs.anvilfs # type: anvil
 #influxdb
 
 # Deep learning packages for tool recommendation
-tensorflow==2.5.1
-
+tensorflow==2.6.2
