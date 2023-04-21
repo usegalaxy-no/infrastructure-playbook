@@ -72,6 +72,14 @@
     group: root
     mode: "0644"
 
+- name: Copy utility script to find container names
+  copy:
+    src: files/bin/find_container_id.py
+    dest: "/usr/local/bin/find_container_id.py"
+    owner: root
+    group: root
+    mode: "0755"
+
 - name: Copy compute backend monitoring script
   copy:
     src: files/bin/get_slurm_stats.py
