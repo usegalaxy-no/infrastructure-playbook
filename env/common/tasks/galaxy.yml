@@ -64,14 +64,6 @@
     mode: "0600"
     owner: "{{ galaxy_user.name }}"
 
-- name: Copy invfile.lua file
-  copy:
-    src: files/galaxy/mulled/invfile.lua
-    dest: "{{ galaxy_root }}/server/lib/galaxy/tool_util/deps/mulled/invfile.lua"
-    owner: root
-    group: root
-    mode: "0644"
-
 - name: Copy utility script to find container names
   copy:
     src: files/bin/find_container_id.py
