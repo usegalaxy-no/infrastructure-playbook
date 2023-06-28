@@ -129,7 +129,7 @@ function displayQuota() { //
     var usage=(parent.Galaxy)?parent.Galaxy.user.attributes.nice_total_disk_usage:null;
     if (quota===undefined || quota===null || quota=="unlimited") return;    
     var quotaText="This Galaxy server has limitations on disk usage, and you have currently used <strong>"+usage+"</strong> of your total quota of <strong>"+quota+"</strong>. "+
-                  "To free up disk space, please move your files to the <span style='font-weight:bold;color:#175d91'><a href='https://nels.bioinfo.no' target='_blank'>NeLS Storage</a></span> after you are finished with them, as <a href=\"https://usegalaxy.no/static/nels_tutorials/nels_storage_plugin.html\">described here</a>. If you require a larger disc quota to perform your analyses, contact the <a href=\"mailto:david.dolan@uib.no\">Help Desk</a>.";
+                  "To free up disk space, please move your files to the <span style='font-weight:bold;color:#175d91'><a href='https://nels.bioinfo.no' target='_blank'>NeLS Storage</a></span> after you are finished with them, as <a href=\"https://usegalaxy.no/static/nels_tutorials/nels_storage_plugin.html\">described here</a>. If you require a larger disc quota to perform your analyses, contact the <a href=\"mailto:support@elixir.no\">Help Desk</a>.";
     document.getElementById("display_quota").innerHTML = quotaText;
 }
 
@@ -800,7 +800,7 @@ window.onload = onStartUp;
    <td>
      <div>
         <!-- support button -->
-        <a target="_top" href="mailto:david.dolan@uib.no" class="button3d" style="height:36px;width:170px;">
+        <a target="_top" href="mailto:support@elixir.no" class="button3d" style="height:36px;width:170px;">
           <table style="padding:0;margin:0;">
             <tr style="padding:0;">
               <td style="padding:0;margin:0;vertical-align:top">
