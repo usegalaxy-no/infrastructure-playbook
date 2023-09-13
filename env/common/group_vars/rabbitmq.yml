@@ -6,7 +6,7 @@ rabbitmq_vhosts:
   - nvi_iridia
 
 rabbitmq_users:
-  - {name: admin,  vhost: '', 
+  - {name: admin,  vhost: '/', 
      passwd: "{{admin_rabbitmq_password}}", tags: administrator}
   - {name: nrec_galaxy, vhost: pulsar_nrec,
      passwd: "{{rabbitmq_password_galaxy_nrec}}"}
@@ -14,9 +14,7 @@ rabbitmq_users:
      passwd: "{{rabbitmq_password_galaxy_nmbu}}" }
   - {name: test, vhost: test, 
      passwd: "{{rabbitmq_password_galaxy_test}}" }
-  - {name: telegraf, vhost: '', 
-     passwd: "{{telegraf_rabbitmq_password}}", tags: monitoring }
-  - {name: telegraf, vhost: '',
+  - {name: telegraf, vhost: '/', 
      passwd: "{{telegraf_rabbitmq_password}}", tags: monitoring }
   - {name: nels_galaxy, vhost: 'nels_galaxy',
      passwd: '{{rabbitmq_password_nels_galaxy_api}}'}
