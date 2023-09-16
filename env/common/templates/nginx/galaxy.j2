@@ -1,3 +1,7 @@
+upstream galaxy {
+    server {{ galaxy_config.gravity.gunicorn.bind }};
+}
+
 {% for alias in aliases.split(',')  %}
 
 server {
@@ -21,12 +25,14 @@ server {
 
     client_max_body_size 0;
 
-    # The most important location block, by default all requests are sent to uWSGI
     location / {
         # This is the backend to send the requests to.
-        uwsgi_pass 127.0.0.1:8080;
-        uwsgi_param UWSGI_SCHEME $scheme;
-        include uwsgi_params;
+        proxy_pass http://galaxy;
+
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header Upgrade $http_upgrade;
 
         error_page 504 =200 @maintenance;
         error_page 502 =200 @maintenance;
@@ -66,25 +72,34 @@ server {
         expires 24h;
     }
 
-    # The style directory is in a slightly different location
-    location /static/style {
-        alias {{ galaxy_server_dir }}/static/style;
-        expires 24h;
-     }
-
-      location /static/scripts/bundled {
-        alias {{ galaxy_server_dir }}/static/dist;
-
-        expires 24h;
+    location /robots.txt {
+        alias {{ galaxy_server_dir }}/static/robots.txt;
     }
 
-    # In Galaxy instances started with run.sh, many config files are
-    # automatically copied around. The welcome page is one of them. In
-    # production, this step is skipped, so we will manually alias that.
-    #location /static/welcome.html {
-    #    alias {{ galaxy_server_dir }}/static/welcome.html.sample;
-    #    expires 24h;
-    #}
+    location /favicon.ico {
+        alias {{ galaxy_server_dir }}/static/favicon.ico;
+    }
+
+
+#    # The style directory is in a slightly different location
+#    location /static/style {
+#        alias {{ galaxy_server_dir }}/static/style;
+#        expires 24h;
+#     }
+#
+#      location /static/scripts/bundled {
+#        alias {{ galaxy_server_dir }}/static/dist;
+#
+#        expires 24h;
+#    }
+#
+#    # In Galaxy instances started with run.sh, many config files are
+#    # automatically copied around. The welcome page is one of them. In
+#    # production, this step is skipped, so we will manually alias that.
+#    #location /static/welcome.html {
+#    #    alias {{ galaxy_server_dir }}/static/welcome.html.sample;
+#    #    expires 24h;
+#    #}
 
     # serve visualization and interactive environment plugin static content
     location ~ ^/plugins/(?<plug_type>[^/]+?)/((?<vis_d>[^/_]*)_?)?(?<vis_name>[^/]*?)/static/(?<static_file>.*?)$ {
@@ -93,17 +108,46 @@ server {
                   $vis_d/static/$static_file =404;
     }
 
+    # tusd
+    location /api/upload/resumable_upload {
+     # Disable request and response buffering
+         proxy_request_buffering  off;
+         proxy_buffering          off;
+         proxy_http_version       1.1;
+
+         # Add X-Forwarded-* headers
+         proxy_set_header X-Forwarded-Host $host;
+         proxy_set_header X-Forwarded-Proto $scheme;
+
+         proxy_set_header         Upgrade $http_upgrade;
+         proxy_set_header         Connection "upgrade";
+         client_max_body_size     0;
+         proxy_pass http://localhost:{{galaxy_tusd_port}}/files;
+     }
+
+
+     location /flower {
+         proxy_pass http://localhost:5555;
+         proxy_set_header Host $host;
+         proxy_redirect off;
+         proxy_http_version 1.1;
+         proxy_set_header Upgrade $http_upgrade;
+         proxy_set_header Connection "upgrade";
+     } 
+
+
     # https://docs.galaxyproject.org/en/master/admin/special_topics/gtn.html
     location /training-material/ {
-      proxy_pass https://training.galaxyproject.org/training-material/;
+        proxy_pass https://training.galaxyproject.org/training-material/;
     }
 
     location /reports/ {
-        uwsgi_pass           127.0.0.1:9001;
-        uwsgi_param          UWSGI_SCHEME $scheme;
-        include              uwsgi_params;
-        auth_basic "Restricted Content";
-        auth_basic_user_file /etc/nginx/.htpasswd-reports;
+        proxy_pass http://{{ galaxy_config.gravity.reports.bind }}:/;
+        # uwsgi_pass           127.0.0.1:9001;
+        # uwsgi_param          UWSGI_SCHEME $scheme;
+        # include              uwsgi_params;
+        # auth_basic "Restricted Content";
+        # auth_basic_user_file /etc/nginx/.htpasswd-reports;
     }
 
     location /galaxy-terms/ {
@@ -122,15 +166,6 @@ server {
         proxy_pass http://127.0.0.1:8888/;
     }
 
-
-
-    location /robots.txt {
-        alias {{ galaxy_server_dir }}/static/robots.txt;
-    }
-
-    location /favicon.ico {
-        alias {{ galaxy_server_dir }}/static/favicon.ico;
-    }
     
     location /jenkins {
         proxy_set_header        Host $host:$server_port;

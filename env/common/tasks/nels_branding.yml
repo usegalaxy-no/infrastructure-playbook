@@ -1,0 +1,202 @@
+---
+# ----- NeLS branding (visual style) ----------------
+
+- name: NeLS branding -> Apply NeLS style (CSS)
+  copy:
+    src: templates/galaxy/client/blue.scss
+    dest: "{{ galaxy_root }}/server/client/src/style/scss/theme/blue.scss"
+    owner: root
+    group: root
+    mode: "0644"
+    # force: yes
+  register: scss_file
+  tags:
+    - css
+    - branding
+
+- name: NeLS branding -> Add static files
+  copy:
+    src: templates/galaxy/static/
+    dest: "{{ galaxy_root }}/server/static/"
+    owner: root
+    group: root
+    mode: "0644"
+    # force: yes
+  tags:
+    - static
+    - branding
+
+- name: NeLS branding -> Add welcome page # (a hack, as uses a template!)
+  template:
+    src: templates/galaxy/static/welcome.html.j2
+    dest: "{{ galaxy_root }}/server/static/welcome.html"
+    owner: root
+    group: root
+    mode: "0644"
+    # force: yes
+  tags:
+    - welcome_page
+    - branding
+
+# ----- NeLS functionality (added features in the UI) ----------------
+
+#- name: NeLS functionality -> Add client webhook patch file.
+#  copy:
+#    src: files/galaxy/client/options-menu.js
+#    dest: "{{ galaxy_root }}/server/client/src/mvc/history/options-menu.js"
+#    owner: root
+#    group: root
+#    mode: "0644"
+#  tags:
+#    - webhooks
+#    - branding
+
+- name: NeLS functionality -> Create directory for NeLS webhooks
+  file:
+    path: "{{ galaxy_root }}/server/config/plugins/webhooks/nels/"
+    owner: root
+    group: root
+    mode: "0755"
+    state: directory
+  tags:
+    - webhooks
+    - branding
+
+- name: NeLS functionality -> Add NeLS webhooks
+  copy:
+    src: files/galaxy/webhooks/
+    dest: "{{ galaxy_root }}/server/config/plugins/webhooks/nels/"
+    owner: root
+    group: root
+    mode: "0644"
+  tags:
+    - webhooks
+    - branding
+
+- name: NeLS functionality -> Install compute backend monitoring script
+  copy:
+    src: files/bin/get_slurm_stats.py
+    dest: "/usr/local/bin/get_slurm_stats.py"
+    owner: root
+    group: root
+    mode: "0755"
+  tags:
+    - slurm_stats
+    - branding
+
+- name: NeLS functionality -> Set up Cron job for compute backend monitoring script
+  cron:
+    name: "Schedule compute backend monitoring script"
+    minute: "*"
+    hour: "*"
+    job: "python3 /usr/local/bin/get_slurm_stats.py > {{ galaxy_server_dir }}/static/slurm_stats.json"
+  tags:
+    - slurm_stats
+    - branding
+
+- name: NeLS functionality -> Make sure output file for compute backend monitoring script has correct access rights
+  file:
+    path: "{{ galaxy_server_dir }}/static/slurm_stats.json"
+    state: touch
+    mode: "0755"
+  tags:
+    - slurm_stats
+    - branding
+
+
+# ----- NeLS Storage plugin ----------------
+
+- name: NeLS Storage -> Add NeLS Storage remote file storage plugin
+  copy:
+    src: files/galaxy/nels_storage/nels.py
+    dest: "{{ galaxy_root }}/server/lib/galaxy/files/sources/nels.py"
+    owner: root
+    group: root
+    mode: "0644"
+  tags:
+    - nels_storage
+    - branding
+
+- name: NeLS Storage -> Set up configuration file
+  template:
+    src:  templates/galaxy/config/nels_storage_config.loc.j2
+    dest: "{{ nels_storage_config_dir }}/nels_storage_config.loc"
+    owner: galaxy
+    group: root
+    mode: "0440"
+  tags:
+    - nels_storage
+    - branding
+
+# ----- NeLS authentication (OICD specific tasks) ----------------
+
+- name: NeLS Authentication -> install OIDC config file
+  copy:
+    src: templates/galaxy/config/oidc_config.xml
+    dest: "{{ galaxy_config_dir }}/oidc_config.xml"
+    owner: root
+    group: root
+    mode: "0644"
+  tags:
+    - auth
+    - branding
+
+- name: NeLS Authentication -> install OIDC backends config file
+  template:
+    src: templates/galaxy/config/oidc_backends.xml.j2
+    dest: "{{ galaxy_config_dir }}/oidc_backends.xml"
+    owner: root
+    group: root
+    mode: "0644"
+  tags:
+    - auth
+    - branding
+
+- name: NeLS Authentication -> update Galaxy's authentication system to add NeLS backend
+  copy:
+    src: templates/galaxy/auth/psa_authnz.py
+    dest: "{{ galaxy_server_dir }}/lib/galaxy/authnz/psa_authnz.py"
+    owner: root
+    group: root
+    mode: "0644"
+  tags:
+    - auth
+    - branding
+
+
+- name: NeLS Authentication -> install python package implementing the NeLS OIDC backend
+  template:
+    src: templates/galaxy/auth/nels.py.j2
+    dest: "{{ galaxy_venv_dir }}/lib/python{{galaxy_python_version}}/site-packages/social_core/backends/nels.py"
+    owner: root
+    group: root
+    mode: "0644"
+  tags:
+    - auth
+    - branding
+
+- name: NeLS Authentication -> add custom login page
+  copy:
+    src: templates/galaxy/auth/Login.vue
+    dest: "{{ galaxy_server_dir }}/client/src/components/login/"
+    owner: root
+    group: root
+    mode: "0644"
+  tags:
+    - auth
+    - branding
+
+# ---------------
+
+- name: Rebuild client
+  make:
+    chdir: "{{ galaxy_server_dir }}"
+    target: "{{ galaxy_client_make_target }}"
+  environment:
+    PATH: "{{ galaxy_venv_dir }}/bin:{{ ansible_env.PATH }}"
+    VIRTUAL_ENV: "{{ galaxy_venv_dir }}"
+  when: scss_file.changed
+  tags:
+    - auth
+    - branding
+    - webhooks

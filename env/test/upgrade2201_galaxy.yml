@@ -1,0 +1,34 @@
+- hosts: galaxyserver
+  become: true
+  tags:
+    - galaxyserver
+  vars_files:
+    - group_vars/env.yml
+    - group_vars/upgrade2201_galaxy.yml
+    - secret_group_vars/upgrade22_nfs_global.vault
+ 
+
+  handlers:
+    - name: Restart Galaxy
+      remote_user: root
+      command: "{{ galaxy_venv_dir }}/bin/galaxyctl graceful"
+      environment:
+        GRAVITY_CONFIG_FILE: "{{ gravity_config_file }}"
+
+    # The handler below is a hack to fix a mistake in the Galaxy role which has been corrected in v0.10.6
+    # If you use a later version this handler can be safely deleted
+    - name: daemon reload
+      systemd:
+        daemon_reload: yes
+        scope: "{{ galaxy_systemd_root | ternary(omit, 'user') }}"
+
+  roles:
+    - galaxyproject.galaxy
+    - geerlingguy.redis    # Celery related
+    - usegalaxy_eu.flower  # Celery related
+
+  tasks:
+    - name: Apply NeLS branding
+      include: tasks/nels_branding.yml
+      tags:
+        - branding

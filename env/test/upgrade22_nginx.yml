@@ -1,0 +1,43 @@
+---
+- hosts: webserver
+  become: true
+  tags:
+    - nginx
+  vars_files:
+    - group_vars/env.yml
+    - group_vars/upgrade2201_galaxy.yml
+    - group_vars/upgrade22_nginx.yml
+    - secret_group_vars/upgrade22_nfs_global.vault
+
+  pre_tasks:
+    - name: Install NGINX mod_zip
+      remote_user: root
+      ansible.builtin.get_url:
+        url: "{{ nginx_mod_zip_url }}"
+        dest: /usr/lib64/nginx/modules/ngx_http_zip_module.so
+        mode: 0755
+      when: nginx_mod_zip_url is defined
+
+    - name: Get variable values based on the layout
+      include_role:
+        name: galaxyproject.galaxy
+        tasks_from: layout
+
+  roles:
+    - role: galaxyproject.nginx
+    - role: galaxyproject.tusd
+      vars:
+        tusd_version: 'v1.10.0' # use an older version of tusd that does not require GLIBC_2.32 / GLIBC_2.34
+      tags: tusd
+
+
+#  -- this post-task should be done by the Galaxy playbook! --
+#
+#  post_tasks:
+#    - name: Make sure Galaxy's root directory is readable for NGINX
+#      file:
+#        path: "{{ galaxy_root }}"
+#        state: directory
+#        mode: "0755"
+#        owner: "{{ galaxy_user.name }}"
+#        group: "{{ galaxy_user.name }}"

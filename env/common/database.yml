@@ -32,10 +32,10 @@
     - name: Create users and groups
       include: tasks/users_groups.yml
 
-    - name: setup rabbitmq certs, vhosts and users
-      include: tasks/rabbitmq.yml
-      tags:
-        - rabbitmq
+#    - name: setup rabbitmq certs, vhosts and users
+#      include: tasks/rabbitmq.yml
+#      tags:
+#        - rabbitmq
 
     - name: copy certboot hook scripts
       tags:
@@ -66,9 +66,9 @@
     - role: geerlingguy.mysql
       tags:
       - mysql
-    - role: dj-wasabi.telegraf
-      tags:
-        - telegraf
-    - role: idiv-biodiversity.postfix
-      tags:
-        - postfix
+#    - role: dj-wasabi.telegraf
+#      tags:
+#        - telegraf
+#    - role: idiv-biodiversity.postfix
+#      tags:
+#        - postfix

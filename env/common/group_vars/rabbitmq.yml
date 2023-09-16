@@ -1,12 +1,22 @@
+rabbitmq_version: "3.8.6"
+rabbitmq_rpm: "rabbitmq-server-{{ rabbitmq_version }}-1.el{{ ansible_distribution_major_version }}.noarch.rpm"
+rabbitmq_rpm_url: "https://packagecloud.io/rabbitmq/rabbitmq-server/packages/el/{{ ansible_distribution_major_version }}/{{ rabbitmq_rpm }}/download"
+
+rabbitmq_host: "{{ groups['rabbitmq'][0] }}"
+
+vault_rabbitmq_password_flower: "wvPaD1N9tAyPGvcBNBlG9kKWNdEteR9u"
+vault_rabbitmq_password_galaxy: "JBxp5Duws8LDNPWuOXjdaERSPEaodapZ"
+vault_flower_user_password: "NX5oibipWCJrnhza86nJ1Cm2NHcrW8gB"
+
 rabbitmq_vhosts:
   - pulsar_nrec
   - pulsar_nmbu_orion
   - test
   - nels_galaxy
-  - nvi_iridia
+  - galaxy_internal
 
 rabbitmq_users:
-  - {name: admin,  vhost: '', 
+  - {name: admin,  vhost: '/', 
      passwd: "{{admin_rabbitmq_password}}", tags: administrator}
   - {name: nrec_galaxy, vhost: pulsar_nrec,
      passwd: "{{rabbitmq_password_galaxy_nrec}}"}
@@ -14,12 +24,14 @@ rabbitmq_users:
      passwd: "{{rabbitmq_password_galaxy_nmbu}}" }
   - {name: test, vhost: test, 
      passwd: "{{rabbitmq_password_galaxy_test}}" }
-  - {name: telegraf, vhost: '', 
-     passwd: "{{telegraf_rabbitmq_password}}", tags: monitoring }
-  - {name: telegraf, vhost: '',
+  - {name: telegraf, vhost: '/',
      passwd: "{{telegraf_rabbitmq_password}}", tags: monitoring }
   - {name: nels_galaxy, vhost: 'nels_galaxy',
      passwd: '{{rabbitmq_password_nels_galaxy_api}}'}
-  - {name: nvi_iridia, vhost: 'nvi_iridia',
-     passwd: '{{rabbitmq_password_nvi_iridia}}'}
+  - {name: galaxy, vhost: 'galaxy_internal',
+     passwd: '{{vault_rabbitmq_password_galaxy}}'}
+  - {name: flower, vhost: 'galaxy_internal',
+     passwd: '{{vault_rabbitmq_password_flower}}', tags: administrator}
+
+
 

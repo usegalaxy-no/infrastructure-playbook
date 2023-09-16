@@ -268,7 +268,7 @@
   tags: auth
   template:
     src: templates/galaxy/auth/nels.py.j2
-    dest: "{{ galaxy_venv_dir }}/lib/python3.6/site-packages/social_core/backends/nels.py"
+    dest: "{{ galaxy_venv_dir }}/lib/python{{galaxy_python_version}}/site-packages/social_core/backends/nels.py"
     owner: root
     group: root
     mode: "0644"

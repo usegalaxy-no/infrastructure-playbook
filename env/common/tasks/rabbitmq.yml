@@ -12,16 +12,6 @@
       line: "{{ ansible_default_ipv4['address']}} {{inventory_hostname_short}} {{inventory_hostname}} "
       state: present
 
-  - name: Add packagecloud erlang GPG key.
-    rpm_key:
-      key: "https://packagecloud.io/rabbitmq/erlang/gpgkey"
-      state: present
-
-  - name: Add packagecloud GPG key.
-    rpm_key:
-      key: "https://packagecloud.io/gpg.key"
-      state: present
-
   - name: add erlang repo
     yum_repository:
           name: rabbitmq_erlang
@@ -29,23 +19,28 @@
           file: rabbitmq_repos
           baseurl: https://packagecloud.io/rabbitmq/erlang/el/{{ansible_distribution_major_version}}/$basearch
           gpgcheck: yes
-          gpgkey: https://packagecloud.io/rabbitmq/erlang/gpgkey https://dl.bintray.com/rabbitmq/Keys/rabbitmq-release-signing-key.asc
+          gpgkey: https://packagecloud.io/rabbitmq/erlang/gpgkey https://www.rabbitmq.com/rabbitmq-release-signing-key.asc
           repo_gpgcheck: yes
 
-  - name: add rabbitmq repo
-    yum_repository:
-      name: rabbitmq
-      description: rabbitmq-server repo
-      file: rabbitmq_repos
-      baseurl: https://dl.bintray.com/rabbitmq/rpm/rabbitmq-server/v3.8.x/el/{{ansible_distribution_major_version}}/
-      gpgcheck: yes
-      gpgkey: https://packagecloud.io/rabbitmq/erlang/gpgkey https://dl.bintray.com/rabbitmq/Keys/rabbitmq-release-signing-key.asc
-      repo_gpgcheck: yes
+  - name: Add GPG keys.
+    rpm_key:
+      key: "{{ item }}"
+      state: present
+    with_items:
+      - "https://packagecloud.io/gpg.key"
+      - "https://packagecloud.io/rabbitmq/erlang/gpgkey"
+      - "https://packagecloud.io/rabbitmq/rabbitmq-server/gpgkey"
+      - "https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc"
 
-  - name: install rabbitmq-server and friends
-    package:
-      name:
-        - 'rabbitmq-server'
+  - name: Download RabbitMQ package.
+    get_url:
+      url: "{{ rabbitmq_rpm_url }}"
+      dest: "/tmp/{{ rabbitmq_rpm }}"
+
+  - name: Ensure RabbitMQ is installed.
+    yum:
+      name: "/tmp/{{ rabbitmq_rpm }}"
+      state: "present"
 
   - name: Copy rabbitmq file
     template:
@@ -68,6 +63,9 @@
 
   - name: Remove default guest user
     rabbitmq_user: user=guest state=absent
+    rabbitmq_user:
+      user: guest
+      state: absent
 
   - name: Enables the rabbitmq_management plugin
     rabbitmq_plugin:
@@ -80,13 +78,13 @@
       - "{{rabbitmq_vhosts}}"
 
   - name: Add users
-    rabbitmq_user: user={{ item.name }} password={{ item.passwd }} tags={{ item.tags | default(item.name)}} vhost=/{{ item.vhost }} configure_priv=".*" write_priv=".*" read_priv=".*" state=present
+    rabbitmq_user: user={{ item.name }} password={{ item.passwd }} tags={{ item.tags | default(item.name)}} vhost={{ item.vhost }} configure_priv=".*" write_priv=".*" read_priv=".*" state=present
     with_items:
       - "{{rabbitmq_users}}"
 
-#  - name: rabbitmq config stats
-#    stat:
-#      path: templates/rabbitmq/rabbitmq.j2
-#    register: rabbitmq_config
+  - name: rabbitmq config stats
+    stat:
+      path: templates/rabbitmq/rabbitmq.j2
+    register: rabbitmq_config
 
 

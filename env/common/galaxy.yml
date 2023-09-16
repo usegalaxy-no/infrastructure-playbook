@@ -59,13 +59,15 @@
       become: true
       become_user: galaxy
     - usegalaxy_eu.galaxy_systemd
-    - galaxyproject.nginx
-    - galaxyproject.cvmfs
+    - galaxyproject.nginx  
+    - role: galaxyproject.cvmfs
+      tags:
+        - cvmfs
     - galaxyproject.repos
     - role: dj-wasabi.telegraf
       tags:
         - telegraf
-    - usegalaxy_eu.gie_proxy
+#    - usegalaxy_eu.gie_proxy
 #    - usegalaxy_eu.gxadmin
     - role: usegalaxy-no.nels_storage
       tags:

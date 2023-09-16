@@ -1,0 +1,21 @@
+[galaxyserver]
+nfs.usegalaxy.no ansible_host=158.39.201.149 ansible_user=sysadmin trusted_host=yes aliases=nfs-www.usegalaxy.no
+
+[webserver]
+nfs.usegalaxy.no ansible_host=158.39.201.149 ansible_user=sysadmin trusted_host=yes aliases=nfs-www.usegalaxy.no
+
+[database]
+slurmctld.usegalaxy.no ansible_host=158.39.201.10 ansible_user=sysadmin trusted_host=yes
+
+[rabbitmq]
+slurmctld.usegalaxy.no ansible_host=158.39.201.10 ansible_user=sysadmin trusted_host=yes
+
+[slurm]
+slurmctld.usegalaxy.no ansible_host=158.39.201.10 ansible_user=sysadmin trusted_host=yes
+
+[cvmfsclients]
+nfs.usegalaxy.no ansible_host=158.39.201.149 ansible_user=sysadmin trusted_host=yes
+slurmctld.usegalaxy.no ansible_host=158.39.201.10 ansible_user=sysadmin trusted_host=yes
+
+[cvmfsstratum0servers]
+slurmctld.usegalaxy.no ansible_host=158.39.201.10 ansible_user=sysadmin trusted_host=yes
