@@ -5,7 +5,7 @@ galaxy_virtualenv_python: /usr/local/bin/python{{galaxy_python_version}}
 
 # Note: the standard python in '/usr/bin/python3' below is only used to run the virtualenv command
 #       which creates a new virtual environment based on the other Python above. This is done by Ansible's "pip" module
-pip_virtualenv_command: /usr/bin/python3 -m virtualenv
+pip_virtualenv_command: /usr/bin/python3 -m virtualenv --always-copy
 
 
 # -- these python-related settings are not used anymore, due to the setting above -- (remove them later)
