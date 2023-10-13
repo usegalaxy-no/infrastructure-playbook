@@ -8,15 +8,21 @@ From: centos:7
 #   - https://github.com/galaxyproject/galaxy/blob/dev/lib/galaxy/dependencies/pinned-requirements.txt
 #   - https://github.com/galaxyproject/galaxy/blob/dev/lib/galaxy/dependencies/conditional-requirements.txt
 #
-# However, this version of the container does not install anything except for Python 3.7.12.
+# However, this version of the container does not install anything except for Python 3.7.12 and a few common utilities that are expected on most systems.
 # Instead, it activates Galaxy's virtual environment to get access to all these packages. (The venv-directory should be mounted by Singularity).
 # The installed Python 3.7.12 is the same as the one that was installed on all the nodes and is referenced by symlinks in the virtual environment.
 # Some internal Galaxy tools (like "export history") run code from the Galaxy codebase itself, and for this reason,
 # the directory containing Galaxy's codebase (/srv/galaxy/server/lib) is added to the PYTHONPATH on startup.
 
 %post
-    # install necessary commands and packages
-    yum install -y gcc openssl-devel bzip2-devel libffi-devel zlib-devel xz-devel sqlite-devel ncurses-devel wget make
+    # install necessary commands and packages that are required by Galaxy
+    yum install -y gcc openssl-devel bzip2-devel libffi-devel zlib-devel xz-devel sqlite-devel ncurses-devel
+
+    # install commands that are needed later in this script
+    yum install -y wget make
+
+    # install common utilities that are expected to be available by some tools
+    yum install -y coreutils perl
 
     # download, compile and install Python3.7.12 from source
     cd /usr/src
