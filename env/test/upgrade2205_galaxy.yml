@@ -10,13 +10,15 @@
 
   handlers:
     - name: Restart Galaxy
-      remote_user: root
-      command: "{{ galaxy_venv_dir }}/bin/galaxyctl graceful"
-      environment:
-        GRAVITY_CONFIG_FILE: "{{ gravity_config_file }}"
+      ansible.builtin.debug:
+        msg: "This handler has been disabled"
+#      systemd:
+#        name: galaxy
+#        state: restarted
 
     # The handler below is a hack to fix a mistake in the Galaxy role which has been corrected in v0.10.6
     # If you use a later version this handler can be safely deleted
+    # (I have used role version 0.10.5 for upgrades to Galaxy 22.01 and 22.05)
     - name: daemon reload
       systemd:
         daemon_reload: yes
