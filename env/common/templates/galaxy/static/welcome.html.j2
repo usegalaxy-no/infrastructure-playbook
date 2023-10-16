@@ -710,10 +710,10 @@ function onStartUp() {
     showServerAlerts(server_alerts_url,"server_alerts");
     checkTermsOfServiceAcceptance();
     //getCookie('galaxysession');
-    document.getElementById('toggleTransfers').textContent=((filterHidden)?"Show All":"Show Active");
+    // document.getElementById('toggleTransfers').textContent=((filterHidden)?"Show All":"Show Active");
     // console.log('poll history transfers');		       
-    pollHistoryTransferStatus(); // check status of history transfers when the page is first loaded...
-    setInterval(pollHistoryTransferStatus,historyPollingInterval); // ... then continue polling at regular intervals
+    // pollHistoryTransferStatus(); // check status of history transfers when the page is first loaded...
+    // setInterval(pollHistoryTransferStatus,historyPollingInterval); // ... then continue polling at regular intervals
 
 
 }
@@ -737,7 +737,7 @@ window.onload = onStartUp;
     {% if env == 'testing' %}
        Welcome to test.usegalaxy.no
     {% else %}
-       Welcome to usegalaxy.no
+       Welcome to UseGalaxy.no
     {% endif %}
 
  </div>
@@ -780,11 +780,12 @@ window.onload = onStartUp;
   <td style="height:320px;max-width:520px;min-width:250px;border:0px;vertical-align:top;" >
 
     <!-- Twitter feed box -->
+<!--    
     <div class="col-sm-6 text-center twitterbox" style="height:425px;width:416px;max-width:520px;padding:10px;" id="twitter">
       <a class="twitter-timeline" data-width="400" data-height="410" href="https://twitter.com/elixirnorway?ref_src=twsrc%5Etfw"> </a>
       <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
    </div>
-
+-->
   </td>
  </tr>
 
