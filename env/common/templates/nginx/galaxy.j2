@@ -47,6 +47,12 @@ server {
         alias /;
     }
 
+    # handle archive create via mod-zip
+    location {{ galaxy_file_path }} {
+        internal;
+        alias {{ galaxy_file_path }};
+    }
+
     location @maintenance {
       root /srv/galaxy/server/static/;
       try_files $uri /maintenance.html =503;
