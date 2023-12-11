@@ -199,10 +199,8 @@ $margin-h: $spacer;
     .navbar-brand {
         font-family: verdana, sans-serif !important;
         line-height: 1 !important;
-        .navbar-brand-image {
-            // margin-left:   8px !important;
-            width: 100px !important;
-            height: 25px !important;
+        img {
+            width: 11.6rem !important;
         }
     }
 
