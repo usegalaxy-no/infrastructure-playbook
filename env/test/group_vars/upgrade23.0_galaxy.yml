@@ -141,8 +141,6 @@ galaxy_config:
     enable_celery_tasks: true
 
   gravity:
-  
-    app_server: gunicorn
     process_manager: systemd
     service_command_style: gravity
     use_service_instances: true
@@ -151,7 +149,9 @@ galaxy_config:
 
     galaxy_root: "{{ galaxy_server_dir }}" # this should be the default
     virtualenv: "{{ galaxy_venv_dir }}"
-      
+
+    app_server: gunicorn
+
     gunicorn:
       bind: "unix:{{ galaxy_mutable_data_dir }}/gunicorn.sock"
       workers: 1  # This should be increased in production, to e.g. 4 !!
@@ -160,10 +160,13 @@ galaxy_config:
       
     handlers:
       handler:
-        processes: 1 # This should be increased in production, to e.g. 4 !!
+        processes: 2 # This should be increased in production, to e.g. 4 !!
         pools:
           - job-handlers
           - workflow-schedulers
+        environment:
+            PYTHONPATH: /srv/galaxy/dynamic_rules
+
     reports:
       enable: false
       url_prefix: /reports
