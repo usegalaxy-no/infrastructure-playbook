@@ -1,0 +1,11 @@
+storage "{{ vault_config_storage }}" {
+  path    = "{{ vault_config_path }}"
+}
+
+listener "tcp" {
+  address     = "{{ vault_config_address }}"
+  tls_disable = "{{ vault_config_tls_disable }}"
+}
+
+api_addr = "{{ vault_config_api_addr }}"
+ui = {{ vault_config_ui }}

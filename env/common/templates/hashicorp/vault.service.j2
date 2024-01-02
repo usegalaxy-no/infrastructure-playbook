@@ -1,0 +1,18 @@
+[Unit]
+Description=Tool for managing secrets
+Documentation=https://vaultproject.io/docs/
+After=network.target
+ConditionFileNotEmpty=/etc/vault.d/config.hcl
+
+[Service]
+User={{ vault_service_user }}
+Group={{ vault_service_group }}
+ExecStart=/usr/bin/vault server -config=/etc/vault.d/config.hcl -log-level=debug
+ExecReload=/usr/local/bin/kill --signal HUP $MAINPID
+CapabilityBoundingSet=CAP_SYSLOG CAP_IPC_LOCK
+SecureBits=keep-caps
+NoNewPrivileges=yes
+KillSignal=SIGINT
+
+[Install]
+WantedBy=multi-user.target

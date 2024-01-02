@@ -10,6 +10,7 @@
     - group_vars/pulsar_nmbu_orion.yml
     - group_vars/telegraf.yml
 #    - group_vars/nga.yml
+    - group_vars/vault.yml
 
   pre_tasks:
     - name: Install Dependencies
@@ -41,6 +42,9 @@
 
     - name: Perform misc system tasks
       include: tasks/system.yml
+
+    - name: Install and settup Hashicorp vault
+      include: tasks/vault.yml
 
   handlers:
     - name: Restart Galaxy

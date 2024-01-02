@@ -1,0 +1,95 @@
+---
+- name: Creating vault user group
+  ansible.builtin.group:
+    name: "{{ vault_service_group }}"
+
+- name: Creating vault user
+  ansible.builtin.user:
+    name: "{{ vault_service_user }}"
+    group: "{{ vault_service_group }}"
+    system: true
+    shell: "/sbin/nologin"
+    comment: "vault nologin User"
+    createhome: "no"
+    state: present
+
+- name: Add the official HashiCorp Linux repository
+  ansible.builtin.copy:
+    src: "hashicorp/hashicorp.repo"
+    dest: "/etc/yum.repos.d/hashicorp.repo"
+    mode: '0644'
+    owner: root
+    group: root
+
+- name: Install HashiCorp vault
+  ansible.builtin.yum:
+    name: vault
+    state: present
+
+- name: Copy vault config
+  ansible.builtin.template:
+    src: hashicorp/config.hcl.j2
+    dest: /etc/vault.d/config.hcl
+    mode: '0644'
+    owner: "{{ vault_service_user }}"
+    group: "{{ vault_service_group }}"
+
+- name: Copy vault service file
+  ansible.builtin.template:
+    src: hashicorp/vault.service.j2
+    dest: /etc/systemd/system/vault.service
+    mode: '0644'
+    owner: "{{ vault_service_user }}"
+    group: "{{ vault_service_group }}"
+
+- name: Create directory if not exists
+  ansible.builtin.file:
+    path: "{{ vault_config_path }}"
+    state: directory
+
+- name: Start and enable vault service
+  ansible.builtin.systemd:
+    name: vault
+    state: started
+    enabled: true
+
+# Create vault token for galaxy
+- name: Create unseal directories
+  ansible.builtin.file:
+    path: "{{ vault_config_unseal_keys_dir_output }}"
+    state: directory
+
+- name: Create root key directories
+  ansible.builtin.file:
+    path: "{{ vault_config_root_token_dir_output }}"
+    state: directory
+
+- name: Initialise Vault operator
+  ansible.builtin.shell: vault operator init -key-shares=5 -key-threshold=3 -format json
+  environment:
+    VAULT_ADDR: "{{ vault_config_api_addr }}"
+  register: vault_init_results
+
+- name: Parse output of vault init
+  ansible.builtin.set_fact:
+    vault_init_parsed: "{{ vault_init_results.stdout | from_json }}"
+
+- name: Write unseal keys to files
+  ansible.builtin.copy:
+    dest: "{{ vault_config_unseal_keys_dir_output }}/unseal_key_{{ item.0 }}"
+    content: "{{ item.1 }}"
+  with_indexed_items: "{{ vault_init_parsed.unseal_keys_hex }}"
+
+- name: Write root token to file
+  ansible.builtin.copy:
+    content: "{{ vault_init_parsed.root_token }}"
+    dest: "{{vault_config_root_token_dir_output}}/root_token"
+
+# Unseal the vault to create a path in the vault for galaxy
+- name: Unseal Vault
+  ansible.builtin.command: "vault operator unseal {{ item.1 }}"
+  with_indexed_items: "{{ vault_init_parsed.unseal_keys_hex }}"
+  environment:
+    VAULT_ADDR: "{{ vault_config_api_addr }}"
+
+# Create a galaxy token for the galaxy vault path

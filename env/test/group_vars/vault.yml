@@ -1,0 +1,13 @@
+---
+vault_service_user: root
+vault_service_group: root
+
+vault_config_storage: file
+vault_config_path: /vault/data
+vault_config_address: 127.0.0.1:8200
+vault_config_tls_disable: "true"
+vault_config_api_addr: http://127.0.0.1:8200
+vault_config_ui: "true"
+
+vault_config_unseal_keys_dir_output: "/var/vault"
+vault_config_root_token_dir_output: "/var/vault"

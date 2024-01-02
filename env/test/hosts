@@ -23,3 +23,6 @@ db.test.usegalaxy.no ansible_host=158.39.201.33 ansible_user=sysadmin
 [cvmfsproxy]
 cvmfsproxy01.test.usegalaxy.no ansible_host=158.39.77.37 ansible_user=sysadmin
 cvmfsproxy02.test.usegalaxy.no ansible_host=158.39.77.129 ansible_user=sysadmin
+
+[test]
+test-zalo ansible_host=158.39.201.100 ansible_user=cloud-user

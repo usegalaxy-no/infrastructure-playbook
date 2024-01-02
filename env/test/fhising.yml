@@ -1,0 +1,10 @@
+---
+- name: Fishing
+  hosts: test
+  become: true
+  vars_files:
+    - group_vars/vault.yml
+
+  tasks:
+    - name: Install and settup Hashicorp vault
+      ansible.builtin.include_tasks: tasks/vault.yml
