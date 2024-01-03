@@ -18,8 +18,8 @@
     src: "hashicorp/hashicorp.repo"
     dest: "/etc/yum.repos.d/hashicorp.repo"
     mode: '0644'
-    owner: root
-    group: root
+    owner: "{{ vault_service_user }}"
+    group: "{{ vault_service_group }}"
 
 - name: Install HashiCorp vault
   ansible.builtin.yum:
@@ -92,4 +92,29 @@
   environment:
     VAULT_ADDR: "{{ vault_config_api_addr }}"
 
-# Create a galaxy token for the galaxy vault path
+# Create galaxy vault path and policy for galaxy
+- name: Create vault path
+  ansible.builtin.command:
+    cmd: "vault secrets enable -path={{ vault_config_secrets_engine_path }} {{ vault_config_secrets_engine_type }}"
+
+- name: Enabel vault path
+  ansible.builtin.command:
+    cmd: "vault secrets enable {{ vault_config_secrets_engine_path }}"
+
+- name: Create policy for that path
+  community.hashi_vault_policy:
+    name: full-access-"{{ vault_config_secrets_engine_path }}"
+    policy: |
+      path "secret/data/{{ vault_config_secrets_engine_path }}" {
+        capabilities = ["create", "read", "update", "delete", "list"]
+      }
+
+- name: Create token for policy and path
+  community.hashi_vault_token:
+    name: full-access-token
+    policies: ["full-access-{{ vault_config_secrets_engine_path }}"]
+    register: vault_token
+
+ - name: Display Token
+   ansible.builtin.debug:
+     var: vault_token.new_token

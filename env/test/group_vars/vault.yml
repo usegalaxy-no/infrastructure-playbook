@@ -11,3 +11,6 @@ vault_config_ui: "true"
 
 vault_config_unseal_keys_dir_output: "/var/vault"
 vault_config_root_token_dir_output: "/var/vault"
+
+vault_config_secrets_engine_path: galaxy
+vault_config_secrets_engine_type: kv
