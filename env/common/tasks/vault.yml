@@ -28,8 +28,8 @@
 
 - name: Copy vault config
   ansible.builtin.template:
-    src: hashicorp/config.hcl.j2
-    dest: /etc/vault.d/config.hcl
+    src: hashicorp/vault.hcl.j2
+    dest: /etc/vault.d/vault.hcl
     mode: '0644'
     owner: "{{ vault_service_user }}"
     group: "{{ vault_service_group }}"
@@ -92,29 +92,43 @@
   environment:
     VAULT_ADDR: "{{ vault_config_api_addr }}"
 
+# Loginto vault
+- name: Loginto vault
+  ansible.builtin.command:
+    cmd: "vault login {{ vault_init_parsed.root_token }}"
+  environment:
+    VAULT_ADDR: "{{ vault_config_api_addr }}"
+
 # Create galaxy vault path and policy for galaxy
 - name: Create vault path
   ansible.builtin.command:
     cmd: "vault secrets enable -path={{ vault_config_secrets_engine_path }} {{ vault_config_secrets_engine_type }}"
+  environment:
+    VAULT_ADDR: "{{ vault_config_api_addr }}"
 
-- name: Enabel vault path
+- name: Upload galaxy policy file
+  ansible.builtin.template:
+    src: hashicorp/policy.hcl.j2
+    dest: /etc/vault.d/policy.hcl
+    mode: '0644'
+    owner: "{{ vault_service_user }}"
+    group: "{{ vault_service_group }}"
+
+- name: Write new policy to
   ansible.builtin.command:
-    cmd: "vault secrets enable {{ vault_config_secrets_engine_path }}"
+    cmd: "vault policy write {{ vault_config_policy_name }} /etc/vault.d/policy.hcl"
+  environment:
+    VAULT_ADDR: "{{ vault_config_api_addr }}"
 
-- name: Create policy for that path
-  community.hashi_vault_policy:
-    name: full-access-"{{ vault_config_secrets_engine_path }}"
-    policy: |
-      path "secret/data/{{ vault_config_secrets_engine_path }}" {
-        capabilities = ["create", "read", "update", "delete", "list"]
-      }
+# Create token for galaxy path
+- name: Create token for path galaxy
+  ansible.builtin.command:
+    cmd: "vault token create -policy={{ vault_config_policy_name }}"
+  register: vault_token_output
+  environment:
+    VAULT_ADDR: "{{ vault_config_api_addr }}"
 
-- name: Create token for policy and path
-  community.hashi_vault_token:
-    name: full-access-token
-    policies: ["full-access-{{ vault_config_secrets_engine_path }}"]
-    register: vault_token
-
- - name: Display Token
-   ansible.builtin.debug:
-     var: vault_token.new_token
+- name: Write galaxy token to file
+  ansible.builtin.copy:
+    content: "{{ vault_token_output.stdout_lines[2].split()[1] }}"
+    dest: "{{vault_config_root_token_dir_output}}/{{ vault_config_policy_name }}_token"

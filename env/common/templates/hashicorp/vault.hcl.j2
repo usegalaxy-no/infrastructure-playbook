@@ -5,7 +5,11 @@ storage "{{ vault_config_storage }}" {
 listener "tcp" {
   address     = "{{ vault_config_address }}"
   tls_disable = "{{ vault_config_tls_disable }}"
+  tls_cert_file = "{{ vault_config_tls_cert_file }}"
+  tls_key_file  = "{{ vault_config_tls_key_file }}"
 }
 
 api_addr = "{{ vault_config_api_addr }}"
 ui = {{ vault_config_ui }}
+
+cache { }
