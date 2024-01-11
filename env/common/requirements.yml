@@ -79,6 +79,7 @@
   name: usegalaxy-no.galaxy-tools
 - src: https://github.com/usegalaxy-no/ansible-role-nels-galaxy-api.git
   name: usegalaxy-no.nels-galaxy-api
+  version: reduced_functionality
 - src: https://github.com/usegalaxy-no/ansible-role-ecc
   name: usegalaxy-no.ecc
 - src: https://github.com/usegalaxy-no/ansible-role-cvmfs-proxy

@@ -7,6 +7,4 @@
   become: true
   vars:
   roles:
-    - name: usegalaxy-no.nels-galaxy-api
-      source: https://github.com/usegalaxy-no/ansible-role-nels-galaxy-api.git
-      version: reduced_functionality
+    - usegalaxy-no.nels-galaxy-api
