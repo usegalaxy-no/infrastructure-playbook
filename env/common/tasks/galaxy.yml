@@ -110,8 +110,7 @@
   when: no
 
 - name: Setup log-rotate
-  become: true
-  include: tasks/logrotate.yml
+  include_tasks: tasks/logrotate.yml
 
 # For gxadmin:
 - name: Add env vars in bashrc
