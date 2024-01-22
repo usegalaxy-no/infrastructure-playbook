@@ -289,7 +289,7 @@ telegraf_plugins_extra:
   galaxy_misc_stats:
     plugin: "exec"
     config:
-      - commands = ["/srv/nga/venv/bin/python3 /srv/nga/galaxy_stats.py -c /srv/nga/configs/nga-server.json stats"]
+      - commands = ["/srv/nga/venv/bin/python3 /srv/nga/galaxy_stats.py -c /srv/nga/configs/nga-server.json -l /var/log/nga/galaxy_stats.log stats"]
       - timeout = "15s"
       - data_format = "influx"
       - interval = "1m"
