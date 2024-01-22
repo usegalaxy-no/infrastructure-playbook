@@ -28,19 +28,20 @@
 
     - name: Create users and groups
       tags: create_users
-      include: tasks/users_groups.yml
+      include_tasks: tasks/users_groups.yml
 
     - name: Open firewalld ports
       tags: firewall-setup
-      become: true
-      include: tasks/firewall.yml ports="['ssh', 'http', 'https']"
+      vars:
+        - ports: "['ssh', 'http', 'https']"
+      include_tasks: tasks/firewall.yml
 
   tasks:
     - name: Perform misc galaxy tasks
-      include: tasks/galaxy.yml
+      include_tasks: tasks/galaxy.yml
 
     - name: Perform misc system tasks
-      include: tasks/system.yml
+      include_tasks: tasks/system.yml
 
   handlers:
     - name: Restart Galaxy
@@ -56,7 +57,6 @@
       tags:
         - galaxy
     - role: uchida.miniconda
-      become: true
       become_user: galaxy
     - usegalaxy_eu.galaxy_systemd
     - galaxyproject.nginx
@@ -81,7 +81,7 @@
       package:
         name: singularity
 #    - name: Install the tos-api
-#      include_role:
+#      include_tasks_role:
 #        name: usegalaxy-no.tos-api
     # TODO: This should not be needed, but...
     - name: galaxy need a compliance log for conda, will otherwise fail.

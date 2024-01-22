@@ -6,12 +6,18 @@ telegraf_agent_hostname: "{{ inventory_hostname }}"
 telegraf_agent_interval: "60" # seconds
 
 telegraf_agent_output:
-  - type: influxdb
+  - type: "{{ telegraf.MAAS.type }}"
     config:
-      - urls = {{ telegraf_urls }}
-      - database = "{{ telegraf_database }}"
-      - username = "{{ telegraf_username }}"
-      - password = "{{ telegraf_password }}"
+      - urls = {{ telegraf.MAAS.urls }}
+      - database = "{{ telegraf.MAAS.database }}"
+      - username = "{{ telegraf.MAAS.username }}"
+      - password = "{{ telegraf.MAAS.password }}"
+  - type: "{{ telegraf.si_elixir_no.type }}"
+    config:
+      - urls = {{ telegraf.si_elixir_no.urls }}
+      - bucket = "{{ telegraf.si_elixir_no.bucket }}"
+      - organization = "{{ telegraf.si_elixir_no.organization }}"
+      - token = "{{ telegraf.si_elixir_no.token }}"
 
 #example config, needs to be determined later on
 telegraf_plugins_default:

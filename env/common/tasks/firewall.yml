@@ -12,7 +12,7 @@
         name: firewalld
 
     - name: Part of the trusted set of servers
-      include: tasks/_firewall_trusted_network.yml
+      include_tasks: tasks/_firewall_trusted_network.yml
       when: trusted_host is defined and trusted_host == 'yes'
 
 - name: opening firewall for port

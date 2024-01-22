@@ -10,10 +10,8 @@
 
 
 - name: Create system users
-  include: tasks/_system_users.yml user={{item}}
+  include_tasks: tasks/_system_users.yml
+  vars:
+    - user: "{{item}}"
 #  with_items: "{{ system_users }}"
   loop: "{{ system_users }}"
-
-
-
-
