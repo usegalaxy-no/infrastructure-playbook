@@ -176,11 +176,19 @@ try:
                 del completing[slurm_jobid]
             nodename = columns[8] # this may be a comma-separated list!
             memory = int(columns[6][:-2])
-            memory_unit = columns[6][-2:] # should be either Gn or Mn
+            memory_unit = columns[6][-2:] # should be either Gn or Mn (or Gc/Mc)
             if (memory_unit == 'Gn'):
                 memory_display = f"{memory}GB"
                 memory = memory * 1024
+            elif (memory_unit == 'Gc'):
+                cpus = int(columns[5])
+                memory = memory * 1024 * cpus
+                memory_display = f"{memory}GB"
             elif (memory_unit == 'Mn'):
+                memory_display = f"{memory}MB"
+            elif (memory_unit == 'Mc'):
+                cpus = int(columns[5])
+                memory = memory * cpus
                 memory_display = f"{memory}MB"
             else: 
                 raise Exception(f"Unable to parse memory unit from 'sacct': {memory_unit}")
@@ -228,11 +236,12 @@ except Exception as error:
 
 
 # --- SACCT for jobs in last 7 days ---
+count_days = 7
 for nodename in nodes:
     # The "completed" datastructure counts the number of jobs that were completed on a given node in the last X days.
     # The index is number of days ago. First index is today, second is yesterday, etc. 
     # The value is the number of jobs completed on that day.
-    completed[nodename] = [0,0,0,0,0,0,0,0] 
+    completed[nodename] = [0]*count_days
 try:
     result = run_command(command_done.split(), timeout=5)
     for line in result[2:]: # skip header. First line contains column names, second line is a border
@@ -240,7 +249,7 @@ try:
         if (columns[2]=="COMPLETED"):
             timestamp = columns[1]
             days_ago = time_difference(time_now, timestamp)
-            if (days_ago < 0 or days_ago >= len(completed)):
+            if (days_ago < 0 or days_ago >= count_days):
                 continue
             nodename = columns[3]
             if (',' in nodename):
