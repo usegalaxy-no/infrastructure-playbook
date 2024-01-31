@@ -369,12 +369,14 @@ function parseResults(json) {
         $("#completed").hide(); 
         $("#pending").hide();
      } else {
-        newNodes = createNodes(json.nodes);
+        nodelist = json.nodes;
+        nodelist.sort(compareNodes);
+        newNodes = createNodes(nodelist);
         $("#nodes").replaceWith(newNodes);
         lastUpdated = createLastUpdate(json.display_time);        
         $("#updated").replaceWith(lastUpdated);
 
-        completedList = createCompletedList(json.completed, json.nodes);
+        completedList = createCompletedList(json.completed, nodelist);
         completed_active = $("#completed_button").hasClass("active");
         $("#completed").replaceWith(completedList);
         $("#completed").show();
@@ -392,6 +394,14 @@ function parseResults(json) {
 
      }
    }
+}
+
+// This function defines the sorting order of nodes based on Weight and names
+function compareNodes(a,b) {
+    if (a['weight'] !== b['weight']) {
+       return a['weight'] - b['weight'];
+    }
+    return a['shortname'].localeCompare(b['shortname']);
 }
 
 function createNodes(nodes_list) {

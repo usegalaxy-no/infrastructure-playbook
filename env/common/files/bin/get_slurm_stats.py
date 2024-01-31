@@ -16,7 +16,7 @@ import signal
 
 
 command_sacct  = "sacct -u galaxy -X --format=JobID,JobName%60,Start,End,Elapsed,AllocCPUS,ReqMem,State,NodeList%100"
-command_sinfo  = ["sinfo","-N","-O","NodeList:30,StateLong,CPUsState,CPUsLoad,Memory,AllocMem,Reason:40"]
+command_sinfo  = ["sinfo","-N","-O","NodeList:30,StateLong,CPUsState,CPUsLoad,Memory,AllocMem,Weight,Reason:40"]
 command_squeue = ["squeue","-o","%i %j %T %S %C %m %M %N %r"]
 command_pids   = ["ssh","*","scontrol listpids; ps -u galaxy"] # nodename in second position will be inserted later
 command_done   = "sacct -u galaxy -X --starttime XXX --format=JobID,End,State,NodeList%100" # starttime is replaced later
@@ -89,7 +89,7 @@ def run_command(command, timeout=10):
 try:
     result = run_command(command_sinfo, timeout=5)
     for line in result[1:]: # skip header
-        columns = re.split('\s+', line.decode("utf-8").strip(), 6)
+        columns = re.split('\s+', line.decode("utf-8").strip(), 7) # don't split the last column because "reason" can contain spaces
         nodename = columns[0]
         shortname = re.split('\.',nodename)[0]
         responding = True
@@ -102,7 +102,9 @@ try:
         cpus_total = int(cpus_state[3])
         memory_used  = int(columns[5])
         memory_total = int(columns[4])
-        node = { 'name':nodename, 'state':state, 'responding':responding, 'cpus':cpus_total, 'memory':memory_total, 'reason':columns[6] }
+        weight = int(columns[6])
+        reason = columns[7]
+        node = { 'name':nodename, 'state':state, 'responding':responding, 'cpus':cpus_total, 'memory':memory_total, 'weight':weight, 'reason':reason }
         node['shortname'] = shortname
         node['memory_gb'] = f"{int(memory_total/1024)}"
         node['cpus_used'] = cpus_used
