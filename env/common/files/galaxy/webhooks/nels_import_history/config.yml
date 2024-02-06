@@ -1,7 +1,7 @@
 id: nels_import_history
 type:
   - history-menu
-activate: true
+activate: false
 title: Import History
 
 function: >

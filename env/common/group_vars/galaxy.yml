@@ -11,15 +11,19 @@ galaxy_manage_paths: true
 galaxy_layout: root-dir
 galaxy_root: /srv/galaxy
 galaxy_log_dir: /var/log/galaxy
+# galaxy_virtualenv_python: /usr/local/bin/python3.7
 
 galaxy_user: {name: galaxy}
 galaxy_config_style: yaml
 galaxy_force_checkout: true
+galaxy_python_version: "3.7" # Added by Kjetil
 miniconda_prefix: "{{ galaxy_tool_dependency_dir }}/_conda"
-miniconda_version: "4.6.14"
+# miniconda_version: "4.6.14"
 galaxy_instance_codename: "{{ env }}"
 galaxy_file_path: /data/part0/
 __galaxy_dir_perms: '0755'
+
+
 
 galaxy_config:
   galaxy:
@@ -217,7 +221,7 @@ nginx_servers:
 nginx_enable_default_server: false
 nginx_ssl_servers:
   - galaxy
-  - galaxy-gie-proxy
+#  - galaxy-gie-proxy
 nginx_conf_http:
   client_max_body_size: 1g
 nginx_ssl_role: usegalaxy_eu.certbot

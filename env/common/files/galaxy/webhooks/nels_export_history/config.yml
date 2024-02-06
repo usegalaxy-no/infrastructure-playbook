@@ -1,7 +1,7 @@
 id: nels_export_history
 type:
   - history-menu
-activate: true
+activate: false
 title: Export History
 
 function: >
