@@ -45,7 +45,8 @@ nginx_conf_ssl_ciphers:
   - "!PSK"
   - "!RC4"
   
-nginx_mod_zip_url: https://github.com/natefoo/mod-zip-dso/raw/main/nginx-1.12.2-el7/ngx_http_zip_module.so
+#nginx_mod_zip_url: https://github.com/natefoo/mod-zip-dso/raw/main/nginx-1.12.2-el7/ngx_http_zip_module.so
+nginx_mod_zip_url: https://folk.ntnu.no/kjetikl/nginx/ngx_http_zip_module.so
 nginx_load_modules:
   - order: 50
     path: ngx_http_zip_module.so
