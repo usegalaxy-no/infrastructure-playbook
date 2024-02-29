@@ -2,7 +2,7 @@
   become: true
 
   vars_files:
-    - secret_group_vars/upgrade22_nfs_global.vault
+    - secret_group_vars/upgrade22_test_global.vault
     - group_vars/global.yml
     - group_vars/env.yml
     - group_vars/upgrade2201_galaxy.yml
@@ -14,10 +14,10 @@
     - name: restart rabbitmq
       service: name=rabbitmq-server state=restarted
 
-  pre_tasks:
-    - name: Install Dependencies
-      package:
-        name: ['python3', 'python-psycopg2']
+#  pre_tasks:
+#    - name: Install Dependencies
+#      package:
+#        name: ['python3', 'python-psycopg2']
 
     - name: Open firewalld ports
       tags: firewall-setup
