@@ -16,7 +16,7 @@ import signal
 
 
 command_sacct  = "sacct -u galaxy -X --format=JobID,JobName%60,Start,End,Elapsed,AllocCPUS,ReqMem,State,NodeList%100"
-command_sinfo  = ["sinfo","-N","-O","NodeList:30,StateLong,CPUsState,CPUsLoad,Memory,AllocMem,Reason:40"]
+command_sinfo  = ["sinfo","-N","-O","NodeList:30,StateLong,CPUsState,CPUsLoad,Memory,AllocMem,Weight,Reason:40"]
 command_squeue = ["squeue","-o","%i %j %T %S %C %m %M %N %r"]
 command_pids   = ["ssh","*","scontrol listpids; ps -u galaxy"] # nodename in second position will be inserted later
 command_done   = "sacct -u galaxy -X --starttime XXX --format=JobID,End,State,NodeList%100" # starttime is replaced later
@@ -89,7 +89,7 @@ def run_command(command, timeout=10):
 try:
     result = run_command(command_sinfo, timeout=5)
     for line in result[1:]: # skip header
-        columns = re.split('\s+', line.decode("utf-8").strip(), 6)
+        columns = re.split('\s+', line.decode("utf-8").strip(), 7) # don't split the last column because "reason" can contain spaces
         nodename = columns[0]
         shortname = re.split('\.',nodename)[0]
         responding = True
@@ -102,7 +102,9 @@ try:
         cpus_total = int(cpus_state[3])
         memory_used  = int(columns[5])
         memory_total = int(columns[4])
-        node = { 'name':nodename, 'state':state, 'responding':responding, 'cpus':cpus_total, 'memory':memory_total, 'reason':columns[6] }
+        weight = int(columns[6])
+        reason = columns[7]
+        node = { 'name':nodename, 'state':state, 'responding':responding, 'cpus':cpus_total, 'memory':memory_total, 'weight':weight, 'reason':reason }
         node['shortname'] = shortname
         node['memory_gb'] = f"{int(memory_total/1024)}"
         node['cpus_used'] = cpus_used
@@ -176,11 +178,19 @@ try:
                 del completing[slurm_jobid]
             nodename = columns[8] # this may be a comma-separated list!
             memory = int(columns[6][:-2])
-            memory_unit = columns[6][-2:] # should be either Gn or Mn
+            memory_unit = columns[6][-2:] # should be either Gn or Mn (or Gc/Mc)
             if (memory_unit == 'Gn'):
                 memory_display = f"{memory}GB"
                 memory = memory * 1024
+            elif (memory_unit == 'Gc'):
+                cpus = int(columns[5])
+                memory = memory * 1024 * cpus
+                memory_display = f"{memory}GB"
             elif (memory_unit == 'Mn'):
+                memory_display = f"{memory}MB"
+            elif (memory_unit == 'Mc'):
+                cpus = int(columns[5])
+                memory = memory * cpus
                 memory_display = f"{memory}MB"
             else: 
                 raise Exception(f"Unable to parse memory unit from 'sacct': {memory_unit}")
@@ -228,11 +238,12 @@ except Exception as error:
 
 
 # --- SACCT for jobs in last 7 days ---
+count_days = 7
 for nodename in nodes:
     # The "completed" datastructure counts the number of jobs that were completed on a given node in the last X days.
     # The index is number of days ago. First index is today, second is yesterday, etc. 
     # The value is the number of jobs completed on that day.
-    completed[nodename] = [0,0,0,0,0,0,0,0] 
+    completed[nodename] = [0]*count_days
 try:
     result = run_command(command_done.split(), timeout=5)
     for line in result[2:]: # skip header. First line contains column names, second line is a border
@@ -240,7 +251,7 @@ try:
         if (columns[2]=="COMPLETED"):
             timestamp = columns[1]
             days_ago = time_difference(time_now, timestamp)
-            if (days_ago < 0 or days_ago >= len(completed)):
+            if (days_ago < 0 or days_ago >= count_days):
                 continue
             nodename = columns[3]
             if (',' in nodename):
