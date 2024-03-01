@@ -178,7 +178,7 @@
 - name: NeLS Authentication -> add custom login page
   copy:
     src: templates/galaxy/auth/LoginForm.vue
-    dest: "{{ galaxy_server_dir }}/client/src/components/login/"
+    dest: "{{ galaxy_server_dir }}/client/src/components/Login/"
     owner: root
     group: root
     mode: "0644"
