@@ -242,8 +242,8 @@ galaxy_dynamic_job_rules:
 #galaxy_systemd_reports: true
 #galaxy_zergpool_listen_addr: 127.0.0.1:8080
 #galaxy_restart_handler_name: "Restart Galaxy"
-galaxy_systemd_handlers: 1  # this is used to set "galaxy_handler_count" and create handlers in job_conf.xml
-galaxy_systemd_workflow_schedulers: 1
+galaxy_systemd_handlers: 0  # this is used to set "galaxy_handler_count" and create static handlers in job_conf.xml. We don't want any static handlers!
+galaxy_systemd_workflow_schedulers: 0 # We don't want these either
 
 galaxy_selinux_web_access_dirs:
   - "{{ galaxy_server_dir }}/client/galaxy/images"
