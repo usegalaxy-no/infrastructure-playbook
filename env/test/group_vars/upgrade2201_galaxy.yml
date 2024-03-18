@@ -48,7 +48,7 @@ galaxy_user: {name: galaxy}
 galaxy_config_style: yaml
 galaxy_force_checkout: true
 galaxy_file_path: /data/part0/
-galaxy_new_file_path: "{{ galaxy_file_path }}/tmp/new_files"
+galaxy_new_file_path: "{{ galaxy_file_path }}tmp/new_files"
 galaxy_admin_email_to: "admin@usegalaxy.no"
 galaxy_admin_email_from: "admin@usegalaxy.no"
 __galaxy_dir_perms: '0755' # not sure if this is actually used
