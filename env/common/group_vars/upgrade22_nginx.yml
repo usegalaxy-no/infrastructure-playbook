@@ -1,0 +1,74 @@
+# ----- NGINX -----
+nginx_selinux_allow_local_connections: true
+nginx_servers:
+  - redirect-ssl
+nginx_enable_default_server: false
+nginx_ssl_servers:
+  - galaxy
+#  - galaxy-gie-proxy
+nginx_conf_http:
+  client_max_body_size: 1g
+nginx_ssl_role: usegalaxy_eu.certbot
+nginx_conf_ssl_certificate: /etc/letsencrypt/live/{{ galaxy_host }}/fullchain.pem
+nginx_conf_ssl_certificate_key: /etc/letsencrypt/live/{{ galaxy_host }}/privkey.pem
+nginx_conf_ssl_protocols:
+  - TLSv1.2
+  - TLSv1.3
+nginx_conf_ssl_ciphers:
+  - ECDHE-RSA-AES256-GCM-SHA384
+  - ECDHE-RSA-AES128-GCM-SHA256
+  - DHE-RSA-AES256-GCM-SHA384
+  - DHE-RSA-AES128-GCM-SHA256
+  - ECDHE-RSA-AES256-SHA384
+  - ECDHE-RSA-AES128-SHA256
+  - ECDHE-RSA-AES256-SHA
+  - ECDHE-RSA-AES128-SHA
+  - DHE-RSA-AES256-SHA256
+  - DHE-RSA-AES128-SHA256
+  - DHE-RSA-AES256-SHA
+  - DHE-RSA-AES128-SHA
+  - AES256-GCM-SHA384
+  - AES128-GCM-SHA256
+  - AES256-SHA256
+  - AES128-SHA256
+  - AES256-SHA
+  - AES128-SHA
+  - HIGH
+  - "!DES-CBC3-SHA"
+  - "!ECDHE-RSA-DES-CBC3-SHA"
+  - "!EDH-RSA-DES-CBC3-SHA"
+  - "!aNULL"
+  - "!eNULL"
+  - "!EXPORT"
+  - "!DES"
+  - "!MD5"
+  - "!PSK"
+  - "!RC4"
+  
+#nginx_mod_zip_url: https://github.com/natefoo/mod-zip-dso/raw/main/nginx-1.12.2-el7/ngx_http_zip_module.so
+nginx_mod_zip_url: https://folk.ntnu.no/kjetikl/nginx/ngx_http_zip_module.so
+nginx_load_modules:
+  - order: 50
+    path: ngx_http_zip_module.so
+
+# ----- Certbot -----
+certbot_auto_renew_hour: "{{ 23 |random(seed=galaxy_host)  }}"
+certbot_auto_renew_minute: "{{ 59 |random(seed=galaxy_host)  }}"
+certbot_auth_method: --webroot
+certbot_install_method: virtualenv
+certbot_auto_renew: yes
+certbot_auto_renew_user: root
+certbot_environment: production
+certbot_well_known_root: /srv/nginx/_well-known_root
+certbot_share_key_users:
+  - nginx
+certbot_post_renewal: |
+  systemctl restart nginx || true
+certbot_domains:
+  - "{{ galaxy_host }}"
+  - "*.interactivetoolentrypoint.interactivetool.{{ galaxy_host }}"
+certbot_dns_provider: cloudflare
+certbot_dns_credentials:
+  api_key: "{{ cloudflare_api_token }}"
+  email: "{{ cloudflare_email }}"
+certbot_agree_tos: --agree-tos
