@@ -1,0 +1,24 @@
+- hosts: rabbitmq
+  become: true
+
+  vars_files:
+    - secret_group_vars/upgrade22_main_global.vault
+    - group_vars/env.yml
+    - group_vars/upgrade2201_galaxy.yml
+    - group_vars/rabbitmq.yml
+    - group_vars/rabbitmq_proxy.yml
+
+  handlers:
+    - name: restart rabbitmq
+      service: name=rabbitmq-server state=restarted
+
+#    - name: Open firewalld ports
+#      tags: firewall-setup
+#      become: true
+#      include: tasks/firewall.yml ports="['ssh', 'http', 'https', 'amqp', 'amqps']"
+
+  tasks:
+    - name: setup rabbitmq certs, vhosts and users
+      include: tasks/rabbitmq_config.yml
+      tags:
+        - rabbitmq

@@ -1,0 +1,51 @@
+---
+#Update the configuration for an existing RabbitMQ installation
+
+- name: Update RabbitMQ configuration
+
+  block:
+  - name: Copy rabbitmq file
+    template:
+      src: templates/rabbitmq/rabbitmq.j2
+      dest: /etc/rabbitmq/rabbitmq.conf
+    notify:
+      - restart rabbitmq
+
+  - name: allow rabbitmq access to lets encrypt certs 1/2
+    shell: setfacl -m u:rabbitmq:rX /etc/letsencrypt/{live,archive}/
+
+  - name: allow rabbitmq access to lets encrypt certs 2/2
+    shell: "setfacl -R -m u:rabbitmq:rX /etc/letsencrypt/{live,archive}/{{ inventory_hostname }}/"
+
+  - name: start rabbitmq
+    systemd:
+      name: rabbitmq-server
+      enabled: true
+      state: started
+
+  - name: Remove default guest user
+    rabbitmq_user:
+      user: guest
+      state: absent
+
+  - name: Enables the rabbitmq_management plugin
+    rabbitmq_plugin:
+      names: rabbitmq_management
+      state: enabled
+
+  - name: Create vhosts
+    rabbitmq_vhost: name={{item}} state=present
+    with_items:
+      - "{{rabbitmq_vhosts}}"
+
+  - name: Add users
+    rabbitmq_user: user={{ item.name }} password={{ item.passwd }} tags={{ item.tags | default(item.name)}} vhost={{ item.vhost }} configure_priv=".*" write_priv=".*" read_priv=".*" state=present
+    with_items:
+      - "{{rabbitmq_users}}"
+
+  - name: rabbitmq config stats
+    stat:
+      path: templates/rabbitmq/rabbitmq.j2
+    register: rabbitmq_config
+
+
