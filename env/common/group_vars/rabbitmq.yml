@@ -4,10 +4,6 @@ rabbitmq_rpm_url: "https://packagecloud.io/rabbitmq/rabbitmq-server/packages/el/
 
 rabbitmq_host: "{{ groups['rabbitmq'][0] }}"
 
-vault_rabbitmq_password_flower: "wvPaD1N9tAyPGvcBNBlG9kKWNdEteR9u"
-vault_rabbitmq_password_galaxy: "JBxp5Duws8LDNPWuOXjdaERSPEaodapZ"
-vault_flower_user_password: "NX5oibipWCJrnhza86nJ1Cm2NHcrW8gB"
-
 rabbitmq_vhosts:
   - pulsar_nrec
   - pulsar_nmbu_orion
