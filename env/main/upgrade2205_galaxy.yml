@@ -1,0 +1,35 @@
+- hosts: galaxyserver
+  become: true
+  tags:
+    - galaxyserver
+  vars_files:
+    - group_vars/env.yml
+    - group_vars/upgrade2205_galaxy.yml
+    - secret_group_vars/upgrade22_main_global.vault 
+
+  handlers:
+    - name: Restart Galaxy
+      ansible.builtin.debug:
+        msg: "This handler has been disabled"
+#      systemd:
+#        name: galaxy
+#        state: restarted
+
+    # The handler below is a hack to fix a mistake in the Galaxy role which has been corrected in v0.10.6
+    # If you use a later version this handler can be safely deleted
+    # (I have used role version 0.10.5 for upgrades to Galaxy 22.01 and 22.05)
+    - name: daemon reload
+      systemd:
+        daemon_reload: yes
+        scope: "{{ galaxy_systemd_root | ternary(omit, 'user') }}"
+
+  roles:
+    - galaxyproject.galaxy
+    - geerlingguy.redis    # Celery related
+    - usegalaxy_eu.flower  # Celery related
+
+  tasks:
+    - name: Apply NeLS branding
+      include: tasks/nels_branding.yml
+      tags:
+        - branding
