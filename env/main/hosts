@@ -1,13 +1,21 @@
 [galaxyserver]
 usegalaxy.no ansible_host=158.37.7.52  ansible_user=sysadmin trusted_host=yes aliases=www.usegalaxy.no
 
+[webserver]
+usegalaxy.no ansible_host=158.37.7.52  ansible_user=sysadmin trusted_host=yes aliases=www.usegalaxy.no
+
 [database]
+db.usegalaxy.no ansible_host=158.37.7.53 ansible_user=sysadmin trusted_host=yes
+
+[rabbitmq]
 db.usegalaxy.no ansible_host=158.37.7.53 ansible_user=sysadmin trusted_host=yes
 
 [slurm]
 slurm.usegalaxy.no ansible_host=158.37.7.54 ansible_user=sysadmin trusted_host=yes
-#nrec1.usegalaxy.no ansible_host=158.39.77.69 ansible_user=sysadmin trusted_host=yes
 nrec2.usegalaxy.no ansible_host=158.39.77.14 ansible_user=sysadmin trusted_host=yes
+ecc1.usegalaxy.no ansible_host=158.39.77.128 ansible_user=sysadmin trusted_host=yes
+ecc2.usegalaxy.no ansible_host=158.39.201.220 ansible_user=sysadmin trusted_host=yes
+ecc3.usegalaxy.no ansible_host=158.39.74.50 ansible_user=sysadmin trusted_host=yes
 
 [cvmfsstratum0servers]
 cvmfs0.usegalaxy.no ansible_host=158.37.7.53 ansible_user=sysadmin
