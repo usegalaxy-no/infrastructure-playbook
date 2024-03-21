@@ -1,0 +1,46 @@
+Bootstrap: docker
+From: centos:7
+
+# The default container is used by all tools that do not specify any <requirements> in their tool wrappers.
+# This usually applies to old and simple tools that do not need any other packages besides those that are used by Galaxy itself.
+# Since these tools expect those packages to be available on the server anyway, they have not bothered to specify them as requirements.
+# Previous iterations of the default container used PIP to install all the packages that are listed as required dependencies of Galaxy:
+#   - https://github.com/galaxyproject/galaxy/blob/dev/lib/galaxy/dependencies/pinned-requirements.txt
+#   - https://github.com/galaxyproject/galaxy/blob/dev/lib/galaxy/dependencies/conditional-requirements.txt
+#
+# However, this version of the container does not install anything except for Python 3.8.19 and a few common utilities that are expected on most systems.
+# Instead, it activates Galaxy's virtual environment to get access to all these packages. (The venv-directory should be mounted by Singularity).
+# The installed Python 3.8.19 is the same as the one that was installed on all the nodes and is referenced by symlinks in the virtual environment.
+# Some internal Galaxy tools (like "export history") run code from the Galaxy codebase itself, and for this reason,
+# the directory containing Galaxy's codebase (/srv/galaxy/server/lib) is added to the PYTHONPATH on startup.
+
+%post
+    # install necessary commands and packages that are required by Galaxy
+    yum install -y gcc openssl-devel bzip2-devel libffi-devel zlib-devel xz-devel sqlite-devel ncurses-devel
+
+    # install commands that are needed later in this script
+    yum install -y wget make
+
+    # install common utilities that are expected to be available by some tools
+    yum install -y coreutils perl
+
+    # update GCC
+    yum install -y centos-release-scl 
+    yum install -y devtoolset-9 
+    source /opt/rh/devtoolset-9/enable 
+    echo "Current GCC: $(gcc --version)"
+
+    # download, compile and install Python3.8.19 from source
+    cd /usr/src
+    wget https://www.python.org/ftp/python/3.8.19/Python-3.8.19.tgz
+    tar zxvf Python-3.8.19.tgz
+    cd /usr/src/Python-3.8.19 
+    ./configure --enable-optimizations --enable-loadable-sqlite-extensions
+    make
+    make install
+    rm /usr/src/Python-3.8.19.tgz
+
+%environment
+    # activate Galaxy's virtual environment (which should have been mounted) and set PYTHONPATH to include Galaxy's codebase
+    source /srv/galaxy/venv/bin/activate
+    export PYTHONPATH=/srv/galaxy/server/lib
