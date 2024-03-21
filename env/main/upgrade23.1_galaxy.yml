@@ -1,0 +1,28 @@
+- hosts: galaxyserver
+  become: true
+  tags:
+    - galaxyserver
+  vars_files:
+    - group_vars/env.yml
+    - group_vars/upgrade23.1_galaxy.yml
+    - secret_group_vars/upgrade22_main_global.vault
+ 
+
+  handlers:
+    - name: Restart Galaxy
+      ansible.builtin.debug:
+        msg: "This handler has been disabled"
+#      systemd:
+#        name: galaxy
+#        state: restarted
+
+  roles:
+    - galaxyproject.galaxy
+#    - geerlingguy.redis    # Celery related
+#    - usegalaxy_eu.flower  # Celery related
+
+  tasks:
+    - name: Apply NeLS branding
+      include: tasks/nels_branding.yml
+      tags:
+        - branding

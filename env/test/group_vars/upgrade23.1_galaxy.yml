@@ -1,0 +1,296 @@
+---
+# ----- Python 3 support -----
+galaxy_python_version: "3.8" # Use only major.minor! (do not include patch)
+galaxy_virtualenv_python: /usr/local/bin/python{{galaxy_python_version}}
+
+# Note: the standard python in '/usr/bin/python3' below is only used to run the virtualenv command
+#       which creates a new virtual environment based on the other Python above. This is done by Ansible's "pip" module
+pip_virtualenv_command: /usr/bin/python3 -m virtualenv
+
+
+# -- these python-related settings are not used anymore, due to the setting above -- (remove them later)
+#      pip_virtualenv_command: /usr/bin/python3 -m virtualenv  # usegalaxy_eu.certbot, usegalaxy_eu.tiaas2, galaxyproject.galaxy
+#      certbot_virtualenv_package_name: python36-virtualenv  # usegalaxy_eu.certbot
+#      pip_package: python3-pip  # geerlingguy.pip
+
+
+# ----- Conda (used by Galaxy for tool dependencies in containers) ### MOVE THESE?? ###  -----
+# These two settings are only used by the Miniconda roles (uchida or galaxyproject). They are not used by the Galaxy role.
+# On our system, the prefix is "/srv/galaxy/var/dependencies/_conda". The directory currently holds 7.7GB of stuff! 
+# But it does not contain a lot of "envs", so I'm not really sure what it does.
+miniconda_prefix: "{{ galaxy_tool_dependency_dir }}/_conda"
+miniconda_version: "4.6.14"
+
+galaxy_additional_venv_packages:
+  - redis
+
+# ----- Galaxy -----
+galaxy_commit_id: release_23.1
+
+galaxy_instance_codename: "{{ env }}"
+galaxy_host: "{{ groups['galaxyserver'][0] }}"
+galaxy_ip: "{{ hostvars[galaxy_host].ansible_host }}"
+
+galaxy_create_user: false  # we create the 'galaxy' user ourselves, so the galaxy role does not have to
+galaxy_separate_privileges: true # Use different OS-users for static and dynamic files
+galaxy_manage_gravity: true  # The Galaxy role should install and configure Gravity 
+galaxy_manage_systemd: yes   # Manage Galaxy as a SystemD service (or actually Gravity. See next line)
+galaxy_systemd_mode: gravity # The SystemD service should not start up Galaxy directly but rather start Gravity (which in turn starts up Galaxy)
+galaxy_manage_systemd_reports: no # We want the Reports server to be managed by Gravity rather than directly by SystemD
+# galaxy_reports_path: "{{ galaxy_config_dir }}/reports.yml"
+
+#galaxy_systemd_reports: true
+galaxy_manage_paths: true
+galaxy_layout: root-dir
+galaxy_root: /srv/galaxy
+galaxy_log_dir: /var/log/galaxy
+galaxy_user: {name: galaxy}
+galaxy_config_style: yaml
+galaxy_force_checkout: true
+galaxy_file_path: /data/part0/
+galaxy_new_file_path: "{{ galaxy_file_path }}/tmp/new_files"
+galaxy_admin_email_to: "admin@usegalaxy.no"
+galaxy_admin_email_from: "admin@usegalaxy.no"
+__galaxy_dir_perms: '0755' # not sure if this is actually used
+
+galaxy_db_user: "galaxy"
+galaxy_database: "usegalaxy-test"
+db_host: "{{ groups['database'][0] }}"
+db_ip: "{{ hostvars[db_host].ansible_host }}"
+db_connection: "postgresql://{{galaxy_db_user}}:{{galaxy_db_passwd}}@{{db_host}}/{{galaxy_database}}" # passwd is in the vault 
+
+
+galaxy_tusd_port: 1080
+galaxy_tus_upload_store: "{{ galaxy_new_file_path }}"
+
+#gravity_config_file: "/etc/galaxy/gravity.d/galaxy_{{ galaxy_instance_codename }}.yml"
+
+# ----- Galaxy Configuration -----
+
+galaxy_config:
+  galaxy:
+    admin_users: "{{ galaxy_admin }}" # this is defined in the vault to protect the emails
+    allow_path_paste: true
+    allow_user_creation: false
+    allow_user_impersonation: true
+    brand: "Norway"
+    cache_dir: "{{ galaxy_cache_dir }}"
+    check_migrate_tools: false
+    conda_ensure_channels: conda-forge,bioconda,defaults,https://galaxy-ntnu.bioinfo.no/nelsconda/
+    container_image_cache_path: /srv/galaxy/containers
+    container_resolvers_config_file: "{{ galaxy_config_dir }}/container_resolvers_conf.xml"
+    dependency_resolvers_config_file: "{{ galaxy_config_dir }}/dependency_resolvers_conf.xml"
+    database_connection: "{{ db_connection }}"
+    email_from: "galaxy-no-reply@{{ galaxy_host }}"
+    enable_beta_gdpr: true
+    enable_mulled_containers: true
+    enable_quotas: true
+    error_email_to: usegalaxy@usegalaxy.no
+    file_path: "{{ galaxy_file_path }}"
+    file_sources_config_file: "{{ galaxy_config_dir }}/file_sources_conf.yml"
+    galaxy_data_manager_data_path: "{{ galaxy_file_path }}/data_manager_reference_data"
+    galaxy_infrastructure_url: "https://{{ galaxy_host }}/"
+    id_secret: "{{galaxy_id_secret}}"
+    interactivetools_enable: false
+#    interactivetools_map: "{{ gie_proxy_sessions_path }}"
+    job_config_file: "{{ galaxy_config_dir }}/job_conf.xml"
+    job_metrics_config_file: "{{ galaxy_config_dir }}/job_metrics_conf.xml"
+    job_working_directory: "{{ galaxy_file_path }}/tmp/jobs"
+    log_level: INFO
+    master_api: "{{ galaxy_master_api_key }}"
+    message_box_visible: false
+    message_box_class: warning
+    message_box_content:
+    mulled_channels: conda-forge,bioconda,https://galaxy-ntnu.bioinfo.no/nelsconda/
+    new_file_path: "{{ galaxy_new_file_path }}"
+    nginx_x_accel_redirect_base: "/_x_accel_redirect"
+    outputs_to_working_directory: true
+    refgenie_config_file: "/cvmfs/refgenomes-databio.galaxyproject.org/genomes_config.yaml"
+    require_login: true
+    sanitize_whitelist_file: "{{ galaxy_mutable_config_dir }}/sanitize_whitelist.txt"
+    smtp_server: "localhost"
+    statsd_host: localhost
+    statsd_influxdb: true
+    statsd_prefix: "galaxy_page_timings"
+    support_url: https://elixir.no/helpdesk
+    terms_url: https://{{galaxy_host}}/galaxy-terms/
+    tool_data_path: "{{ galaxy_server_dir }}/tool-data"
+#    tool_data_table_config_path: /cvmfs/data.galaxyproject.org/byhand/location/tool_data_table_conf.xml,/cvmfs/data.galaxyproject.org/managed/location/tool_data_table_conf.xml,/cvmfs/data.{{ galaxy_host }}/byhand/location/tool_data_table_conf.xml
+    tool_data_table_config_path: /cvmfs/data.galaxyproject.org/byhand/location/tool_data_table_conf.xml,/cvmfs/data.galaxyproject.org/managed/location/tool_data_table_conf.xml
+    tool_sheds_config_file: "{{ galaxy_config_dir }}/tool_sheds_conf.xml"
+    tus_upload_store: "{{ galaxy_new_file_path }}"
+    upload_from_form_button: always-on
+    upstream_mod_zip: true
+    user_preferences_extra_conf_path: "{{ galaxy_config_dir }}/user_preferences_extra_conf.yml"
+    webhooks_dir: "config/plugins/webhooks/nels/,config/plugins/webhooks"
+    welcome_url: static/welcome.html
+
+    # ---- OIDC ----------------------------------------------------------    
+    enable_oidc: true
+    oidc_config_file: "{{ galaxy_config_dir }}/oidc_config.xml"
+    oidc_backends_config_file: "{{ galaxy_config_dir }}/oidc_backends.xml"
+    # --------------------------------------------------------------------
+
+    # Celery
+    amqp_internal_connection: "pyamqp://galaxy:{{ vault_rabbitmq_password_galaxy }}@{{rabbitmq_host}}:5671/galaxy_internal?ssl=1"
+#    celery_broker: "pyamqp://galaxy:{{ vault_rabbitmq_password_galaxy }}@{{rabbitmq_host}}:5671/galaxy_internal?ssl=1"
+#    celery_backend: "redis://localhost:6379/0"
+    celery_conf:
+      broker_url: "pyamqp://galaxy:{{ vault_rabbitmq_password_galaxy }}@{{rabbitmq_host}}:5671/galaxy_internal?ssl=1"
+      result_backend: "redis://localhost:6379/0"      
+    enable_celery_tasks: true
+
+  gravity:
+    process_manager: systemd
+    service_command_style: gravity
+    use_service_instances: true
+    galaxy_user: "{{ galaxy_user.name }}"
+    galaxy_group: "{{ galaxy_user.name }}"
+
+    galaxy_root: "{{ galaxy_server_dir }}" # this should be the default
+    virtualenv: "{{ galaxy_venv_dir }}"
+
+    app_server: gunicorn
+
+    gunicorn:
+      bind: "unix:{{ galaxy_mutable_data_dir }}/gunicorn.sock"
+      workers: 1  # This should be increased in production, to e.g. 4 !!
+      extra_args: '--forwarded-allow-ips="*"'
+      preload: true
+      
+    handlers:
+      handler:
+        processes: 2 # This should be increased in production, to e.g. 4 !!
+        pools:
+          - job-handlers
+          - workflow-schedulers
+        environment:
+            PYTHONPATH: /srv/galaxy/dynamic_rules
+
+    reports:
+      enable: false
+      url_prefix: /reports
+      bind: "unix:{{ galaxy_mutable_config_dir }}/reports.sock"
+      config_file: "{{ galaxy_config_dir }}/reports.yml"
+
+    tusd:
+      enable: true
+      tusd_path: /usr/local/sbin/tusd
+      port: "{{ galaxy_tusd_port }}"
+      upload_dir: "{{ galaxy_tus_upload_store }}"
+
+    celery:
+      concurrency: 2
+      enable_beat: true
+      enable: true
+      queues: celery,galaxy.internal,galaxy.external
+      pool: threads
+      memory_limit: 2
+      loglevel: DEBUG
+
+
+galaxy_config_files:
+  - src: files/galaxy/config/job_metrics_conf.xml
+    dest: "{{ galaxy_config['galaxy']['job_metrics_config_file'] }}"
+  #- src: files/galaxy/config/tool_conf_interactive.xml
+  #  dest: "{{ galaxy_config_dir }}/tool_conf_interactive.xml"
+  - src: files/galaxy/tools/sanitize_whitelist.txt
+    dest: "{{ galaxy_mutable_config_dir }}/sanitize_whitelist.txt"
+  #- src: files/galaxy/tools/interactive/interactivetool_jupyter_notebook.xml
+  #  dest: "{{ galaxy_server_dir }}/tools/interactive/interactivetool_jupyter_notebook.xml"
+  - src: files/galaxy/config/dependency_resolvers_conf.xml
+    dest: "{{ galaxy_config_dir }}/dependency_resolvers_conf.xml"
+  - src: files/galaxy/config/tool_sheds_conf.xml
+    dest: "{{ galaxy_config_dir }}/tool_sheds_conf.xml"
+  - src: files/galaxy/config/user_preferences_extra_conf.yml
+    dest: "{{ galaxy_config_dir }}/user_preferences_extra_conf.yml"
+
+galaxy_tool_config_files:
+  - "{{ galaxy_config_dir }}/tool_conf.xml"
+  #- "{{ galaxy_config_dir }}/tool_conf_interactive.xml"
+  - "{{ galaxy_mutable_config_dir }}/shed_tool_conf.xml"
+
+galaxy_config_templates:
+  - src: files/galaxy/config/tool_conf.xml
+    dest: "{{ galaxy_config_dir }}/tool_conf.xml"
+  - src: templates/galaxy/config/job_conf.xml.j2
+    dest: "{{ galaxy_config['galaxy']['job_config_file'] }}"
+  - src: templates/galaxy/config/reports.yml
+    dest: "{{ galaxy_config_dir }}/reports.yml"
+  - src: templates/galaxy/config/pulsar_app.yml.j2
+    dest: "{{ galaxy_config_dir }}/pulsar_app.yml"
+  - src: templates/galaxy/config/container_resolvers_conf.xml.j2
+    dest: "{{ galaxy_config_dir }}/container_resolvers_conf.xml"
+  - src: templates/galaxy/config/container_resolvers_conf.xml.j2
+    dest: "{{ galaxy_config_dir }}/container_resolvers_conf.xml"
+  - src: templates/galaxy/config/file_sources_conf.yml.j2
+    dest: "{{ galaxy_config_dir }}/file_sources_conf.yml"
+
+galaxy_dynamic_job_rules_src_dir: files/galaxy/dynamic_rules
+galaxy_dynamic_job_rules_dir: "{{ galaxy_root }}/dynamic_rules"
+galaxy_dynamic_job_rules:
+  - usegalaxy/joint_destinations.yaml
+  - usegalaxy/sorting_hat.py
+  - usegalaxy/destination_specifications.yaml
+  - usegalaxy/tool_destinations.yaml
+  - readme.txt
+
+
+
+# systemd <-- This should be changed!!!  These variables applies to the "usegalaxy-eu.ansible-galaxy-systemd" role, which is no longer used
+#galaxy_systemd_mode: gravity # moved higher up
+#galaxy_systemd_reports: true
+#galaxy_zergpool_listen_addr: 127.0.0.1:8080
+#galaxy_restart_handler_name: "Restart Galaxy"
+galaxy_systemd_handlers: 0  # this is used to set "galaxy_handler_count" and create static handlers in job_conf.xml. We don't want any static handlers!
+galaxy_systemd_workflow_schedulers: 0 # We don't want these either
+
+galaxy_selinux_web_access_dirs:
+  - "{{ galaxy_server_dir }}/client/galaxy/images"
+  - "{{ galaxy_server_dir }}/static"
+
+
+# NeLS Storage
+nels_storage_config_dir: "{{ galaxy_config['galaxy']['tool_data_path'] }}"
+
+# Rabbit_MQ
+pulsar_rabbitmq_proxy: "{{ groups['database'][0] }}"
+rabbitmq_host: "{{ groups['rabbitmq'][0] }}"
+
+# Flower
+flower_python_version: python3
+flower_app_dir: "{{ galaxy_root }}"
+flower_python_path: "{{ galaxy_root }}/server/lib"
+flower_venv_dir: "{{ galaxy_venv_dir }}"
+flower_app_name: galaxy.celery
+flower_db_file: "{{ galaxy_root }}/var/flower.db"
+flower_persistent: true
+flower_broker_api: "http://flower:{{vault_rabbitmq_password_flower}}@{{rabbitmq_host}}:15672/api/"
+flower_broker_url: "amqp://flower:{{ vault_rabbitmq_password_flower }}@{{rabbitmq_host}}:5671/galaxy_internal?ssl=true"
+flower_proxy_prefix: /flower
+
+flower_ui_users:
+  - name: admin
+    password: "{{ vault_flower_user_password}}"
+
+flower_environment_variables:
+  GALAXY_CONFIG_FILE: "{{ galaxy_config_file }}"
+
+
+
+
+
+
+# ----------- The variables below may not be relevant anymore -------------------- 
+
+# Any extra env vars you wish to set for Zerglings OR Mules (anything that runs web)
+# Kjetil: Only useful when running uWSGI?
+galaxy_systemd_zergling_env: "DRMAA_LIBRARY_PATH=/usr/lib64/libdrmaa.so.1 SINGULARITY_TMPDIR=/data/part0/tmp"
+
+# Kjetil: We don't use this repo anymore. The variable is referred to in 'container_resolvers_conf.xml' in a line that has been commented out.
+galaxy_singularity_images_cvmfs_path: "/cvmfs/singularity.galaxyproject.org/all/"
+
+# Kjetil: This variable is assigned to "count" in env.yml, but I'm not sure if that is used for anything else
+
+galaxy_handler_count: "{{ galaxy_systemd_handlers }}"
+
