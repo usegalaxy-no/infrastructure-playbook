@@ -219,13 +219,24 @@ $margin-h: $spacer;
     // The font is set on each individual menu item in order to avoid conflicts with
     // the FontAwesome font that is used for some of the other masthead elements (like the scratchbook icon).
     // The NeLS Portal actually has two different fonts in the masthead (Arial and Helvetica Neue), but here we only use one
+    // Set the font used for masthead menu items to the same font that is used by the NeLS portal.
+    // The font is set on each individual menu item in order to avoid conflicts with
+    // the FontAwesome font that is used for some of the other masthead elements (like the scratchbook icon).
+    // The NeLS Portal actually has two different fonts in the masthead (Arial and Helvetica Neue), but here we only use one
     .navbar-nav  {
-       #analysis, #workflow, #visualization, #shared, #admin, #help, #user {
+       #workflow, #visualization, #shared, #admin, #help, #user {
           font-family: Arial, sans-serif;
           font-size: 1.1em !important;
           > a {
               padding: 13px 15px !important;  // needed in order to ensure correct height of menu items (to get the background right)
-          } 
+          }
+       }
+       #analysis {
+          font-family: Arial, sans-serif;
+          font-size: 1.1em !important;
+          > a {
+              padding: 9px 15px !important;  // needed in order to ensure correct height of menu items (to get the background right)
+          }
        }
     }
 
