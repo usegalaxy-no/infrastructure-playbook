@@ -5,11 +5,22 @@ import functools
 import tempfile
 from requests.auth import HTTPBasicAuth
 
-
 try:
     from fs.sshfs import SSHFS
 except ImportError:
     SSHFS = None
+
+from typing import (
+    Optional,
+    Union,
+)
+
+from . import (
+    FilesSourceOptions,
+    FilesSourceProperties,
+)
+import fs
+from typing_extensions import Unpack
 
 from ._pyfilesystem2 import PyFilesystem2FilesSource
 from galaxy.exceptions import ConfigurationError
@@ -44,13 +55,12 @@ from fs.enums import ResourceType
 #   homedir: "/nels/users/<user>"
 #   ignore_hidden: true
 
-
 class NeLSFilesSource(PyFilesystem2FilesSource):
     plugin_type = "nels"
     required_module = SSHFS
     required_package = "fs.sshfs"
 
-    def _list(self, path="/", recursive=False, user_context=None):
+    def _list(self, path="/", recursive=False, user_context=None, opts: Optional[FilesSourceOptions] = None):
         """
         Return dictionary of 'Directory's and 'File's.
         """
@@ -58,7 +68,7 @@ class NeLSFilesSource(PyFilesystem2FilesSource):
         # and also added code to clean up afterwards (to remove temporary SSH key file)
 
         try:
-            with self._open_fs(user_context=user_context) as h:
+            with self._open_fs(user_context=user_context, opts=opts) as h:
                 if recursive:
                     res = []
                     for p, dirs, files in h.walk(path):
@@ -71,7 +81,7 @@ class NeLSFilesSource(PyFilesystem2FilesSource):
                     to_dict = functools.partial(self._resource_info_to_dict, path, h)
                     result = list(map(to_dict, res))
                     if (self._props['ignore_hidden']):
-                        result = list(filter(lambda x: not x['name'].startswith('.'), result)) # skip files whose names start with a dot
+                        result = list(filter(lambda x: not x['name'].startswith('.'), result)) # skip file names that start with a dot
                     return result
         finally:
             if (h):
@@ -108,20 +118,23 @@ class NeLSFilesSource(PyFilesystem2FilesSource):
             }
 
 
-    def _realize_to(self, source_path, native_path, user_context=None):
+    def _realize_to(self, source_path, native_path, user_context=None, opts: Optional[FilesSourceOptions] = None):
         with open(native_path, 'wb') as write_file:
             try:
-                h = self._open_fs(user_context=user_context)
+                h = self._open_fs(user_context=user_context, opts=opts)
                 h.download(source_path, write_file)
             finally:
                 if (h):
                     self._cleanup(h)
 
             
-    def _write_from(self, target_path, native_path, user_context=None):
+    def _write_from(self, target_path, native_path, user_context=None, opts: Optional[FilesSourceOptions] = None):
         with open(native_path, 'rb') as read_file:
             try:
-                h = self._open_fs(user_context=user_context)
+                h = self._open_fs(user_context=user_context, opts=opts)
+                dirname = fs.path.dirname(target_path)
+                if not h.isdir(dirname):
+                    h.makedirs(dirname)
                 h.upload(target_path, read_file)
             finally:
                 if (h):
@@ -129,9 +142,11 @@ class NeLSFilesSource(PyFilesystem2FilesSource):
 
             
             
-    def _open_fs(self, user_context):
+    def _open_fs(self, user_context=None, opts: Optional[FilesSourceOptions] = None):
         props = self._serialization_props(user_context)
-        # Some of the properties from the YAML config are not expected by SSHFS, so we must remove (pop) them here or else an exception will be raised
+        extra_props: Union[FilesSourceProperties, dict] = opts.extra_props or {} if opts else {}
+        # Some of the properties from the YAML config are not expected by SSHFS,
+        # so we must remove (pop) them here or else an exception will be raised
         nels_config_file = props.pop('nels_config')
         homedir = props.pop('homedir')
         username = props.pop('userid')
@@ -148,11 +163,13 @@ class NeLSFilesSource(PyFilesystem2FilesSource):
         props['pkey'] = keyfilename
         props['user'] = nelsUser
 
-        handle = SSHFS(**props)
+        handle = SSHFS(**{**props, **extra_props})
+
         homedir = homedir.replace("<user>",nelsUser) # home directories are named after the NeLS user
         handle = handle.opendir(homedir)
         
-        # I store the location of the temporary SSH key file in the SSHFS object in order to pass this information back to he calling function
+        # I store the location of the temporary SSH key file in the SSHFS object
+        # in order to pass this information back to he calling function
         # The key file should be deleted again as soon as possible
         handle.nels_keyfile = keyfilename 
         return handle
