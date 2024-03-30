@@ -47,6 +47,12 @@ server {
         alias /;
     }
 
+    # handle archive create via mod-zip
+    location /data/part0/ {
+        internal;
+        alias /data/part0/;
+    }
+
     location @maintenance {
       root /srv/galaxy/server/static/;
       try_files $uri /maintenance.html =503;
