@@ -11,14 +11,14 @@ preferences:
               # can be string or password
               type: text
               # by default all inputs are required
-              required: False
+              required: True
             - name: apollo_text
               label: Apollo Text
               # type of input field that will be displayed to the user
               # can be string or password
               type: text
               # by default all inputs are required
-              required: False
+              required: True
 
     openstack_account:
         description: Your own Open Stack account
@@ -30,7 +30,7 @@ preferences:
             - name: url
               label: Open Stack URL
               type: text
-              required: False
+              required: True
 
     webhook_overlay_search:
         description: Configuration option for your search results
@@ -93,6 +93,32 @@ preferences:
             - name: password
               label: Password
               type:  password
+              required: False
+
+    invenio:
+        description: Your Invenio RDM Integration Settings
+        inputs:
+            - name: token
+              label: Personal Token used to create draft records and to upload files
+              type: secret
+              store: vault # Requires setting up vault_config_file in your galaxy.yml
+              required: False
+            - name: public_name
+              label: Creator name to associate with new records (formatted as "Last name, First name"). If left blank "Anonymous Galaxy User" will be used. You can always change this by editing your record directly.
+              type: text
+              required: False
+
+    # Used in file_sources_conf.yml
+    onedata:
+        description: Your Onedata account
+        inputs:
+            - name: onezone_domain
+              label: Domain of the Onezone service (e.g. "demo.onedata.org")
+              type: text
+              required: False
+            - name: access_token
+              label: Your access token, suitable for REST API access in a Oneprovider service
+              type: password
               required: False
 
     configurable_ssh_storage:
