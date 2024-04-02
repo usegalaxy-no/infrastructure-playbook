@@ -122,6 +122,9 @@ class NeLSFilesSource(PyFilesystem2FilesSource):
         with open(native_path, 'rb') as read_file:
             try:
                 h = self._open_fs(user_context=user_context)
+                dirname = fs.path.dirname(target_path)
+                if not h.isdir(dirname):
+                    h.makedirs(dirname)
                 h.upload(target_path, read_file)
             finally:
                 if (h):
@@ -185,8 +188,9 @@ class NeLSFilesSource(PyFilesystem2FilesSource):
         
     def _cleanup(self, h):
         """Delete temporary SSH key file."""
-        keyfile = h.nels_keyfile if h else None
-        if os.path.exists(keyfile):
-            os.remove(keyfile)
+        if h:
+            keyfile = h.nels_keyfile
+            if os.path.exists(keyfile):
+                os.remove(keyfile)
             
 __all__ = ("NeLSFilesSource",)
