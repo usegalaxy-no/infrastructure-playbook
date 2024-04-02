@@ -1,0 +1,24 @@
+- hosts: galaxyserver
+  become: true
+  tags:
+    - galaxyserver
+  vars_files:
+    - group_vars/env.yml
+    - group_vars/upgrade23.2_galaxy.yml
+    - secret_group_vars/upgrade22_test_global.vault
+
+  pre_tasks:
+
+    - name: Get variable values based on the layout
+      include_role:
+        name: galaxyproject.galaxy
+        tasks_from: layout
+
+
+
+  roles:
+#    - galaxyproject.galaxy
+#    - geerlingguy.redis    # Celery related
+    - role: usegalaxy_eu.flower  # Celery related
+      vars:
+        galaxy_config_file: '/srv/galaxy/config/galaxy.yml' # this is a hack
