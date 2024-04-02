@@ -3,6 +3,7 @@ import galaxy.util.json as json
 import requests
 import functools
 import tempfile
+import fs
 from requests.auth import HTTPBasicAuth
 
 
