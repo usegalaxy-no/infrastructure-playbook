@@ -202,8 +202,9 @@ class NeLSFilesSource(PyFilesystem2FilesSource):
         
     def _cleanup(self, h):
         """Delete temporary SSH key file."""
-        keyfile = h.nels_keyfile if h else None
-        if os.path.exists(keyfile):
-            os.remove(keyfile)
+        if h:
+            keyfile = h.nels_keyfile
+            if os.path.exists(keyfile):
+                os.remove(keyfile)
             
 __all__ = ("NeLSFilesSource",)
