@@ -5,7 +5,7 @@
   vars_files:
     - group_vars/env.yml
     - group_vars/upgrade23.2_galaxy.yml
-    - secret_group_vars/upgrade22_nfs_global.vault
+    - secret_group_vars/upgrade22_test_global.vault
  
 
   handlers:

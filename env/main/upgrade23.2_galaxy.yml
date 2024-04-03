@@ -19,7 +19,7 @@
   roles:
     - galaxyproject.galaxy
 #    - geerlingguy.redis    # Celery related
-#    - usegalaxy_eu.flower  # Celery related
+    - usegalaxy_eu.flower  # Celery related
 
   tasks:
     - name: Apply NeLS branding
