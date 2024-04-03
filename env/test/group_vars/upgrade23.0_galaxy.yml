@@ -34,7 +34,7 @@ galaxy_ip: "{{ hostvars[galaxy_host].ansible_host }}"
 galaxy_create_user: false  # we create the 'galaxy' user ourselves, so the galaxy role does not have to
 galaxy_separate_privileges: true # Use different OS-users for static and dynamic files
 galaxy_manage_gravity: true  # The Galaxy role should install and configure Gravity 
-galaxy_manage_systemd: yes   # Manage Galaxy as a SystemD service (or actually Gravity. See next line)
+galaxy_manage_systemd: no   # Manage Galaxy as a SystemD service (or actually Gravity. See next line)
 galaxy_systemd_mode: gravity # The SystemD service should not start up Galaxy directly but rather start Gravity (which in turn starts up Galaxy)
 galaxy_manage_systemd_reports: no # We want the Reports server to be managed by Gravity rather than directly by SystemD
 # galaxy_reports_path: "{{ galaxy_config_dir }}/reports.yml"
@@ -120,7 +120,7 @@ galaxy_config:
     tool_sheds_config_file: "{{ galaxy_config_dir }}/tool_sheds_conf.xml"
     tus_upload_store: "{{ galaxy_new_file_path }}"
     upload_from_form_button: always-on
-    upstream_mod_zip: true
+    upstream_mod_zip: false
     user_preferences_extra_conf_path: "{{ galaxy_config_dir }}/user_preferences_extra_conf.yml"
     webhooks_dir: "config/plugins/webhooks/nels/,config/plugins/webhooks"
     welcome_url: static/welcome.html
