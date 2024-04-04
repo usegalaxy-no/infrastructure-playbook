@@ -149,13 +149,13 @@ galaxy_config:
 
     gunicorn:
       bind: "unix:{{ galaxy_mutable_data_dir }}/gunicorn.sock"
-      workers: 4
+      workers: 2
       extra_args: '--forwarded-allow-ips="*"'
       preload: true
       
     handlers:
       handler:
-        processes: 4
+        processes: 2
         pools:
           - job-handlers
           - workflow-schedulers
