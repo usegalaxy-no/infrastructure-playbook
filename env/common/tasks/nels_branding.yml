@@ -89,6 +89,7 @@
     name: "Schedule compute backend monitoring script"
     minute: "*"
     hour: "*"
+    user: sysadmin
     job: "python3 /usr/local/bin/get_slurm_stats.py > {{ galaxy_server_dir }}/static/slurm_stats.json"
   tags:
     - slurm_stats
@@ -98,6 +99,8 @@
   file:
     path: "{{ galaxy_server_dir }}/static/slurm_stats.json"
     state: touch
+    owner: sysadmin
+    group: sysadmin
     mode: "0755"
   tags:
     - slurm_stats
