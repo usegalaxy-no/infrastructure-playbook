@@ -46,6 +46,7 @@ slurm_singularity:
     #singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/u/b/ubuntu:18.04'
     singularity_default_container_id: "/srv/galaxy/containers/galaxy-python.sif"
     singularity_run_extra_arguments: "-H /srv/galaxy/"
+    singularity_cleanenv: false
     tmp_dir: "True"
     nativeSpecification: |
       --nodes=1
