@@ -1,6 +1,7 @@
 
 # Install the latest version of Telegraf
 telegraf_agent_package_state: latest
+ansible_os_family: RedHat
 
 telegraf_agent_hostname: "{{ inventory_hostname }}"
 telegraf_agent_interval: "60" # seconds
@@ -18,6 +19,12 @@ telegraf_agent_output:
       - bucket = "{{ telegraf.si_elixir_no.bucket }}"
       - organization = "{{ telegraf.si_elixir_no.organization }}"
       - token = "{{ telegraf.si_elixir_no.token }}"
+  - type: "{{ telegraf.si_elixir_no_prod.type }}"
+    config:
+      - urls = {{ telegraf.si_elixir_no_prod.urls }}
+      - bucket = "{{ telegraf.si_elixir_no_prod.bucket }}"
+      - organization = "{{ telegraf.si_elixir_no_prod.organization }}"
+      - token = "{{ telegraf.si_elixir_no_prod.token }}"
 
 #example config, needs to be determined later on
 telegraf_plugins_default:
