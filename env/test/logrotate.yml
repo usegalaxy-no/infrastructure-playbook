@@ -1,5 +1,5 @@
 - name: Install and settup logrotate
-  hosts: logrotate
+  hosts: galaxyserver
   become: true
   vars_files:
     - group_vars/global.yml
