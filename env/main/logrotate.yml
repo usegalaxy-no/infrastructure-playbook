@@ -1,0 +1,11 @@
+- name: Install and settup logrotate
+  hosts: galaxyserver
+  become: true
+  vars_files:
+    - group_vars/global.yml
+    - group_vars/galaxy.yml
+  tasks:
+
+    - name: Setup log-rotate
+      ansible.builtin.include_tasks: tasks/logrotate.yml
+
