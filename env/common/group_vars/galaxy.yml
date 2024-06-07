@@ -87,6 +87,9 @@ galaxy_config:
 
     nginx_x_accel_redirect_base: "/_x_accel_redirect"
 
+    matomo_server: 'https://test.si.elixir.no/matomo/'
+    matomo_site_id: '22'
+
   uwsgi:
     # Default values
     socket: 127.0.0.1:8080
