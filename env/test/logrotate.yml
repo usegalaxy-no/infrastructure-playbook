@@ -6,6 +6,5 @@
   tasks:
 
     - name: Setup log-rotate
-      become: true
       include: tasks/logrotate.yml
 
