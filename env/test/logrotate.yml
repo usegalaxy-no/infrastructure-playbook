@@ -6,6 +6,4 @@
   tasks:
 
     - name: Setup log-rotate
-      become: true
-      include: tasks/logrotate.yml
-
+      ansible.builtin.include_tasks: tasks/logrotate.yml
