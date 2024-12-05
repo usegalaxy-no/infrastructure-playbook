@@ -224,7 +224,7 @@ $margin-h: $spacer;
     // the FontAwesome font that is used for some of the other masthead elements (like the scratchbook icon).
     // The NeLS Portal actually has two different fonts in the masthead (Arial and Helvetica Neue), but here we only use one
     .navbar-nav  {
-       #workflow, #visualization, #shared, #admin, #help, #user {
+       #workflow, #visualization, #resources, #shared, #admin, #help, #user {
           font-family: Arial, sans-serif;
           font-size: 1.1em !important;
           > a {
