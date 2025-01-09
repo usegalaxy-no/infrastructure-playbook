@@ -5,18 +5,18 @@
     - nginx
   vars_files:
     - group_vars/env.yml
-    - group_vars/upgrade2201_galaxy.yml
+    - group_vars/upgrade24.0_galaxy.yml
     - group_vars/upgrade22_nginx.yml
     - secret_group_vars/upgrade22_nfs_global.vault
 
   pre_tasks:
-    - name: Install NGINX mod_zip
-      remote_user: root
-      ansible.builtin.get_url:
-        url: "{{ nginx_mod_zip_url }}"
-        dest: /usr/lib64/nginx/modules/ngx_http_zip_module.so
-        mode: 0755
-      when: nginx_mod_zip_url is defined
+    # - name: Install NGINX mod_zip
+    #   remote_user: root
+    #   ansible.builtin.get_url:
+    #     url: "{{ nginx_mod_zip_url }}"
+    #     dest: /usr/lib64/nginx/modules/ngx_http_zip_module.so
+    #     mode: 0755
+    #   when: nginx_mod_zip_url is defined
 
     - name: Get variable values based on the layout
       include_role:
