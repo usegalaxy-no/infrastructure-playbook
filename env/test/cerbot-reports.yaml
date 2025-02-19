@@ -1,0 +1,37 @@
+---
+- name: Install cerbot and configure renew for domain
+  hosts: galaxyserver
+  gather_facts: no
+  tasks:
+    - name: Install python3 and augeas-libs
+      package:
+        name:
+          - python3
+          - augeas-libs
+        state: present
+
+    - name: Create a virtual environment for certbot
+      command: python3 -m venv /opt/certbot/
+
+    - name: Upgrade pip in the virtual environment
+      command: /opt/certbot/bin/pip install --upgrade pip
+
+    - name: Install certbot and certbot-nginx
+      command: /opt/certbot/bin/pip install certbot certbot-nginx
+
+    - name: Create a symlink for certbot
+      file:
+        src: /opt/certbot/bin/certbot
+        dest: /usr/bin/certbot
+        state: link
+
+    - name: Obtain SSL certificate for report.usegalaxy.no
+      command: "certbot --nginx -d report.{{ galaxy_host }}"
+
+    - name: Add certbot renew cron job
+      cron:
+        name: "certbot renew"
+        minute: "0"
+        hour: "0,12"
+        user: root
+        job: "/opt/certbot/bin/python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew -q"
