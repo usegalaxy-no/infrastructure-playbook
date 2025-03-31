@@ -35,3 +35,32 @@
         hour: "0,12"
         user: root
         job: "/opt/certbot/bin/python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew -q"
+
+    - name: Create post-renewal hook directory
+      file:
+        path: /etc/letsencrypt/renewal-hooks/post/
+        state: directory
+        owner: root
+        group: root
+        mode: '0755'
+
+    - name: Deploy post-renewal hook script for setting ACL
+      copy:
+        content: |
+          #!/bin/bash
+          CERT_DIR="/etc/letsencrypt/live/db.usegalaxy.no/"
+          FILES=("cert.pem" "chain.pem" "fullchain.pem" "privkey.pem")
+
+          for FILE in "${FILES[@]}"; do
+              CERT_PATH="${CERT_DIR}${FILE}"
+              if [ -f "$CERT_PATH" ]; then
+                  echo "Setting ACL permissions for RabbitMQ on $CERT_PATH"
+                  setfacl -m u:rabbitmq:r "$CERT_PATH"
+              else
+                  echo "Certificate file $CERT_PATH not found. Skipping ACL update."
+              fi
+          done
+        dest: /etc/letsencrypt/renewal-hooks/post/setfacl-rabbitmq.sh
+        owner: root
+        group: root
+        mode: '0755'
