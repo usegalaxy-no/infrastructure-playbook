@@ -34,7 +34,7 @@ galaxy_ip: "{{ hostvars[galaxy_host].ansible_host }}"
 galaxy_create_user: false  # we create the 'galaxy' user ourselves, so the galaxy role does not have to
 galaxy_separate_privileges: true # Use different OS-users for static and dynamic files
 galaxy_manage_gravity: true  # The Galaxy role should install and configure Gravity 
-galaxy_manage_systemd: no # NOTE: If SystemD is used as the Gravity "process_manager", this variable should be set to "no"
+galaxy_manage_systemd: no    # NOTE: If SystemD is used as the Gravity "process_manager", this variable should be set to "no"
 galaxy_systemd_mode: gravity # The SystemD service should not start up Galaxy directly but rather start Gravity (which in turn starts up Galaxy)
 galaxy_manage_systemd_reports: no # We want the Reports server to be managed by Gravity rather than directly by SystemD
 # galaxy_reports_path: "{{ galaxy_config_dir }}/reports.yml"
@@ -54,11 +54,10 @@ galaxy_admin_email_from: "admin@usegalaxy.no"
 __galaxy_dir_perms: '0755' # not sure if this is actually used
 
 galaxy_db_user: "galaxy"
-galaxy_database: "usegalaxy-test"
+galaxy_database: "usegalaxy"
 db_host: "{{ groups['database'][0] }}"
 db_ip: "{{ hostvars[db_host].ansible_host }}"
 db_connection: "postgresql://{{galaxy_db_user}}:{{galaxy_db_passwd}}@{{db_host}}/{{galaxy_database}}" # passwd is in the vault 
-
 
 galaxy_tusd_port: 1080
 galaxy_tus_upload_store: "{{ galaxy_new_file_path }}"
@@ -116,7 +115,7 @@ galaxy_config:
     support_url: https://elixir.no/helpdesk
     terms_url: https://{{galaxy_host}}/galaxy-terms/
     tool_data_path: "{{ galaxy_server_dir }}/tool-data"
-    tool_data_table_config_path: /cvmfs/data.galaxyproject.org/byhand/location/tool_data_table_conf.xml,/cvmfs/data.galaxyproject.org/managed/location/tool_data_table_conf.xml
+    tool_data_table_config_path: /cvmfs/data.galaxyproject.org/byhand/location/tool_data_table_conf.xml,/cvmfs/data.galaxyproject.org/managed/location/tool_data_table_conf.xml,/cvmfs/data.{{ galaxy_host }}/byhand/location/tool_data_table_conf.xml
     tool_sheds_config_file: "{{ galaxy_config_dir }}/tool_sheds_conf.xml"
     tus_upload_store: "{{ galaxy_new_file_path }}"
     upload_from_form_button: always-on
@@ -134,34 +133,30 @@ galaxy_config:
 
     # Celery
     amqp_internal_connection: "pyamqp://galaxy:{{ vault_rabbitmq_password_galaxy }}@{{rabbitmq_host}}:5671/galaxy_internal?ssl=1"
-#    celery_broker: "pyamqp://galaxy:{{ vault_rabbitmq_password_galaxy }}@{{rabbitmq_host}}:5671/galaxy_internal?ssl=1"
-#    celery_backend: "redis://localhost:6379/0"
     celery_conf:
-      broker_url: "pyamqp://galaxy:{{ vault_rabbitmq_password_galaxy }}@{{rabbitmq_host}}:5671/galaxy_internal?ssl=1"
-      result_backend: "redis://localhost:6379/0"      
+        broker_url: "pyamqp://galaxy:{{ vault_rabbitmq_password_galaxy }}@{{rabbitmq_host}}:5671/galaxy_internal?ssl=1"
+        result_backend: "redis://localhost:6379/0"
     enable_celery_tasks: true
 
   gravity:
     process_manager: systemd
     service_command_style: gravity
     use_service_instances: true
+    app_server: gunicorn
+    galaxy_root: "{{ galaxy_server_dir }}" # this should be the default
+    virtualenv: "{{ galaxy_venv_dir }}"
     galaxy_user: "{{ galaxy_user.name }}"
     galaxy_group: "{{ galaxy_user.name }}"
 
-    galaxy_root: "{{ galaxy_server_dir }}" # this should be the default
-    virtualenv: "{{ galaxy_venv_dir }}"
-
-    app_server: gunicorn
-
     gunicorn:
       bind: "unix:{{ galaxy_mutable_data_dir }}/gunicorn.sock"
-      workers: 2  # This should be increased in production, to e.g. 4 !!
+      workers: 2
       extra_args: '--forwarded-allow-ips="*"'
       preload: true
       
     handlers:
       handler:
-        processes: 2 # This should be increased in production, to e.g. 4 !!
+        processes: 2
         pools:
           - job-handlers
           - workflow-schedulers
@@ -181,7 +176,7 @@ galaxy_config:
       upload_dir: "{{ galaxy_tus_upload_store }}"
 
     celery:
-      concurrency: 2
+      concurrency: 4
       enable_beat: true
       enable: true
       queues: celery,galaxy.internal,galaxy.external
@@ -241,12 +236,12 @@ galaxy_dynamic_job_rules:
 
 
 # systemd <-- This should be changed!!!  These variables applies to the "usegalaxy-eu.ansible-galaxy-systemd" role, which is no longer used
-#galaxy_systemd_mode: gravity # moved higher up
+#galaxy_systemd_mode: gravity
 #galaxy_systemd_reports: true
 #galaxy_zergpool_listen_addr: 127.0.0.1:8080
 #galaxy_restart_handler_name: "Restart Galaxy"
-galaxy_systemd_handlers: 0  # this is used to set "galaxy_handler_count" and create static handlers in job_conf.xml. We don't want any static handlers!
-galaxy_systemd_workflow_schedulers: 0 # We don't want these either
+galaxy_systemd_handlers: 0
+galaxy_systemd_workflow_schedulers: 0
 
 galaxy_selinux_web_access_dirs:
   - "{{ galaxy_server_dir }}/client/galaxy/images"
@@ -268,13 +263,13 @@ flower_venv_dir: "{{ galaxy_venv_dir }}"
 flower_app_name: galaxy.celery
 flower_db_file: "{{ galaxy_root }}/var/flower.db"
 flower_persistent: true
-flower_broker_api: "http://flower:{{vault_rabbitmq_password_flower}}@{{rabbitmq_host}}:15672/api/"
+flower_broker_api: "http://flower:{{ vault_rabbitmq_password_flower }}@{{rabbitmq_host}}:15672/api/"
 flower_broker_url: "amqp://flower:{{ vault_rabbitmq_password_flower }}@{{rabbitmq_host}}:5671/galaxy_internal?ssl=true"
 flower_proxy_prefix: /flower
 
 flower_ui_users:
   - name: admin
-    password: "{{ vault_flower_user_password}}"
+    password: "{{ vault_flower_user_password }}"
 
 flower_environment_variables:
   GALAXY_CONFIG_FILE: "{{ galaxy_config_file }}"

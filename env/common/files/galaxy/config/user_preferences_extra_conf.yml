@@ -11,14 +11,14 @@ preferences:
               # can be string or password
               type: text
               # by default all inputs are required
-              required: True
+              required: False
             - name: apollo_text
               label: Apollo Text
               # type of input field that will be displayed to the user
               # can be string or password
               type: text
               # by default all inputs are required
-              required: True
+              required: False
 
     openstack_account:
         description: Your own Open Stack account
@@ -30,7 +30,7 @@ preferences:
             - name: url
               label: Open Stack URL
               type: text
-              required: True
+              required: False
 
     webhook_overlay_search:
         description: Configuration option for your search results
@@ -71,7 +71,8 @@ preferences:
         inputs:
             - name: access_token
               label: Dropbox access token
-              type: password
+              type: secret
+              store: vault
               required: False
 
     # Used in file_sources_conf.yml
@@ -92,34 +93,35 @@ preferences:
               required: False
             - name: password
               label: Password
-              type:  password
+              type:  secret
+              store: vault
               required: False
 
-    invenio:
-        description: Your Invenio RDM Integration Settings
-        inputs:
-            - name: token
-              label: Personal Token used to create draft records and to upload files
-              type: secret
-              store: vault # Requires setting up vault_config_file in your galaxy.yml
-              required: False
-            - name: public_name
-              label: Creator name to associate with new records (formatted as "Last name, First name"). If left blank "Anonymous Galaxy User" will be used. You can always change this by editing your record directly.
-              type: text
-              required: False
+#    invenio:
+#        description: Your Invenio RDM Integration Settings
+#        inputs:
+#            - name: token
+#              label: Personal Token used to create draft records and to upload files
+#              type: secret
+#              store: vault # Requires setting up vault_config_file in your galaxy.yml
+#              required: False
+#            - name: public_name
+#              label: Creator name to associate with new records (formatted as "Last name, First name"). If left blank "Anonymous Galaxy User" will be used. You can always change this by editing your record directly.
+#              type: text
+#              required: False
 
-    # Used in file_sources_conf.yml
-    onedata:
-        description: Your Onedata account
-        inputs:
-            - name: onezone_domain
-              label: Domain of the Onezone service (e.g. "demo.onedata.org")
-              type: text
-              required: False
-            - name: access_token
-              label: Your access token, suitable for REST API access in a Oneprovider service
-              type: password
-              required: False
+#    # Used in file_sources_conf.yml
+#    onedata:
+#        description: Your Onedata account
+#        inputs:
+#            - name: onezone_domain
+#              label: Domain of the Onezone service (e.g. "demo.onedata.org")
+#              type: text
+#              required: False
+#            - name: access_token
+#              label: Your access token, suitable for REST API access in a Oneprovider service
+#              type: password
+#              required: False
 
     configurable_ssh_storage:
         description: Configurable SSH storage
@@ -134,7 +136,8 @@ preferences:
               required: False
             - name: passwd
               label: Password
-              type: password
+              type: secret
+              store: vault
               required: False
             - name: home
               label: Path to user's home directory

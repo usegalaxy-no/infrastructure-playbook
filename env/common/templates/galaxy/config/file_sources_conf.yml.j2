@@ -26,14 +26,14 @@
   writable: true
   host: ${user.preferences['configurable_ssh_storage|host']}
   user: ${user.preferences['configurable_ssh_storage|user']}
-  passwd: ${user.preferences['configurable_ssh_storage|passwd']}
+  passwd: ${user.user_vault.read_secret('preferences/configurable_ssh_storage/passwd')}
   path: ${user.preferences['configurable_ssh_storage|home']}
 
 - type: dropbox
   id: dropbox
   label: Dropbox
   doc: Dropbox files (configure access in user preferences)
-  accessToken: ${user.preferences['dropbox|access_token']}
+  accessToken: ${user.user_vault.read_secret('preferences/dropbox/access_token')}
   writable: true
 
 - type: webdav
@@ -43,7 +43,7 @@
   url: ${user.preferences['owncloud|url']}
   root: ${user.preferences['owncloud|root']}
   login: ${user.preferences['owncloud|username']}
-  password: ${user.preferences['owncloud|password']}
+  password: ${user.user_vault.read_secret('preferences/owncloud/password')}
 
 #- type: posix
 #  root: '/data/5/galaxy_import/galaxy_user_data/covid-19/data/sequences/'
