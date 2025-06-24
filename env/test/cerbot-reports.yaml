@@ -1,0 +1,66 @@
+---
+- name: Install cerbot and configure renew for domain
+  hosts: galaxyserver
+  gather_facts: no
+  tasks:
+    - name: Install python3 and augeas-libs
+      package:
+        name:
+          - python3
+          - augeas-libs
+        state: present
+
+    - name: Create a virtual environment for certbot
+      command: python3 -m venv /opt/certbot/
+
+    - name: Upgrade pip in the virtual environment
+      command: /opt/certbot/bin/pip install --upgrade pip
+
+    - name: Install certbot and certbot-nginx
+      command: /opt/certbot/bin/pip install certbot certbot-nginx
+
+    - name: Create a symlink for certbot
+      file:
+        src: /opt/certbot/bin/certbot
+        dest: /usr/bin/certbot
+        state: link
+
+    - name: Obtain SSL certificate for report.usegalaxy.no
+      command: "certbot --nginx -d report.{{ galaxy_host }}"
+
+    - name: Add certbot renew cron job
+      cron:
+        name: "certbot renew"
+        minute: "0"
+        hour: "0,12"
+        user: root
+        job: "/opt/certbot/bin/python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew -q"
+
+    - name: Create post-renewal hook directory
+      file:
+        path: /etc/letsencrypt/renewal-hooks/post/
+        state: directory
+        owner: root
+        group: root
+        mode: '0755'
+
+    - name: Deploy post-renewal hook script for setting ACL
+      copy:
+        content: |
+          #!/bin/bash
+          CERT_DIR="/etc/letsencrypt/live/db.usegalaxy.no/"
+          FILES=("cert.pem" "chain.pem" "fullchain.pem" "privkey.pem")
+
+          for FILE in "${FILES[@]}"; do
+              CERT_PATH="${CERT_DIR}${FILE}"
+              if [ -f "$CERT_PATH" ]; then
+                  echo "Setting ACL permissions for RabbitMQ on $CERT_PATH"
+                  setfacl -m u:rabbitmq:r "$CERT_PATH"
+              else
+                  echo "Certificate file $CERT_PATH not found. Skipping ACL update."
+              fi
+          done
+        dest: /etc/letsencrypt/renewal-hooks/post/setfacl-rabbitmq.sh
+        owner: root
+        group: root
+        mode: '0755'
