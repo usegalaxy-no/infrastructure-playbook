@@ -2,3 +2,5 @@
 roles/
 env/common/roles/
 .vscode/
+.DS_Store
+.gitignore
