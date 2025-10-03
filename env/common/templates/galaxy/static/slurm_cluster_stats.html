@@ -596,7 +596,7 @@ function createJobsToolTip(jobs,sortby) {
         remark = "";
         if ('split_across' in job) {
             split_nodes = job['split_across']; // job execution is split across multiple nodes
-            remark += "Split across: "+splot_nodes.join(',')+". ";
+            remark += "Split across: "+split_nodes.join(',')+". ";
         }
         if ('cancelled' in job && job['cancelled']) remark += "CANCELLED";
         else {
