@@ -1,20 +1,17 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Welcome to UseGalaxy.no</title>
 
-	<!-- --- -->
-
-    <link type="text/css" rel="stylesheet" href="https://nels.bioinfo.no/javax.faces.resource/bootstrap-3.3.7.min.css.xhtml?ln=css" />
-    <link type="text/css" rel="stylesheet" href="https://nels.bioinfo.no/javax.faces.resource/bootstrap-theme-3.3.7.min.css.xhtml?ln=css" />
+    <link type="text/css" rel="stylesheet" href="css/bootstrap-3.3.7.min.css">
+    <link type="text/css" rel="stylesheet" href="css/bootstrap-theme-3.3.7.min.css">
     
-    <link type="text/css" rel="stylesheet" href="css/containers.css" />  
-    <link type="text/css" rel="stylesheet" href="css/welcome.css" />
+    <link type="text/css" rel="stylesheet" href="css/containers.css">
+    <link type="text/css" rel="stylesheet" href="css/welcome.css">
 
-    <style type="text/css">
+<style>
         html, body {
             height: 100%;
         }
@@ -43,10 +40,10 @@
             bottom:-266px;
             height:250px;
             width:100%;
-            padding:0x;
+            padding:0px;
             background-color:#E0E0E0;
             box-shadow: 0px -0px 10px 6px #D0D0D0;
-            border-top:   1px solid #273F7B;
+            border-top: 1px solid #273F7B;
         }
         .tosboxinner {
             position:relative;
@@ -57,7 +54,7 @@
             background-color:#C0C0EE;
             padding: 30px; 
             width: calc(100% - 150px);
-            //height: 100px;
+            /* height: 100px; */
             top: 50px; 
             font-size: 11pt;
         }
@@ -71,7 +68,7 @@
         }
         .acceptbutton {
             border-radius: 3px;
-            border: none; // 1px solid #5A60A0;
+            border: none; /* 1px solid #5A60A0; */
 	    border-radius: 6px;
             background-color:#175D91;
             padding: 14px 20px;
@@ -84,12 +81,14 @@
             color:white;
             text-decoration:none;
         }
-	</style>
+	#disk_usage, #disk_quota {
+            display: inline;
+            font-weight:bold;
+	}
 
-</head>
+</style>
 
-<body>
-<script type="text/javascript">
+<script>
 
 var tos_script = "/nga/tos/";
 
@@ -124,13 +123,22 @@ function createXHR()
 /**
  * Displays information about quota usage (if quotas are enabled in Galaxy) 
  */
-function displayQuota() { //
-    var quota=(parent.Galaxy)?parent.Galaxy.user.attributes.quota:null;
-    var usage=(parent.Galaxy)?parent.Galaxy.user.attributes.nice_total_disk_usage:null;
-    if (quota===undefined || quota===null || quota=="unlimited") return;    
-    var quotaText="This Galaxy server has limitations on disk usage, and you have currently used <strong>"+usage+"</strong> of your total quota of <strong>"+quota+"</strong>. "+
-                  "To free up disk space, please move your files to the <span style='font-weight:bold;color:#175d91'><a href='https://nels.bioinfo.no' target='_blank'>NeLS Storage</a></span> after you are finished with them, as <a href=\"https://usegalaxy.no/static/nels_tutorials/nels_storage_plugin.html\">described here</a>. If you require a larger disc quota to perform your analyses, contact the <a href=\"mailto:support@elixir.no\">Help Desk</a>.";
-    document.getElementById("display_quota").innerHTML = quotaText;
+function displayQuota(retries = 10) {
+    if (parent.Galaxy && parent.Galaxy.user && parent.Galaxy.user.attributes) {
+        var quota = parent.Galaxy.user.attributes.quota;
+        var usage = parent.Galaxy.user.attributes.nice_total_disk_usage;
+
+        if (quota === undefined || quota === null || quota == "unlimited") {
+            if (retries > 0) {
+              setTimeout(() => displayQuota(retries - 1), 300);
+            }
+	    return;
+        }
+        document.getElementById("disk_usage").innerHTML = usage;
+        document.getElementById("disk_quota").innerHTML = quota;
+    } else if (retries > 0) {
+        setTimeout(() => displayQuota(retries - 1), 300);
+    }
 }
 
 /**
@@ -155,7 +163,7 @@ function checkTermsOfServiceAcceptance() {
             } 
             else if (response.status == 'grace') {
                console.log('in grace period');
-               var message = "<p style='font-size:10pt;'>If you do not accept, you will still be able to use the service for a limited grace period to download any data you have already stored on the server <nobr>("+response.grace_period+" remaining).</nobr></p>";
+               var message = "<p style=\"font-size:10pt;\">If you do not accept, you will still be able to use the service for a limited grace period to download any data you have already stored on the server <span style=\"white-space: nowrap;\">("+response.grace_period+" remaining).</span></p>";
                document.getElementById('tosmessage').innerHTML+=message;
                document.getElementById('tosaccept').classList.add("showtos"); // show ToS popup
             }
@@ -262,7 +270,7 @@ function createServerAlert(alert) { // alert is an object with required properti
         else if (alert.color=="blue")   {borderColor="#9ACFEA";bgColor="#B9DEF0";bgColorLight="#D9EDF7";txtColor="#182255";}
         else if (alert.color=="violet") {borderColor="#DDA6FF";bgColor="#EEBAFF";bgColorLight="#FFDBFF";txtColor="#332255";}
    }
-   var element="<div class=\"alert\" style=\"border:1px solid "+borderColor+";padding:14px;border-radius:4px;";
+   var element="<div class=\"alert\" style=\"border:1px solid "+borderColor+";padding:14px;border-radius:4px;max-width:650px;";
    element+="background-image:linear-gradient(to bottom,"+bgColorLight+" 0,"+bgColor+" 100%);box-shadow:0 0 5px 0 rgba(0, 0, 0, 0.35);margin-top:10px;\" >";
    element+=("<p style=\"font-family:Roboto, sans-serif;font-weight:300;font-size:18px;margin-bottom:5px;color:"+txtColor+";padding-bottom:6px;\" >"+title+"</p>"+text+"</div>");
    return element;
@@ -274,7 +282,7 @@ function createServerAlert(alert) { // alert is an object with required properti
  */
 function processAllServerAlerts(alerts,elementID) {
      if (!Array.isArray(alerts)) return;
-     var all_alerts="<br/>";
+     var all_alerts="<br>";
      for (var i = 0; i < alerts.length; i++) {
         var text=createServerAlert(alerts[i]);
         all_alerts+=text;
@@ -348,11 +356,12 @@ function blockPanel(element) {
 
 function clickSharedData() {
     var doc = (parent!=null)?parent.document:null;
-    var menu = (doc!=null)?doc.querySelector("#shared > a:first-of-type"):null;
+    var menu = (doc!=null)?doc.querySelector("#resources > a:first-of-type"):null;
     if (menu!=null) {
         menu.click();
-        // var shared = doc.querySelector("#shared > ul:first-of-type > li:nth-of-type(3) > a:first-of-type");
-        // shared.focus(); // Unfortunately, this has no effect
+	// var shared = doc.querySelector("#resources > ul:first-of-type > li:nth-of-type(6)");
+	// shared.style="color:#FFFFFF;background-color:#175d91";
+	// shared.focus(); // Unfortunately, this has no effect
     }
 }
 
@@ -376,328 +385,6 @@ function getCookie(name) {
     return null;
 }
 
-// ------------------- History import/export functionality ------------------
-
-// Configurable options:
-var historyPollingInterval=5000; // milliseconds between each time the history transfer API is polled for progress
-var allowCancel=false; // set to TRUE to display a CANCEL button next to the history progress bar during transfer
-var allowHide=true;    // set to TRUE to display a HIDE button next to the history progress bar after transfer
-var allowRetry=false;  // set to TRUE to display a RETRY button next to the history progress bar after an error. If this is false, the HIDE button will be displayed instead (if allowed)
-var allowHideOnAllJobs=true; // set to TRUE to allow all jobs to hidden, even those that are currently in a running state. Not used if allowHide==false or allowCancel==true
- 
-var filterHidden=true; // hide jobs that are not active. This can be toggled by clicking a link on the page
-
-
-// Each key in the two maps below is an export (or import) state code and its value is an array with two elements.
-// The first array value is the message that will be displayed to the user for that state and the second is the corresponding progress indicator value (number between 0 and 100)
-// The progress values for the error states were chosen so that they appear towards the end of one of the three stages, but earlier than the completion of the stage
-
-var exportStateValues = {
-  'pre-queueing' : ['Waiting for response',2],
-  'new' : ['New transfer job created',4],
-  'waiting' : ['Waiting',6],
-  'queued' : ['Queued',8],
-  'running' : ['Preparing history export file',10],
-  'ok' : ['Finished preparing history file',30],
-  'fetch-running' : ['Fetching history file',40],
-  'fetch-ok': ['Finished fetching history file',60],
-  'nels-transfer-running' : ['Transferring history file to NeLS Storage',70],
-  'nels-transfer-ok': ['History file transfer completed',95],
-  'finished' : ['Done',100],
-
-  'bioblend-error' : ['ERROR: an error occurred while trying to connect or export to Galaxy',3],
-  'error' : ['ERROR: an error occured during history file preparation',25],
-  'fetch-error' : ['ERROR: an error occurred while fetching history file',55],
-  'nels-transfer-error' : ['ERROR: an error occurred while transferring history file to NeLS Storage',90],
-  'disk-space-error' : ['ERROR: Disk space error',15],
-
-  'aborted' : ['ABORTED: export was aborted by user',100]
-};
-
-var importStateValues = {
-  'pre-fetch' : ['Queueing',5],
-  'nels-transfer-running' : ['Transferring history file from NeLS Storage',10],
-  'nels-transfer-ok' : ['History transfer completed',40],
-  'pre-history-import' : ['Preparing history import',50],
-  'history-import-triggered' : ['Importing history into Galaxy',60],
-  'finished' : ['Done',100],
-
-  'nels-transfer-error' : ['ERROR: an error occurred while transferring history file from NeLS Storage',40],
-  'history-import-error' : ['ERROR: an error occurred while importing history into Galaxy',90],
-
-  'aborted' : ['ABORTED: import was aborted by user',100]		       
-};
-
-function isErrorState(state) {
-   return (state=="error" || state=="fetch-error" || state=="nels-transfer-error" || state=="history-import-error" || state=="disk-space-error" || state=="bioblend-error");
-}
-
-// - - - - - - - - - -
-
-var currentExports=null; // list of current export jobs
-var currentImports=null; // list of current import jobs
-var hiddenTransferJobs=[]; // list of jobs that should not be displayed
-
-/**
- *  Contact the history transfer API to query the status of ongoing history export/imports
- */
-function pollHistoryTransferStatus() { //
-    var GALAXY_URL=window.location.protocol + "//" + window.location.host;
-    // var GALAXY_URL=parent.location.href; // base URL for Galaxy server. This could include subdirectory
-    if (GALAXY_URL.endsWith("/")) GALAXY_URL=GALAXY_URL.replace(/\/$/, ""); // remove trailing slash
-    var xhrE = createXHR();
-    xhrE.onreadystatechange=function()
-    {
-        if(xhrE.readyState == 4 && xhrE.status == 200) {
-            if (typeof xhrE.responseText=='undefined' || xhrE.responeText=="") return;
-            try {
-                 // console.log(xhrE.responseText);
-                 var exports=JSON.parse(xhrE.responseText); // this should return an array with exports
-                 if (Array.isArray(exports)) {
-                      addJobType(exports,"export");
-                      if (filterHidden) exports=filterHiddenJobs(exports); //
-                      currentExports=exports;
-                      displayHistoryTransfers(currentExports,currentImports);
-                  } else throw "ERROR: expected a JSON list from the history transfer API but got: "+response;
-            } catch(err) {console.log(err);}
-        }
-    };
-    // console.log("Polling History Export API: "+GALAXY_URL+"/nga/user/exports/");
-    xhrE.open("GET", GALAXY_URL+"/nga/user/exports/", true);
-    xhrE.send(null);
-
-    var xhrI = createXHR();
-    xhrI.onreadystatechange=function()
-    {
-        if(xhrI.readyState == 4 && xhrI.status == 200) {
-            if (typeof xhrI.responseText=='undefined' || xhrI.responeText=="") return;
-            try {
-                 // console.log(xhrI.responseText);
-                 var imports=JSON.parse(xhrI.responseText); // this should return an array with imports
-                 if (Array.isArray(imports)) {
-                      addJobType(imports,"import");
-                      if (filterHidden) imports=filterHiddenJobs(imports); //
-                      currentImports=imports;
-                      displayHistoryTransfers(currentExports,currentImports);
-                  } else throw "ERROR: expected a JSON list from the history transfer API but got: "+response;
-            } catch(err) {console.log(err);}
-        }
-    };
-    // console.log("Polling History Import API: "+GALAXY_URL+"/nga/user/imports/");
-    xhrI.open("GET", GALAXY_URL+"/nga/user/imports/", true);
-    xhrI.send(null);		 
-}
-
-/**
- * This filter method takes an array of jobs as input and returns a new array were hidden jobs have been removed
- */
-function filterHiddenJobs(jobs) {
-   if (jobs==null || !Array.isArray(jobs) || jobs.length==0) return jobs;
-   filteredList=[];
-   for (i=0;i < jobs.length;i++) {
-        job=jobs[i];
-        if ( !('show' in job && job['show']==false) && !hiddenTransferJobs.includes(job['id'])) filteredList.push(job);
-   }
-   return filteredList;
-}
-
-function toggleHistoryTransfers() {
-   filterHidden=!filterHidden;
-   document.getElementById('toggleTransfers').textContent=((filterHidden)?"Show All":"Show Active");
-   pollHistoryTransferStatus();
-}
-
-/**
- * Adds a 'type' attribute to each job in the list
- */
-function addJobType(jobs, jobtype) {
-   if (jobs==null || !Array.isArray(jobs) || jobs.length==0) return;
-   for (i=0;i < jobs.length;i++) {
-       job=jobs[i];
-       job['type']=jobtype;
-   }
-}
-
-/**
- * Compares to jobs and returns +1 if the first was started before the second and -1 if the second was started before the first.
- * This is used to sort the jobs in reverse chronological order
- */
-function compareJobDates(a,b) {
-   var startA=(a !== null && 'create_time' in a)?a['create_time']:"";
-   var startB=(b !== null && 'create_time' in b)?b['create_time']:"";
-   if (startA == startB) return 0;
-   else if (startA == "" && startB != "") return -1;
-   else if (startB == "" && startA != "") return 1;
-   else if (startA < startB) return 1;
-   else return -1;
-}
-
-
-/**
- * Sends API control calls to the history transfer API (for instance to CANCEL or HIDE a job)
- */
-function sendHistoryTransferAPIcall(jobid,type,command) { //
-    var GALAXY_URL=window.location.protocol + "//" + window.location.host;
-    // var GALAXY_URL=parent.location.href; // base URL for Galaxy server. This could include subdirectory
-    if (GALAXY_URL.endsWith("/")) GALAXY_URL=GALAXY_URL.replace(/\/$/, ""); // remove trailing slash
-    var url=GALAXY_URL;
-         if (command == "hide" && type == "export") url+="/nga/user/export/"+jobid+"/?show=false";
-    else if (command == "show" && type == "export") url+="/nga/user/export/"+jobid+"/?show=true";
-    else if (command == "hide" && type == "import") url+="/nga/user/import/"+jobid+"/?show=false";
-    else if (command == "show" && type == "import") url+="/nga/user/import/"+jobid+"/?show=true";
-    else return; // behaviour not defined yet
-		
-    console.log("History Transfer API call: "+url);
-
-    var xhr = createXHR();
-    xhr.onreadystatechange=function()
-    {
-        if(xhr.readyState == 4 && xhr.status == 200) {
-            console.log("History transfer API response: "+xhr.responeText);
-            if (typeof xhr.responseText=='undefined' || xhr.responeText=="") return;
-            pollHistoryTransferStatus();
-        }
-    };
-    xhr.open("PATCH", url , true);
-    xhr.send(null);
-}
-
-/**
- * Displays a box on the page which shows the progress of the export and import jobs.
- * If no export or import jobs are active, the box will be hidden instead.
- */
-function displayHistoryTransfers(exports, imports) {
-   var ndt=document.getElementById('nels_data_transfer');
-   if ((exports==null || (Array.isArray(exports) && exports.length==0)) && (imports==null || (Array.isArray(imports) && imports.length==0))) {ndt.style.display='none';return;}
-   ndt.style.display='block';
-   var transfer_list = document.getElementById('nels_data_transfer_list');
-   transfer_list.innerHTML = ''; // hack to remove all current elements
-   alljobs=[];
-   if (exports !== null) alljobs=alljobs.concat(exports);
-   if (imports !== null) alljobs=alljobs.concat(imports);
-   alljobs.sort(compareJobDates);
-   for (i=0; i < alljobs.length; i++) {
-      job=alljobs[i];
-      if (filterHidden && hiddenTransferJobs.includes(job['id'])) continue; // do not display this
-      transfer_list.appendChild(createNeLSdataTransferElement(job,job['type']));
-   }
-}
-
-/**
- * Creates a progress display element for one transfer job.
- * The first argument should be a job object and the second should be either "export" or "import" (String)
- */
-function createNeLSdataTransferElement(job, jobtype) {
-   var jobid=job['id'];
-   var historyname=('name' in job)?job['name']:jobid;
-   var state=job['state'];
-   var header=(jobtype=="export")?"Exporting history":"Importing history";
-   var stateValues=(jobtype=="export")?exportStateValues[state]:importStateValues[state];
-   var message=(Array.isArray(stateValues))?stateValues[0]:"[unable to retrieve message label]";
-   var progress=(Array.isArray(stateValues))?stateValues[1]:0;
-   var tooltip="";
-   if (jobtype=="export") {
-      createTime=('create_time' in job)?job['create_time']:""; // This should be formatted more nicely!
-      tooltip="Export job ID: "+jobid;
-      if ('destination' in job) tooltip+="\nExporting history '"+historyname+"' to NeLS Storage folder '"+job['destination']+"'. ";
-      if (createTime!="") tooltip+="\nJob started: "+createTime;
-      tooltip+="\nState: "+state;
-   } else {
-      createTime=('create_time' in job)?job['create_time']:""; // This should be formatted more nicely!
-      tooltip="Import job ID: "+jobid;
-      if ('source' in job) {
-         const str=job['source'];
-         const folder = str.substring(0, str.lastIndexOf("/"));
-         const file   = str.substring(str.lastIndexOf("/") + 1, str.length);		    
-         tooltip+="\nImporting history file '"+file+"' from NeLS Storage folder '"+folder+"'. ";
-         var groups=file.match(/(.+?)-\d+[T_]\d+.tgz/);
-         if (!(groups===null) && groups.length==2) historyname=groups[1];
-         else historyname=file.replace('.tgz','').replace('.tar.gz','');
-      }
-      if (createTime!="") tooltip+="\nJob started: "+createTime;
-      tooltip+="\nState: "+state;
-   }
-   d0 = document.createElement("span");
-   d0.setAttribute("style", "font-weight:bold;");
-   d0.appendChild(document.createTextNode(header+": "));
-
-   d1 = document.createElement("div");
-   d1.setAttribute("id","nels-transfer-job-"+jobid);
-   d1.setAttribute("class", "nels-transfer");
-   d1.appendChild(d0);
-   d1.appendChild(document.createTextNode(historyname));
-   d1.title=tooltip;
-  
-
-   d2 = document.createElement("div");
-   d2.setAttribute("class", "nels-transfer-inner");
-
-   d3 = document.createElement("div");
-   d3.setAttribute("class", "nels-transfer-progress");
-
-   d4 = document.createElement("div");
-   d4.setAttribute("id", "nels-transfer-progress-value-"+jobid);
-   d4.setAttribute("class", "nels-transfer-progress-value");
-   d4.style.width=progress+"%";
-
-   d5 = document.createElement("div");
-   d5.setAttribute("id", "nels-transfer-progress-text-"+jobid);
-   d5.setAttribute("class", "nels-transfer-progress-text");
-   d5.appendChild(document.createTextNode(message));
-
-   b1 = document.createElement("button");
-   b1.setAttribute("id", "nels-transfer-button-"+jobid);
-   b1.setAttribute("type", "button");
-   b1.setAttribute("class", "nels-transfer-button");
-
-   var barcolor="#C0D0FF;"; // default progressbar color is light blue
-        if (isErrorState(state)) barcolor="#FFC0C0"; // red
-   else if (state=="aborted") barcolor="#FFD666"; // orange
-   else if (state=="finished") barcolor="#A0FFA0";  // green
-   d4.style.backgroundColor = barcolor;
-
-   var buttonText="Cancel";
-   if (isErrorState(state)) {
-         if (allowRetry) buttonText="Retry";
-         else if (allowHide) buttonText="Hide";
-   }
-   else if (state=="finished" || state=="aborted") buttonText="Hide";
-   else if (allowHide && allowHideOnAllJobs && !allowCancel) buttonText="Hide";
-   
-   b1.innerHTML = buttonText;
-   b1.onclick = function() {
-           if (buttonText=="Cancel") cancelHistoryTransferJob(jobid,jobtype);
-      else if (buttonText=="Retry") retryHistoryTransferJob(jobid,jobtype);
-      else if (buttonText=="Hide") hideHistoryTransferJob(jobid,jobtype);
-   };
-
-   d1.appendChild(d2); //
-   d2.appendChild(d3); //
-   d3.appendChild(d4); // progress value (percentage)
-   d3.appendChild(d5); // progress message
-   if ((buttonText=="Cancel" && allowCancel) || (buttonText=="Hide" && allowHide && filterHidden) || (buttonText=="Retry" && allowRetry)) d2.appendChild(b1); // button
-   return d1;
-}
-
-function retryHistoryTransferJob(jobid,jobtype) {
-   if (allowRetry) sendHistoryTransferAPIcall(jobid,jobtype,"retry");
-}
-
-function cancelHistoryTransferJob(jobid,jobtype) {
-   if (allowCancel) sendHistoryTransferAPIcall(jobid,jobtype,"cancel");
-}
-
-function hideHistoryTransferJob(jobid,jobtype) {
-   if (allowHide) {
-      d1 = document.getElementById("nels-transfer-job-"+jobid);
-      if (d1!=null) d1.style.display = "none"; // hide the job progress on the web page
-      if (!(hiddenTransferJobs.includes(jobid))) hiddenTransferJobs.push(jobid); // keep track internally so we do not display this job again (as long as page is not reloaded)
-      sendHistoryTransferAPIcall(jobid,jobtype,"hide"); // tell History Transfer API to not send more updates regarding this job
-   }
-}
-
-// ----------------------- END: History import/export functionality --------------------
-
 		       
 /**
  *  This function should be run when the page has loaded to add additional elements to the page
@@ -709,30 +396,23 @@ function onStartUp() {
     server_alerts_url="/static/server_alerts.json"+"?v"+Math.random(); // add random number to avoid caching;
     showServerAlerts(server_alerts_url,"server_alerts");
     checkTermsOfServiceAcceptance();
-    //getCookie('galaxysession');
-    // document.getElementById('toggleTransfers').textContent=((filterHidden)?"Show All":"Show Active");
-    // console.log('poll history transfers');		       
-    // pollHistoryTransferStatus(); // check status of history transfers when the page is first loaded...
-    // setInterval(pollHistoryTransferStatus,historyPollingInterval); // ... then continue polling at regular intervals
-
-
 }
 
 window.onload = onStartUp;
+
 </script>
 
 </head>
 
+		    
+<!-- ****************************** beginning of page *********************************** -->
 <body>
-		    
-		    
-<!---------------------------- beginning of page --------------------------------------->
 
 <div id="content-container" class="content" style="padding:10px 26px 0px 10px;"> <!-- This contains the whole page, except the footer -->
 
 <!-- Header -->  
   <div class="box-header" id="topheader">
-     <a href="https://www.elixir-norway.org" target="_blank"><img src="images/elixir_no_logo.png" style="height:50px;margin-top:0px;border:0;padding-right:16px;vertical-align:middle;"></a>
+     <a href="https://www.elixir-norway.org" target="_blank"><img src="images/elixir_no_logo.png" alt="elixir.no logo" style="height:50px;margin-top:0px;border:0;padding-right:16px;vertical-align:middle;"></a>
 
     {% if env == 'testing' %}
        Welcome to test.usegalaxy.no
@@ -743,7 +423,6 @@ window.onload = onStartUp;
  </div>
 <!-- end header -->
 
-<!-- The following table divides the page into four squares (2x2) --> 
 <table style="border:0px;">
  <tr style="border:0px;">
   <td style="vertical-align:top;padding-right:70px;width:60%;min-width:300px;">
@@ -758,39 +437,23 @@ window.onload = onStartUp;
 	   <a href="userguide/quickstartguide.html" class="smallbutton button3d" style="">Quick Start Guide</a><br>
 	   Additional documentation and tutorials on using Galaxy can be found by clicking the <i>graduation cap</i> button in the menu bar.
 	   <br><br>
-	   <div id="display_quota"></div>
+
+           This Galaxy server has limitations on disk usage, and you have currently used <div id="disk_usage">???.? MB</div> of your total quota of <div id="disk_quota">210.0 GB</div>.
+           To free up disk space, please download your files to your local computer after you are finished with them
+           or export them to the <span style="font-weight:bold;color:#175d91"><a href="https://nels.elixir.no" target="_blank">NeLS Storage</a></span>,
+           as <a href="https://usegalaxy.no/static/nels_tutorials/nels_storage_plugin.html">described here</a>.
+           If you require a larger disc quota to perform your analyses, contact the <a href="mailto:support@elixir.no">Help Desk</a>.
+
            <div id="server_alerts"></div>      <!--  alerts can be defined in JSON format in '/srv/galaxy/server/static/server_alerts.json'  -->
 	</div>
 
-       <!-- NeLS History export/import progress -->
-        <div id="nels_data_transfer" style="display:none;padding-bottom:26px;">
-          <div class="box-header">
-             NeLS Storage Data Transfer
-             <span style="padding-left:50px;font-size:0.6em;"><a id="toggleTransfers" href="#" onClick="toggleHistoryTransfers();">Show All</a></span>
-          </div>
-          <div id="nels_data_transfer_list" style="border:1px solid #E0E0E0; height:140px; max-height:400px; resize:vertical; overflow:auto;">
-             <!-- contents here will be added dynamically -->
-          </div>
-        </div>
-       <!-- ----------------------------------- -->	     
-	     
    <!-- End of introduction box -->
 
   </td>
-  <td style="height:320px;max-width:520px;min-width:250px;border:0px;vertical-align:top;" >
-
-    <!-- Twitter feed box -->
-<!--    
-    <div class="col-sm-6 text-center twitterbox" style="height:425px;width:416px;max-width:520px;padding:10px;" id="twitter">
-      <a class="twitter-timeline" data-width="400" data-height="410" href="https://twitter.com/elixirnorway?ref_src=twsrc%5Etfw"> </a>
-      <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-   </div>
--->
-  </td>
  </tr>
 
- <tr> <!-- second row of main 2x2 table -->	    
- <td style="vertical-align:top;padding-top:20px;"> <!-- Row 2 Column 1 -->
+ <tr>
+ <td style="vertical-align:top;padding-top:20px;">
 
 <!-- Tools and Workflows -->
 <table style="border:0px;width:100%;padding:0px;margin:0px;"> <!-- inner table to align support button with Tools & WF header -->
@@ -805,7 +468,7 @@ window.onload = onStartUp;
           <table style="padding:0;margin:0;">
             <tr style="padding:0;">
               <td style="padding:0;margin:0;vertical-align:top">
-                <img src="images/mail-icon1.gif" style="height:32px;width:40px;margin-top:2px;border:0;padding-right:0px;">
+                <img src="images/mail-icon1.gif" alt="email" style="height:32px;width:40px;margin-top:2px;border:0;padding-right:0px;">
               </td>
               <td style="height:36px;padding:0;margin:0;vertical-align:top">
                  <H2 style="font-size:12pt;margin-top:10px;">Contact Support</H2>
@@ -825,45 +488,38 @@ window.onload = onStartUp;
    However, not all of them have been thoroughly tested, and some may fail for various reasons.
    If you find a tool that is not working properly, please report this to our Galaxy administrators
    by pressing the <b>Bug Report</b>
-   <img src="data:image/jpeg;charset=utf-8;base64,iVBORw0KGgoAAAANSUhEUgAAABcAAAAWCAIAAACkFJBSAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAIgSURBVDhPY/z////Bgwd//WP5y8DIQDrgZPptb2/PeODAASBHSlqGnY0VIkE8+P3n770nL9n+/2T6/o9VRlaODCOAgJWFWUlGHGgCE4QDEcUKfn0Bgl9QDgaA6AWZghO8ONaR7usWEOIT4OdTt/URTqPwmfJyU2vTjru/IZwvxyaXzbmOyxxMU16eWrv1wjsGhnd3r/1SUlFGIJ7rNx4BhS9uXbP/MZpxLFAaDl5cWjZ98oUtN1raiytmWkEFYeDLxRlZxRseyaabOcrKQcVAgHH7vqNayjJQHhhAlXLLqEiwQYWg4NeLu0++yLoCLbCRgAoBwbW7T7CEC49+RlEQA8PXJ3fu3gOiF7+AukGMO0AjGBjMIhKRjYAAdFPA8frlF8Lfxjm90yZkGUN5QAW/3mNGPaopX451gOI1pGwLVAATXJiYDVTgU3cAGAFwgGoKj0lab3FORJiTJlQAE0iYeEVF5HYVWAlBBUAAzUdsEvquISlJIbhN0fJNSkvxNkMNeCyhCwQSmpZQFjrQMFDmgTKRABZTfj3a2tF1HMpBBzem1M+7hpGEMUwBBnD65FMMxkUzFs6pDrBRFgJZzSOkYhVQN2PNilJjhrursoq3voAohgGMVPfr7pqWVWwpxX5yaEkOCl4cnTTrhXdFsDJcGpjqsKRdUgE07QKLLAifDADRywQsOIGl3s9f0BKAJAApMYEmwErvvyx/Gcktve3tAe/j6on8yG4IAAAAAElFTkSuQmCC">
+   <img src="data:image/jpeg;charset=utf-8;base64,iVBORw0KGgoAAAANSUhEUgAAABcAAAAWCAIAAACkFJBSAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAIgSURBVDhPY/z////Bgwd//WP5y8DIQDrgZPptb2/PeODAASBHSlqGnY0VIkE8+P3n770nL9n+/2T6/o9VRlaODCOAgJWFWUlGHGgCE4QDEcUKfn0Bgl9QDgaA6AWZghO8ONaR7usWEOIT4OdTt/URTqPwmfJyU2vTjru/IZwvxyaXzbmOyxxMU16eWrv1wjsGhnd3r/1SUlFGIJ7rNx4BhS9uXbP/MZpxLFAaDl5cWjZ98oUtN1raiytmWkEFYeDLxRlZxRseyaabOcrKQcVAgHH7vqNayjJQHhhAlXLLqEiwQYWg4NeLu0++yLoCLbCRgAoBwbW7T7CEC49+RlEQA8PXJ3fu3gOiF7+AukGMO0AjGBjMIhKRjYAAdFPA8frlF8Lfxjm90yZkGUN5QAW/3mNGPaopX451gOI1pGwLVAATXJiYDVTgU3cAGAFwgGoKj0lab3FORJiTJlQAE0iYeEVF5HYVWAlBBUAAzUdsEvquISlJIbhN0fJNSkvxNkMNeCyhCwQSmpZQFjrQMFDmgTKRABZTfj3a2tF1HMpBBzem1M+7hpGEMUwBBnD65FMMxkUzFs6pDrBRFgJZzSOkYhVQN2PNilJjhrursoq3voAohgGMVPfr7pqWVWwpxX5yaEkOCl4cnTTrhXdFsDJcGpjqsKRdUgE07QKLLAifDADRywQsOIGl3s9f0BKAJAApMYEmwErvvyx/Gcktve3tAe/j6on8yG4IAAAAAElFTkSuQmCC" alt="bug icon">
    button for the failed job in the history panel.
    </p>
    <p>
-  <a href="https://www.elixir-norway.org" target="_blank">ELIXIR Norway</a> aims to develop tools and workflows for specific data analysis tasks, based on input from large user groups
-   and help-desk users in Norway and also toward ELIXIR internationally.
-   To see a list of analysis workflows available on this Galaxy server, click the &ldquo;<a href="" onClick="clickSharedData();return false;">Shared Data</a>&rdquo; menu at
-   the top of the page and select &ldquo;<a href="../workflows/list_published" id="published_workflows" target="_parent">Workflows</a>&rdquo;.
+  <a href="https://www.elixir-norway.org" target="_blank">ELIXIR Norway</a> aims to develop tools and workflows for specific data analysis tasks,
+   based on input from large user groups and help-desk users in Norway and also toward ELIXIR internationally.
+   To see a list of analysis workflows available on this Galaxy server, select <b>Workflows</b> from the
+   <a href="" onClick="clickSharedData();return false;"><b>Data</b></a> menu at the top of the page
+   and click the &ldquo;<a href="../workflows/list_published" id="published_workflows" target="_parent">Public workflows</a>&rdquo; tab.
    </p>
   </div>
    
-  </td> <!-- end of Row 2 Column 1 -->
-
-  <td style="vertical-align:top;padding-top:20px;"> <!-- Row 2 Column 2 -->
-<!-- <div class="box-header" id="grafanaheader">Server load</div> -->
-<!-- --- GRAFANA --- -->
-<!-- <iframe style="border: 0px" width="500px" height="200px" src="https://maas-test.bioinfo.no/grafana/d-solo/000000024/galaxy?orgId=1&refresh=1m&var-host=test.usegalaxy.no&panelId=106"></iframe> -->
-<!-- --- END: GRAFANA --- -->
-
-  </td> <!-- end of Row 2 Column 2 -->
+  </td>
 
 </tr> <!-- end of row 2 -->
-</table> <!-- End of main 2x2 table -->
+</table> <!-- End of main layout table -->
 
 </div> <!-- end of: div id="content-container"-->
 
 <footer class="footer">
-  <div class="box-body" id="nodelogos" style="display:flex;flex-wrap:wrap;justify-content:space-around;align-content:strech;margin-top:0px;">
-     <div style="padding:14px;flex-grow:1;"><img height="40" src="images/uib-logo-and-name.png"></div>
-     <div style="padding:14px;flex-grow:1;"><img height="40" src="images/uio-logo-and-name.png"></div>
-     <div style="padding:14px;flex-grow:1;"><img height="43" src="images/ntnu-logo-and-name.png"></div>
-     <div style="padding:14px;flex-grow:1;"><img height="44" src="images/nmbu-logo-and-name.png"></div>
-     <div style="padding:14px;flex-grow:1;"><img height="40" src="images/uit-logo-and-name.png"></div>
+  <div class="box-body" id="nodelogos" style="display:flex;flex-wrap:wrap;justify-content:space-around;align-content:stretch;margin-top:0px;">
+     <div style="padding:14px;flex-grow:1;"><img height="40" src="images/uib-logo-and-name.png" alt="UiB logo"></div>
+     <div style="padding:14px;flex-grow:1;"><img height="40" src="images/uio-logo-and-name.png" alt="UiB logo"></div>
+     <div style="padding:14px;flex-grow:1;"><img height="43" src="images/ntnu-logo-and-name.png" alt="NTNU logo"></div>
+     <div style="padding:14px;flex-grow:1;"><img height="44" src="images/nmbu-logo-and-name.png" alt="NMBU logo"></div>
+     <div style="padding:14px;flex-grow:1;"><img height="40" src="images/uit-logo-and-name.png" alt="UiT logo"></div>
   </div>
 </footer>
 
-<version class="footer">
-  <div id=version class="box-body" style="padding:14px;flex-grow:1;"> </div>
-</version>
+<div class="footer">
+  <div id="version" class="box-body" style="padding:14px;flex-grow:1;"> </div>
+</div>
 <!-- end of page -->
 
 <!-- Accept Terms of Service popup. This will be hidden unless the user has not yet accepted the ToS --> 
