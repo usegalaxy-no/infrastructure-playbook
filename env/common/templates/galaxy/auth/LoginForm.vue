@@ -17,7 +17,7 @@
                Questions can be directed to our <a href="https://elixir.no/helpdesk" target="_blank">helpdesk</a>.
                </p>
 
-               <a href="https://nels.bioinfo.no" target="_blank"><img src="/static/images/nels_logo_old.png" style="width:200px;margin-top:6px;margin-right:20px"></a>
+               <a href="https://nels.elixir.no" target="_blank"><img src="/static/images/nels_logo_old.png" style="width:200px;margin-top:6px;margin-right:20px"></a>
                <a href="https://galaxyproject.org" target="_blank"><img src="/static/images/galaxy_logo.png" style="width:160px;margin-top:6px;margin-right:20px"></a>
                <a href="https://elixir.no" target="_blank"><img src="/static/images/elixir_no_logo.png" style="width:124px;margin-top:6px;"></a>
             </div>
