@@ -14,7 +14,7 @@
                   Users from the industry sector and international research collaborators that don't have FEIDE access can apply for a NeLS ID to get access.
                </p>
                <p>
-               Questions can be directed to our <a href="https://elixir.no/helpdesk" target="_blank">helpdesk</a>.
+               Questions can be directed to our <a href="https://elixir.no/research-support" target="_blank">helpdesk</a>.
                </p>
 
                <a href="https://nels.elixir.no" target="_blank"><img src="/static/images/nels_logo_old.png" style="width:200px;margin-top:6px;margin-right:20px"></a>

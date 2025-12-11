@@ -23,6 +23,6 @@
 
   tasks:
     - name: Apply NeLS branding
-      include: tasks/nels_branding.yml
+      include_tasks: tasks/nels_branding.yml
       tags:
         - branding
