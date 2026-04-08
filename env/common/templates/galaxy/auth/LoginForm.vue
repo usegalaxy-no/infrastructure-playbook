@@ -73,7 +73,7 @@ function returnToLogin() {
 
                 <p>
                     The service can be accessed using FEIDE login if your institution is FEIDE connected to the NeLS portal.
-                    Users from the industry sector and international research collaborators that don't have FEIDE access can apply for a NeLS ID.
+                    Users from the industry sector and international research collaborators that don't have FEIDE access can apply for a NeLS ID to get access.
                 </p>
 
                 <p>
@@ -135,6 +135,7 @@ function returnToLogin() {
                         <a href="https://nels-docs.readthedocs.io/en/latest/about.html#how-to-cite-us" target="_blank">
                             Elixir Norway wiki
                         </a>
+			for more description and examples for citing ELXIR Norway.
                     </p>
 
                 </div>
