@@ -78,7 +78,7 @@ function returnToLogin() {
 
                 <p>
                     Questions can be directed to our
-                    <a href="https://elixir.no/helpdesk" target="_blank">helpdesk</a>.
+                    <a href="https://elixir.no/research-support" target="_blank">helpdesk</a>.
                 </p>
 
                 <a href="https://nels.elixir.no" target="_blank">
