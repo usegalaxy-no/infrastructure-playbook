@@ -6,7 +6,8 @@
     - group_vars/env.yml
     - group_vars/upgrade24.2_galaxy.yml
     - secret_group_vars/upgrade24_nfs_global.vault
- 
+  vars:
+    galaxy_node_version: "18.0.0" # Node.js
 
   handlers:
     - name: Restart Galaxy
