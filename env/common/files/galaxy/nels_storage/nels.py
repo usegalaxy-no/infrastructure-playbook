@@ -1,6 +1,7 @@
 import os
 import functools
 import tempfile
+import time
 from typing import Optional, Union, Tuple, List, Any
 
 import requests
@@ -57,6 +58,10 @@ class NeLSFilesSource(PyFilesystem2FilesSource):
     required_module = SSHFS
     required_package = "fs.sshfs"
 
+    # Cache responses from NeLS API
+    credential_cache = {}
+    cache_ttl = 60  # seconds
+
     def _list(
         self,
         path="/",
@@ -95,6 +100,8 @@ class NeLSFilesSource(PyFilesystem2FilesSource):
                 if ignore_hidden:
                     items = [i for i in items if not i["name"].startswith(".")]
 
+                items = self.apply_sort(items, sort_by)
+
                 # Correct total count (respecting ignore_hidden option)
                 all_items = h.filterdir(path, namespaces=["basic"], files=filter, dirs=filter,)
                 if ignore_hidden:
@@ -113,6 +120,26 @@ class NeLSFilesSource(PyFilesystem2FilesSource):
         finally:
             if "h" in locals() and h:
                 self._cleanup(h)
+
+
+    def apply_sort(self, items, sort_by):
+        if not sort_by:
+            return items
+        reverse = False
+        # Optional: support "-name", "-size", etc.
+        if sort_by.startswith("-"):
+            reverse = True
+            sort_by = sort_by[1:]
+        if sort_by == "name":
+            key = lambda x: x["name"].lower()
+        elif sort_by == "size":
+            key = lambda x: x.get("size") or 0
+        elif sort_by == "ctime":
+            key = lambda x: x.get("ctime") or ""
+        else:
+            return items  # unknown sort -> leave unchanged
+        return sorted(items, key=key, reverse=reverse)
+
 
     # This method replaces the version from the superclass to correctly
     # treat symlinks to directories as directories rather than regular files.
@@ -250,18 +277,29 @@ class NeLSFilesSource(PyFilesystem2FilesSource):
     # FETCH SSH CREDENTIALS
     # -----------------------------
     def _get_nels_ssh_credentials(self, user_id, api_url, client_key, client_secret):
+        now = time.time()
+
+        cache_entry = self.credential_cache.get(user_id)
+        if cache_entry:
+            timestamp, data = cache_entry
+            if now - timestamp < self.cache_ttl:
+                return data
+
         url = f"{api_url}/federated/{user_id}"
         response = requests.get(url, auth=(client_key, client_secret))
 
         if response.status_code == requests.codes.ok:
             json_response = response.json()
-            return [
+            data = (
                 json_response["hostname"],
                 json_response["username"],
                 json_response["key-rsa"],
-            ]
+            )
+
+            self.credential_cache[user_id] = (now, data)
+            return data
         else:
-            raise Exception(f"NeLS Storage API error: HTTP response code {response.status_code} [{url}]")
+            raise Exception(f"NeLS Storage API error: HTTP {response.status_code}")
 
     # -----------------------------
     # CLEANUP
